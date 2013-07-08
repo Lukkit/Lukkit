@@ -17,7 +17,7 @@ public class MatchPlayerFunction extends VarArgFunction {
 		List<Player> matched = Bukkit.getServer().matchPlayer(args.tojstring(1));
 		LuaValue[] matchedList = new LuaValue[matched.size()];
 		for (int i = 0; i < matched.size(); i++) {
-			matchedList[i] = LuaValue.valueOf(new PlayerObject(matched.get(i)));
+			matchedList[i] = new PlayerObject(matched.get(i));
 		}
 		return LuaValue.listOf(matchedList);
 	}

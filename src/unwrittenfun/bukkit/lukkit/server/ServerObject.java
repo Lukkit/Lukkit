@@ -12,7 +12,7 @@ public class ServerObject extends LuaTable {
 //		set("createMap", new CreateMapFunction());
 //		set("createWorld", new CreateWorldFunction());
 //		set("dispatchCommand", new DispatchCommandFunction());
-//		set("matchPlayer", new MatchPlayerFunction());
+		set("matchPlayer", new MatchPlayerFunction());
 		set("reload", new ReloadFunction());
 		set("reloadWhitelist", new ReloadWhitelistFunction());
 		set("resetRecipes", new ResetRecipesFunction());
@@ -51,10 +51,10 @@ public class ServerObject extends LuaTable {
 		set("getName", new GetNameFunction());
 //		set("getOfflinePlayer", new GetOfflinePlayerFunction());
 //		set("getOfflinePlayers", new GetOfflinePlayersFunction());
-//		set("getOnlinePlayers", new GetOnlinePlayersFunction());
+		set("getOnlinePlayers", new GetOnlinePlayersFunction());
 //		set("getOps", new GetOpsFunction());
-//		set("getPlayer", new GetPlayerFunction());
-//		set("getPlayerExact", new GetPlayerExactFunction());
+		set("getPlayer", new GetPlayerFunction());
+		set("getPlayerExact", new GetPlayerExactFunction());
 		set("getPort", new GetPortFunction());
 //		set("getRecipesFor", new GetRecicpesForFunction());
 //		set("getScoreboardManager", new GetScoreboardManagerFunction());
