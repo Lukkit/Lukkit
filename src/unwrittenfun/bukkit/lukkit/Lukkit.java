@@ -31,6 +31,9 @@ public final class Lukkit extends JavaPlugin {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("lukkit")) {
+			if (args.length < 1) {
+				return false;
+			}
 			if (args[0].equalsIgnoreCase("reload")) {
 				HandlerList.unregisterAll(this);
 				loadEnvironment();
