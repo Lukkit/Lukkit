@@ -14,6 +14,8 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.compiler.LuaC;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
+import unwrittenfun.bukkit.lukkit.server.ServerObject;
+
 public final class Lukkit extends JavaPlugin {
 	private Globals _G;
 	public static Logger logger;
@@ -44,6 +46,8 @@ public final class Lukkit extends JavaPlugin {
 		
 		LuaC.install();
 		_G.compiler = LuaC.instance;
+		
+		_G.set("server", new ServerObject());
 		
 		loadPlugins();
 	}
