@@ -19,7 +19,7 @@ public class ServerObject extends LuaTable {
 		set("savePlayers", new SavePlayersFunction());
 		set("shutdown", new ShutdownFunction());
 		set("unbanIP", new UnbanIPFunction());
-//		set("unloadWorld", new UnloadWordFunction());
+		set("unloadWorld", new UnloadWordFunction());
 		set("userExactLoginLocation", new UseExactLoginLocationFunction());
 		
 		set("allowEnd", new AllowEndFunction());
@@ -70,9 +70,9 @@ public class ServerObject extends LuaTable {
 //		set("getWarningState", new GetWarningStateFunction());
 		set("getWaterAnimalSpawnLimit", new GetWaterAnimalSpawnLimitFunction());
 //		set("getWhitlistedPlayers", new GetWhitelistedPlayersFunction());
-//		set("getWorld", new GetWorldFunction());
+		set("getWorld", new GetWorldFunction());
 //		set("getWorldContainer", new GetWorldContainerFunction());
-//		set("getWorlds", new GetWorldsFunction());
+		set("getWorlds", new GetWorldsFunction());
 		set("getWorldType", new GetWorldTypeFunction());
 		
 		set("setDefaultGameMode", new SetDefaultGameModeFunction());
