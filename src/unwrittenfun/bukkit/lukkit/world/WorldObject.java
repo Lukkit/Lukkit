@@ -101,8 +101,5 @@ public class WorldObject extends LuaTable {
 		set("setTime", new SetTimeFunction());
 		set("setWaterAnimalSpawnLimit", new SetWaterAnimalSpawnLimitFunction());
 		set("setWeatherDuration", new SetWeatherDurationFunction());
-		
-
-
 	}
 }

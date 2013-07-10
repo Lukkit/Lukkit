@@ -37,8 +37,8 @@ public class PlayerObject extends LuaTable {
 		set("isSprinting", new IsSprintingFunction());
 
 		set("getBedSpawnLocation", new GetBedSpawnLocationFunction());
-//		set("getCompassTarget", new GetCompassTargetFunction());
-//		set("getDisplayName", new GetDisplayNameFunction());
+		set("getCompassTarget", new GetCompassTargetFunction());
+		set("getDisplayName", new GetDisplayNameFunction());
 		set("getExhaustion", new GetExhaustionFunction());
 		set("getExp", new GetExpFunction());
 		set("getFlySpeed", new GetFlySpeedFunction());
@@ -56,8 +56,8 @@ public class PlayerObject extends LuaTable {
 		set("giveExp", new GiveExpFunction());
 		set("giveExpLevel", new GiveExpLevelsFunction());
 		set("setAllowFlight", new SetAllowFlightFunction());
-//		set("setBedSpawnLocation", new SetBedSpawnLocationFunction());
-//		set("setCompassTarget", new SetCompassTargetFunction());
+		set("setBedSpawnLocation", new SetBedSpawnLocationFunction());
+		set("setCompassTarget", new SetCompassTargetFunction());
 		set("setDisplayName", new SetDisplayNameFunction());
 		set("setExhaustion", new SetExhaustionFunction());
 		set("setExp", new SetExpFunction());

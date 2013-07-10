@@ -16,9 +16,7 @@ public class GetCompassTargetFunction extends VarArgFunction {
 		return LuaValue.varargsOf(new LuaValue[]{
 				LuaValue.valueOf(loc.getX()),
 				LuaValue.valueOf(loc.getY()),
-				LuaValue.valueOf(loc.getZ()),
-				LuaValue.valueOf(loc.getYaw()),
-				LuaValue.valueOf(loc.getPitch())
+				LuaValue.valueOf(loc.getZ())
 		});
 	}
 	
