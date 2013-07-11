@@ -4,9 +4,10 @@ def main(args):
 	code = """package unwrittenfun.bukkit.lukkit.^;
 
 import #;
-import org.luaj.vm2.LuaTable;
 
-public class $Object extends LuaTable {
+import unwrittenfun.bukkit.lukkit.LukkitObject;
+
+public class $Object extends LukkitObject {
 	public $ ^;
 
 	public $Object($ %) {
@@ -14,6 +15,11 @@ public class $Object extends LuaTable {
 
 """
 	endCode = """
+	}
+	
+	@Override
+	public Object getObject() {
+		return ^;
 	}
 }
 """
@@ -37,6 +43,7 @@ public class $Function extends VarArgFunction {
 	upperName = re.search(r'(\w+).html', args[1]).group(1)
 	name = upperName.lower()
 	code = code.replace("$", upperName).replace("^", name).replace("#", package).replace("%", name[0])
+	endCode = endCode.replace("^", name)
 	
 	doc = urllib2.urlopen(args[1])
 	html = doc.read()
