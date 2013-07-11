@@ -3,12 +3,15 @@ package unwrittenfun.bukkit.lukkit.livingentity;
 import org.bukkit.entity.LivingEntity;
 
 import unwrittenfun.bukkit.lukkit.LukkitObject;
+import unwrittenfun.bukkit.lukkit.damageable.DamageableObject;
 
 public class LivingEntityObject extends LukkitObject {
 	public LivingEntity livingentity;
 
 	public LivingEntityObject(LivingEntity l) {
 		livingentity = l;
+		
+		extendWith(new DamageableObject(livingentity));
 		
 //		set("addPotionEffect", new AddPotionEffectFunction());
 //		set("addPotionEffects", new AddPotionEffectsFunction());
