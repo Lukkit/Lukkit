@@ -3,6 +3,9 @@ package unwrittenfun.bukkit.lukkit.player;
 import org.bukkit.entity.Player;
 
 import unwrittenfun.bukkit.lukkit.LukkitObject;
+import unwrittenfun.bukkit.lukkit.commandsender.CommandSenderObject;
+import unwrittenfun.bukkit.lukkit.conversable.ConversableObject;
+import unwrittenfun.bukkit.lukkit.humanentity.HumanEntityObject;
 import unwrittenfun.bukkit.lukkit.offlineplayer.OfflinePlayerObject;
 
 public class PlayerObject extends LukkitObject {
@@ -10,8 +13,11 @@ public class PlayerObject extends LukkitObject {
 	
 	public PlayerObject(Player p) {
 		player = p;
-		
+
 		extendWith(new OfflinePlayerObject(player));
+		extendWith(new CommandSenderObject(player));
+		extendWith(new HumanEntityObject(player));
+		extendWith(new ConversableObject(player));
 		
 //		set("awardAchievement", new AwardAchievmentFunction());
 		set("chat", new ChatFunction());
