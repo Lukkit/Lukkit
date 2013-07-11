@@ -11,7 +11,7 @@ public class ServerObject extends LuaTable {
 //		set("createInventory", new CreateInventoryFunction());
 //		set("createMap", new CreateMapFunction());
 //		set("createWorld", new CreateWorldFunction());
-//		set("dispatchCommand", new DispatchCommandFunction());
+		set("dispatchCommand", new DispatchCommandFunction());
 		set("matchPlayer", new MatchPlayerFunction());
 		set("reload", new ReloadFunction());
 		set("reloadWhitelist", new ReloadWhitelistFunction());
@@ -37,7 +37,7 @@ public class ServerObject extends LuaTable {
 		set("getBukkitVersion", new GetBukkitVersionFunction());
 //		set("getCommandAliases", new GetCommandAliasesFunction());
 		set("getConnectionThrottle", new GetConnectionThrottleFunction());
-//		set("getConsoleSender", new GetConsoleSenderFunction());
+		set("getConsoleSender", new GetConsoleSenderFunction());
 		set("getDefaultGameMode", new GetDefaultGameModeFunction());
 //		set("getHelpMap", new GetHelpMapFunction());
 		set("getIP", new GetIPFunction());
