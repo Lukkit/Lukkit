@@ -33,7 +33,7 @@ public class ServerObject extends LuaTable {
 		
 		set("getAmbientSpawnLimit", new GetAmbientSpawnLimitFunction());
 		set("getAnimalSpawnLimit", new GetAnimalSpawnLimitFunction());
-//		set("getBannedPlayers", new GetBannedPlayersFunction());
+		set("getBannedPlayers", new GetBannedPlayersFunction());
 		set("getBukkitVersion", new GetBukkitVersionFunction());
 //		set("getCommandAliases", new GetCommandAliasesFunction());
 		set("getConnectionThrottle", new GetConnectionThrottleFunction());
@@ -49,10 +49,10 @@ public class ServerObject extends LuaTable {
 		set("getMonsterSpawnLimit", new GetMonsterSpawnLimitFunction());
 		set("getMotd", new GetMotdFunction());
 		set("getName", new GetNameFunction());
-//		set("getOfflinePlayer", new GetOfflinePlayerFunction());
-//		set("getOfflinePlayers", new GetOfflinePlayersFunction());
+		set("getOfflinePlayer", new GetOfflinePlayerFunction());
+		set("getOfflinePlayers", new GetOfflinePlayersFunction());
 		set("getOnlinePlayers", new GetOnlinePlayersFunction());
-//		set("getOps", new GetOpsFunction());
+		set("getOps", new GetOpsFunction());
 		set("getPlayer", new GetPlayerFunction());
 		set("getPlayerExact", new GetPlayerExactFunction());
 		set("getPort", new GetPortFunction());
@@ -69,7 +69,7 @@ public class ServerObject extends LuaTable {
 		set("getViewDistance", new GetViewDistanceFunction());
 //		set("getWarningState", new GetWarningStateFunction());
 		set("getWaterAnimalSpawnLimit", new GetWaterAnimalSpawnLimitFunction());
-//		set("getWhitlistedPlayers", new GetWhitelistedPlayersFunction());
+		set("getWhitlistedPlayers", new GetWhitelistedPlayersFunction());
 		set("getWorld", new GetWorldFunction());
 //		set("getWorldContainer", new GetWorldContainerFunction());
 		set("getWorlds", new GetWorldsFunction());
