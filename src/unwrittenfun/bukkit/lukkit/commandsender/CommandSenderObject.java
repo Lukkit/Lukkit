@@ -10,6 +10,8 @@ public class CommandSenderObject extends LukkitObject {
 
 	public CommandSenderObject(CommandSender c) {
 		commandsender = c;
+		
+		extendWith(new PermissibleObject(commandsender));
 
 		set("getName", new GetNameFunction());
 		set("getServer", new GetServerFunction());
