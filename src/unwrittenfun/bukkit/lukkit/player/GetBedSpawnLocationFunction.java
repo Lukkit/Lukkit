@@ -6,12 +6,14 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 
+import unwrittenfun.bukkit.lukkit.LukkitObject;
+
 
 public class GetBedSpawnLocationFunction extends VarArgFunction {
 
 	@Override
 	public Varargs invoke(Varargs args) {
-		Player player = ((PlayerObject) args.arg(1)).player;
+		Player player = ((Player) ((LukkitObject) args.arg(1)).getObject());
 		Location loc = player.getBedSpawnLocation();
 		return LuaValue.varargsOf(new LuaValue[]{
 				LuaValue.valueOf(loc.getX()),

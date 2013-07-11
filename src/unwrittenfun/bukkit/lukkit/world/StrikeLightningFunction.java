@@ -1,17 +1,20 @@
 package unwrittenfun.bukkit.lukkit.world;
 
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
+
+import unwrittenfun.bukkit.lukkit.LukkitObject;
 
 
 public class StrikeLightningFunction extends VarArgFunction {
 
 	@Override
 	public Varargs invoke(Varargs args) {
-		Location loc = new Location(((WorldObject) args.arg(1)).world, args.todouble(2), args.todouble(3), args.todouble(4));
-		((WorldObject) args.arg(1)).world.strikeLightning(loc);
+		Location loc = new Location(((World) ((LukkitObject) args.arg(1)).getObject()), args.todouble(2), args.todouble(3), args.todouble(4));
+		((World) ((LukkitObject) args.arg(1)).getObject()).strikeLightning(loc);
 		return LuaValue.NIL;
 	}
 	

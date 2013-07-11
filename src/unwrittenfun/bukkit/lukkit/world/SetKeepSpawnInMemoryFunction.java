@@ -1,15 +1,18 @@
 package unwrittenfun.bukkit.lukkit.world;
 
+import org.bukkit.World;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
+
+import unwrittenfun.bukkit.lukkit.LukkitObject;
 
 
 public class SetKeepSpawnInMemoryFunction extends VarArgFunction {
 
 	@Override
 	public Varargs invoke(Varargs args) {
-		((WorldObject) args.arg(1)).world.setKeepSpawnInMemory(args.toboolean(2));
+		((World) ((LukkitObject) args.arg(1)).getObject()).setKeepSpawnInMemory(args.toboolean(2));
 		return LuaValue.NIL;
 	}
 	

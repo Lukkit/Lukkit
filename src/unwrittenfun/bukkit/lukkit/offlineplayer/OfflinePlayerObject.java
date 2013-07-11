@@ -1,9 +1,10 @@
 package unwrittenfun.bukkit.lukkit.offlineplayer;
 
 import org.bukkit.OfflinePlayer;
-import org.luaj.vm2.LuaTable;
 
-public class OfflinePlayerObject extends LuaTable {
+import unwrittenfun.bukkit.lukkit.LukkitObject;
+
+public class OfflinePlayerObject extends LukkitObject {
 	public OfflinePlayer offlineplayer;
 
 	public OfflinePlayerObject(OfflinePlayer o) {
@@ -22,5 +23,10 @@ public class OfflinePlayerObject extends LuaTable {
 		
 		set("setBanned", new SetBannedFunction());
 		set("setWhitelisted", new SetWhitelistedFunction());
+	}
+
+	@Override
+	public Object getObject() {
+		return offlineplayer;
 	}
 }

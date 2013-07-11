@@ -1,9 +1,10 @@
 package unwrittenfun.bukkit.lukkit.world;
 
 import org.bukkit.World;
-import org.luaj.vm2.LuaTable;
 
-public class WorldObject extends LuaTable {
+import unwrittenfun.bukkit.lukkit.LukkitObject;
+
+public class WorldObject extends LukkitObject {
 	public World world;
 
 	public WorldObject(World w) {
@@ -101,5 +102,10 @@ public class WorldObject extends LuaTable {
 		set("setTime", new SetTimeFunction());
 		set("setWaterAnimalSpawnLimit", new SetWaterAnimalSpawnLimitFunction());
 		set("setWeatherDuration", new SetWeatherDurationFunction());
+	}
+
+	@Override
+	public Object getObject() {
+		return world;
 	}
 }

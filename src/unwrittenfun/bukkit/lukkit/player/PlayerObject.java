@@ -1,13 +1,17 @@
 package unwrittenfun.bukkit.lukkit.player;
 
 import org.bukkit.entity.Player;
-import org.luaj.vm2.LuaTable;
 
-public class PlayerObject extends LuaTable {
+import unwrittenfun.bukkit.lukkit.LukkitObject;
+import unwrittenfun.bukkit.lukkit.offlineplayer.OfflinePlayerObject;
+
+public class PlayerObject extends LukkitObject {
 	public Player player;
 	
 	public PlayerObject(Player p) {
 		player = p;
+		
+		extendWith(new OfflinePlayerObject(player));
 		
 //		set("awardAchievement", new AwardAchievmentFunction());
 		set("chat", new ChatFunction());
@@ -77,5 +81,10 @@ public class PlayerObject extends LuaTable {
 		set("setTexturePack", new SetTexturePackFunction());
 		set("setTotalExperience", new SetTotalExperienceFunction());
 		set("setWalkSpeed", new SetWalkSpeedFunction());
+	}
+
+	@Override
+	public Object getObject() {
+		return player;
 	}
 }

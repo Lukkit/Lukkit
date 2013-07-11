@@ -1,15 +1,18 @@
 package unwrittenfun.bukkit.lukkit.player;
 
+import org.bukkit.entity.Player;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
+
+import unwrittenfun.bukkit.lukkit.LukkitObject;
 
 
 public class ShowPlayerFunction extends VarArgFunction {
 
 	@Override
 	public Varargs invoke(Varargs args) {
-		((PlayerObject) args.arg(1)).player.showPlayer(((PlayerObject) args.arg(2)).player);
+		((Player) ((LukkitObject) args.arg(1)).getObject()).showPlayer(((PlayerObject) args.arg(2)).player);
 		return LuaValue.NIL;
 	}
 	
