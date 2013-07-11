@@ -12,7 +12,7 @@ public class GetCompassTargetFunction extends VarArgFunction {
 	@Override
 	public Varargs invoke(Varargs args) {
 		Player player = ((PlayerObject) args.arg(1)).player;
-		Location loc = player.getLocation();
+		Location loc = player.getCompassTarget();
 		return LuaValue.varargsOf(new LuaValue[]{
 				LuaValue.valueOf(loc.getX()),
 				LuaValue.valueOf(loc.getY()),
