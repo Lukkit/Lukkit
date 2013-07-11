@@ -4,7 +4,10 @@ def main(args):
 	pluginFile = open("src/plugin.yml", "r")
 	plugin = yaml.load(pluginFile)
 	name = plugin["name"]
-	version = plugin["version"]
+	if len(args) < 2:
+		version = plugin["version"]
+	else:
+		version = args[1]
 	
 	zip = zipfile.ZipFile("pkg/" + name + ".jar", "w")
 	for root, dirs, files in os.walk("bin/"):
@@ -15,12 +18,13 @@ def main(args):
 			zip.write(os.path.join(root, file), os.path.join(root[12:], file))
 	zip.close()
 	
-	zip = zipfile.ZipFile("pkg/" + name + "-" + version + ".zip", "w")
-	zip.write("LICENSE")
-	zip.write("pkg/" + name + ".jar", name + ".jar")
-	zip.close()
-	
-	os.remove("pkg/" + name + ".jar")
+	if not version == "dev":
+		zip = zipfile.ZipFile("pkg/" + name + "-" + version + ".zip", "w")
+		zip.write("LICENSE")
+		zip.write("pkg/" + name + ".jar", name + ".jar")
+		zip.close()
+		
+		os.remove("pkg/" + name + ".jar")
 
 if __name__ == "__main__":
 	main(sys.argv)
