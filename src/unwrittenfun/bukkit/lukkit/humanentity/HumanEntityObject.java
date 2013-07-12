@@ -4,14 +4,16 @@ import org.bukkit.entity.HumanEntity;
 
 import unwrittenfun.bukkit.lukkit.LukkitObject;
 import unwrittenfun.bukkit.lukkit.livingentity.LivingEntityObject;
+import unwrittenfun.bukkit.lukkit.permissible.PermissibleObject;
 
 public class HumanEntityObject extends LukkitObject {
 	public HumanEntity humanentity;
 
 	public HumanEntityObject(HumanEntity h) {
 		humanentity = h;
-		
+
 		extendWith(new LivingEntityObject(humanentity));
+		extendWith(new PermissibleObject(humanentity));
 
 		set("closeInventory", new CloseInventoryFunction());
 //		set("getEnderChest", new GetEnderChestFunction());

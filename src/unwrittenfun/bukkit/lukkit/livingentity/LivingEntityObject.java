@@ -10,7 +10,7 @@ public class LivingEntityObject extends LukkitObject {
 
 	public LivingEntityObject(LivingEntity l) {
 		livingentity = l;
-		
+
 		extendWith(new DamageableObject(livingentity));
 		
 //		set("addPotionEffect", new AddPotionEffectFunction());
