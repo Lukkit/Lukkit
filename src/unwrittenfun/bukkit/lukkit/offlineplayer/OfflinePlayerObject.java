@@ -3,12 +3,15 @@ package unwrittenfun.bukkit.lukkit.offlineplayer;
 import org.bukkit.OfflinePlayer;
 
 import unwrittenfun.bukkit.lukkit.LukkitObject;
+import unwrittenfun.bukkit.lukkit.serveroperator.ServerOperatorObject;
 
 public class OfflinePlayerObject extends LukkitObject {
 	public OfflinePlayer offlineplayer;
 
 	public OfflinePlayerObject(OfflinePlayer o) {
 		offlineplayer = o;
+
+		extendWith(new ServerOperatorObject(offlineplayer));
 
 		set("hasPlayedBefore", new HasPlayedBeforeFunction());
 		set("isBanned", new IsBannedFunction());
