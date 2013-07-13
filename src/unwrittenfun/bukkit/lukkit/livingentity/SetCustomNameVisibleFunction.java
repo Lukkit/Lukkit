@@ -12,7 +12,8 @@ public class SetCustomNameVisibleFunction extends VarArgFunction {
 
 	@Override
 	public Varargs invoke(Varargs args) {
-		return LuaValue.valueOf(((LivingEntity) ((LukkitObject) args.arg(1)).getObject()).setCustomNameVisible(args.toboolean(2)));
+		((LivingEntity) ((LukkitObject) args.arg(1)).getObject()).setCustomNameVisible(args.toboolean(2));
+		return LuaValue.NIL;
 	}
 	
 }
