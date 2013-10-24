@@ -10,21 +10,21 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/libs/bukkit-1.6.2-R0.1-20130715.060132-5.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/luaj-jse-3.0-beta1.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES>
-          <root url="jar://$MODULE_DIR$/libs/bukkit-1.6.2-R0.1-20130715.060132-5.jar!/" />
-        </SOURCES>
+        <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/libs/luaj-jse-3.0-beta1.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/bukkit-1.6.4-R1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/libs/bukkit-1.6.4-R1.0.jar!/" />
+        </SOURCES>
       </library>
     </orderEntry>
   </component>

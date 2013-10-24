@@ -16,6 +16,7 @@ def main(args):
 	for root, dirs, files in os.walk("libs/luaj-jse/"):
 		for file in files:
 			zip.write(os.path.join(root, file), os.path.join(root[13:], file))
+	zip.write("src/plugin.yml")
 	zip.close()
 	
 	if not version == "dev":

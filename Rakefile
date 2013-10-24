@@ -1,6 +1,6 @@
 require "rake"
 
-BUKKIT_PATH = "~/Documents/Testing/Lukkit" # CHANGE TO MATCH YOUR ENVIRONMENT
+BUKKIT_PATH = "/Users/unwrittenfun/Documents/Testing/Lukkit" # CHANGE TO MATCH YOUR ENVIRONMENT
 JAR_NAME = "Lukkit.jar"
 
 desc "Package compiled code into jar"
@@ -19,4 +19,6 @@ desc "Package compiled code into jar and run instance of bukkit"
 task run: [:jar] do
 	rm "#{BUKKIT_PATH}/plugins/#{JAR_NAME}" if File.exists? "#{BUKKIT_PATH}/plugins/#{JAR_NAME}"
 	cp "pkg/#{JAR_NAME}", "#{BUKKIT_PATH}/plugins"
+	cd BUKKIT_PATH
+	sh "java -jar craftbukkit.jar"
 end

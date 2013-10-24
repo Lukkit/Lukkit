@@ -12,6 +12,5 @@ public class Lukkit extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-
     }
 }
