@@ -1,0 +1,13 @@
+name: Lukkit
+main: unwrittenfun.minecraft.lukkit.Lukkit
+version: 1.0-dev
+commands:
+  lukkit:
+    description: The main command for Lukkit
+    usage: /<command> [sub-command]
+    permission: lukkit.command
+    permission-message: You do not have permission to do that.
+permissions:
+  lukkit.command:
+    description: Give access to the /lukkit command.
+    default: op
