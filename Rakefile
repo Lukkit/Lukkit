@@ -17,8 +17,9 @@ end
 
 desc "Package compiled code into jar and run instance of bukkit"
 task run: [:jar] do
-	rm "#{BUKKIT_PATH}/plugins/#{JAR_NAME}" if File.exists? "#{BUKKIT_PATH}/plugins/#{JAR_NAME}"
 	cp "pkg/#{JAR_NAME}", "#{BUKKIT_PATH}/plugins"
+	rm "pkg/#{JAR_NAME}"
 	cd BUKKIT_PATH
 	sh "java -jar craftbukkit.jar"
+	rm "#{BUKKIT_PATH}/plugins/#{JAR_NAME}"
 end

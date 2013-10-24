@@ -12,11 +12,11 @@ def main(args):
 	zip = zipfile.ZipFile("pkg/" + name + ".jar", "w")
 	for root, dirs, files in os.walk("out/production/Lukkit"):
 		for file in files:
-			zip.write(os.path.join(root, file), os.path.join(root[3:], file))
+			zip.write(os.path.join(root, file), os.path.join(root[21:], file))
 	for root, dirs, files in os.walk("libs/luaj-jse/"):
 		for file in files:
 			zip.write(os.path.join(root, file), os.path.join(root[13:], file))
-	zip.write("src/plugin.yml")
+	zip.write("src/plugin.yml", "plugin.yml")
 	zip.close()
 	
 	if not version == "dev":

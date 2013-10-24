@@ -1,4 +1,4 @@
-package unwrittenfun.minecraft.Lukkit;
+package unwrittenfun.minecraft.lukkit;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
