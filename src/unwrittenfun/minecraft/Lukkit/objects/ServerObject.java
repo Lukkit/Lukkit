@@ -1,9 +1,10 @@
 package unwrittenfun.minecraft.lukkit.objects;
 
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
+import org.bukkit.Server;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
+import unwrittenfun.minecraft.lukkit.bridge.LuaBridge;
 import unwrittenfun.minecraft.lukkit.environment.ILukkitObject;
 
 /**
@@ -50,112 +51,112 @@ public class ServerObject implements ILukkitObject {
                 "setSpawnRadius", "setWhitelist",
                 "shutdown", "unbanIp",
                 "unloadWorld",
-                "useExactLoginLocation"
+                "useExactLoginLocation",
+                "getPlayer", "getOnlinePlayers",
+                "matchPlayer"
         };
     }
 
     @Override
     public Varargs doMethod(int methodIndex, String methodName, Varargs args) {
+        Server server = Bukkit.getServer();
         switch (methodIndex) {
             case 1: // banIp
-                Bukkit.getServer().banIP(args.tojstring(1));
-                break;
+                server.banIP(args.tojstring(1)); break;
             case 2: // broadcast
                 if (args.narg() == 2) {
-                    return LuaValue.valueOf(Bukkit.getServer().broadcast(args.tojstring(1), args.tojstring(2)));
+                    return LuaBridge.toLuaValue(server.broadcast(args.tojstring(1), args.tojstring(2)));
                 }
-                return LuaValue.valueOf(Bukkit.getServer().broadcastMessage(args.tojstring(1)));
+                return LuaBridge.toLuaValue(server.broadcastMessage(args.tojstring(1)));
             case 3: // clearRecipes
-                Bukkit.getServer().clearRecipes();
-                break;
+                server.clearRecipes(); break;
             case 4: // getAllowEnd
-                return LuaValue.valueOf(Bukkit.getServer().getAllowEnd());
+                return LuaBridge.toLuaValue(server.getAllowEnd());
             case 5: // getAllowFlight
-                return LuaValue.valueOf(Bukkit.getServer().getAllowFlight());
+                return LuaBridge.toLuaValue(server.getAllowFlight());
             case 6: // getAllowNether
-                return LuaValue.valueOf(Bukkit.getServer().getAllowNether());
+                return LuaBridge.toLuaValue(server.getAllowNether());
             case 7: // getAmbientSpawnLimit
-                return LuaValue.valueOf(Bukkit.getServer().getAmbientSpawnLimit());
+                return LuaBridge.toLuaValue(server.getAmbientSpawnLimit());
             case 8: // getAnimalSpawnLimit
-                return LuaValue.valueOf(Bukkit.getServer().getAnimalSpawnLimit());
+                return LuaBridge.toLuaValue(server.getAnimalSpawnLimit());
             case 9: // getBukkitVersion
-                return LuaValue.valueOf(Bukkit.getServer().getBukkitVersion());
+                return LuaBridge.toLuaValue(server.getBukkitVersion());
             case 10: // getConnectionThrottle
-                return LuaValue.valueOf(Bukkit.getServer().getConnectionThrottle());
+                return LuaBridge.toLuaValue(server.getConnectionThrottle());
             case 11: // getDefaultGameMode
-                return LuaValue.valueOf(Bukkit.getServer().getDefaultGameMode().ordinal());
+                return LuaBridge.toLuaValue(server.getDefaultGameMode().ordinal());
             case 12: // getGenerateStructures
-                return LuaValue.valueOf(Bukkit.getServer().getGenerateStructures());
+                return LuaBridge.toLuaValue(server.getGenerateStructures());
             case 13: // getIp
-                return LuaValue.valueOf(Bukkit.getServer().getIp());
+                return LuaBridge.toLuaValue(server.getIp());
             case 14: // getMaxPlayers
-                return LuaValue.valueOf(Bukkit.getServer().getMaxPlayers());
+                return LuaBridge.toLuaValue(server.getMaxPlayers());
             case 15: // getMonsterSpawnLimit
-                return LuaValue.valueOf(Bukkit.getServer().getMonsterSpawnLimit());
+                return LuaBridge.toLuaValue(server.getMonsterSpawnLimit());
             case 16: // getMotd
-                return LuaValue.valueOf(Bukkit.getServer().getMotd());
+                return LuaBridge.toLuaValue(server.getMotd());
             case 17: // getName
-                return LuaValue.valueOf(Bukkit.getServer().getName());
+                return LuaBridge.toLuaValue(server.getName());
             case 18: // getOnlineMode
-                return LuaValue.valueOf(Bukkit.getServer().getOnlineMode());
+                return LuaBridge.toLuaValue(server.getOnlineMode());
             case 19: // getPort
-                return LuaValue.valueOf(Bukkit.getServer().getPort());
+                return LuaBridge.toLuaValue(server.getPort());
             case 20: // getServerId
-                return LuaValue.valueOf(Bukkit.getServer().getServerId());
+                return LuaBridge.toLuaValue(server.getServerId());
             case 21: // getServerName
-                return LuaValue.valueOf(Bukkit.getServer().getServerName());
+                return LuaBridge.toLuaValue(server.getServerName());
             case 22: // getShutdownMessage
-                return LuaValue.valueOf(Bukkit.getServer().getShutdownMessage());
+                return LuaBridge.toLuaValue(server.getShutdownMessage());
             case 23: // getSpawnRadius
-                return LuaValue.valueOf(Bukkit.getServer().getSpawnRadius());
+                return LuaBridge.toLuaValue(server.getSpawnRadius());
             case 24: // getTicksPerAnimalSpawns
-                return LuaValue.valueOf(Bukkit.getServer().getTicksPerAnimalSpawns());
+                return LuaBridge.toLuaValue(server.getTicksPerAnimalSpawns());
             case 25: // getTicksPerMonsterSpawns
-                return LuaValue.valueOf(Bukkit.getServer().getTicksPerMonsterSpawns());
+                return LuaBridge.toLuaValue(server.getTicksPerMonsterSpawns());
             case 26: // getUpdateFolder
-                return LuaValue.valueOf(Bukkit.getServer().getUpdateFolder());
+                return LuaBridge.toLuaValue(server.getUpdateFolder());
             case 27: // getVersion
-                return LuaValue.valueOf(Bukkit.getServer().getVersion());
+                return LuaBridge.toLuaValue(server.getVersion());
             case 28: // getViewDistance
-                return LuaValue.valueOf(Bukkit.getServer().getViewDistance());
+                return LuaBridge.toLuaValue(server.getViewDistance());
             case 29: // getWaterAnimalSpawnLimit
-                return LuaValue.valueOf(Bukkit.getServer().getWaterAnimalSpawnLimit());
+                return LuaBridge.toLuaValue(server.getWaterAnimalSpawnLimit());
             case 30: // getWorldType
-                return LuaValue.valueOf(Bukkit.getServer().getWorldType());
+                return LuaBridge.toLuaValue(server.getWorldType());
             case 31: // hasWhitelist
-                return LuaValue.valueOf(Bukkit.getServer().hasWhitelist());
+                return LuaBridge.toLuaValue(server.hasWhitelist());
             case 32: // isHardcore
-                return LuaValue.valueOf(Bukkit.getServer().isHardcore());
+                return LuaBridge.toLuaValue(server.isHardcore());
             case 33: // isPrimaryThread
-                return LuaValue.valueOf(Bukkit.getServer().isPrimaryThread());
+                return LuaBridge.toLuaValue(server.isPrimaryThread());
             case 34: // reload
-                Bukkit.getServer().reload();
-                break;
+                server.reload(); break;
             case 35: // reloadWhitelist
-                Bukkit.getServer().reloadWhitelist();
-                break;
+                server.reloadWhitelist(); break;
             case 36: // resetRecipes
-                Bukkit.getServer().resetRecipes();
-                break;
+                server.resetRecipes(); break;
             case 37: // savePlayers
-                Bukkit.getServer().savePlayers();
-                break;
+                server.savePlayers(); break;
             case 38: // setSpawnRadius
-                Bukkit.getServer().setSpawnRadius(args.toint(1));
-                break;
+                server.setSpawnRadius(args.toint(1)); break;
             case 39: // setWhitelist
-                Bukkit.getServer().setWhitelist(args.toboolean(1));
+                server.setWhitelist(args.toboolean(1));
                 break;
             case 40: // shutdown
-                Bukkit.getServer().shutdown();
-                break;
+                server.shutdown(); break;
             case 41: // unbanIp
-                Bukkit.getServer().unbanIP(args.tojstring(1));
-                break;
+                server.unbanIP(args.tojstring(1)); break;
             case 42: // unloadWorld
-                return LuaValue.valueOf(Bukkit.getServer().unloadWorld(args.tojstring(1), args.toboolean(2)));
+                return LuaBridge.toLuaValue(server.unloadWorld(args.tojstring(1), args.toboolean(2)));
             case 43: // useExactLoginLocation
-                return LuaValue.valueOf(Bukkit.getServer().useExactLoginLocation());
+                return LuaBridge.toLuaValue(server.useExactLoginLocation());
+            case 44: // getPlayer
+                return LuaBridge.toLuaValue(server.getPlayer(args.tojstring(1)));
+            case 45: // getOnlinePlayers
+                return LuaBridge.toLuaTable(server.getOnlinePlayers());
+            case 46: // matchPlayer
+                return LuaBridge.toLuaTable(server.matchPlayer(args.tojstring(1)));
         }
 
         return LuaValue.NIL;
