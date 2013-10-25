@@ -21,9 +21,11 @@
         <CLASSES>
           <root url="jar://$MODULE_DIR$/libs/bukkit-1.6.4-R1.0.jar!/" />
         </CLASSES>
-        <JAVADOC />
+        <JAVADOC>
+          <root url="http://jd.bukkit.org/dev/apidocs/" />
+        </JAVADOC>
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/libs/bukkit-1.6.4-R1.0.jar!/" />
+          <root url="file://$MODULE_DIR$/../Bukkit-1.6.4-R1.0/src/main/java" />
         </SOURCES>
       </library>
     </orderEntry>
