@@ -26,6 +26,7 @@ public class Lukkit extends JavaPlugin {
         logger = getLogger();
 
         loadEnvironment();
+        loadPlugins();
     }
 
     @Override
@@ -33,6 +34,7 @@ public class Lukkit extends JavaPlugin {
         if (command.getName().equalsIgnoreCase("lukkit") && args.length >= 1) {
             if (args[0].equalsIgnoreCase("reload")) {
                 loadEnvironment();
+                loadPlugins();
                 sender.sendMessage("Lukkit environment and plugins reloaded.");
                 return true;
             } else if (args[0].equalsIgnoreCase("run") && args.length > 1) {
@@ -43,16 +45,18 @@ public class Lukkit extends JavaPlugin {
                 System.out.println(code);
                 LukkitEnvironment._G.loadString(code, code).call();
                 return true;
+            } else if (args[0].equalsIgnoreCase("resetenv")) {
+                loadEnvironment();
+                sender.sendMessage("Lukkit environment reset.");
             }
         }
+
         return false;
     }
 
     public void loadEnvironment() {
         LukkitEnvironment.loadEnvironment();
         registerObjects();
-
-        loadPlugins();
     }
 
     public void loadPlugins() {
