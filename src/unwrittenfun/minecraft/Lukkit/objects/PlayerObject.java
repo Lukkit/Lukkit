@@ -1,5 +1,6 @@
 package unwrittenfun.minecraft.lukkit.objects;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
@@ -33,6 +34,12 @@ public class PlayerObject implements ILukkitObject {
     @Override
     public Varargs doMethod(int methodIndex, String methodName, Varargs args) {
         switch (methodIndex) {
+            case 0:
+                String methodsString = "";
+                for (String method : getMethods()) {
+                    methodsString += method + ", ";
+                }
+                Bukkit.getServer().broadcastMessage(methodsString);
             case 1: // getName
                 return LuaBridge.toLuaValue(player.getName());
         }

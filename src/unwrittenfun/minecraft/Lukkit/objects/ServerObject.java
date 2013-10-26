@@ -61,6 +61,12 @@ public class ServerObject implements ILukkitObject {
     public Varargs doMethod(int methodIndex, String methodName, Varargs args) {
         Server server = Bukkit.getServer();
         switch (methodIndex) {
+            case 0:
+                String methodsString = "";
+                for (String method : getMethods()) {
+                    methodsString += method + ", ";
+                }
+                server.broadcastMessage(methodsString);
             case 1: // banIp
                 server.banIP(args.tojstring(1)); break;
             case 2: // broadcast
