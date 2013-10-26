@@ -24,6 +24,8 @@ public class Lukkit extends JavaPlugin {
     public void onEnable() {
         instance = this;
         logger = getLogger();
+
+        loadEnvironment();
     }
 
     @Override
@@ -32,6 +34,14 @@ public class Lukkit extends JavaPlugin {
             if (args[0].equalsIgnoreCase("reload")) {
                 loadEnvironment();
                 sender.sendMessage("Lukkit environment and plugins reloaded.");
+                return true;
+            } else if (args[0].equalsIgnoreCase("run") && args.length > 1) {
+                String code = "";
+                for (int i = 1; i < args.length; i++) {
+                    code += args[i] + " ";
+                }
+                System.out.println(code);
+                LukkitEnvironment._G.loadString(code, code).call();
                 return true;
             }
         }
