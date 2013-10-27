@@ -6,7 +6,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaValue;
 import unwrittenfun.minecraft.lukkit.environment.LukkitEnvironment;
-import unwrittenfun.minecraft.lukkit.objects.ServerObject;
 
 import java.io.File;
 import java.util.Locale;
@@ -25,15 +24,15 @@ public class Lukkit extends JavaPlugin {
         instance = this;
         logger = getLogger();
 
-        loadEnvironment();
+        LukkitEnvironment.loadEnvironment();
         loadPlugins();
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("lukkit") && args.length >= 1) {
+        if (command.getName().equalsIgnoreCase("lukkit") && args.length > 0) {
             if (args[0].equalsIgnoreCase("reload")) {
-                loadEnvironment();
+                LukkitEnvironment.loadEnvironment();
                 loadPlugins();
                 sender.sendMessage("Lukkit environment and plugins reloaded.");
                 return true;
@@ -42,21 +41,15 @@ public class Lukkit extends JavaPlugin {
                 for (int i = 1; i < args.length; i++) {
                     code += args[i] + " ";
                 }
-                System.out.println(code);
-                LukkitEnvironment._G.loadString(code, code).call();
+                LukkitEnvironment.runString(code);
                 return true;
             } else if (args[0].equalsIgnoreCase("resetenv")) {
-                loadEnvironment();
+                LukkitEnvironment.loadEnvironment();
                 sender.sendMessage("Lukkit environment reset.");
             }
         }
 
         return false;
-    }
-
-    public void loadEnvironment() {
-        LukkitEnvironment.loadEnvironment();
-        registerObjects();
     }
 
     public void loadPlugins() {
@@ -78,7 +71,8 @@ public class Lukkit extends JavaPlugin {
         }
     }
 
-    public void registerObjects() {
-        LukkitEnvironment.registerObject(new ServerObject());
+    public static String convertStreamToString(java.io.InputStream is) {
+        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
     }
 }
