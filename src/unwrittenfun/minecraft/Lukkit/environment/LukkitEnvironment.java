@@ -1,16 +1,17 @@
 package unwrittenfun.minecraft.lukkit.environment;
 
+import org.bukkit.event.HandlerList;
 import org.luaj.vm2.Globals;
-import org.luaj.vm2.LuaError;
+import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.compiler.LuaC;
 import org.luaj.vm2.lib.jse.JsePlatform;
 import unwrittenfun.minecraft.lukkit.Lukkit;
+import unwrittenfun.minecraft.lukkit.environment.events.LukkitEventObject;
+import unwrittenfun.minecraft.lukkit.environment.events.LukkitEvents;
 
-import java.io.File;
-import java.net.URISyntaxException;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Bukkit Plugin: Lukkit
@@ -24,6 +25,11 @@ public class LukkitEnvironment {
 
         LuaC.install();
         _G.compiler = LuaC.instance;
+
+        LukkitEvents.eventMap = new HashMap<String, ArrayList<LuaFunction>>();
+        HandlerList.unregisterAll(Lukkit.instance);
+        LukkitEvents.registerEvents();
+        _G.set("events", new LukkitEventObject());
 
         loadLuaLibs();
     }
