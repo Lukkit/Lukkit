@@ -1,5 +1,6 @@
 package unwrittenfun.minecraft.lukkit;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,7 +35,7 @@ public class Lukkit extends JavaPlugin {
             if (args[0].equalsIgnoreCase("reload")) {
                 LukkitEnvironment.loadEnvironment();
                 loadPlugins();
-                sender.sendMessage("Lukkit environment and plugins reloaded.");
+                sender.sendMessage(ChatColor.YELLOW + "Lukkit environment and plugins reloaded.");
                 return true;
             } else if (args[0].equalsIgnoreCase("run") && args.length > 1) {
                 String code = "";
@@ -45,7 +46,18 @@ public class Lukkit extends JavaPlugin {
                 return true;
             } else if (args[0].equalsIgnoreCase("resetenv")) {
                 LukkitEnvironment.loadEnvironment();
-                sender.sendMessage("Lukkit environment reset.");
+                sender.sendMessage(ChatColor.YELLOW + "Lukkit environment reset.");
+                return true;
+            } else if (args[0].equalsIgnoreCase("help")) {
+                sender.sendMessage(new String[] {
+                        ChatColor.YELLOW + "Lukkit Usage: ",
+                        ChatColor.YELLOW + "  /lukkit [sub-command]", "",
+                        ChatColor.YELLOW + "Lukkit sub-commands: ",
+                        ChatColor.YELLOW + "  reload - Reload the lua environment and plugins.",
+                        ChatColor.YELLOW + "  resetenv - Reset the lua environment",
+                        ChatColor.YELLOW + "  run [code] - Run text after 'run' as lua code"
+                });
+                return true;
             }
         }
 
