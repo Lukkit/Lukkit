@@ -30,6 +30,7 @@ public class LukkitEnvironment {
         HandlerList.unregisterAll(Lukkit.instance);
         LukkitEvents.registerEvents();
         _G.set("events", new LukkitEventObject());
+        _G.set("lukkit", new LukkitObject());
 
         loadLuaLibs();
     }
