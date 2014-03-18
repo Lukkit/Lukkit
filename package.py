@@ -2,7 +2,7 @@ import sys, os, zipfile, yaml, shutil, subprocess
 
 COMPILE_DIR = "out/production/Lukkit/"
 LUAJ_SRC_DIR = "../APIS/luaj-jse/"
-SERVER_DIR = "../TestServer"
+SERVER_DIR = "../TestServer/"
 
 def main(args):
 	pluginFile = open("src/plugin.yml", "r")
@@ -16,7 +16,7 @@ def main(args):
 	zip = zipfile.ZipFile("pkg/" + name + ".jar", "w")
 	for root, dirs, files in os.walk(COMPILE_DIR):
 		for file in files:
-			zip.write(os.path.join(root, file), os.path.join(root[28:], file))
+			zip.write(os.path.join(root, file), os.path.join(root[len(COMPILE_DIR):], file))
 	for root, dirs, files in os.walk(LUAJ_SRC_DIR):
 		for file in files:
 			zip.write(os.path.join(root, file), os.path.join(root[len(LUAJ_SRC_DIR):], file))
