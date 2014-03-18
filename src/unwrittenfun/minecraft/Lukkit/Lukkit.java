@@ -42,11 +42,18 @@ public class Lukkit extends JavaPlugin {
                 for (int i = 1; i < args.length; i++) {
                     code += args[i] + " ";
                 }
-                LukkitEnvironment.runString(code);
+                LuaValue result = LukkitEnvironment.runString(code);
+                if (result.isstring() && result.toString().equals("ERROR")) {
+                    sender.sendMessage(ChatColor.RED + LukkitEnvironment.lastError);
+                }
                 return true;
             } else if (args[0].equalsIgnoreCase("resetenv")) {
                 LukkitEnvironment.loadEnvironment();
                 sender.sendMessage(ChatColor.YELLOW + "Lukkit environment reset.");
+                return true;
+            } else if (args[0].equalsIgnoreCase("last-error")) {
+                LukkitEnvironment.loadEnvironment();
+                sender.sendMessage(ChatColor.RED + LukkitEnvironment.lastError);
                 return true;
             } else if (args[0].equalsIgnoreCase("help")) {
                 sender.sendMessage(new String[] {
@@ -55,7 +62,8 @@ public class Lukkit extends JavaPlugin {
                         ChatColor.YELLOW + "Lukkit sub-commands: ",
                         ChatColor.YELLOW + "  reload - Reload the lua environment and plugins.",
                         ChatColor.YELLOW + "  resetenv - Reset the lua environment",
-                        ChatColor.YELLOW + "  run [code] - Run text after 'run' as lua code"
+                        ChatColor.YELLOW + "  run [code] - Run text after 'run' as lua code",
+                        ChatColor.YELLOW + "  last-error - Print the last lua error message"
                 });
                 return true;
             }
@@ -77,6 +85,7 @@ public class Lukkit extends JavaPlugin {
                     }
                     chunk.call(pluginFile.getPath());
                 } catch (LuaError e) {
+                    LukkitEnvironment.lastError = e.getMessage();
                     logger.warning(e.getMessage());
                 }
             }

@@ -2,6 +2,7 @@ package unwrittenfun.minecraft.lukkit.environment;
 
 import org.bukkit.event.HandlerList;
 import org.luaj.vm2.Globals;
+import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.compiler.LuaC;
@@ -19,6 +20,7 @@ import java.util.HashMap;
  */
 public class LukkitEnvironment {
     public static Globals _G;
+    public static String lastError;
 
     public static void loadEnvironment() {
         _G = JsePlatform.standardGlobals();
@@ -44,6 +46,12 @@ public class LukkitEnvironment {
     }
 
     public static LuaValue runString(String code) {
-        return _G.load(code, code).call();
+        try {
+            return _G.load(code, code).call();
+        }  catch (LuaError e) {
+            lastError = e.getMessage();
+        }
+
+        return LuaValue.valueOf("ERROR");
     }
 }
