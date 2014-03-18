@@ -1,8 +1,8 @@
 import sys, os, zipfile, yaml, shutil, subprocess
 
-COMPILE_DIR = "../../out/production/Lukkit/"
-LUAJ_SRC_DIR = "../../bukkit/luaj-jse/"
-SERVER_DIR = "../test-server/"
+COMPILE_DIR = "out/production/Lukkit/"
+LUAJ_SRC_DIR = "../APIS/luaj-jse/"
+SERVER_DIR = "../TestServer"
 
 def main(args):
 	pluginFile = open("src/plugin.yml", "r")
