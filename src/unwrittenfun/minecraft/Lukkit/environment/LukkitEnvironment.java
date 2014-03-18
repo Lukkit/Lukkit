@@ -23,7 +23,7 @@ public class LukkitEnvironment {
     public static void loadEnvironment() {
         _G = JsePlatform.standardGlobals();
 
-        LuaC.install();
+        LuaC.install(_G);
         _G.compiler = LuaC.instance;
 
         LukkitEvents.eventMap = new HashMap<String, ArrayList<LuaFunction>>();
@@ -44,6 +44,6 @@ public class LukkitEnvironment {
     }
 
     public static LuaValue runString(String code) {
-        return _G.loadString(code, code).call();
+        return _G.load(code, code).call();
     }
 }

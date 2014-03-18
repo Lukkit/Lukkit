@@ -71,7 +71,7 @@ public class Lukkit extends JavaPlugin {
         for (File pluginFile : data.listFiles()) {
             if (pluginFile.isFile() && pluginFile.getName().toLowerCase(Locale.ENGLISH).endsWith(".lua")) {
                 try {
-                    LuaValue chunk = LukkitEnvironment._G.loadFile(pluginFile.getAbsolutePath());
+                    LuaValue chunk = LukkitEnvironment._G.loadfile(pluginFile.getAbsolutePath());
                     if (chunk.isnil()) {
                         throw new LuaError(chunk.tojstring(2));
                     }
