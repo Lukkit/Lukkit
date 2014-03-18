@@ -5,3 +5,11 @@ function tableFromList(list)
 	end
 	return table
 end
+
+function stringOf(object)
+    return object:toString()
+end
+
+function broadcast(message)
+    server:broadcastMessage(message)
+end
