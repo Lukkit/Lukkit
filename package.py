@@ -16,10 +16,12 @@ def main(args):
 	zip = zipfile.ZipFile("pkg/" + name + ".jar", "w")
 	for root, dirs, files in os.walk(COMPILE_DIR):
 		for file in files:
-			zip.write(os.path.join(root, file), os.path.join(root[len(COMPILE_DIR):], file))
+			if file != ".DS_Store":
+				zip.write(os.path.join(root, file), os.path.join(root[len(COMPILE_DIR):], file))
 	for root, dirs, files in os.walk(LUAJ_SRC_DIR):
 		for file in files:
-			zip.write(os.path.join(root, file), os.path.join(root[len(LUAJ_SRC_DIR):], file))
+			if file != ".DS_Store":
+				zip.write(os.path.join(root, file), os.path.join(root[len(LUAJ_SRC_DIR):], file))
 	zip.close()
 	
 	if version == "test":
@@ -28,10 +30,7 @@ def main(args):
 		os.chdir(SERVER_DIR)
 		subprocess.call("java -jar craftbukkit.jar", shell=True, stdin=sys.stdin, stdout=sys.stdout)
 	else:
-		zip = zipfile.ZipFile("pkg/" + name + "-" + version + ".zip", "w")
-		zip.write("pkg/" + name + ".jar", name + ".jar")
-		zip.close()
-		os.remove("pkg/" + name + ".jar")
+		os.rename("pkg/" + name + ".jar", "pkg/" + name + "-" + version + ".jar")
 
 if __name__ == "__main__":
 	main(sys.argv)

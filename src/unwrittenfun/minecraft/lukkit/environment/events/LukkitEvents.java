@@ -16,5 +16,14 @@ public class LukkitEvents {
 
     public static void registerEvents() {
         Bukkit.getServer().getPluginManager().registerEvents(new LukkitBlockEvents(), Lukkit.instance);
+        Bukkit.getServer().getPluginManager().registerEvents(new LukkitEnchantmentEvents(), Lukkit.instance);
+        Bukkit.getServer().getPluginManager().registerEvents(new LukkitEntityEvents(), Lukkit.instance);
+        Bukkit.getServer().getPluginManager().registerEvents(new LukkitHangingEvents(), Lukkit.instance);
+        Bukkit.getServer().getPluginManager().registerEvents(new LukkitInventoryEvents(), Lukkit.instance);
+        Bukkit.getServer().getPluginManager().registerEvents(new LukkitPlayerEvents(), Lukkit.instance);
+        Bukkit.getServer().getPluginManager().registerEvents(new LukkitServerEvents(), Lukkit.instance);
+        Bukkit.getServer().getPluginManager().registerEvents(new LukkitVehicleEvents(), Lukkit.instance);
+        Bukkit.getServer().getPluginManager().registerEvents(new LukkitWeatherEvents(), Lukkit.instance);
+        Bukkit.getServer().getPluginManager().registerEvents(new LukkitWorldEvents(), Lukkit.instance);
     }
 }
