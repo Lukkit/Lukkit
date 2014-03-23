@@ -24,7 +24,6 @@ public class LukkitInventoryEvents implements Listener {
         LukkitEvents.eventMap.put("inventoryClose", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("inventoryCreative", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("inventoryDrag", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("inventory", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("inventoryInteract", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("inventoryMoveItem", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("inventoryOpen", new ArrayList<LuaFunction>());
@@ -108,14 +107,6 @@ public class LukkitInventoryEvents implements Listener {
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
             if (event.isCancelled()) return;
-        }
-    }
-
-    @EventHandler
-    public void inventory(InventoryEvent event) {
-        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("inventory");
-        for (LuaFunction cb : callbacks) {
-            cb.call(CoerceJavaToLua.coerce(event));
         }
     }
 

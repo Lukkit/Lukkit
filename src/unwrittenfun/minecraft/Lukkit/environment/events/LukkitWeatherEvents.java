@@ -18,7 +18,6 @@ public class LukkitWeatherEvents implements Listener {
         LukkitEvents.eventMap.put("lightningStrike", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("thunderChange", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("weatherChange", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("weather", new ArrayList<LuaFunction>());
     }
 
     @EventHandler
@@ -45,14 +44,6 @@ public class LukkitWeatherEvents implements Listener {
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
             if (event.isCancelled()) return;
-        }
-    }
-
-    @EventHandler
-    public void weather(WeatherEvent event) {
-        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("weather");
-        for (LuaFunction cb : callbacks) {
-            cb.call(CoerceJavaToLua.coerce(event));
         }
     }
 }

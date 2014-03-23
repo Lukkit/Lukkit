@@ -1,6 +1,6 @@
 name: Lukkit
 main: unwrittenfun.minecraft.lukkit.Lukkit
-version: 1.0-alpha1
+version: 1.0-alpha2
 commands:
   lukkit:
     description: The main command for Lukkit

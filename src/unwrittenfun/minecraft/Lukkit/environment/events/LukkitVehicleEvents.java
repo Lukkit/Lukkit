@@ -16,13 +16,11 @@ import java.util.ArrayList;
 public class LukkitVehicleEvents implements Listener {
     public LukkitVehicleEvents() {
         LukkitEvents.eventMap.put("vehicleBlockCollision", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("vehicleCollision", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("vehicleCreate", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("vehicleDamage", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("vehicleDestroy", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("vehicleEnter", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("vehicleEntityCollision", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("vehicle", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("vehicleExit", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("vehicleMove", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("vehicleUpdate", new ArrayList<LuaFunction>());
@@ -31,14 +29,6 @@ public class LukkitVehicleEvents implements Listener {
     @EventHandler
     public void vehicleBlockCollision(VehicleBlockCollisionEvent event) {
         ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("vehicleBlockCollision");
-        for (LuaFunction cb : callbacks) {
-            cb.call(CoerceJavaToLua.coerce(event));
-        }
-    }
-
-    @EventHandler
-    public void vehicleCollision(VehicleCollisionEvent event) {
-        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("vehicleCollision");
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
         }
@@ -85,14 +75,6 @@ public class LukkitVehicleEvents implements Listener {
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
             if (event.isCancelled()) return;
-        }
-    }
-
-    @EventHandler
-    public void vehicle(VehicleEvent event) {
-        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("vehicle");
-        for (LuaFunction cb : callbacks) {
-            cb.call(CoerceJavaToLua.coerce(event));
         }
     }
 

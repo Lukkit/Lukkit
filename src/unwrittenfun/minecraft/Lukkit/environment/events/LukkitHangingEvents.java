@@ -17,7 +17,6 @@ public class LukkitHangingEvents implements Listener {
     public LukkitHangingEvents() {
         LukkitEvents.eventMap.put("hangingBreakByEntity", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("hangingBreak", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("hanging", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("hangingPlace", new ArrayList<LuaFunction>());
     }
 
@@ -36,14 +35,6 @@ public class LukkitHangingEvents implements Listener {
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
             if (event.isCancelled()) return;
-        }
-    }
-
-    @EventHandler
-    public void hanging(HangingEvent event) {
-        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("hanging");
-        for (LuaFunction cb : callbacks) {
-            cb.call(CoerceJavaToLua.coerce(event));
         }
     }
 

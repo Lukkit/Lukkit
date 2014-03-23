@@ -27,7 +27,6 @@ public class LukkitEntityEvents implements Listener {
         LukkitEvents.eventMap.put("entityDamageByEntity", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("entityDamage", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("entityDeath", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entity", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("entityExplode", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("entityInteract", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("entityPortalEnter", new ArrayList<LuaFunction>());
@@ -159,14 +158,6 @@ public class LukkitEntityEvents implements Listener {
     @EventHandler
     public void entityDeath(EntityDeathEvent event) {
         ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("entityDeath");
-        for (LuaFunction cb : callbacks) {
-            cb.call(CoerceJavaToLua.coerce(event));
-        }
-    }
-
-    @EventHandler
-    public void entity(EntityEvent event) {
-        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("entity");
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
         }

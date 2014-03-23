@@ -15,26 +15,16 @@ import java.util.ArrayList;
  */
 public class LukkitWorldEvents implements Listener {
     public LukkitWorldEvents() {
-        LukkitEvents.eventMap.put("chunk", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("chunkLoad", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("chunkPopulate", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("chunkUnload", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("portalCreate", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("spawnChange", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("structureGrow", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("world", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("worldInit", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("worldLoad", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("worldSave", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("worldUnload", new ArrayList<LuaFunction>());
-    }
-
-    @EventHandler
-    public void chunk(ChunkEvent event) {
-        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("chunk");
-        for (LuaFunction cb : callbacks) {
-            cb.call(CoerceJavaToLua.coerce(event));
-        }
     }
 
     @EventHandler
@@ -85,14 +75,6 @@ public class LukkitWorldEvents implements Listener {
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
             if (event.isCancelled()) return;
-        }
-    }
-
-    @EventHandler
-    public void world(WorldEvent event) {
-        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("world");
-        for (LuaFunction cb : callbacks) {
-            cb.call(CoerceJavaToLua.coerce(event));
         }
     }
 
