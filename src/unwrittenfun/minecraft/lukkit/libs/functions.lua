@@ -13,3 +13,7 @@ end
 function broadcast(message)
     server:broadcastMessage(message)
 end
+
+function isPlayer(player)
+    return player:getDisplayName() ~= nil
+end
