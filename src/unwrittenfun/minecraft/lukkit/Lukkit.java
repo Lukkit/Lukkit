@@ -9,7 +9,9 @@ import org.luaj.vm2.LuaValue;
 import unwrittenfun.minecraft.lukkit.environment.LukkitEnvironment;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Locale;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 /**
@@ -92,8 +94,8 @@ public class Lukkit extends JavaPlugin {
         }
     }
 
-    public static String convertStreamToString(java.io.InputStream is) {
-        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+    public static String convertStreamToString(InputStream is) {
+        Scanner s = new Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
     }
 }

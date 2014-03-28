@@ -38,7 +38,7 @@ public class LukkitEnvironment {
     }
 
     public static void loadLuaLibs() {
-        String globalsCode = Lukkit.convertStreamToString(Lukkit.class.getResourceAsStream("libs/globals.lua"));
+        String globalsCode = Lukkit.convertStreamToString(Lukkit.class.getResourceAsStream("libs/globalVariables.lua"));
         runString(globalsCode);
 
         String functionsCode = Lukkit.convertStreamToString(Lukkit.class.getResourceAsStream("libs/functions.lua"));
