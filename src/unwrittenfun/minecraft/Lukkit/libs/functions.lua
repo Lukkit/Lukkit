@@ -1,5 +1,5 @@
 function tableFromList(list)
-	table = {}
+	local table = {}
 	for i = 0, list:size() - 1 do
 		table[i] = list:get(i)
 	end
