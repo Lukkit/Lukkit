@@ -6,6 +6,14 @@ function tableFromList(list)
 	return table
 end
 
+function tableFromArray(array)
+    local table = {}
+    for i = 0, array.length, 1 do
+        table[i] = array[i]
+    end
+    return table
+end
+
 function stringOf(object)
     return object:toString()
 end

@@ -28,7 +28,7 @@ public class Lukkit extends JavaPlugin {
         logger = getLogger();
 
         LukkitEnvironment.loadEnvironment();
-        loadPlugins();
+        LukkitEnvironment.loadPlugins();
     }
 
     @Override
@@ -36,7 +36,7 @@ public class Lukkit extends JavaPlugin {
         if (command.getName().equalsIgnoreCase("lukkit") && args.length > 0) {
             if (args[0].equalsIgnoreCase("reload")) {
                 LukkitEnvironment.loadEnvironment();
-                loadPlugins();
+                LukkitEnvironment.loadPlugins();
                 sender.sendMessage(ChatColor.YELLOW + "Lukkit environment and plugins reloaded.");
                 return true;
             } else if (args[0].equalsIgnoreCase("run") && args.length > 1) {
@@ -72,30 +72,5 @@ public class Lukkit extends JavaPlugin {
         }
 
         return false;
-    }
-
-    public void loadPlugins() {
-        File data = getDataFolder();
-        if (!data.exists()) data.mkdir();
-
-        for (File pluginFile : data.listFiles()) {
-            if (pluginFile.isFile() && pluginFile.getName().toLowerCase(Locale.ENGLISH).endsWith(".lua")) {
-                try {
-                    LuaValue chunk = LukkitEnvironment._G.loadfile(pluginFile.getAbsolutePath());
-                    if (chunk.isnil()) {
-                        throw new LuaError(chunk.tojstring(2));
-                    }
-                    chunk.call(pluginFile.getPath());
-                } catch (LuaError e) {
-                    LukkitEnvironment.lastError = e.getMessage();
-                    logger.warning(e.getMessage());
-                }
-            }
-        }
-    }
-
-    public static String convertStreamToString(InputStream is) {
-        Scanner s = new Scanner(is).useDelimiter("\\A");
-        return s.hasNext() ? s.next() : "";
     }
 }

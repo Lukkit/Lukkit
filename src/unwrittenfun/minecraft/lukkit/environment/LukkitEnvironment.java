@@ -2,7 +2,6 @@ package unwrittenfun.minecraft.lukkit.environment;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.event.HandlerList;
 import org.luaj.vm2.Globals;
@@ -15,9 +14,16 @@ import unwrittenfun.minecraft.lukkit.Lukkit;
 import unwrittenfun.minecraft.lukkit.environment.events.LukkitEventObject;
 import unwrittenfun.minecraft.lukkit.environment.events.LukkitEvents;
 
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.lang.reflect.Field;
+import java.net.URISyntaxException;
+import java.text.Format;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Bukkit Plugin: Lukkit
@@ -48,11 +54,32 @@ public class LukkitEnvironment {
     }
 
     public static void loadLuaLibs() {
-        String globalsCode = Lukkit.convertStreamToString(Lukkit.class.getResourceAsStream("libs/globalVariables.lua"));
-        runString(globalsCode);
+        loadResource("libs/functions.lua", "functions");
+        loadResource("libs/globalVariables.lua", "globals");
+    }
 
-        String functionsCode = Lukkit.convertStreamToString(Lukkit.class.getResourceAsStream("libs/functions.lua"));
-        runString(functionsCode);
+    @SuppressWarnings({"ResultOfMethodCallIgnored", "ConstantConditions"})
+    public static void loadPlugins() {
+        File data = Lukkit.instance.getDataFolder();
+        if (!data.exists()) data.mkdir();
+
+        for (File pluginFile : data.listFiles()) {
+            if (pluginFile.isFile() && pluginFile.getName().toLowerCase(Locale.ENGLISH).endsWith(".lua")) {
+                try {
+                    LukkitEnvironment.loadFile(pluginFile);
+                } catch (LuaError e) {
+                    LukkitEnvironment.lastError = e.getMessage();
+                    Lukkit.logger.warning(e.getMessage());
+                }
+            } else if (pluginFile.isDirectory()) {
+                File main = new File(pluginFile, "main.lua");
+                if (main.exists()) {
+                    LukkitEnvironment.loadFile(main);
+                } else {
+                    Lukkit.logger.warning("No main.lua found for plugin " + pluginFile.getName());
+                }
+            }
+        }
     }
 
     public static LuaValue runString(String code) {
@@ -63,6 +90,23 @@ public class LukkitEnvironment {
         }
 
         return LuaValue.valueOf("ERROR");
+    }
+
+    public static void loadFile(File pluginFile) {
+        LuaValue chunk = LukkitEnvironment._G.loadfile(pluginFile.getAbsolutePath());
+        if (chunk.isnil()) {
+            throw new LuaError(chunk.tojstring(2));
+        }
+        chunk.call(pluginFile.getPath());
+    }
+
+    public static void loadResource(String resourceName, String chunkName) {
+        Reader fileReader = new InputStreamReader(Lukkit.class.getResourceAsStream(resourceName));
+        LuaValue chunk = LukkitEnvironment._G.load(fileReader, chunkName);
+        if (chunk.isnil()) {
+            throw new LuaError(chunk.tojstring(2));
+        }
+        chunk.call(chunkName);
     }
 
     private static Object getPrivateField(Object object, String field) throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {

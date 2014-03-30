@@ -18,10 +18,6 @@ public class LukkitObject extends LuaTable {
         set("addCommand", new VarArgFunction() {
             @Override
             public Varargs invoke(Varargs args) {
-//                if (args.isfunction(4)) {
-//                    Bukkit.getHelpMap().addTopic(new CommandHelpTopic(args.tojstring(1), args.tojstring(2), args.tojstring(3)));
-//                    Bukkit.getPluginManager().registerEvents(new CommandListener(args.tojstring(1), (LuaFunction) args.arg(4)), Lukkit.instance);
-//                }
                 LukkitEnvironment.registerCommand(new LukkitCommand(args.tojstring(1), args.tojstring(2), args.tojstring(3), new ArrayList<String>(), args.checkfunction(4)));
                 return LuaValue.NIL;
             }
