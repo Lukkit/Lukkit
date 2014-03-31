@@ -30,6 +30,7 @@ public class LukkitEnvironment {
     public static Globals _G;
     public static String lastError;
     public static ArrayList<LukkitCommand> commands = new ArrayList<LukkitCommand>();
+    public static LukkitPluginLoader pluginLoader = new LukkitPluginLoader();
 
     public static void loadEnvironment() {
         _G = JsePlatform.standardGlobals();
@@ -40,6 +41,8 @@ public class LukkitEnvironment {
         for (LukkitCommand cmd : commands)
             unregisterCommand(cmd, false);
         commands = new ArrayList<LukkitCommand>();
+
+        pluginLoader.disableAll();
 
         LukkitEvents.eventMap = new HashMap<String, ArrayList<LuaFunction>>();
         HandlerList.unregisterAll(Lukkit.instance);
@@ -115,10 +118,20 @@ public class LukkitEnvironment {
         return result;
     }
 
-    public static void unregisterCommand(LukkitCommand cmd, boolean removeFromCommands) {
+    public static void registerCommand(LukkitCommand cmd) {
         try {
-            if (removeFromCommands)
-                commands.remove(cmd);
+            commands.add(cmd);
+            Object result = getPrivateField(Bukkit.getServer().getPluginManager(), "commandMap");
+            SimpleCommandMap commandMap = (SimpleCommandMap) result;
+            commandMap.register("lukkit", cmd);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void unregisterCommand(LukkitCommand cmd, boolean remove) {
+        try {
+            if (remove) commands.remove(cmd);
             Object result = getPrivateField(Bukkit.getServer().getPluginManager(), "commandMap");
             SimpleCommandMap commandMap = (SimpleCommandMap) result;
             Object map = getPrivateField(commandMap, "knownCommands");
@@ -130,17 +143,6 @@ public class LukkitEnvironment {
                     knownCommands.remove(alias);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void registerCommand(LukkitCommand cmd) {
-        try {
-            commands.add(cmd);
-            Object result = getPrivateField(Bukkit.getServer().getPluginManager(), "commandMap");
-            SimpleCommandMap commandMap = (SimpleCommandMap) result;
-            commandMap.register("lukkit", cmd);
         } catch (Exception e) {
             e.printStackTrace();
         }

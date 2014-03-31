@@ -28,12 +28,19 @@ public class LukkitPlugin extends PluginBase {
     public LuaFunction disableCallback;
     private PluginDescriptionFile description;
     private PluginLogger logger;
+    private PluginLoader loader;
     private boolean naggable = true;
     private boolean enabled = true;
 
-    public LukkitPlugin(String name, String version) {
+    public LukkitPlugin(LukkitPluginLoader _loader, String name, String version) {
         description = new PluginDescriptionFile(name, version, "lukkit.plugin." + name);
         logger = new PluginLogger(this);
+        loader = _loader;
+    }
+
+    public void setEnabled(boolean enable) {
+        enabled = enable;
+        if (enabled) onEnable(); else onDisable();
     }
 
     @Override
@@ -70,7 +77,7 @@ public class LukkitPlugin extends PluginBase {
 
     @Override
     public PluginLoader getPluginLoader() {
-        return null;
+        return loader;
     }
 
     @Override

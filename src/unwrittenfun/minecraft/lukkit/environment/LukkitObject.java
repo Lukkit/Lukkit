@@ -4,6 +4,7 @@ import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
+import unwrittenfun.minecraft.lukkit.environment.wrappers.LukkitPluginWrapper;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,18 @@ public class LukkitObject extends LuaTable {
                 LukkitAsyncThread thread = new LukkitAsyncThread(args.tojstring(1), args.checkfunction(2));
                 thread.start();
                 return LuaValue.NIL;
+            }
+        });
+
+        set("addPlugin", new VarArgFunction() {
+            @Override
+            public Varargs invoke(Varargs args) {
+                LukkitPlugin plugin = new LukkitPlugin(LukkitEnvironment.pluginLoader, args.tojstring(1), args.tojstring(2));
+                LukkitPluginWrapper wrapper = new LukkitPluginWrapper(plugin);
+                if (!args.isnoneornil(3))
+                    args.checkfunction(3).call(wrapper);
+                plugin.getPluginLoader().enablePlugin(plugin);
+                return wrapper;
             }
         });
     }

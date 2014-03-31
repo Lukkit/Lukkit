@@ -12,7 +12,7 @@ public class LukkitAsyncThread extends Thread {
     private String threadName;
     private LuaFunction luafunc;
 
-    LukkitAsyncThread(String name, LuaFunction _luafunc) {
+    public LukkitAsyncThread(String name, LuaFunction _luafunc) {
         threadName = name;
         luafunc = _luafunc;
     }
