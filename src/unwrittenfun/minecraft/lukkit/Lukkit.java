@@ -4,14 +4,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaValue;
 import unwrittenfun.minecraft.lukkit.environment.LukkitEnvironment;
 
-import java.io.File;
-import java.io.InputStream;
-import java.util.Locale;
-import java.util.Scanner;
 import java.util.logging.Logger;
 
 /**

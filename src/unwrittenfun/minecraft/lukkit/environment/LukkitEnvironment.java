@@ -15,12 +15,9 @@ import unwrittenfun.minecraft.lukkit.environment.events.LukkitEventObject;
 import unwrittenfun.minecraft.lukkit.environment.events.LukkitEvents;
 
 import java.io.File;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Field;
-import java.net.URISyntaxException;
-import java.text.Format;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
