@@ -4,7 +4,11 @@ import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
+import unwrittenfun.minecraft.lukkit.environment.LukkitCommand;
+import unwrittenfun.minecraft.lukkit.environment.LukkitEnvironment;
 import unwrittenfun.minecraft.lukkit.environment.LukkitPlugin;
+
+import java.util.ArrayList;
 
 /**
  * Bukkit Plugin: Lukkit
@@ -15,6 +19,14 @@ public class LukkitPluginWrapper extends LuaTable {
 
     public LukkitPluginWrapper(LukkitPlugin _plugin) {
         plugin = _plugin;
+
+        set("addCommand", new VarArgFunction() {
+            @Override
+            public Varargs invoke(Varargs args) {
+                LukkitEnvironment.registerCommand(new LukkitCommand(args.tojstring(1), args.tojstring(2), args.tojstring(3), new ArrayList<String>(), args.checkfunction(4)));
+                return LuaValue.NIL;
+            }
+        });
 
         set("onEnable", new VarArgFunction() {
             @Override
@@ -48,12 +60,6 @@ public class LukkitPluginWrapper extends LuaTable {
             }
         });
 
-
-        set("getVersion", new VarArgFunction() {
-            @Override
-            public Varargs invoke(Varargs args) {
-                return LuaValue.valueOf(plugin.getDescription().getVersion());
-            }
-        });
+        set("version", plugin.getDescription().getVersion());
     }
 }

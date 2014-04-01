@@ -12,6 +12,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.PluginLogger;
 import org.luaj.vm2.LuaFunction;
+import unwrittenfun.minecraft.lukkit.Lukkit;
 
 import java.io.File;
 import java.io.InputStream;
@@ -31,11 +32,13 @@ public class LukkitPlugin extends PluginBase {
     private PluginLoader loader;
     private boolean naggable = true;
     private boolean enabled = true;
+    private File pluginFolder;
 
     public LukkitPlugin(LukkitPluginLoader _loader, String name, String version) {
         description = new PluginDescriptionFile(name, version, "lukkit.plugin." + name);
         logger = new PluginLogger(this);
         loader = _loader;
+        pluginFolder = new File(Lukkit.instance.getDataFolder(), name);
     }
 
     public void setEnabled(boolean enable) {
@@ -82,7 +85,7 @@ public class LukkitPlugin extends PluginBase {
 
     @Override
     public File getDataFolder() {
-        return null;
+        return pluginFolder;
     }
 
     @Override

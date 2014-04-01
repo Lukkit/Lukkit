@@ -15,7 +15,7 @@ import java.util.List;
 public class LukkitCommand extends Command {
     private LuaFunction callback;
 
-    protected LukkitCommand(String name, String description, String usageMessage, List<String> aliases, LuaFunction _callback) {
+    public LukkitCommand(String name, String description, String usageMessage, List<String> aliases, LuaFunction _callback) {
         super(name, description, usageMessage, aliases);
         callback = _callback;
     }
