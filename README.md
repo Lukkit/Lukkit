@@ -14,7 +14,7 @@ See the project on [Bukkit Dev](http://dev.bukkit.org/bukkit-plugins/lualukkit/)
 ### Examples
 More examples can be found in the examples folder on github
 
-Add command /shout to broadcast a message to the server
+Add command /shout to broadcast a message to the server. Bear in mind that at the moment naming a command with a capital letter will stop the command from being deregistered when running /lukkit reload or /lukkit resetenv
 ```lua
 -- Command name, short description, command usage
 lukkit.addCommand("shout", "Broadcast a message to the server", "/shout Your message here", function(sender, args)
@@ -22,7 +22,7 @@ lukkit.addCommand("shout", "Broadcast a message to the server", "/shout Your mes
 end)
 ```
 
-Only allow ops to break blocks
+Only allow ops to break blocks.
 ```lua
 events.add("blockBreak", function(event)
   if not event:getPlayer():isOp() then
@@ -33,7 +33,6 @@ end)
 ```
 
 Register a new plugin called HelloPlugin. This should go in `..plugins/Lukkit/PROJECT_NAME/main.lua`.
-Bear in mind that at the moment naming a command with a capital letter will stop the command from being deregistered when running /lukkit reload or /lukkit resetenv
 ```lua
 -- lukkit.addPlugin(pluginName, pluginVersion, pluginContent)
 local helloPlugin = lukkit.addPlugin("HelloPlugin", "1.0", function(plugin)
