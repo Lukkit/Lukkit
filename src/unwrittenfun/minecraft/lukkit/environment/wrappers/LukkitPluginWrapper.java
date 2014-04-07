@@ -104,6 +104,8 @@ public class LukkitPluginWrapper extends LuaTable {
             }
         });
 
+        set("config", new LukkitConfigWrapper(plugin));
+
         set("version", plugin.getDescription().getVersion());
 
         set("path", plugin.getDataFolder().toString());

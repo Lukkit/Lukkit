@@ -6,6 +6,7 @@ import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.PluginBase;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -15,6 +16,7 @@ import org.luaj.vm2.LuaFunction;
 import unwrittenfun.minecraft.lukkit.Lukkit;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.logging.Logger;
@@ -33,12 +35,22 @@ public class LukkitPlugin extends PluginBase {
     private boolean naggable = true;
     private boolean enabled = true;
     private File pluginFolder;
+    private File configFile;
+    private YamlConfiguration config;
 
     public LukkitPlugin(LukkitPluginLoader _loader, String name, String version) {
         description = new PluginDescriptionFile(name, version, "lukkit.plugin." + name);
         logger = new PluginLogger(this);
         loader = _loader;
         pluginFolder = new File(Lukkit.instance.getDataFolder(), name);
+        configFile = new File(pluginFolder, "config.yml");
+        if (configFile.exists()) {
+            config = YamlConfiguration.loadConfiguration(configFile);
+        } else {
+            logger.info("No config detected, creating a new one");
+            config = new YamlConfiguration();
+            this.saveConfig();
+        }
     }
 
     public void setEnabled(boolean enable) {
@@ -95,7 +107,7 @@ public class LukkitPlugin extends PluginBase {
 
     @Override
     public FileConfiguration getConfig() {
-        return null;
+        return config;
     }
 
     @Override
@@ -105,7 +117,11 @@ public class LukkitPlugin extends PluginBase {
 
     @Override
     public void saveConfig() {
-        //TODO: implement
+        try {
+            config.save(configFile);
+        } catch (IOException e) {
+            logger.warning("Cannot save config - IOException");
+        }
     }
 
     @Override
