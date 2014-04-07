@@ -8,7 +8,11 @@ import unwrittenfun.minecraft.lukkit.environment.LukkitCommand;
 import unwrittenfun.minecraft.lukkit.environment.LukkitEnvironment;
 import unwrittenfun.minecraft.lukkit.environment.LukkitPlugin;
 
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Bukkit Plugin: Lukkit
@@ -60,6 +64,48 @@ public class LukkitPluginWrapper extends LuaTable {
             }
         });
 
+        set("writeFile", new VarArgFunction() {
+            @Override
+            public Varargs invoke(Varargs args) {
+                Writer writer = null;
+                boolean append = args.optboolean(3, false);
+
+                try {
+                    writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(plugin.getDataFolder(), args.tojstring(1)), append), "utf-8"));
+                    writer.write(args.tojstring(2));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } finally {
+                    try {
+                        assert writer != null;
+                        writer.close();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                return LuaValue.NIL;
+            }
+        });
+
+        set("readFile", new VarArgFunction() {
+            @Override
+            public Varargs invoke(Varargs args) {
+                try {
+                    String contents = "";
+                    List<String> lines = Files.readAllLines(new File(plugin.getDataFolder(), args.tojstring(1)).toPath(), Charset.forName("UTF-8"));
+                    for (String line : lines) {
+                        contents += line + "\n\r";
+                    }
+                    return LuaValue.valueOf(contents);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return LuaValue.NIL;
+            }
+        });
+
         set("version", plugin.getDescription().getVersion());
+
+        set("path", plugin.getDataFolder().toString());
     }
 }
