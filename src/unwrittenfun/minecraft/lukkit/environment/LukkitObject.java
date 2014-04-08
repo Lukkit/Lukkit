@@ -9,6 +9,7 @@ import org.luaj.vm2.lib.VarArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.luaj.vm2.lib.jse.CoerceLuaToJava;
 import unwrittenfun.minecraft.lukkit.Lukkit;
+import unwrittenfun.minecraft.lukkit.environment.json.LukkitJsonParser;
 import unwrittenfun.minecraft.lukkit.environment.wrappers.LukkitPluginWrapper;
 
 import java.io.File;
@@ -74,6 +75,14 @@ public class LukkitObject extends LuaTable {
                     return CoerceJavaToLua.coerce(new ItemStack((Material) CoerceLuaToJava.coerce(args.arg(1), Material.class), args.toint(2)));
                 }
                 return LuaValue.NIL;
+            }
+        });
+
+        set("toJSON", new VarArgFunction() {
+            @Override
+            public Varargs invoke(Varargs args) {
+                LukkitJsonParser parser = new LukkitJsonParser(args.checktable(1));
+                return LuaValue.valueOf(parser.parse());
             }
         });
     }
