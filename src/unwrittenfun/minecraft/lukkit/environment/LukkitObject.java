@@ -81,8 +81,7 @@ public class LukkitObject extends LuaTable {
         set("toJSON", new VarArgFunction() {
             @Override
             public Varargs invoke(Varargs args) {
-                LukkitJsonParser parser = new LukkitJsonParser(args.checktable(1));
-                return LuaValue.valueOf(parser.parse());
+                return LuaValue.valueOf(LukkitJsonParser.parseToJSON(args.checktable(1)));
             }
         });
     }
