@@ -1,5 +1,10 @@
 .idea/
 pkg/
 out/
-Lukkit.iml
 .DS_Store
+sandbox/crash-reports
+sandbox/world*
+sandbox/logs
+sandbox/*.json
+sandbox/*.yml
+sandbox/*.properties
