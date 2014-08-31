@@ -68,16 +68,6 @@ public class LukkitObject extends LuaTable {
             }
         });
 
-        set("itemStack", new VarArgFunction() {
-            @Override
-            public Varargs invoke(Varargs args) {
-                if (args.narg() == 2) {
-                    return CoerceJavaToLua.coerce(new ItemStack((Material) CoerceLuaToJava.coerce(args.arg(1), Material.class), args.toint(2)));
-                }
-                return LuaValue.NIL;
-            }
-        });
-
         set("toJSON", new VarArgFunction() {
             @Override
             public Varargs invoke(Varargs args) {

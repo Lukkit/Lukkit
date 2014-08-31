@@ -56,6 +56,7 @@ public class LukkitEnvironment {
     public static void loadLuaLibs() {
         loadResource("libs/functions.lua", "functions");
         loadResource("libs/globalVariables.lua", "globals");
+        loadResource("libs/itemHelpers.lua", "itemHelpers");
     }
 
     @SuppressWarnings({"ResultOfMethodCallIgnored", "ConstantConditions"})
