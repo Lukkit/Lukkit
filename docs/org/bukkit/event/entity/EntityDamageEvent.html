@@ -88,7 +88,21 @@ Stores data for damage events
               
             <div class="method">
                 <code><span class="class-name-lc">entityDamageEvent</span>:<span class="method-name">getDamage</span>(<span class="params"></span>)</code>
-                <p style="margin-left: 4em;">Gets the amount of damage caused by the event</p>
+                <p style="margin-left: 4em;">Gets the raw amount of damage caused by the event</p>
+              </div>
+<div class="method">
+                <code><span class="class-name-lc">entityDamageEvent</span>:<span class="method-name">getDamage</span>(<span class="params">type [EntityDamageEvent.DamageModifier]</span>)</code>
+                <p style="margin-left: 4em;">Gets the damage change for some modifier</p>
+              </div>
+</td>
+          </tr>
+<tr>
+            <td class="return">double</td>
+            <td class="details">
+              
+            <div class="method">
+                <code><span class="class-name-lc">entityDamageEvent</span>:<span class="method-name">getFinalDamage</span>(<span class="params"></span>)</code>
+                <p style="margin-left: 4em;">Gets the amount of damage caused by the event after all damage reduction is applied.</p>
               </div>
 </td>
           </tr>
@@ -109,6 +123,26 @@ Stores data for damage events
             <div class="method">
                 <code><span class="class-name-lc">entityDamageEvent</span>:<span class="method-name">getHandlers</span>(<span class="params"></span>)</code>
                 <p style="margin-left: 4em;"></p>
+              </div>
+</td>
+          </tr>
+<tr>
+            <td class="return">double</td>
+            <td class="details">
+              
+            <div class="method">
+                <code><span class="class-name-lc">entityDamageEvent</span>:<span class="method-name">getOriginalDamage</span>(<span class="params">type [EntityDamageEvent.DamageModifier]</span>)</code>
+                <p style="margin-left: 4em;">Gets the original damage for the specified modifier, as defined at this event's construction.</p>
+              </div>
+</td>
+          </tr>
+<tr>
+            <td class="return">boolean</td>
+            <td class="details">
+              
+            <div class="method">
+                <code><span class="class-name-lc">entityDamageEvent</span>:<span class="method-name">isApplicable</span>(<span class="params">type [EntityDamageEvent.DamageModifier]</span>)</code>
+                <p style="margin-left: 4em;">This checks to see if a particular modifier is valid for this event's caller, such that, setDamage(DamageModifier, double) will not throw an UnsupportedOperationException.</p>
               </div>
 </td>
           </tr>
@@ -138,7 +172,11 @@ Stores data for damage events
               
             <div class="method">
                 <code><span class="class-name-lc">entityDamageEvent</span>:<span class="method-name">setDamage</span>(<span class="params">damage [double]</span>)</code>
-                <p style="margin-left: 4em;">Sets the amount of damage caused by the event</p>
+                <p style="margin-left: 4em;">Sets the raw amount of damage caused by the event.</p>
+              </div>
+<div class="method">
+                <code><span class="class-name-lc">entityDamageEvent</span>:<span class="method-name">setDamage</span>(<span class="params">type [EntityDamageEvent.DamageModifier], damage [double]</span>)</code>
+                <p style="margin-left: 4em;">Sets the damage for the specified modifier.</p>
               </div>
 </td>
           </tr>
