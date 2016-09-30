@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
-  <component name="FacetManager">
-    <facet type="scala" name="Scala">
-      <configuration>
-        <option name="compilerLibraryLevel" value="Global" />
-        <option name="compilerLibraryName" value="scala-compiler" />
-      </configuration>
-    </facet>
-    <facet type="Python" name="Python">
-      <configuration sdkName="Python 2.7.7 (F:\Programs\Python27\python.exe)" />
-    </facet>
-  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
@@ -18,10 +7,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="scala-library" level="application" />
-    <orderEntry type="library" name="Bukkit 1.7.9 R0.2" level="project" />
-    <orderEntry type="library" name="LuaJ 3.0-beta2" level="project" />
-    <orderEntry type="library" name="Python 2.7.7 (F:\Programs\Python27\python.exe) interpreter library" level="application" />
+    <orderEntry type="library" name="libs" level="project" />
   </component>
 </module>
-
