@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class LukkitVehicleEvents implements Listener {
     public LukkitVehicleEvents() {
         LukkitEvents.eventMap.put("vehicleBlockCollision", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("vehicleCollision", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("vehicleCreate", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("vehicleDamage", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("vehicleDestroy", new ArrayList<LuaFunction>());
@@ -30,6 +31,14 @@ public class LukkitVehicleEvents implements Listener {
     @EventHandler
     public void vehicleBlockCollision(VehicleBlockCollisionEvent event) {
         ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("vehicleBlockCollision");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+        }
+    }
+
+    @EventHandler
+    public void vehicleCollision(VehicleCollisionEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("vehicleCollision");
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
         }

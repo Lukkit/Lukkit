@@ -16,9 +16,13 @@ import java.util.ArrayList;
 */
 public class LukkitEntityEvents implements Listener {
     public LukkitEntityEvents() {
+        LukkitEvents.eventMap.put("areaEffectCouldApply", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("creatureSpawn", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("creeperPower", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("enderDragonChangePhase", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("entityAirChange", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("entityBreakDoor", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("entityBreed", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("entityChangeBlock", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("entityCombustByBlock", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("entityCombustByEntity", new ArrayList<LuaFunction>());
@@ -39,13 +43,17 @@ public class LukkitEntityEvents implements Listener {
         LukkitEvents.eventMap.put("entityTarget", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("entityTargetLivingEntity", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("entityTeleport", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("entityToggleGlide", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("entityUnleash", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("expBottle", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("explosionPrime", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("fireworkExplode", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("foodLevelChange", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("horseJump", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("itemDespawn", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("itemMerge", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("itemSpawn", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("lingeringPotionSplash", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("pigZap", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerDeath", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerLeashEntity", new ArrayList<LuaFunction>());
@@ -55,6 +63,16 @@ public class LukkitEntityEvents implements Listener {
         LukkitEvents.eventMap.put("sheepDyeWool", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("sheepRegrowWool", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("slimeSplit", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("villagerAcquireTrade", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("villagerReplenishTrade", new ArrayList<LuaFunction>());
+    }
+
+    @EventHandler
+    public void areaEffectCouldApply(AreaEffectCloudApplyEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("areaEffectCouldApply");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+        }
     }
 
     @EventHandler
@@ -76,8 +94,35 @@ public class LukkitEntityEvents implements Listener {
     }
 
     @EventHandler
+    public void enderDragonChangePhase(EnderDragonChangePhaseEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("enderDragonChangePhase");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+            if (event.isCancelled()) return;
+        }
+    }
+
+    @EventHandler
+    public void entityAirChange(EntityAirChangeEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("entityAirChange");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+            if (event.isCancelled()) return;
+        }
+    }
+
+    @EventHandler
     public void entityBreakDoor(EntityBreakDoorEvent event) {
         ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("entityBreakDoor");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+            if (event.isCancelled()) return;
+        }
+    }
+
+    @EventHandler
+    public void entityBreed(EntityBreedEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("entityBreed");
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
             if (event.isCancelled()) return;
@@ -263,6 +308,15 @@ public class LukkitEntityEvents implements Listener {
     }
 
     @EventHandler
+    public void entityToggleGlide(EntityToggleGlideEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("entityToggleGlide");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+            if (event.isCancelled()) return;
+        }
+    }
+
+    @EventHandler
     public void entityUnleash(EntityUnleashEvent event) {
         ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("entityUnleash");
         for (LuaFunction cb : callbacks) {
@@ -281,6 +335,15 @@ public class LukkitEntityEvents implements Listener {
     @EventHandler
     public void explosionPrime(ExplosionPrimeEvent event) {
         ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("explosionPrime");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+            if (event.isCancelled()) return;
+        }
+    }
+
+    @EventHandler
+    public void fireworkExplode(FireworkExplodeEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("fireworkExplode");
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
             if (event.isCancelled()) return;
@@ -315,8 +378,26 @@ public class LukkitEntityEvents implements Listener {
     }
 
     @EventHandler
+    public void itemMerge(ItemMergeEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("itemMerge");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+            if (event.isCancelled()) return;
+        }
+    }
+
+    @EventHandler
     public void itemSpawn(ItemSpawnEvent event) {
         ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("itemSpawn");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+            if (event.isCancelled()) return;
+        }
+    }
+
+    @EventHandler
+    public void lingeringPotionSplash(LingeringPotionSplashEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("lingeringPotionSplash");
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
             if (event.isCancelled()) return;
@@ -396,6 +477,24 @@ public class LukkitEntityEvents implements Listener {
     @EventHandler
     public void slimeSplit(SlimeSplitEvent event) {
         ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("slimeSplit");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+            if (event.isCancelled()) return;
+        }
+    }
+
+    @EventHandler
+    public void villagerAcquireTrade(VillagerAcquireTradeEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("villagerAcquireTrade");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+            if (event.isCancelled()) return;
+        }
+    }
+
+    @EventHandler
+    public void villagerReplenishTrade(VillagerReplenishTradeEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("villagerReplenishTrade");
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
             if (event.isCancelled()) return;

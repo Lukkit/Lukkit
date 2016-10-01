@@ -24,6 +24,7 @@ public class LukkitServerEvents implements Listener {
         LukkitEvents.eventMap.put("serverListPing", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("serviceRegister", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("serviceUnregister", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("tabComplete", new ArrayList<LuaFunction>());
     }
 
     @EventHandler
@@ -85,6 +86,14 @@ public class LukkitServerEvents implements Listener {
     @EventHandler
     public void serviceUnregister(ServiceUnregisterEvent event) {
         ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("serviceUnregister");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+        }
+    }
+
+    @EventHandler
+    public void tabComplete(TabCompleteEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("tabComplete");
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
         }

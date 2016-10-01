@@ -21,6 +21,7 @@ public class LukkitBlockEvents implements Listener {
         LukkitEvents.eventMap.put("blockDamage", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("blockDispense", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("blockExp", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("blockExplode", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("blockFade", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("blockForm", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("blockGrow", new ArrayList<LuaFunction>());
@@ -31,6 +32,7 @@ public class LukkitBlockEvents implements Listener {
         LukkitEvents.eventMap.put("blockPlace", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("blockRedstone", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("blockSpread", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("cauldronLevelChange", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("blockEntityForm", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("blockLeavesDecay", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("blockNotePlay", new ArrayList<LuaFunction>());
@@ -84,6 +86,14 @@ public class LukkitBlockEvents implements Listener {
     @EventHandler
     public void blockExp(BlockExpEvent event) {
         ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("blockExp");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+        }
+    }
+
+    @EventHandler
+    public void blockExplode(BlockExplodeEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("blockExplode");
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
         }
@@ -175,6 +185,14 @@ public class LukkitBlockEvents implements Listener {
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
             if (event.isCancelled()) return;
+        }
+    }
+
+    @EventHandler
+    public void cauldronLevelChange(CauldronLevelChangeEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("cauldronLevelChange");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
         }
     }
 
