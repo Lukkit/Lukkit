@@ -64,6 +64,9 @@ public class Lukkit extends JavaPlugin {
                 });
                 return true;
             }
+        } else  {
+            sender.sendMessage(ChatColor.YELLOW + "No arguments specified. Try " + ChatColor.BOLD + "/lukkit help" + ChatColor.RESET + ChatColor.YELLOW + " for more information.");
+            return true;
         }
 
         return false;
