@@ -3,7 +3,7 @@ Lukkit
 
 Lukkit allows developers to create Bukkit plugins quickly and easily using the lua scripting language.
 
-See the project on ~~[Bukkit Dev](http://dev.bukkit.org/bukkit-plugins/lualukkit/)~~.
+See the project on ~~[Bukkit Dev](http://dev.bukkit.org/bukkit-plugins/lualukkit/)~~ (New site coming soon).
 
 ### What's the point?
  - Lua is a very beginner friendly language
@@ -12,7 +12,7 @@ See the project on ~~[Bukkit Dev](http://dev.bukkit.org/bukkit-plugins/lualukkit
  - Projects added in v1.0-alpha4 allows for more advanced plugins to be made within their own folder
 
 ### Examples
-More examples can be found in the examples folder on github
+More examples can be found in the examples folder on [github](https://github.com/jammehcow/Lukkit/examples/).
 
 Add command /shout to broadcast a message to the server. Bear in mind that at the moment naming a command with a capital letter will stop the command from being deregistered when running /lukkit reload or /lukkit resetenv
 ```lua
