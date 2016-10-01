@@ -37,7 +37,7 @@ end)
 
 Register a new plugin called HelloPlugin. This should go in `..plugins/Lukkit/PROJECT_NAME/main.lua`.
 ```lua
--- Register the plugin a name, version and code. 
+-- Register the plugin with a name, version and code. 
 -- lukkit.addPlugin(pluginName, pluginVersion, pluginContent)
 local helloPlugin = lukkit.addPlugin("HelloPlugin", "1.0", function(plugin)
   -- When the plugin is enabled (startup)
