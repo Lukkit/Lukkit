@@ -1,6 +1,7 @@
 events.add("blockBreak", function(event)
-  if not event:getPlayer():isOp() then
-    broadcast(stringOf(format.RED) .. "You are not allowed to break blocks")
+  local sender = event:getPlayer()
+  if not sender:isOp() then
+    sender:sendRawMessage(stringOf(format.RED) .. "You are not allowed to break blocks")
     event:setCancelled(true)
   end
 end)

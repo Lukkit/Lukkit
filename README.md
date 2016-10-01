@@ -27,9 +27,10 @@ Only allow ops to break blocks.
 ```lua
 -- Adding an event listener. Ain't it easy!
 events.add("blockBreak", function(event)
-  if not event:getPlayer():isOp() then
+  local sender = event:getPlayer()
+  if not sender:isOp() then
     If the player's not op, display message and stop the block breaking event
-    broadcast(stringOf(format.RED) .. "You are not allowed to break blocks")
+    sender:sendRawMessage(stringOf(format.RED) .. "You are not allowed to break blocks")
     event:setCancelled(true)
   end
 end)
