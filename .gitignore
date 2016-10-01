@@ -5,6 +5,7 @@ out/
 sandbox/crash-reports
 sandbox/world*
 sandbox/logs
+sandbox/start.*
 sandbox/*.json
 sandbox/*.yml
 sandbox/*.properties
