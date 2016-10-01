@@ -1,5 +1,5 @@
-TODO:
-=====
+Overview of update
+==================
 
  - [x] Update API and sandbox server to 1.10.2
  - [ ] Update LuaJ to latest version 
