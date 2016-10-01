@@ -12,8 +12,9 @@ import java.util.regex.Pattern;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
- */
+ * Original Author: UnwrittenFun
+ * Maintainer: jammehcow
+*/
 public class LukkitPluginLoader implements PluginLoader {
     public static ArrayList<LukkitPlugin> loadedPlugins = new ArrayList<LukkitPlugin>();
 

@@ -11,8 +11,9 @@ import java.util.ArrayList;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
- */
+ * Original Author: UnwrittenFun
+ * Maintainer: jammehcow
+*/
 public class LukkitPlayerEvents implements Listener {
     public LukkitPlayerEvents() {
         LukkitEvents.eventMap.put("asyncPlayerChat", new ArrayList<LuaFunction>());

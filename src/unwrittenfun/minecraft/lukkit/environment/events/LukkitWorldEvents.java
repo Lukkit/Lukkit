@@ -11,8 +11,9 @@ import java.util.ArrayList;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
- */
+ * Original Author: UnwrittenFun
+ * Maintainer: jammehcow
+*/
 public class LukkitWorldEvents implements Listener {
     public LukkitWorldEvents() {
         LukkitEvents.eventMap.put("chunkLoad", new ArrayList<LuaFunction>());

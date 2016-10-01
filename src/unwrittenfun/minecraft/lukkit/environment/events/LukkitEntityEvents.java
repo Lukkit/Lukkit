@@ -11,8 +11,9 @@ import java.util.ArrayList;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
- */
+ * Original Author: UnwrittenFun
+ * Maintainer: jammehcow
+*/
 public class LukkitEntityEvents implements Listener {
     public LukkitEntityEvents() {
         LukkitEvents.eventMap.put("creatureSpawn", new ArrayList<LuaFunction>());

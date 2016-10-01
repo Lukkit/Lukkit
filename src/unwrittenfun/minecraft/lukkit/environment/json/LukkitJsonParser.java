@@ -8,8 +8,9 @@ import java.util.HashMap;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
- */
+ * Original Author: UnwrittenFun
+ * Maintainer: jammehcow
+*/
 public class LukkitJsonParser {
     public static String parseToJSON(LuaTable table) {
         return JSONValue.toJSONString(mapOfTable(table));

@@ -11,8 +11,9 @@ import java.util.ArrayList;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
- */
+ * Original Author: UnwrittenFun
+ * Maintainer: jammehcow
+*/
 public class LukkitHangingEvents implements Listener {
     public LukkitHangingEvents() {
         LukkitEvents.eventMap.put("hangingBreakByEntity", new ArrayList<LuaFunction>());

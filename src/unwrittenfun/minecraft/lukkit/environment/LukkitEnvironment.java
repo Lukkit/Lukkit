@@ -24,8 +24,9 @@ import java.util.Locale;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
- */
+ * Original Author: UnwrittenFun
+ * Maintainer: jammehcow
+*/
 public class LukkitEnvironment {
     public static Globals _G;
     public static String lastError;

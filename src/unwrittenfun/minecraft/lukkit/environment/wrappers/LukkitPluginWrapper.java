@@ -16,8 +16,9 @@ import java.util.List;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
- */
+ * Original Author: UnwrittenFun
+ * Maintainer: jammehcow
+*/
 public class LukkitPluginWrapper extends LuaTable {
     private LukkitPlugin plugin;
 

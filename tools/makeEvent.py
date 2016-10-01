@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
+ * Original Author: UnwrittenFun
  */
 public class Lukkit""" + event.capitalize() + """Events implements Listener {
     public Lukkit""" + event.capitalize() + """Events() {

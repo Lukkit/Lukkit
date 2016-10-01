@@ -10,8 +10,9 @@ import java.util.List;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
- */
+ * Original Author: UnwrittenFun
+ * Maintainer: jammehcow
+*/
 public class LukkitCommand extends Command {
     private LuaFunction callback;
 

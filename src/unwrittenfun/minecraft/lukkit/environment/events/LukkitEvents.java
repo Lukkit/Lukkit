@@ -9,8 +9,9 @@ import java.util.HashMap;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
- */
+ * Original Author: UnwrittenFun
+ * Maintainer: jammehcow
+*/
 public class LukkitEvents {
     public static HashMap<String, ArrayList<LuaFunction>> eventMap = new HashMap<String, ArrayList<LuaFunction>>();
 

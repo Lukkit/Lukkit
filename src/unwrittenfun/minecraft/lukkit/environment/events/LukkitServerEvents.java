@@ -11,8 +11,9 @@ import java.util.ArrayList;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
- */
+ * Original Author: UnwrittenFun
+ * Maintainer: jammehcow
+*/
 public class LukkitServerEvents implements Listener {
     public LukkitServerEvents() {
         LukkitEvents.eventMap.put("mapInitialize", new ArrayList<LuaFunction>());

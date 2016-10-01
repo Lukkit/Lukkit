@@ -10,8 +10,9 @@ import java.util.ArrayList;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
- */
+ * Original Author: UnwrittenFun
+ * Maintainer: jammehcow
+*/
 public class LukkitBlockEvents implements Listener {
     public LukkitBlockEvents() {
         LukkitEvents.eventMap.put("blockBreak", new ArrayList<LuaFunction>());

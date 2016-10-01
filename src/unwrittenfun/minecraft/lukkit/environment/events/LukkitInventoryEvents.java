@@ -11,8 +11,9 @@ import java.util.ArrayList;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
- */
+ * Original Author: UnwrittenFun
+ * Maintainer: jammehcow
+*/
 public class LukkitInventoryEvents implements Listener {
     public LukkitInventoryEvents() {
         LukkitEvents.eventMap.put("brew", new ArrayList<LuaFunction>());
