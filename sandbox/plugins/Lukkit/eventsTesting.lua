@@ -4,13 +4,13 @@ events.add("blockExplode", function(event)
     broadcast("Event called : " .. event:getEventName())
 end)
 
-events.add("cauldronlevelChange", function(event)
+events.add("cauldronLevelChange", function(event)
     broadcast("Event called : " .. event:getEventName())
 end)
 
 -- Entity events
 
-events.add("areaEffectCouldApply", function(event)
+events.add("areaEffectCloudApply", function(event)
     broadcast("Event called : " .. event:getEventName())
 end)
 

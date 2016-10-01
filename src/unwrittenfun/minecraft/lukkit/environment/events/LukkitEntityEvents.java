@@ -16,7 +16,7 @@ import java.util.ArrayList;
 */
 public class LukkitEntityEvents implements Listener {
     public LukkitEntityEvents() {
-        LukkitEvents.eventMap.put("areaEffectCouldApply", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("areaEffectCloudApply", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("creatureSpawn", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("creeperPower", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("enderDragonChangePhase", new ArrayList<LuaFunction>());
@@ -68,8 +68,8 @@ public class LukkitEntityEvents implements Listener {
     }
 
     @EventHandler
-    public void areaEffectCouldApply(AreaEffectCloudApplyEvent event) {
-        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("areaEffectCouldApply");
+    public void areaEffectCloudApply(AreaEffectCloudApplyEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("areaEffectCloudApply");
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
         }
