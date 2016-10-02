@@ -11,17 +11,20 @@ import java.util.ArrayList;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
- */
+ * Original Author: UnwrittenFun
+ * Maintainer: jammehcow
+*/
 public class LukkitPlayerEvents implements Listener {
     public LukkitPlayerEvents() {
         LukkitEvents.eventMap.put("asyncPlayerChat", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("asyncPlayerPreLogin", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerAnimation", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("playerArmorStandManipulate", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerBedEnter", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerBedLeave", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerBucketEmpty", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerBucketFill", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("playerChangedMainHand", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerChangedWorld", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerChannel", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerChatTabComplete", new ArrayList<LuaFunction>());
@@ -32,22 +35,27 @@ public class LukkitPlayerEvents implements Listener {
         LukkitEvents.eventMap.put("playerExpChange", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerFish", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerGameModeChange", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("playerInteractAtEntity", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerInteractEntity", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerInteract", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerItemBreak", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerItemConsume", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("playerItemDamage", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerItemHeld", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerJoin", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerKick", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerLevelChange", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerLogin", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerMove", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("playerPickupArrow", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerPickupItem", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerPortal", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerQuit", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerRegisterChannel", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerRespawn", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerShearEntity", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("playerStatisticIncrement", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("playerSwapHandItems", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerTeleport", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerToggleFlight", new ArrayList<LuaFunction>());
         LukkitEvents.eventMap.put("playerToggleSneak", new ArrayList<LuaFunction>());
@@ -77,6 +85,15 @@ public class LukkitPlayerEvents implements Listener {
     @EventHandler
     public void playerAnimation(PlayerAnimationEvent event) {
         ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("playerAnimation");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+            if (event.isCancelled()) return;
+        }
+    }
+
+    @EventHandler
+    public void playerArmorStandManipulate(PlayerArmorStandManipulateEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("playerArmorStandManipulate");
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
             if (event.isCancelled()) return;
@@ -115,6 +132,14 @@ public class LukkitPlayerEvents implements Listener {
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
             if (event.isCancelled()) return;
+        }
+    }
+
+    @EventHandler
+    public void playerChangedMainHand(PlayerChangedMainHandEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("playerChangedMainHand");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
         }
     }
 
@@ -204,6 +229,15 @@ public class LukkitPlayerEvents implements Listener {
     }
 
     @EventHandler
+    public void playerInteractAtEntity(PlayerInteractAtEntityEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("playerInteractAtEntity");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+            if (event.isCancelled()) return;
+        }
+    }
+
+    @EventHandler
     public void playerInteractEntity(PlayerInteractEntityEvent event) {
         ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("playerInteractEntity");
         for (LuaFunction cb : callbacks) {
@@ -232,6 +266,15 @@ public class LukkitPlayerEvents implements Listener {
     @EventHandler
     public void playerItemConsume(PlayerItemConsumeEvent event) {
         ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("playerItemConsume");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+            if (event.isCancelled()) return;
+        }
+    }
+
+    @EventHandler
+    public void playerItemDamage(PlayerItemDamageEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("playerItemDamage");
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
             if (event.isCancelled()) return;
@@ -290,6 +333,15 @@ public class LukkitPlayerEvents implements Listener {
     }
 
     @EventHandler
+    public void playerPickupArrow(PlayerPickupArrowEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("playerPickupArrow");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+            if (event.isCancelled()) return;
+        }
+    }
+
+    @EventHandler
     public void playerPickupItem(PlayerPickupItemEvent event) {
         ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("playerPickupItem");
         for (LuaFunction cb : callbacks) {
@@ -334,6 +386,24 @@ public class LukkitPlayerEvents implements Listener {
     @EventHandler
     public void playerShearEntity(PlayerShearEntityEvent event) {
         ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("playerShearEntity");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+            if (event.isCancelled()) return;
+        }
+    }
+
+    @EventHandler
+    public void playerStatisticIncrement(PlayerStatisticIncrementEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("playerStatisticIncrement");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+            if (event.isCancelled()) return;
+        }
+    }
+
+    @EventHandler
+    public void playerSwapHandItems(PlayerSwapHandItemsEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("playerSwapHandItems");
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
             if (event.isCancelled()) return;

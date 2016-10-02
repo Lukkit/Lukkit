@@ -7,8 +7,9 @@ import org.luaj.vm2.lib.VarArgFunction;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
- */
+ * Original Author: UnwrittenFun
+ * Maintainer: jammehcow
+*/
 public class LukkitEventObject extends LuaTable {
     public LukkitEventObject() {
         this.set("add", new VarArgFunction() {

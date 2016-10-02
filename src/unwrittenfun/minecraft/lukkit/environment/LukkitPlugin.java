@@ -23,8 +23,9 @@ import java.util.logging.Logger;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
- */
+ * Original Author: UnwrittenFun
+ * Maintainer: jammehcow
+*/
 public class LukkitPlugin extends PluginBase {
     public LuaFunction loadCallback;
     public LuaFunction enableCallback;

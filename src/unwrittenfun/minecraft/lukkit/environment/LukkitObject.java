@@ -17,8 +17,9 @@ import java.util.ArrayList;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
- */
+ * Original Author: UnwrittenFun
+ * Maintainer: jammehcow
+*/
 public class LukkitObject extends LuaTable {
     public LukkitObject() {
         set("addCommand", new VarArgFunction() {

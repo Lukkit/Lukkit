@@ -11,8 +11,9 @@ import java.util.ArrayList;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
- */
+ * Original Author: UnwrittenFun
+ * Maintainer: jammehcow
+*/
 public class LukkitVehicleEvents implements Listener {
     public LukkitVehicleEvents() {
         LukkitEvents.eventMap.put("vehicleBlockCollision", new ArrayList<LuaFunction>());

@@ -5,11 +5,17 @@ Lukkit allows developers to create Bukkit plugins quickly and easily using the l
 
 See the project on ~~[Bukkit Dev](http://dev.bukkit.org/bukkit-plugins/lualukkit/)~~ (New site coming soon).
 
+### Version 1.1-alpha1
+After 2 years of inactivtity, the project was picked back up and updated to Minecraft version 1.10.2.
+With this brings support for all of the new events included in the Spigot API and support for Lua 5.2.x (LuaJ 3.0.1 dated 2014).
+The plan is to get this plugin a decent Wiki, update the documentation and breathe life back into the ease-or-use language known as Lua.
+
+
 ### What's the point?
  - Lua is a very beginner friendly language
  - It is very quick to make a simple plugin
  - Supports ALL bukkit functions, with more lua-like ways of doing things added frequently
- - Projects added in v1.0-alpha4 allows for more advanced plugins to be made within their own folder
+ - Projects added in v1.0-alpha4 and later allow for more advanced plugins to be made within their own folder
 
 ### Examples
 More examples can be found in the examples folder on [github](https://github.com/jammehcow/Lukkit/tree/master/examples).

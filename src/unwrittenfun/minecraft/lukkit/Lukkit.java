@@ -11,8 +11,9 @@ import java.util.logging.Logger;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
- */
+ * Original Author: UnwrittenFun
+ * Maintainer: jammehcow
+*/
 public class Lukkit extends JavaPlugin {
     public static Lukkit instance;
     public static Logger logger;

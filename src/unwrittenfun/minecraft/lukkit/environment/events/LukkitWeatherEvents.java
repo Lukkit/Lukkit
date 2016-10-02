@@ -11,8 +11,9 @@ import java.util.ArrayList;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
- */
+ * Original Author: UnwrittenFun
+ * Maintainer: jammehcow
+*/
 public class LukkitWeatherEvents implements Listener {
     public LukkitWeatherEvents() {
         LukkitEvents.eventMap.put("lightningStrike", new ArrayList<LuaFunction>());

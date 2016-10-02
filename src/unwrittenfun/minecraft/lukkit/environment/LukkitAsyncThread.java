@@ -5,8 +5,9 @@ import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
 /**
  * Bukkit Plugin: Lukkit
- * Author: UnwrittenFun
- */
+ * Original Author: UnwrittenFun
+ * Maintainer: jammehcow
+*/
 public class LukkitAsyncThread extends Thread {
     private Thread t;
     private String threadName;
