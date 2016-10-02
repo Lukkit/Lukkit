@@ -14,6 +14,10 @@
         <mkdir dir="${bin}"/>
     </target>
 
+    <target name="test">
+        <echo message="No testing needed" level="info"></echo>
+    </target>
+
     <target name="compile" depends="init">
         <javac srcdir="${src}/main/java" destdir="${bin}" includeantruntime="false">
             <classpath>
