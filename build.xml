@@ -1,0 +1,38 @@
+<project name="BukkitSamplePlugin" default="dist" basedir=".">
+    <property name="pluginname" value="Lukkit"/>
+    <property name="spigot.jar" location="libs/spigot-1.10.2.jar"/>
+    <property name="plugins" location="sandbox/plugins/"/>
+
+    <property name="src" location="src"/>
+    <property name="bin" location="bin"/>
+    <property name="dist" location="dist"/>
+
+    <target name="init">
+        <mkdir dir="${bin}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="${src}/main/java" destdir="${bin}" includeantruntime="false">
+            <classpath>
+                <pathelement location="${spigot.jar}"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="dist" depends="compile">
+        <mkdir dir="${dist}"/>
+        <jar jarfile="${dist}/${pluginname}.jar">
+            <fileset dir="${bin}"/>
+            <fileset file="${src}/main/resources/plugin.yml"/>
+        </jar>
+    </target>
+
+    <target name="deploy" depends="dist">
+        <copy file="${dist}/${pluginname}.jar" todir="${plugins}"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="${bin}"/>
+        <delete dir="${dist}"/>
+    </target>
+</project>
