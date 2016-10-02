@@ -1,6 +1,8 @@
 Lukkit
 ======
 
+[![Build Status](https://travis-ci.org/jammehcow/Lukkit.svg?branch=master)](https://travis-ci.org/jammehcow/Lukkit)
+
 Lukkit allows developers to create Bukkit plugins quickly and easily using the lua scripting language.
 
 See the project on ~~[Bukkit Dev](http://dev.bukkit.org/bukkit-plugins/lualukkit/)~~ (New site coming soon).

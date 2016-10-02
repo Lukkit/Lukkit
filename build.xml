@@ -1,4 +1,7 @@
-<project name="BukkitSamplePlugin" default="dist" basedir=".">
+<project name="LukkitPlugin" default="dist" basedir=".">
+    <description>
+        Buildfile for Lukkit.
+    </description>
     <property name="pluginname" value="Lukkit"/>
     <property name="spigot.jar" location="libs/spigot-1.10.2.jar"/>
     <property name="plugins" location="sandbox/plugins/"/>
