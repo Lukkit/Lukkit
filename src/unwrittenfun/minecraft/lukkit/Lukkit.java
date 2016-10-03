@@ -1,11 +1,14 @@
 package unwrittenfun.minecraft.lukkit;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.luaj.vm2.LuaValue;
 import unwrittenfun.minecraft.lukkit.environment.LukkitEnvironment;
+import unwrittenfun.minecraft.lukkit.environment.LukkitPlugin;
+import unwrittenfun.minecraft.lukkit.environment.LukkitPluginLoader;
 
 import java.util.logging.Logger;
 
@@ -63,6 +66,26 @@ public class Lukkit extends JavaPlugin {
                         ChatColor.YELLOW + "  run [code] - Run text after 'run' as lua code",
                         ChatColor.YELLOW + "  last-error - Print the last lua error message"
                 });
+                return true;
+            } else if (args[0].equalsIgnoreCase("plugins") || args[0].equalsIgnoreCase("list")) {
+                if (!LukkitPluginLoader.loadedPlugins.isEmpty()) {
+                    LukkitPlugin[] tempArr = new LukkitPlugin[LukkitPluginLoader.loadedPlugins.size()];
+                    LukkitPluginLoader.loadedPlugins.toArray(tempArr);
+                    String pluginsList = "";
+                    for (int i = 0; i < tempArr.length ; i++) {
+                        if (tempArr[i].getDescription().getDescription() != null) {
+                            pluginsList += "  " + ChatColor.GREEN + tempArr[i].getName() + ChatColor.YELLOW + " - " + tempArr[i].getDescription().getDescription() + "\n";
+                        } else {
+                            pluginsList += "  " + tempArr[i].getName() + " - No description provided.\n";
+                        }
+                    }
+                    sender.sendMessage(new String[] {
+                            ChatColor.YELLOW + "Plugins loaded:",
+                            ChatColor.YELLOW + pluginsList
+                    });
+                } else {
+                    sender.sendMessage("No Lukkit plugins loaded!");
+                }
                 return true;
             }
         } else  {
