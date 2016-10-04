@@ -67,7 +67,7 @@ public class Lukkit extends JavaPlugin {
                         ChatColor.YELLOW + "  last-error - Print the last lua error message"
                 });
                 return true;
-            } else if (args[0].equalsIgnoreCase("plugins"))) {
+            } else if (args[0].equalsIgnoreCase("plugins")) {
                 if (!LukkitPluginLoader.loadedPlugins.isEmpty()) {
                     LukkitPlugin[] tempArr = new LukkitPlugin[LukkitPluginLoader.loadedPlugins.size()];
                     LukkitPluginLoader.loadedPlugins.toArray(tempArr);
