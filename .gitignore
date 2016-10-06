@@ -6,6 +6,7 @@ sandbox/crash-reports
 sandbox/world*
 sandbox/logs
 sandbox/start.*
+sandbox/spigot.jar
 sandbox/eula.txt
 sandbox/plugins/PluginMetrics
 sandbox/.update-lock
