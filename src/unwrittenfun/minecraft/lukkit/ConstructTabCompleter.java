@@ -32,9 +32,9 @@ public class ConstructTabCompleter implements TabCompleter {
                         }
                     }
                     return returnCompletions;
+                } else {
+                    return subCommands;
                 }
-            } else if (args.length < 1) {
-                return subCommands;
             }
         }
 
