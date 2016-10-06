@@ -28,6 +28,8 @@ public class Lukkit extends JavaPlugin {
 
         LukkitEnvironment.loadEnvironment();
         LukkitEnvironment.loadPlugins();
+
+        getCommand("lukkit").setTabCompleter(new ConstructTabCompleter());
     }
 
     @Override
