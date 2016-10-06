@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.luaj.vm2.LuaValue;
 import unwrittenfun.minecraft.lukkit.environment.LukkitEnvironment;
@@ -72,11 +73,11 @@ public class Lukkit extends JavaPlugin {
                     LukkitPlugin[] tempArr = new LukkitPlugin[LukkitPluginLoader.loadedPlugins.size()];
                     LukkitPluginLoader.loadedPlugins.toArray(tempArr);
                     String pluginsList = "";
-                    for (int i = 0; i < tempArr.length ; i++) {
-                        if (tempArr[i].getDescription().getDescription() != null) {
-                            pluginsList += "  " + ChatColor.GREEN + tempArr[i].getName() + ChatColor.YELLOW + " - " + tempArr[i].getDescription().getDescription() + "\n";
+                    for (Plugin p : tempArr) {
+                        if (p.getDescription().getDescription() != null) {
+                            pluginsList += "  " + ChatColor.GREEN + p.getName() + ChatColor.YELLOW + " - " + p.getDescription().getDescription() + "\n";
                         } else {
-                            pluginsList += "  " + tempArr[i].getName() + " - No description provided.\n";
+                            pluginsList += "  " + p.getName() + " - No description provided.\n";
                         }
                     }
                     sender.sendMessage(new String[] {
