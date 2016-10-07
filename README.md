@@ -5,7 +5,7 @@ Lukkit allows developers to create Bukkit plugins quickly and easily using the l
 
 See the project on ~~[Bukkit Dev](http://dev.bukkit.org/bukkit-plugins/lualukkit/)~~ (New site coming soon).
 
-For support or general disccusion, come join us on the SpigotMC IRC at [#lukkit](http://fry.spi.gt/iris/?nick=&channels=spigot%2Clukkit)
+For support or general disccusion, come join us on the SpigotMC IRC at [#lukkit](http://fry.spi.gt/iris/?nick=&channels=lukkit)
 
 ### Version 1.1-alpha1
 
