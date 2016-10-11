@@ -46,6 +46,6 @@ public class ConstructTabCompleter implements TabCompleter {
 
         // If you get this, you've stuffed up
         return Arrays.asList("Error", "what've you done?");
-        
+
     }
 }
