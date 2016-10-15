@@ -43,7 +43,7 @@ public class Lukkit extends JavaPlugin {
 
         for (Object o : getConfig().getKeys(true)) { cfgContent  += o.toString(); }
 
-        if (cfgContent != cfgKeys) {
+        if (!cfgContent.equals(cfgKeys)) {
             getLogger().warning("config.yml was either missing or corrupt. Replacing with default config.");
             getLogger().warning(cfgKeys);
             getLogger().warning(cfgContent);
