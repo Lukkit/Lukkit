@@ -7,9 +7,10 @@ See the project on [my site](https://jammehcow.ml/#lukkit).
 
 For support or general disccusion, come join us on the SpigotMC IRC at [#lukkit](http://fry.spi.gt/iris/?nick=&channels=lukkit)
 
-### Version 1.1-alpha1
+### What's new?
 
-[Download](https://files.jammehcow.ml/Lukkit/build/1.1-alpha1/Lukkit.jar)
+####Version 1.1-alpha1 
+[Download it here!](https://files.jammehcow.ml/Lukkit/build/1.1-alpha1/Lukkit.jar)
 
 After 2 years of inactivtity, the project was picked back up and updated to Minecraft version 1.10.2.
 With this brings support for all of the new events included in the Spigot API and support for Lua 5.2.x (LuaJ 3.0.1 dated 2014).
