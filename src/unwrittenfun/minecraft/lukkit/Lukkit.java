@@ -36,6 +36,13 @@ public class Lukkit extends JavaPlugin {
         // Load plugins from Lukkit data folder
         LukkitEnvironment.loadPlugins();
 
+        // Check config for changes for missing keys
+        Object[] cfgKeys = {"cfg-version", "can-run-code"};
+        if (getConfig().getKeys(true).toArray() != cfgKeys) {
+            getLogger().warning(getConfig().getKeys(true).toArray().toString());
+            instance.saveDefaultConfig();
+        }
+
         // Set the TabCompleter for custom completions of the /lukkit command
         getCommand("lukkit").setTabCompleter(new ConstructTabCompleter());
     }
