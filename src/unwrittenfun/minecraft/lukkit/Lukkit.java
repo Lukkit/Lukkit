@@ -61,7 +61,7 @@ public class Lukkit extends JavaPlugin {
 
             } else if (args[0].equalsIgnoreCase("run") && args.length > 1) {
 
-                if (sender.hasPermission("lukkit.run") && getConfig().get("lua-run-enabled").equals(true)) {
+                if (sender.hasPermission("lukkit.run") && getConfig().get("can-run-code").equals(true)) {
                     String code = "";
 
                     // Add all args as one complete string (with spaces) to String code
