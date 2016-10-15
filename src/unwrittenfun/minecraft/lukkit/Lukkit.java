@@ -54,20 +54,24 @@ public class Lukkit extends JavaPlugin {
 
             } else if (args[0].equalsIgnoreCase("run") && args.length > 1) {
 
-                String code = "";
+                if (sender.hasPermission("lukkit.run") && getConfig().get("lua-run-enabled").equals(true)) {
+                    String code = "";
 
-                // Add all args as one complete string (with spaces) to String code
-                for (int i = 1; i < args.length; i++) {
-                    code += args[i] + " ";
-                }
+                    // Add all args as one complete string (with spaces) to String code
+                    for (int i = 1; i < args.length; i++) {
+                        code += args[i] + " ";
+                    }
 
-                // Run the string as code through LuaJ's interpreter
-                LuaValue result = LukkitEnvironment.runString(code);
+                    // Run the string as code through LuaJ's interpreter
+                    LuaValue result = LukkitEnvironment.runString(code);
 
-                // Send the user the lua error if errored
+                    // Send the user the lua error if errored
 
-                if (result.isstring() && result.toString().equals("ERROR")) {
-                    sender.sendMessage(ChatColor.RED + LukkitEnvironment.lastError);
+                    if (result.isstring() && result.toString().equals("ERROR")) {
+                        sender.sendMessage(ChatColor.RED + LukkitEnvironment.lastError);
+                    }
+                } else {
+                    sender.sendMessage(ChatColor.RED + "You don't have permission to run Lua code. Safety first!");
                 }
 
                 return true;
