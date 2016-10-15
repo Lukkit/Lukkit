@@ -10,6 +10,7 @@ import unwrittenfun.minecraft.lukkit.environment.LukkitEnvironment;
 import unwrittenfun.minecraft.lukkit.environment.LukkitPlugin;
 import unwrittenfun.minecraft.lukkit.environment.LukkitPluginLoader;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 /**
@@ -37,13 +38,15 @@ public class Lukkit extends JavaPlugin {
         LukkitEnvironment.loadPlugins();
 
         // Check config for changes for missing keys
-        String[] cfgKeys = {"cfg-version", "can-run-code"};
-        String[] cfgContent = {};
-        for (Object o : getConfig().getKeys(true)) {
-            cfgContent[cfgContent.length] = o.toString();
-        }
+        String cfgContent = "";
+        String cfgKeys = "cfg-versioncan-run-code";
+
+        for (Object o : getConfig().getKeys(true)) { cfgContent  += o.toString(); }
+
         if (cfgContent != cfgKeys) {
             getLogger().warning("config.yml was either missing or corrupt. Replacing with default config.");
+            getLogger().warning(cfgKeys);
+            getLogger().warning(cfgContent);
             instance.saveDefaultConfig();
         }
 
