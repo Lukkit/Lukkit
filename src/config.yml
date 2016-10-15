@@ -1,0 +1,10 @@
+#
+#   Credit to github/martjin-heil for the request.
+#   This is the default config for Lukkit.
+#
+
+# Leave this line alone (and the one below)
+cfg-version: 1
+
+# Whether or not /lukkit run can be used.
+can-run-code: true
