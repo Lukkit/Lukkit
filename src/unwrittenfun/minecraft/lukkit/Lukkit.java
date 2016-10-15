@@ -37,9 +37,13 @@ public class Lukkit extends JavaPlugin {
         LukkitEnvironment.loadPlugins();
 
         // Check config for changes for missing keys
-        Object[] cfgKeys = {"cfg-version", "can-run-code"};
-        if (getConfig().getKeys(true).toArray() != cfgKeys) {
-            getLogger().warning(getConfig().getKeys(true).toArray().toString());
+        String[] cfgKeys = {"cfg-version", "can-run-code"};
+        String[] cfgContent = {};
+        for (Object o : getConfig().getKeys(true)) {
+            cfgContent[cfgContent.length] = o.toString();
+        }
+        if (cfgContent != cfgKeys) {
+            getLogger().warning("config.yml was either missing or corrupt. Replacing with default config.");
             instance.saveDefaultConfig();
         }
 
