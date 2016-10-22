@@ -1,13 +1,9 @@
 package unwrittenfun.minecraft.lukkit.environment;
 
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
-import org.luaj.vm2.lib.jse.CoerceJavaToLua;
-import org.luaj.vm2.lib.jse.CoerceLuaToJava;
 import unwrittenfun.minecraft.lukkit.Lukkit;
 import unwrittenfun.minecraft.lukkit.environment.json.LukkitJsonParser;
 import unwrittenfun.minecraft.lukkit.environment.wrappers.LukkitPluginWrapper;
