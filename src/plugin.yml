@@ -11,6 +11,7 @@ commands:
     usage: /<command> [sub-command]
     permission: lukkit.command
     permission-message: You do not have permission to do that.
+
 permissions:
   lukkit.command:
     description: Give access to the /lukkit command.
