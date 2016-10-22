@@ -128,10 +128,10 @@ public class Lukkit extends JavaPlugin {
                     String pluginsList = "";
                     for (Plugin p : tempArr) {
                         if (p.getDescription().getDescription() != null) {
-                            pluginsList += "  " + ChatColor.GREEN + p.getName() + ChatColor.YELLOW + " - " + p.getDescription().getDescription() + "\n";
+                            pluginsList += "  " + ChatColor.GREEN + p.getName() + ChatColor.YELLOW + " - " + p.getDescription().getDescription();
                         } else {
                             // This will happen for all plugins for the time being
-                            pluginsList += "  " + p.getDescription().getFullName() + " - No description provided.\n";
+                            pluginsList += "  " + p.getDescription().getFullName() + " - No description provided.";
                         }
                     }
 
