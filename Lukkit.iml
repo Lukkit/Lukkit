@@ -23,5 +23,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.md-5:bungeecord-chat:1.10-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.bukkit:bukkit:1.10.2-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.luaj:luaj-jme:3.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.luaj:luaj-jse:3.0.1" level="project" />
   </component>
 </module>

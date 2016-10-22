@@ -1,7 +1,7 @@
 <project>
     <groupId>unwrittenfun.minecraft</groupId>
     <artifactId>lukkit</artifactId>
-    <version>1.1</version>
+    <version>1.1.2</version>
     <packaging>jar</packaging>
     <repositories>
         <repository>
@@ -24,10 +24,16 @@
             <version>1.10.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!--LuaJ-->
+        <!--LuaJ JME-->
         <dependency>
             <groupId>org.luaj</groupId>
             <artifactId>luaj-jme</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+        <!--LuaJ JSE-->
+        <dependency>
+            <groupId>org.luaj</groupId>
+            <artifactId>luaj-jse</artifactId>
             <version>3.0.1</version>
         </dependency>
     </dependencies>
