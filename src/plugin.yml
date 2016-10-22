@@ -1,6 +1,10 @@
 name: Lukkit
 main: unwrittenfun.minecraft.lukkit.Lukkit
 version: 1.1.2
+
+author: UnwrittenFun
+authors: [jammehcow]
+
 commands:
   lukkit:
     description: The main command for Lukkit
@@ -11,3 +15,8 @@ permissions:
   lukkit.command:
     description: Give access to the /lukkit command.
     default: op
+  lukkit.run:
+    description: Gives access to the /lukkit run command. Is not default for ops.
+    default: false
+    children:
+      lukkit.command: true
