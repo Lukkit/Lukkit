@@ -131,7 +131,7 @@ public class Lukkit extends JavaPlugin {
                             pluginsList += "  " + ChatColor.GREEN + p.getName() + ChatColor.YELLOW + " - " + p.getDescription().getDescription() + "\n";
                         } else {
                             // This will happen for all plugins for the time being
-                            pluginsList += "  " + p.getName() + " - No description provided.\n";
+                            pluginsList += "  " + p.getName() + p.getDescription().getVersion() + " - No description provided.\n";
                         }
                     }
 
