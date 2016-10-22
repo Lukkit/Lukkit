@@ -1,8 +1,11 @@
 <project>
+    <modelVersion>4.0.0</modelVersion>
+
     <groupId>unwrittenfun.minecraft</groupId>
     <artifactId>lukkit</artifactId>
     <version>1.1.2</version>
     <packaging>jar</packaging>
+
     <repositories>
         <repository>
             <id>spigot-repo</id>
@@ -21,6 +24,7 @@
             </plugin>
         </plugins>
     </build>
+
     <dependencies>
         <!--Spigot API-->
         <dependency>
@@ -29,6 +33,7 @@
             <version>1.10.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+
         <!--Bukkit API-->
         <dependency>
             <groupId>org.bukkit</groupId>
@@ -36,12 +41,14 @@
             <version>1.10.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+
         <!--LuaJ JME-->
         <dependency>
             <groupId>org.luaj</groupId>
             <artifactId>luaj-jme</artifactId>
             <version>3.0.1</version>
         </dependency>
+        
         <!--LuaJ JSE-->
         <dependency>
             <groupId>org.luaj</groupId>
