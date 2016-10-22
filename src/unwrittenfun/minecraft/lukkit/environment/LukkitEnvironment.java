@@ -73,7 +73,7 @@ public class LukkitEnvironment {
                     LukkitEnvironment.lastError = e.getMessage();
                     Lukkit.logger.warning(e.getMessage());
                 }
-            } else if (pluginFile.isDirectory()) {
+            } else if (pluginFile.isDirectory() && !pluginFile.getName().split("")[0].equals(".")) {
                 File main = new File(pluginFile, "main.lua");
                 if (main.exists()) {
                     LukkitEnvironment.loadFile(main);
