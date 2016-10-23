@@ -10,7 +10,6 @@ import unwrittenfun.minecraft.lukkit.environment.LukkitEnvironment;
 import unwrittenfun.minecraft.lukkit.environment.LukkitPlugin;
 import unwrittenfun.minecraft.lukkit.environment.LukkitPluginLoader;
 
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 /**
