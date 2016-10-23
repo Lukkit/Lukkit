@@ -14,3 +14,4 @@ sandbox/*.json
 sandbox/*.yml
 sandbox/*.properties
 sandbox/plugins/*.jar
+target/*

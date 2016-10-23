@@ -2,8 +2,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>unwrittenfun.minecraft</groupId>
-    <artifactId>lukkit</artifactId>
+    <artifactId>Lukkit</artifactId>
     <version>1.1.2</version>
+
+    <packaging>jar</packaging>
 
     <repositories>
         <repository>
@@ -13,6 +15,17 @@
     </repositories>
 
     <build>
+        <sourceDirectory>src/</sourceDirectory>
+
+        <resources>
+            <resource>
+                <directory>src/</directory>
+                <includes>
+                    <include>plugin.yml</include>
+                    <include>config.yml</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -21,6 +34,29 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
+            </plugin>
+
+            <!-- Maven Assembly Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4.1</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <outputDirectory>out/</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -47,6 +83,7 @@
             <groupId>org.luaj</groupId>
             <artifactId>luaj-jme</artifactId>
             <version>3.0.1</version>
+            <scope>compile</scope>
         </dependency>
 
         <!--LuaJ JSE-->
@@ -54,6 +91,7 @@
             <groupId>org.luaj</groupId>
             <artifactId>luaj-jse</artifactId>
             <version>3.0.1</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>
