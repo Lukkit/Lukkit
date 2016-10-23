@@ -23,6 +23,7 @@
                 <includes>
                     <include>plugin.yml</include>
                     <include>config.yml</include>
+                    <include>unwrittenfun/minecraft/lukkit/libs/</include>
                 </includes>
             </resource>
         </resources>
