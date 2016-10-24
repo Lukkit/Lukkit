@@ -5,12 +5,14 @@ Lukkit allows developers to create Bukkit plugins quickly and easily using the l
 
 See the project on [my site](https://jammehcow.ml/#lukkit).
 
+Dev builds: [here!](https://jenkins.jammehcow.ml).
+
 For support or general disccusion, come join us on the SpigotMC IRC at [#lukkit](http://fry.spi.gt/iris/?nick=&channels=lukkit)
 
 ### What's new?
 
 ####Version 1.1-alpha1 
-[Download it here!](https://files.jammehcow.ml/Lukkit/build/1.1-alpha1/Lukkit.jar)
+[Download it here!](https://github.com/jammehcow/Lukkit/)
 
 After 2 years of inactivtity, the project was picked back up and updated to Minecraft version 1.10.2.
 With this brings support for all of the new events included in the Spigot API and support for Lua 5.2.x (LuaJ 3.0.1 dated 2014).
