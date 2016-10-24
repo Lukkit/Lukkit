@@ -138,7 +138,11 @@ public class LukkitPlugin extends PluginBase {
 
     @Override
     public void saveDefaultConfig() {
-        //TODO: implement
+        try {
+            config.save(defaultConfigFile);
+        } catch (IOException e) {
+            logger.warning("Cannot save default config - IOException");
+        }
     }
 
     @Override
