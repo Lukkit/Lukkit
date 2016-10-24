@@ -37,7 +37,9 @@ public class LukkitPlugin extends PluginBase {
     private boolean enabled = true;
     private File pluginFolder;
     private File configFile;
+    private File defaultConfigFile;
     private YamlConfiguration config;
+    private YamlConfiguration defaultConfig;
 
     public LukkitPlugin(LukkitPluginLoader _loader, String name, String version) {
         description = new PluginDescriptionFile(name, version, "lukkit.plugin." + name);
@@ -45,12 +47,21 @@ public class LukkitPlugin extends PluginBase {
         loader = _loader;
         pluginFolder = new File(Lukkit.instance.getDataFolder(), name);
         configFile = new File(pluginFolder, "config.yml");
+        defaultConfigFile = new File(pluginFolder, "default-config.yml");
         if (configFile.exists()) {
             config = YamlConfiguration.loadConfiguration(configFile);
         } else {
-            logger.info("No config detected, creating a new one");
-            config = new YamlConfiguration();
-            this.saveConfig();
+            if (defaultConfigFile.exists()) {
+                logger.info("No config detected and default-config doesn't exist. Creating config.");
+                config = new YamlConfiguration();
+                this.saveConfig();
+            } else {
+                logger.info("No config detected and default-config doesn't exist. Creating config.");
+                logger.warning("If you're the plugin developer, please consider providing a default config in your plugin folder.");
+                logger.warning("To find out more, go to NO LINK");
+                config = new YamlConfiguration();
+                this.saveConfig();
+            }
         }
     }
 
