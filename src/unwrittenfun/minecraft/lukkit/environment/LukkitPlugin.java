@@ -39,7 +39,6 @@ public class LukkitPlugin extends PluginBase {
     private File configFile;
     private File defaultConfigFile;
     private YamlConfiguration config;
-    private YamlConfiguration defaultConfig;
 
     public LukkitPlugin(LukkitPluginLoader _loader, String name, String version) {
         description = new PluginDescriptionFile(name, version, "lukkit.plugin." + name);
