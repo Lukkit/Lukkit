@@ -38,6 +38,7 @@ public class LukkitObject extends LuaTable {
         set("addPlugin", new VarArgFunction() {
             @Override
             public Varargs invoke(Varargs args) {
+                // TODO: check if plugin.yml exists
                 LukkitPlugin plugin = new LukkitPlugin(LukkitEnvironment.pluginLoader, args.tojstring(1), args.tojstring(2));
                 LukkitPluginWrapper wrapper = new LukkitPluginWrapper(plugin);
                 if (!args.isnoneornil(3))
