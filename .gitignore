@@ -2,16 +2,5 @@
 pkg/
 out/
 .DS_Store
-sandbox/crash-reports
-sandbox/world*
-sandbox/logs
-sandbox/start.*
-sandbox/spigot.jar
-sandbox/eula.txt
-sandbox/plugins/PluginMetrics
-sandbox/.update-lock
-sandbox/*.json
-sandbox/*.yml
-sandbox/*.properties
-sandbox/plugins/*.jar
+sandbox/*
 target/*
