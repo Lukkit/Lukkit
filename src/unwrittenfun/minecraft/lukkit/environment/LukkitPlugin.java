@@ -53,7 +53,7 @@ public class LukkitPlugin extends PluginBase {
             config = YamlConfiguration.loadConfiguration(configFile);
         } else {
             if (defaultConfigFile.exists()) {
-                logger.info("No config detected and default-config doesn't exist. Creating config.");
+                logger.info("No config detected. Replacing with default config file.");
                 config = defaultConfig;
                 this.saveConfig();
             } else {
