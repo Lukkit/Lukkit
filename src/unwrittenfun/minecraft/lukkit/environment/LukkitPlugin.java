@@ -54,8 +54,11 @@ public class LukkitPlugin extends PluginBase {
         } else {
             if (defaultConfigFile.exists()) {
                 logger.info("No config detected. Replacing with default config file.");
+                // Set the config file's contents to the contents of the default cfg.
                 config = defaultConfig;
                 this.saveConfig();
+                // Reset file location so the default isn't overwritten.
+                config = YamlConfiguration.loadConfiguration(configFile);
             } else {
                 logger.info("No config detected and default-config doesn't exist. Creating config.");
                 logger.warning("If you're the plugin developer, please consider providing a default config in your plugin folder.");
