@@ -62,7 +62,7 @@ public class LukkitPlugin extends PluginBase {
             } else {
                 logger.info("No config detected and default-config doesn't exist. Creating config.");
                 logger.warning("If you're the plugin developer, please consider providing a default config in your plugin folder.");
-                logger.warning("To find out more, go to the GitHub wiki @ http://bit.ly/LukkitWiki");
+                logger.warning("To find out more, go to the GitHub wiki @ https://github.com/jammehcow/Lukkit/wiki/");
                 config = new YamlConfiguration();
                 this.saveConfig();
             }
