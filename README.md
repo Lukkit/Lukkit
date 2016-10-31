@@ -3,9 +3,7 @@ Lukkit
 
 Lukkit allows developers to create Bukkit plugins quickly and easily using the lua scripting language.
 
-See the project on [my site](https://jammehcow.ml/#lukkit).
-
-Dev builds: [here!](https://jenkins.jammehcow.ml).
+See the project on [my site](https://jammehcow.ml/#lukkit) & nightly builds: [here!](https://jenkins.jammehcow.ml).
 
 For support or general disccusion, come join us on the SpigotMC IRC at [#lukkit](http://fry.spi.gt/iris/?nick=&channels=lukkit)
 
