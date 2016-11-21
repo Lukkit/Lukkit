@@ -41,7 +41,7 @@ Only allow ops to break blocks.
 events.add("blockBreak", function(event)
   local sender = event:getPlayer()
   if not sender:isOp() then
-    If the player's not op, display message and stop the block breaking event
+    -- If the player is not op, display message and stop the block breaking event
     sender:sendRawMessage(stringOf(format.RED) .. "You are not allowed to break blocks")
     event:setCancelled(true)
   end
