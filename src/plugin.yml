@@ -8,7 +8,7 @@ authors: [jammehcow]
 commands:
   lukkit:
     description: The main command for Lukkit
-    usage: /<command> [sub-command]
+    usage: /<command> [help|last-error|plugins|reload|resetenv|run]
     permission: lukkit.command
     permission-message: You do not have permission to do that.
 
