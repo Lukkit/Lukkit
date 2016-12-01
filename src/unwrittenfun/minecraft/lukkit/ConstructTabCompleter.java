@@ -28,7 +28,6 @@ public class ConstructTabCompleter implements TabCompleter {
 
             if (args.length == 1) {
                 if (!args[0].equals("")) {
-                    // TODO: replace with collect call (remove.steam() stuffs)
                     for (String s : subCommands) {
                         if (s.startsWith(args[0])) {
                             // Add the sub-command to the ArrayList
