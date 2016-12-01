@@ -7,16 +7,6 @@ See the project on [my site](https://jammehcow.ml/#lukkit) & nightly builds: [he
 
 For support or general disccusion, come join us on the SpigotMC IRC at [#lukkit](http://fry.spi.gt/iris/?nick=&channels=lukkit)
 
-### What's new?
-
-####Version 1.1-alpha1 
-[Download it here!](https://github.com/jammehcow/Lukkit/)
-
-After 2 years of inactivtity, the project was picked back up and updated to Minecraft version 1.10.2.
-With this brings support for all of the new events included in the Spigot API and support for Lua 5.2.x (LuaJ 3.0.1 dated 2014).
-The plan is to get this plugin a decent Wiki, update the documentation and breathe life back into the ease-or-use language known as Lua.
-
-
 ### What's the point?
  - Lua is a very beginner friendly language
  - It is very quick to make a simple plugin
