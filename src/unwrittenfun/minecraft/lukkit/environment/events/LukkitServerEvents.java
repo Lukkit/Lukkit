@@ -16,15 +16,15 @@ import java.util.ArrayList;
 */
 public class LukkitServerEvents implements Listener {
     public LukkitServerEvents() {
-        LukkitEvents.eventMap.put("mapInitialize", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("pluginDisable", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("pluginEnable", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("remoteServerCommand", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("serverCommand", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("serverListPing", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("serviceRegister", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("serviceUnregister", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("tabComplete", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("mapInitialize", new ArrayList<>());
+        LukkitEvents.eventMap.put("pluginDisable", new ArrayList<>());
+        LukkitEvents.eventMap.put("pluginEnable", new ArrayList<>());
+        LukkitEvents.eventMap.put("remoteServerCommand", new ArrayList<>());
+        LukkitEvents.eventMap.put("serverCommand", new ArrayList<>());
+        LukkitEvents.eventMap.put("serverListPing", new ArrayList<>());
+        LukkitEvents.eventMap.put("serviceRegister", new ArrayList<>());
+        LukkitEvents.eventMap.put("serviceUnregister", new ArrayList<>());
+        LukkitEvents.eventMap.put("tabComplete", new ArrayList<>());
     }
 
     @EventHandler

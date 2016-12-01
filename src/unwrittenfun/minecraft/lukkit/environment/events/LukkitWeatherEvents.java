@@ -18,9 +18,9 @@ import java.util.ArrayList;
 */
 public class LukkitWeatherEvents implements Listener {
     public LukkitWeatherEvents() {
-        LukkitEvents.eventMap.put("lightningStrike", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("thunderChange", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("weatherChange", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("lightningStrike", new ArrayList<>());
+        LukkitEvents.eventMap.put("thunderChange", new ArrayList<>());
+        LukkitEvents.eventMap.put("weatherChange", new ArrayList<>());
     }
 
     @EventHandler

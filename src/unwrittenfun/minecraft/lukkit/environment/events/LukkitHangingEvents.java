@@ -18,9 +18,9 @@ import java.util.ArrayList;
 */
 public class LukkitHangingEvents implements Listener {
     public LukkitHangingEvents() {
-        LukkitEvents.eventMap.put("hangingBreakByEntity", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("hangingBreak", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("hangingPlace", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("hangingBreakByEntity", new ArrayList<>());
+        LukkitEvents.eventMap.put("hangingBreak", new ArrayList<>());
+        LukkitEvents.eventMap.put("hangingPlace", new ArrayList<>());
     }
 
     @EventHandler

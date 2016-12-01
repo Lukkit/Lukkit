@@ -13,7 +13,7 @@ import java.util.HashMap;
  * Maintainer: jammehcow
 */
 public class LukkitEvents {
-    public static HashMap<String, ArrayList<LuaFunction>> eventMap = new HashMap<String, ArrayList<LuaFunction>>();
+    public static HashMap<String, ArrayList<LuaFunction>> eventMap = new HashMap<>();
 
     public static void registerEvents() {
         Bukkit.getServer().getPluginManager().registerEvents(new LukkitBlockEvents(), Lukkit.instance);

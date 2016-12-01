@@ -17,8 +17,8 @@ import java.util.ArrayList;
 */
 public class LukkitEnchantmentEvents implements Listener {
     public LukkitEnchantmentEvents() {
-        LukkitEvents.eventMap.put("enchantItem", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("prepareItemEnchant", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("enchantItem", new ArrayList<>());
+        LukkitEvents.eventMap.put("prepareItemEnchant", new ArrayList<>());
     }
 
     @EventHandler

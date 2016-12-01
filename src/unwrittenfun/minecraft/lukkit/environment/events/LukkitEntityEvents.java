@@ -16,55 +16,58 @@ import java.util.ArrayList;
 */
 public class LukkitEntityEvents implements Listener {
     public LukkitEntityEvents() {
-        LukkitEvents.eventMap.put("areaEffectCloudApply", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("creatureSpawn", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("creeperPower", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("enderDragonChangePhase", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityAirChange", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityBreakDoor", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityBreed", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityChangeBlock", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityCombustByBlock", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityCombustByEntity", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityCombust", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityCreatePortal", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityDamageByBlock", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityDamageByEntity", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityDamage", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityDeath", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityExplode", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityInteract", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityPortalEnter", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityPortal", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityPortalExit", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityRegainHealth", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityShootBow", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityTame", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityTarget", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityTargetLivingEntity", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityTeleport", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityToggleGlide", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("entityUnleash", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("expBottle", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("explosionPrime", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("fireworkExplode", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("foodLevelChange", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("horseJump", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("itemDespawn", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("itemMerge", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("itemSpawn", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("lingeringPotionSplash", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("pigZap", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("playerDeath", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("playerLeashEntity", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("potionSplash", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("projectileHit", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("projectileLaunch", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("sheepDyeWool", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("sheepRegrowWool", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("slimeSplit", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("villagerAcquireTrade", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("villagerReplenishTrade", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("areaEffectCloudApply", new ArrayList<>());
+        LukkitEvents.eventMap.put("creatureSpawn", new ArrayList<>());
+        LukkitEvents.eventMap.put("creeperPower", new ArrayList<>());
+        LukkitEvents.eventMap.put("enderDragonChangePhase", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityAirChange", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityBreakDoor", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityBreed", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityChangeBlock", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityCombustByBlock", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityCombustByEntity", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityCombust", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityCreatePortal", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityDamageByBlock", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityDamageByEntity", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityDamage", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityDeath", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityExplode", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityInteract", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityPortalEnter", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityPortal", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityPortalExit", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityRegainHealth", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityResurrect", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityShootBow", new ArrayList<>());
+        LukkitEvents.eventMap.put("entitySpawn", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityTame", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityTarget", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityTargetLivingEntity", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityTeleport", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityToggleGlide", new ArrayList<>());
+        LukkitEvents.eventMap.put("entityUnleash", new ArrayList<>());
+        LukkitEvents.eventMap.put("expBottle", new ArrayList<>());
+        LukkitEvents.eventMap.put("explosionPrime", new ArrayList<>());
+        LukkitEvents.eventMap.put("fireworkExplode", new ArrayList<>());
+        LukkitEvents.eventMap.put("foodLevelChange", new ArrayList<>());
+        LukkitEvents.eventMap.put("horseJump", new ArrayList<>());
+        LukkitEvents.eventMap.put("itemDespawn", new ArrayList<>());
+        LukkitEvents.eventMap.put("itemMerge", new ArrayList<>());
+        LukkitEvents.eventMap.put("itemSpawn", new ArrayList<>());
+        LukkitEvents.eventMap.put("lingeringPotionSplash", new ArrayList<>());
+        LukkitEvents.eventMap.put("pigZap", new ArrayList<>());
+        LukkitEvents.eventMap.put("playerDeath", new ArrayList<>());
+        LukkitEvents.eventMap.put("playerLeashEntity", new ArrayList<>());
+        LukkitEvents.eventMap.put("potionSplash", new ArrayList<>());
+        LukkitEvents.eventMap.put("projectileHit", new ArrayList<>());
+        LukkitEvents.eventMap.put("projectileLaunch", new ArrayList<>());
+        LukkitEvents.eventMap.put("sheepDyeWool", new ArrayList<>());
+        LukkitEvents.eventMap.put("sheepRegrowWool", new ArrayList<>());
+        LukkitEvents.eventMap.put("slimeSplit", new ArrayList<>());
+        LukkitEvents.eventMap.put("spawnerSpawn", new ArrayList<>());
+        LukkitEvents.eventMap.put("villagerAcquireTrade", new ArrayList<>());
+        LukkitEvents.eventMap.put("villagerReplenishTrade", new ArrayList<>());
     }
 
     @EventHandler
@@ -263,8 +266,26 @@ public class LukkitEntityEvents implements Listener {
     }
 
     @EventHandler
+    public void entityResurrect(EntityResurrectEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("entityResurrect");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+            if (event.isCancelled()) return;
+        }
+    }
+
+    @EventHandler
     public void entityShootBow(EntityShootBowEvent event) {
         ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("entityShootBow");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+            if (event.isCancelled()) return;
+        }
+    }
+
+    @EventHandler
+    public void entitySpawn(EntitySpawnEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("entitySpawn");
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
             if (event.isCancelled()) return;
@@ -477,6 +498,15 @@ public class LukkitEntityEvents implements Listener {
     @EventHandler
     public void slimeSplit(SlimeSplitEvent event) {
         ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("slimeSplit");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+            if (event.isCancelled()) return;
+        }
+    }
+
+    @EventHandler
+    public void spawnerSpawn(SpawnerSpawnEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("spawnerSpawn");
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
             if (event.isCancelled()) return;

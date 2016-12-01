@@ -16,21 +16,21 @@ import java.util.ArrayList;
 */
 public class LukkitInventoryEvents implements Listener {
     public LukkitInventoryEvents() {
-        LukkitEvents.eventMap.put("brew", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("craftItem", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("furnaceBurn", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("furnaceExtract", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("furnaceSmelt", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("inventoryClick", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("inventoryClose", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("inventoryCreative", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("inventoryDrag", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("inventoryInteract", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("inventoryMoveItem", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("inventoryOpen", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("inventoryPickupItem", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("prepareAnvil", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("prepareItemCraft", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("brew", new ArrayList<>());
+        LukkitEvents.eventMap.put("craftItem", new ArrayList<>());
+        LukkitEvents.eventMap.put("furnaceBurn", new ArrayList<>());
+        LukkitEvents.eventMap.put("furnaceExtract", new ArrayList<>());
+        LukkitEvents.eventMap.put("furnaceSmelt", new ArrayList<>());
+        LukkitEvents.eventMap.put("inventoryClick", new ArrayList<>());
+        LukkitEvents.eventMap.put("inventoryClose", new ArrayList<>());
+        LukkitEvents.eventMap.put("inventoryCreative", new ArrayList<>());
+        LukkitEvents.eventMap.put("inventoryDrag", new ArrayList<>());
+        LukkitEvents.eventMap.put("inventoryInteract", new ArrayList<>());
+        LukkitEvents.eventMap.put("inventoryMoveItem", new ArrayList<>());
+        LukkitEvents.eventMap.put("inventoryOpen", new ArrayList<>());
+        LukkitEvents.eventMap.put("inventoryPickupItem", new ArrayList<>());
+        LukkitEvents.eventMap.put("prepareAnvil", new ArrayList<>());
+        LukkitEvents.eventMap.put("prepareItemCraft", new ArrayList<>());
     }
 
     @EventHandler

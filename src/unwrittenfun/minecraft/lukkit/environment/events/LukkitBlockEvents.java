@@ -15,28 +15,29 @@ import java.util.ArrayList;
 */
 public class LukkitBlockEvents implements Listener {
     public LukkitBlockEvents() {
-        LukkitEvents.eventMap.put("blockBreak", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("blockBurn", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("blockCanBuild", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("blockDamage", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("blockDispense", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("blockExp", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("blockExplode", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("blockFade", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("blockForm", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("blockGrow", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("blockIgnite", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("blockPhysics", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("blockPistonExtend", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("blockPistonRetract", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("blockPlace", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("blockRedstone", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("blockSpread", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("cauldronLevelChange", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("blockEntityForm", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("blockLeavesDecay", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("blockNotePlay", new ArrayList<LuaFunction>());
-        LukkitEvents.eventMap.put("blockSignChange", new ArrayList<LuaFunction>());
+        LukkitEvents.eventMap.put("blockBreak", new ArrayList<>());
+        LukkitEvents.eventMap.put("blockBurn", new ArrayList<>());
+        LukkitEvents.eventMap.put("blockCanBuild", new ArrayList<>());
+        LukkitEvents.eventMap.put("blockDamage", new ArrayList<>());
+        LukkitEvents.eventMap.put("blockDispense", new ArrayList<>());
+        LukkitEvents.eventMap.put("blockExp", new ArrayList<>());
+        LukkitEvents.eventMap.put("blockExplode", new ArrayList<>());
+        LukkitEvents.eventMap.put("blockFade", new ArrayList<>());
+        LukkitEvents.eventMap.put("blockForm", new ArrayList<>());
+        LukkitEvents.eventMap.put("blockGrow", new ArrayList<>());
+        LukkitEvents.eventMap.put("blockIgnite", new ArrayList<>());
+        LukkitEvents.eventMap.put("blockMultiPlace", new ArrayList<>());
+        LukkitEvents.eventMap.put("blockPhysics", new ArrayList<>());
+        LukkitEvents.eventMap.put("blockPistonExtend", new ArrayList<>());
+        LukkitEvents.eventMap.put("blockPistonRetract", new ArrayList<>());
+        LukkitEvents.eventMap.put("blockPlace", new ArrayList<>());
+        LukkitEvents.eventMap.put("blockRedstone", new ArrayList<>());
+        LukkitEvents.eventMap.put("blockSpread", new ArrayList<>());
+        LukkitEvents.eventMap.put("cauldronLevelChange", new ArrayList<>());
+        LukkitEvents.eventMap.put("blockEntityForm", new ArrayList<>());
+        LukkitEvents.eventMap.put("blockLeavesDecay", new ArrayList<>());
+        LukkitEvents.eventMap.put("blockNotePlay", new ArrayList<>());
+        LukkitEvents.eventMap.put("blockSignChange", new ArrayList<>());
     }
 
     @EventHandler
@@ -129,6 +130,15 @@ public class LukkitBlockEvents implements Listener {
     @EventHandler
     public void blockIgnite(BlockIgniteEvent event) {
         ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("blockIgnite");
+        for (LuaFunction cb : callbacks) {
+            cb.call(CoerceJavaToLua.coerce(event));
+            if (event.isCancelled()) return;
+        }
+    }
+
+    @EventHandler
+    public void blockMultiPlace(BlockMultiPlaceEvent event) {
+        ArrayList<LuaFunction> callbacks = LukkitEvents.eventMap.get("blockMultiPlace");
         for (LuaFunction cb : callbacks) {
             cb.call(CoerceJavaToLua.coerce(event));
             if (event.isCancelled()) return;
