@@ -3,6 +3,7 @@ package unwrittenfun.minecraft.lukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.luaj.vm2.LuaValue;
@@ -10,6 +11,7 @@ import unwrittenfun.minecraft.lukkit.environment.LukkitEnvironment;
 import unwrittenfun.minecraft.lukkit.environment.LukkitPlugin;
 import unwrittenfun.minecraft.lukkit.environment.LukkitPluginLoader;
 
+import java.io.File;
 import java.util.logging.Logger;
 
 /**
@@ -36,13 +38,9 @@ public class Lukkit extends JavaPlugin {
         // Load plugins from Lukkit data folder
         LukkitEnvironment.loadPlugins();
 
-        // Check config for changes for missing keys
-        String cfgContent = "";
-        String cfgKeys = "cfg-versioncan-run-code";
+        File cfg = new File(getDataFolder(), "config.yml");
 
-        for (Object o : getConfig().getKeys(true)) { cfgContent  += o.toString(); }
-
-        if (!cfgContent.equals(cfgKeys)) {
+        if (!cfg.exists()) {
             getLogger().warning("config.yml was either missing or corrupt. Replacing with default config.");
             // Save default config to location.
             instance.saveDefaultConfig();
