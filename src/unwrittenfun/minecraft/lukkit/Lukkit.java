@@ -10,7 +10,11 @@ import unwrittenfun.minecraft.lukkit.environment.LukkitEnvironment;
 import unwrittenfun.minecraft.lukkit.environment.LukkitPlugin;
 import unwrittenfun.minecraft.lukkit.environment.LukkitPluginLoader;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.logging.Logger;
 
 /**
@@ -36,6 +40,25 @@ public class Lukkit extends JavaPlugin {
         LukkitEnvironment.loadEnvironment();
         // Load plugins from Lukkit data folder
         LukkitEnvironment.loadPlugins();
+
+        // Update messages
+        if (getConfig().get("update-checker").equals(true)) {
+            try {
+                HttpURLConnection con = (HttpURLConnection) new URL(
+                        "http://www.spigotmc.org/api/general.php").openConnection();
+                con.setDoOutput(true);
+                con.setRequestMethod("POST");
+                con.getOutputStream().write(("key=98BE0FE67F88AB82B4C197FAF1DC3B69206EFDCC4D3B80FC83A00037510B99B4&resource=32599").getBytes("UTF-8"));
+                String version = new BufferedReader(new InputStreamReader(
+                        con.getInputStream())).readLine();
+                if (version.length() <= 7) {
+                    getLogger().info("A new version of Lukkit has been released: " + version);
+                    getLogger().info("You can download it from https://www.spigotmc.org/resources/lukkit.32599/");
+                }
+            } catch (Exception ex) {
+                getLogger().info("Unable to connect to Spigot API for Lukkit update check.");
+            }
+        }
 
         File cfg = new File(getDataFolder(), "config.yml");
 
