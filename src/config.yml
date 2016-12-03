@@ -4,7 +4,7 @@
 #
 
 # Leave this line alone please, I'm begging you, just don't do it!
-cfg-version: 2
+cfg-version: 3
 
 # Should I check for updates and let you know?
 update-checker: true

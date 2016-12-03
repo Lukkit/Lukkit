@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 public class Lukkit extends JavaPlugin {
 
     // Config version
-    final int CFG_VERSION = 2;
+    final int CFG_VERSION = 3;
 
     // Init the plugin instance and logger
     public static Lukkit instance;
