@@ -55,22 +55,22 @@ public class Lukkit extends JavaPlugin {
                 String version = new BufferedReader(new InputStreamReader(
                         con.getInputStream())).readLine();
                 if (version.length() <= 7) {
-                    getLogger().info("A new version of Lukkit has been released: " + version);
-                    getLogger().info("You can download it from https://www.spigotmc.org/resources/lukkit.32599/");
+                    logger.info("A new version of Lukkit has been released: " + version);
+                    logger.info("You can download it from https://www.spigotmc.org/resources/lukkit.32599/");
                 }
             } catch (Exception ex) {
-                getLogger().info("Unable to connect to Spigot API for Lukkit update check.");
+                logger.warning("Unable to connect to Spigot API for Lukkit update check.");
             }
         }
 
         File cfg = new File(getDataFolder(), "config.yml");
 
         if (!cfg.exists() || !getConfig().getKeys(true).contains("cfg-version")) {
-            getLogger().warning("config.yml was either missing or corrupt. Replacing with default config.");
+            logger.warning("config.yml was either missing or corrupt. Replacing with default config.");
             // Save default config to location.
             instance.saveDefaultConfig();
         } else if (!getConfig().get("cfg-version").equals(CFG_VERSION)) {
-            logger.info("Your config is out of date. Please consider updating by using the config proved on the GitHub wiki.");
+            logger.warning("Your config is out of date. Please consider updating by using the config proved on the GitHub wiki.");
         }
 
         // Set the TabCompleter for custom completions of the /lukkit command
