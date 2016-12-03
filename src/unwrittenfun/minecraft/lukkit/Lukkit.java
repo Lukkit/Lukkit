@@ -70,7 +70,7 @@ public class Lukkit extends JavaPlugin {
             // Save default config to location.
             instance.saveDefaultConfig();
         } else if (!getConfig().get("cfg-version").equals(CFG_VERSION)) {
-            logger.warning("Your config is out of date. Please consider updating by using the config proved on the GitHub wiki.");
+            logger.warning("Your config is out of date! This probably will cause issues, so go to our wiki and get the new version or delete your config and it'll be generated.");
         }
 
         // Set the TabCompleter for custom completions of the /lukkit command
