@@ -24,6 +24,9 @@ import java.util.logging.Logger;
 */
 public class Lukkit extends JavaPlugin {
 
+    // Config version
+    final int CFG_VERSION = 2;
+
     // Init the plugin instance and logger
     public static Lukkit instance;
     public static Logger logger;
@@ -62,10 +65,12 @@ public class Lukkit extends JavaPlugin {
 
         File cfg = new File(getDataFolder(), "config.yml");
 
-        if (!cfg.exists()) {
+        if (!cfg.exists() || !getConfig().getKeys(true).contains("cfg-version")) {
             getLogger().warning("config.yml was either missing or corrupt. Replacing with default config.");
             // Save default config to location.
             instance.saveDefaultConfig();
+        } else if (!getConfig().get("cfg-version").equals(CFG_VERSION)) {
+            logger.info("Your config is out of date. Please consider updating by using the config proved on the GitHub wiki.");
         }
 
         // Set the TabCompleter for custom completions of the /lukkit command
