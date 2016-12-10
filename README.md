@@ -3,20 +3,22 @@ Lukkit
 
 Lukkit allows developers to create Bukkit plugins quickly and easily using the lua scripting language.
 
-See the project on [my site](https://jammehcow.ml/#lukkit) & nightly builds: [here!](https://jenkins.jammehcow.ml).
+For support or general disccusion, come join us on the [Lukkit forums](https://theartex.net/lukkit) or on the SpigotMC IRC at [#lukkit](http://fry.spi.gt/iris/?nick=&channels=lukkit).
+To view the documentation without self-hosting, visit the [Lukkit docs](https://theartex.net/lukkit/docs).
 
-For support or general disccusion, come join us on the SpigotMC IRC at [#lukkit](http://fry.spi.gt/iris/?nick=&channels=lukkit)
+View the project on [my site](https://jammehcow.ml/#lukkit) and find nightly builds [here](https://jenkins.jammehcow.ml).
 
 ### What's the point?
- - Lua is a very beginner friendly language
- - It is very quick to make a simple plugin
- - Supports ALL bukkit functions, with more lua-like ways of doing things added frequently
+ - Lua is a very friendly language for beginners
+ - It is very easy to make a simple plugin
+ - Lua supports ALL Spigot functions, with more lua-like ways of doing things added frequently
  - Projects added in v1.0-alpha4 and later allow for more advanced plugins to be made within their own folder
 
 ### Examples
-More examples can be found in the examples folder on [github](https://github.com/jammehcow/Lukkit/tree/master/examples).
+More examples can be found in the examples folder on [GitHub](https://github.com/jammehcow/Lukkit/tree/master/examples).
 
-Add command /shout to broadcast a message to the server. Bear in mind that at the moment naming a command with a capital letter will stop the command from being deregistered when running /lukkit reload or /lukkit resetenv
+
+Add command /shout to broadcast a message to the server. Bear in mind that, at the moment, naming a command with a capital letter will stop the command from being deregistered when running /lukkit reload or /lukkit resetenv.
 ```lua
 -- Command name, short description, command usage
 lukkit.addCommand("shout", "Broadcast a message to the server", "/shout Your message here", function(sender, args)
@@ -25,7 +27,7 @@ lukkit.addCommand("shout", "Broadcast a message to the server", "/shout Your mes
 end)
 ```
 
-Only allow ops to break blocks.
+Only allow operators to break blocks.
 ```lua
 -- Adding an event listener. Ain't it easy!
 events.add("blockBreak", function(event)
