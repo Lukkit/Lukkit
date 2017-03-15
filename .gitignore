@@ -5,3 +5,5 @@ out/
 sandbox/
 target/
 Lukkit.iml
+
+*.sh
