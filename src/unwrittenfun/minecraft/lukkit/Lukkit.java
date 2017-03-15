@@ -44,24 +44,8 @@ public class Lukkit extends JavaPlugin {
         // Load plugins from Lukkit data folder
         LukkitEnvironment.loadPlugins();
 
-        // Update messages
-        if (getConfig().get("update-checker").equals(true)) {
-            try {
-                HttpURLConnection con = (HttpURLConnection) new URL(
-                        "http://www.spigotmc.org/api/general.php").openConnection();
-                con.setDoOutput(true);
-                con.setRequestMethod("POST");
-                con.getOutputStream().write(("key=98BE0FE67F88AB82B4C197FAF1DC3B69206EFDCC4D3B80FC83A00037510B99B4&resource=32599").getBytes("UTF-8"));
-                String version = new BufferedReader(new InputStreamReader(
-                        con.getInputStream())).readLine();
-                if (version.length() <= 7 && !version.equalsIgnoreCase(instance.getDescription().getVersion())) {
-                    logger.info("A new version of Lukkit has been released: " + version);
-                    logger.info("You can download it from https://www.spigotmc.org/resources/lukkit.32599/");
-                }
-            } catch (Exception ex) {
-                logger.warning("Unable to connect to Spigot API for Lukkit update check.");
-            }
-        }
+        // Do what it says!
+        this.checkForUpdates();
 
         File cfg = new File(getDataFolder(), "config.yml");
 
@@ -180,5 +164,26 @@ public class Lukkit extends JavaPlugin {
 
         return false;
 
+    }
+
+    public void checkForUpdates() {
+        // Update messages
+        if (getConfig().get("update-checker").equals(true)) {
+            try {
+                HttpURLConnection con = (HttpURLConnection) new URL(
+                        "http://www.spigotmc.org/api/general.php").openConnection();
+                con.setDoOutput(true);
+                con.setRequestMethod("POST");
+                con.getOutputStream().write(("key=98BE0FE67F88AB82B4C197FAF1DC3B69206EFDCC4D3B80FC83A00037510B99B4&resource=32599").getBytes("UTF-8"));
+                String version = new BufferedReader(new InputStreamReader(
+                        con.getInputStream())).readLine();
+                if (version.length() <= 7 && !version.equalsIgnoreCase(instance.getDescription().getVersion())) {
+                    logger.info("A new version of Lukkit has been released: " + version);
+                    logger.info("You can download it from https://www.spigotmc.org/resources/lukkit.32599/");
+                }
+            } catch (Exception ex) {
+                logger.warning("Unable to connect to Spigot API for Lukkit update check.");
+            }
+        }
     }
 }
