@@ -25,6 +25,8 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         logger = getLogger();
+
+        this.checkForUpdates();
     }
 
     @Override
