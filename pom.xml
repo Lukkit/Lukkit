@@ -79,14 +79,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!--LuaJ JME-->
-        <dependency>
-            <groupId>org.luaj</groupId>
-            <artifactId>luaj-jme</artifactId>
-            <version>3.0.1</version>
-            <scope>compile</scope>
-        </dependency>
-
         <!--LuaJ JSE-->
         <dependency>
             <groupId>org.luaj</groupId>
