@@ -65,16 +65,13 @@ public class Lukkit extends JavaPlugin {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("lukkit") && args.length > 0) {
             if (args[0].equalsIgnoreCase("reload")) {
-
                 // Reload the lukkit environment and plugins
                 LukkitEnvironment.loadEnvironment();
                 LukkitEnvironment.loadPlugins();
                 sender.sendMessage(ChatColor.YELLOW + "Lukkit environment and plugins reloaded.");
 
                 return true;
-
             } else if (args[0].equalsIgnoreCase("run") && args.length > 1) {
-
                 if (sender.hasPermission("lukkit.run") && getConfig().get("can-run-code").equals(true)) {
                     String code = "";
 
@@ -96,23 +93,18 @@ public class Lukkit extends JavaPlugin {
                 }
 
                 return true;
-
             } else if (args[0].equalsIgnoreCase("resetenv")) {
-
                 // Reload the lukkit environment
                 LukkitEnvironment.loadEnvironment();
                 sender.sendMessage(ChatColor.YELLOW + "Lukkit environment reset.");
 
                 return true;
-
             } else if (args[0].equalsIgnoreCase("last-error")) {
-
                 // Reload the lukkit environment
                 LukkitEnvironment.loadEnvironment();
                 sender.sendMessage(ChatColor.RED + LukkitEnvironment.lastError);
 
                 return true;
-
             } else if (args[0].equalsIgnoreCase("help")) {
                 sender.sendMessage(new String[] {
                         ChatColor.YELLOW + "Lukkit Usage: ",
@@ -125,9 +117,7 @@ public class Lukkit extends JavaPlugin {
                 });
 
                 return true;
-
             } else if (args[0].equalsIgnoreCase("plugins")) {
-
                 if (!LukkitPluginLoader.loadedPlugins.isEmpty()) {
                     // Create a new array of LukkitPlugins inheriting size from LukkitPluginLoader.loadedPlugins
                     LukkitPlugin[] tempArr = new LukkitPlugin[LukkitPluginLoader.loadedPlugins.size()];
@@ -152,18 +142,14 @@ public class Lukkit extends JavaPlugin {
                 }
 
                 return true;
-
             }
         } else  {
-
             sender.sendMessage(ChatColor.YELLOW + "No arguments specified. Try " + ChatColor.BOLD + "/lukkit help" + ChatColor.RESET + ChatColor.YELLOW + " for more information.");
 
             return true;
-
         }
 
         return false;
-
     }
 
     public void checkForUpdates() {
