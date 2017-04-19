@@ -100,8 +100,6 @@ public class Lukkit extends JavaPlugin {
 
                 return true;
             } else if (args[0].equalsIgnoreCase("last-error")) {
-                // Reload the lukkit environment
-                LukkitEnvironment.loadEnvironment();
                 sender.sendMessage(ChatColor.RED + LukkitEnvironment.lastError);
 
                 return true;
