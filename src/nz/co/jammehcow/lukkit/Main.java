@@ -1,6 +1,11 @@
 package nz.co.jammehcow.lukkit;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.logging.Logger;
+
 /**
  * Author: jammehcow.
  * Date: 19/04/17.
@@ -9,8 +14,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Main extends JavaPlugin {
     // Config version
     private static final int CFG_VERSION = 3;
+
+    public static Logger logger;
+
+
     @Override
     public void onEnable() {
+        logger = getLogger();
     }
 
     @Override
