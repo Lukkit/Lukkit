@@ -37,7 +37,7 @@ public class Main extends JavaPlugin {
         return false;
     }
 
-    public void checkForUpdates() {
+    private void checkForUpdates() {
         // Update messages
         if (getConfig().get("update-checker").equals(true)) {
             try {
