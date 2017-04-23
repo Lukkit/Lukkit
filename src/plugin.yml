@@ -10,7 +10,7 @@ commands:
     description: The main command for Lukkit
     usage: /<command> [help|last-error|plugins|reload|resetenv|run]
     permission: lukkit.command
-    permission-message: You do not have permission to do that.
+    permission-message: You do not have permission to manage Lukkit.
 
 permissions:
   lukkit.command:
