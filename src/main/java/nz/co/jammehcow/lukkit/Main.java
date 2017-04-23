@@ -11,8 +11,7 @@ import java.net.URL;
 import java.util.logging.Logger;
 
 /**
- * Author: jammehcow.
- * Date: 19/04/17.
+ * @author jammehcow
  */
 
 public class Main extends JavaPlugin {
