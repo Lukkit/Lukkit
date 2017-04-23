@@ -16,8 +16,6 @@ Dev builds can be found [here](https://ci.jammehcow.co.nz). Use them at your own
  - Projects added in v1.0-alpha4 and later allow for more advanced plugins to be made within their own folder
 
 ### Examples
-More examples can be found in the examples folder on [GitHub](https://github.com/jammehcow/Lukkit/tree/master/examples).
-
 
 Add command /shout to broadcast a message to the server. Bear in mind that, at the moment, naming a command with a capital letter will stop the command from being deregistered when running /lukkit reload or /lukkit resetenv.
 ```lua
