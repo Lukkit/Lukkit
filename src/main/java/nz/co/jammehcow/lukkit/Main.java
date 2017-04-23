@@ -1,4 +1,4 @@
-package nz.co.jammehcow.lukkit;
+package main.java.nz.co.jammehcow.lukkit;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
