@@ -15,18 +15,6 @@
     </repositories>
 
     <build>
-        <sourceDirectory>src/</sourceDirectory>
-
-        <resources>
-            <resource>
-                <directory>src/</directory>
-                <includes>
-                    <include>plugin.yml</include>
-                    <include>config.yml</include>
-                    <include>unwrittenfun/minecraft/lukkit/libs/</include>
-                </includes>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
