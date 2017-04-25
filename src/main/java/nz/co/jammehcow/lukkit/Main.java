@@ -15,10 +15,12 @@ public class Main extends JavaPlugin {
     private static final int CFG_VERSION = 3;
 
     public static Logger logger;
+    public static Main instance;
 
     @Override
     public void onEnable() {
         logger = getLogger();
+        instance = this;
 
         if (getConfig().get("update-checker").equals(true))
             UpdateChecker.checkForUpdates(getDescription().getVersion());
