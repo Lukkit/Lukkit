@@ -31,7 +31,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        LuaEnvironment.shutdown();
     }
 
     @Override
