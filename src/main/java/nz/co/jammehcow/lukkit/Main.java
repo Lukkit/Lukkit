@@ -33,6 +33,11 @@ public class Main extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (command.getName().startsWith("lukkit")) {
+            if (args.length == 0) {
+
+            }
+        }
         return false;
     }
 }
