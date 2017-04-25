@@ -1,5 +1,6 @@
 package nz.co.jammehcow.lukkit;
 
+import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -24,6 +25,8 @@ public class Main extends JavaPlugin {
 
         if (getConfig().get("update-checker").equals(true))
             UpdateChecker.checkForUpdates(getDescription().getVersion());
+
+        LuaEnvironment.init(this.getConfig().getBoolean("lua-debug"));
     }
 
     @Override
