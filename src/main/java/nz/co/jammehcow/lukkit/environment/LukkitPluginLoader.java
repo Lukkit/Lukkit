@@ -27,6 +27,10 @@ public class LukkitPluginLoader implements org.bukkit.plugin.PluginLoader {
      */
     public static ArrayList<LukkitPlugin> loadedPlugins = new ArrayList<>();
 
+    public static void loadAllPlugins() {
+        // stub
+    }
+
     @Override
     public Plugin loadPlugin(File file) throws InvalidPluginException, UnknownDependencyException {
         return null;
