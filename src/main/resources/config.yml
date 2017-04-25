@@ -1,10 +1,10 @@
-#
-#   Credit to github/martijn-heil for the request.
-#   This is the default config for Lukkit.
-#
+#   This is the default config for Lukkit 2.0 and above.
 
-# Leave this line alone please, I'm begging you, just don't do it!
+# Leave this line alone please, I'm begging you, just don't change it!
 cfg-version: 3
+
+# Enable the debug globals for the Lua compiler
+lua-debug: false
 
 # Should I check for updates and let you know?
 update-checker: true
