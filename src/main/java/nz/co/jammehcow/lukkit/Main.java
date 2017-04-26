@@ -20,7 +20,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        logger = getLogger();
+        logger = this.getLogger();
         instance = this;
 
         if (getConfig().get("update-checker").equals(true))
