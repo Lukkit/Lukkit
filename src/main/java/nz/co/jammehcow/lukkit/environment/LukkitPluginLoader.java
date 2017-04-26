@@ -56,6 +56,14 @@ public class LukkitPluginLoader implements org.bukkit.plugin.PluginLoader {
 
     }
 
+    public static void disableAll() {
+        for (LukkitPlugin p : loadedPlugins) {
+            p.onDisable();
+        }
+
+        loadedPlugins.clear();
+    }
+
     @Override
     public void disablePlugin(Plugin plugin) {
 

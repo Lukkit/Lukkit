@@ -17,6 +17,6 @@ public class LuaEnvironment {
     }
 
     public static void shutdown() {
-        // stub
+        LukkitPluginLoader.disableAll();
     }
 }
