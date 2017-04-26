@@ -27,6 +27,9 @@ public class LukkitPluginLoader implements org.bukkit.plugin.PluginLoader {
      */
     public static ArrayList<LukkitPlugin> loadedPlugins = new ArrayList<>();
 
+    /**
+     * Load all plugins.
+     */
     public static void loadAllPlugins() {
         // stub
     }
@@ -56,6 +59,9 @@ public class LukkitPluginLoader implements org.bukkit.plugin.PluginLoader {
 
     }
 
+    /**
+     * Disable all LukkitPlugin objects in the loadedPlugins list.
+     */
     public static void disableAll() {
         for (LukkitPlugin p : loadedPlugins) {
             p.onDisable();
