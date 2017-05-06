@@ -23,4 +23,12 @@ public class UpdateCheckerTests {
         Assert.assertFalse(UpdateChecker.isOutOfDate("2.1.12", "1.1.12"));
         Assert.assertFalse(UpdateChecker.isOutOfDate("2.0.0", "1.1.12"));
     }
+
+    @Test
+    public void checkSameVersion() {
+        Assert.assertFalse(UpdateChecker.isOutOfDate("1.1.12", "1.1.12"));
+        Assert.assertFalse(UpdateChecker.isOutOfDate("1.2.12", "1.2.12"));
+        Assert.assertFalse(UpdateChecker.isOutOfDate("2.1.12", "2.1.12"));
+        Assert.assertFalse(UpdateChecker.isOutOfDate("2.0.0", "2.0.0"));
+    }
 }
