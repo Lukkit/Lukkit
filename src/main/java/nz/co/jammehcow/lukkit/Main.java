@@ -1,10 +1,13 @@
 package nz.co.jammehcow.lukkit;
 
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
+import nz.co.jammehcow.lukkit.environment.LukkitPluginLoader;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.logging.Logger;
 
 /**
@@ -22,6 +25,10 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         logger = this.getLogger();
         instance = this;
+
+        try {
+            LukkitPluginLoader.tmpDir = Files.createTempDirectory("lukkit_");
+        } catch (IOException e) { e.printStackTrace(); }
 
         if (getConfig().get("update-checker").equals(true))
             UpdateChecker.checkForUpdates(getDescription().getVersion());
