@@ -9,14 +9,17 @@ import org.luaj.vm2.lib.jse.JsePlatform;
 
 public class LuaEnvironment {
     public static Globals globals;
+    private static LukkitPluginLoader loader = new LukkitPluginLoader();
 
     public static void init(boolean isDebug) {
         globals = (isDebug) ? JsePlatform.debugGlobals() : JsePlatform.standardGlobals();
 
-        LukkitPluginLoader.loadAllPlugins();
+        loader.loadAllPlugins();
+        //Main.instance.getServer() TODO: register plugin loader.
     }
 
     public static void shutdown() {
-        LukkitPluginLoader.disableAll();
+        // Stub
+        loader.disableAll();
     }
 }
