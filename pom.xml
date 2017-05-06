@@ -76,6 +76,13 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- HSQLDB Database Driver -->
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+
         <!-- Unirest-java -->
         <dependency>
             <groupId>com.mashape.unirest</groupId>
