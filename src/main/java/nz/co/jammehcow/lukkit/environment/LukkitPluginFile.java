@@ -17,6 +17,7 @@ import java.util.zip.ZipFile;
  */
 public class LukkitPluginFile {
     private File file;
+    private File readableFolder;
     private boolean isDevPlugin;
 
     /**
@@ -27,43 +28,7 @@ public class LukkitPluginFile {
     public LukkitPluginFile(File plugin) {
         this.file = plugin;
         this.isDevPlugin = this.file.isDirectory();
-
-        if (!this.isDevPlugin) {
-            try {
-                ZipFile zipFile = new ZipFile(this.file, ZipFile.OPEN_READ);
-                ArrayList<InputStream> zipContentStreams = new ArrayList<>();
-
-                Enumeration<? extends ZipEntry> entries = zipFile.entries();
-
-                while (entries.hasMoreElements()) {
-                    ZipEntry entry = entries.nextElement();
-                    zipContentStreams.add(zipFile.getInputStream(entry));
-                }
-
-                zipContentStreams.forEach((f) -> {
-                    try {
-                        Files.createTempFile(LukkitPluginLoader.tmpDir, null, null);
-                    } catch (IOException e) { e.printStackTrace(); }
-                });
-            } catch (IOException e) { e.printStackTrace(); }
-        } else {
-            // TODO: is directory
-        }
-    }
-
-    private File getReadableDirectory(File pluginFile) {
-        if (pluginFile.isDirectory()) {
-            return pluginFile;
-        } else {
-            File tempDir = LukkitPluginLoader.tmpDir.toFile();
-            try {
-                ZipFile zip = new ZipFile(file);
-
-                // TODO
-            } catch (IOException e) { e.printStackTrace(); }
-        }
-
-        return null;
+        this.readableFolder = (this.isDevPlugin) ? this.getReadableDirectory() : this.file;
     }
 
     /**
@@ -106,7 +71,29 @@ public class LukkitPluginFile {
         if (resourceFile.exists()) {
             return resourceFile;
         } else {
-            throw new FileNotFoundException("The specified resource could not be found in " + this.file.getAbsolutePath() + ".");
+            throw new FileNotFoundException("The specified resource could not be found in " + this.file.getAbsolutePath());
         }
+    }
+
+    private File getReadableDirectory() {
+        try {
+            ZipFile zipFile = new ZipFile(this.file, ZipFile.OPEN_READ);
+            ArrayList<InputStream> zipContentStreams = new ArrayList<>();
+
+            Enumeration<? extends ZipEntry> entries = zipFile.entries();
+
+            while (entries.hasMoreElements()) {
+                ZipEntry entry = entries.nextElement();
+                zipContentStreams.add(zipFile.getInputStream(entry));
+            }
+
+            zipContentStreams.forEach((f) -> {
+                try {
+                    Files.createTempFile(LukkitPluginLoader.tmpDir, null, null);
+                } catch (IOException e) { e.printStackTrace(); }
+            });
+        } catch (IOException e) { e.printStackTrace(); }
+
+        return null;
     }
 }
