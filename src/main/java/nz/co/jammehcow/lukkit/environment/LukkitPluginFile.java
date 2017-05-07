@@ -50,7 +50,7 @@ public class LukkitPluginFile {
     }
 
     /**
-     * Gets the config (config.yml).
+     * Gets the default config (config.yml).
      *
      * @return the config
      */
