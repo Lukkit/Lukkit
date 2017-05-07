@@ -37,7 +37,7 @@ public class LukkitPluginFile {
      * @return the main
      */
     public File getMain() {
-        return new File(this.file.getAbsolutePath() + File.separator + "main.lua");
+        return new File(this.getResourcePath("main.lua"));
     }
 
     /**
@@ -46,7 +46,7 @@ public class LukkitPluginFile {
      * @return the config
      */
     public File getPluginYML() {
-        return new File(this.file.getAbsolutePath() + File.separator + "plugin.yml");
+        return new File(this.getResourcePath("plugin.yml"));
     }
 
     /**
@@ -55,7 +55,7 @@ public class LukkitPluginFile {
      * @return the config
      */
     public File getDefaultConfig() {
-        return new File(this.file.getAbsolutePath() + File.separator + "config.yml");
+        return new File(this.getResourcePath("config.yml"));
     }
 
     /**
@@ -95,5 +95,9 @@ public class LukkitPluginFile {
         } catch (IOException e) { e.printStackTrace(); }
 
         return null;
+    }
+
+    private String getResourcePath(String resourceName) {
+        return this.file.getAbsolutePath() + File.separator + resourceName;
     }
 }
