@@ -34,7 +34,7 @@ public class UpdateChecker {
     }
 
     /**
-     * Checks if the local version is out of date.
+     * Checks if the local version is out of date by comparing the current version with the remote.
      *
      * @param current the currently installed version
      * @param remote  the remote version (GitHub releases)
@@ -45,6 +45,7 @@ public class UpdateChecker {
         ArrayList<Integer> currentVersion = new ArrayList<>(3);
         ArrayList<Integer> remoteVersion = new ArrayList<>(3);
 
+        // Formats the ArrayList to look like {1, 2, 3}
         currentVersion.addAll(getIntegers(current.split("\\.")));
         remoteVersion.addAll(getIntegers(remote.split("\\.")));
 
