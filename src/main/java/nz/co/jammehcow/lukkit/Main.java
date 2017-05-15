@@ -8,8 +8,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
@@ -29,14 +27,13 @@ public class Main extends JavaPlugin {
         logger = this.getLogger();
         instance = this;
 
-        try {
-            LukkitPluginLoader.tmpDir = Files.createTempDirectory("lukkit_");
-        } catch (IOException e) { e.printStackTrace(); }
-
         if (getConfig().get("update-checker").equals(true))
             UpdateChecker.checkForUpdates(getDescription().getVersion());
 
         LuaEnvironment.init(this.getConfig().getBoolean("lua-debug"));
+
+        // Register the Lukkit plugin loader with the plugin manager.
+        this.getServer().getPluginManager().registerInterface(LukkitPluginLoader.class);
     }
 
     @Override

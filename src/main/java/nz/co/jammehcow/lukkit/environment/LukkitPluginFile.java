@@ -1,13 +1,8 @@
 package nz.co.jammehcow.lukkit.environment;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.zip.ZipEntry;
+import nz.co.jammehcow.lukkit.Main;
+
+import java.io.*;
 import java.util.zip.ZipFile;
 
 /**
@@ -17,7 +12,7 @@ import java.util.zip.ZipFile;
  */
 public class LukkitPluginFile {
     private File file;
-    private File readableFolder;
+    private ZipFile zipFile;
     private boolean isDevPlugin;
 
     /**
@@ -25,10 +20,9 @@ public class LukkitPluginFile {
      *
      * @param plugin the plugin file (.lkt)
      */
-    public LukkitPluginFile(File plugin) {
+    LukkitPluginFile(File plugin) {
         this.file = plugin;
         this.isDevPlugin = this.file.isDirectory();
-        this.readableFolder = (this.isDevPlugin) ? this.getReadableDirectory() : this.file;
     }
 
     /**
@@ -36,8 +30,22 @@ public class LukkitPluginFile {
      *
      * @return the main
      */
-    public File getMain() {
-        return new File(this.getResourcePath("main.lua"));
+    InputStream getMain(String main) {
+        if (this.isDevPlugin) {
+            try {
+                return new FileInputStream(new File(this.file + File.separator + main));
+            } catch (FileNotFoundException e) {
+                Main.instance.getLogger().warning("TODO");
+            }
+        } else {
+            try {
+                return this.zipFile.getInputStream(this.zipFile.getEntry("main.lua"));
+            } catch (IOException e) {
+                Main.instance.getLogger().warning("TODO");
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -45,8 +53,12 @@ public class LukkitPluginFile {
      *
      * @return the config
      */
-    public File getPluginYML() {
-        return new File(this.getResourcePath("plugin.yml"));
+    InputStream getPluginYML() {
+        try {
+            return this.zipFile.getInputStream(this.zipFile.getEntry("plugin.yml"));
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     /**
@@ -54,8 +66,12 @@ public class LukkitPluginFile {
      *
      * @return the config
      */
-    public File getDefaultConfig() {
-        return new File(this.getResourcePath("config.yml"));
+    InputStream getDefaultConfig() {
+        try {
+            return this.zipFile.getInputStream(this.zipFile.getEntry("config.yml"));
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     /**
@@ -65,39 +81,20 @@ public class LukkitPluginFile {
      * @return the resource as a File
      * @throws FileNotFoundException thrown when the specified resource isn't found
      */
-    public File getResource(String resource) throws FileNotFoundException {
-        File resourceFile = new File(this.file.getAbsolutePath() + File.separator + resource);
-
-        if (resourceFile.exists()) {
-            return resourceFile;
-        } else {
-            throw new FileNotFoundException("The specified resource could not be found in " + this.file.getAbsolutePath());
+    InputStream getResource(String resource) throws FileNotFoundException {
+        try {
+            return this.zipFile.getInputStream(this.zipFile.getEntry(resource));
+        } catch (IOException e) {
+            throw new FileNotFoundException("");
         }
     }
 
-    private File getReadableDirectory() {
-        try {
-            ZipFile zipFile = new ZipFile(this.file, ZipFile.OPEN_READ);
-            ArrayList<InputStream> zipContentStreams = new ArrayList<>();
-
-            Enumeration<? extends ZipEntry> entries = zipFile.entries();
-
-            while (entries.hasMoreElements()) {
-                ZipEntry entry = entries.nextElement();
-                zipContentStreams.add(zipFile.getInputStream(entry));
-            }
-
-            zipContentStreams.forEach((f) -> {
-                try {
-                    Files.createTempFile(LukkitPluginLoader.tmpDir, null, null);
-                } catch (IOException e) { e.printStackTrace(); }
-            });
-        } catch (IOException e) { e.printStackTrace(); }
-
-        return null;
-    }
-
-    private String getResourcePath(String resourceName) {
-        return this.file.getAbsolutePath() + File.separator + resourceName;
+    /**
+     * Is the plugin a dev plugin (in a directory rather than tied up with a pink box).
+     *
+     * @return if the plugin is a indev plugin.
+     */
+    boolean isDevPlugin() {
+        return this.isDevPlugin;
     }
 }

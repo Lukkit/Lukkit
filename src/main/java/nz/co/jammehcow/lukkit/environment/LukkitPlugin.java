@@ -1,20 +1,23 @@
 package nz.co.jammehcow.lukkit.environment;
 
 import com.avaje.ebean.EbeanServer;
+import com.sun.org.apache.xerces.internal.impl.io.UTF8Reader;
 import nz.co.jammehcow.lukkit.Main;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaFunction;
-import org.luaj.vm2.lib.jse.CoerceJavaToLua;
+import org.luaj.vm2.LuaValue;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -30,7 +33,10 @@ import java.util.logging.Logger;
 public class LukkitPlugin implements Plugin {
     private String name;
     private LukkitPluginFile pluginFile;
-    private File pluginMain;
+    private LuaValue pluginMain;
+    private LuaFunction loadCB;
+    private LuaFunction enableCB;
+    private LuaFunction disableCB;
     private File pluginConfig;
     private LukkitPluginLoader pluginLoader;
     private LukkitConfigurationFile config;
@@ -48,11 +54,19 @@ public class LukkitPlugin implements Plugin {
      * @param file   the file
      */
     public LukkitPlugin(LukkitPluginLoader loader, LukkitPluginFile file) {
+        try {
+            this.descriptor = new PluginDescriptionFile(this.pluginFile.getPluginYML());
+        } catch (InvalidDescriptionException e) { e.printStackTrace(); }
+
         this.pluginFile = file;
-        this.pluginMain = this.pluginFile.getMain();
+        try {
+            this.pluginMain = LuaEnvironment.globals.load(new UTF8Reader(this.pluginFile.getResource(this.descriptor.getMain())), this.descriptor.getMain());
+        } catch (FileNotFoundException e) { e.printStackTrace(); }
         this.dataFolder = new File(Main.instance.getDataFolder().getAbsolutePath() + File.separator + this.name); // TODO: use a plugin.yml name to create datafolder
         this.pluginLoader = loader;
         this.globals = LuaEnvironment.globals;
+
+        this.pluginMain.call();
     }
 
     @Override
@@ -84,7 +98,7 @@ public class LukkitPlugin implements Plugin {
     @Override
     public void saveDefaultConfig() {
         try {
-            Files.copy(this.pluginFile.getDefaultConfig().toPath(), this.dataFolder.toPath());
+            Files.copy(this.pluginFile.getDefaultConfig(), new File(this.dataFolder.getAbsolutePath() + File.separator + "config.yml").toPath());
         } catch (IOException e) { e.printStackTrace(); }
     }
 
@@ -121,19 +135,19 @@ public class LukkitPlugin implements Plugin {
 
     @Override
     public void onEnable() {
-        // TODO
+        if (this.enableCB != null) this.enableCB.call();
         this.enabled = true;
     }
 
     @Override
     public void onDisable() {
-        // TODO
+        if (this.disableCB != null) this.disableCB.call();
         this.enabled = false;
     }
 
     @Override
     public void onLoad() {
-        // TODO
+        if (this.loadCB != null) this.loadCB.call();
     }
 
     @Override
@@ -170,17 +184,11 @@ public class LukkitPlugin implements Plugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        // TODO
-        final boolean[] hasCalled = {false}; // An array a day keeps the IDE messages away.
+        if (commands.containsKey(command.getName())) {
 
-        commands.forEach((String k, LuaFunction v) -> {
-            if (k.equals(command.getName())) {
-                v.call(CoerceJavaToLua.coerce(sender), CoerceJavaToLua.coerce(args));
-                hasCalled[0] = true;
-            }
-        });
+        }
 
-        return hasCalled[0];
+        return false;
     }
 
     @Override

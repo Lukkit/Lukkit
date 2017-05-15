@@ -1,12 +1,12 @@
 package nz.co.jammehcow.lukkit.environment;
 
 import nz.co.jammehcow.lukkit.Main;
+import org.bukkit.Server;
 import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.*;
 
 import java.io.File;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
@@ -29,9 +29,13 @@ public class LukkitPluginLoader implements org.bukkit.plugin.PluginLoader {
      */
     public static ArrayList<LukkitPlugin> enabledPlugins = new ArrayList<>();
 
-    public static Path tmpDir;
-
     private final Pattern[] fileFilters = { Pattern.compile("\\.lkt$") };
+
+    final Server server;
+
+    public LukkitPluginLoader(Server server) {
+        this.server = server;
+    }
 
     /**
      * Load all plugins.
