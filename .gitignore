@@ -4,6 +4,5 @@ out/
 .DS_Store
 sandbox/
 target/
-Lukkit.iml
 
 *.sh
