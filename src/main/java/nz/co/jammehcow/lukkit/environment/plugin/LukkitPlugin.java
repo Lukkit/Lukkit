@@ -12,6 +12,7 @@ import org.bukkit.plugin.*;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
 import java.io.File;
 import java.io.IOException;
@@ -138,13 +139,13 @@ public class LukkitPlugin implements Plugin {
 
     @Override
     public void onEnable() {
-        if (this.enableCB != null) this.enableCB.call();
+        if (this.enableCB != null) this.enableCB.call(CoerceJavaToLua.coerce(this));
         this.enabled = true;
     }
 
     @Override
     public void onDisable() {
-        if (this.disableCB != null) this.disableCB.call();
+        if (this.disableCB != null) this.disableCB.call(CoerceJavaToLua.coerce(this));
         this.enabled = false;
     }
 
