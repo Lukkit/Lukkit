@@ -205,6 +205,14 @@ public class LukkitPlugin implements Plugin {
         return new File(this.pluginFile.getPath());
     }
 
+    public void setEnableCB(LuaFunction cb) {
+        this.enableCB = cb;
+    }
+
+    public void setDisableCB(LuaFunction cb) {
+        this.disableCB = cb;
+    }
+
     private Optional<String> checkValidity() {
         if (this.pluginMain == null) {
             return Optional.of("Unable to load the main Lua file. It may be missing from the plugin file or corrupted.");
