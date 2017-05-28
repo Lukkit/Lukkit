@@ -1,4 +1,4 @@
-package nz.co.jammehcow.lukkit.environment;
+package nz.co.jammehcow.lukkit.environment.plugin;
 
 import nz.co.jammehcow.lukkit.Main;
 import org.bukkit.Server;
@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  *
  * @author jammehcow
  */
-public class LukkitPluginLoader implements org.bukkit.plugin.PluginLoader {
+public class LukkitPluginLoader implements PluginLoader {
     /**
      * The list of available plugins installed in the Lukkit data folder.
      * Plugins aren't loaded by default due to dependency requirements.
@@ -29,7 +29,10 @@ public class LukkitPluginLoader implements org.bukkit.plugin.PluginLoader {
      */
     public static ArrayList<LukkitPlugin> enabledPlugins = new ArrayList<>();
 
-    private final Pattern[] fileFilters = { Pattern.compile("\\.lkt$") };
+    public static final Pattern[] fileFilters = new Pattern[] {
+            Pattern.compile("^(.*)\\.lkt$"),
+            Pattern.compile("^(.*)\\.lkt\\.zip$")
+    };
 
     final Server server;
 
@@ -38,35 +41,33 @@ public class LukkitPluginLoader implements org.bukkit.plugin.PluginLoader {
     }
 
     /**
-     * Load all plugins.
+     * Load all Lukkit plugins.
      */
     public void loadAllPlugins() {
-        File folder = Main.instance.getDataFolder();
-        if (!folder.exists()) folder.mkdir();
+        File folder = new File(Main.instance.getDataFolder().getParent());
+        if (!folder.exists()) {
+            Main.instance.getLogger().warning("Unable to open the server's plugin directory.");
+        }
 
         File[] files = folder.listFiles();
 
         if (files != null && files.length > 0) {
             for (File f : files) {
-                // I'm only checking if it ends with .lkt in case it's a directory (which is still usable)
-                if (f.getAbsolutePath().endsWith(".lkt")) {
-                    LukkitPluginFile lpf = new LukkitPluginFile(f);
+                LukkitPluginFile lpf = new LukkitPluginFile(f);
+                try {
                     loadedPlugins.add(new LukkitPlugin(this, lpf));
-                } else if (f.isDirectory() && (new File(f.getAbsolutePath() + File.separator + "main.lua")).exists()) {
-                    // TODO
+                } catch (InvalidPluginException e) {
+                    Main.instance.getLogger().warning("The plugin at " + lpf.getPath() + " is invalid. Check the stacktrace for more information.");
+                    e.printStackTrace();
                 }
             }
         }
     }
 
-    private void enableAllPlugins() {
-        loadedPlugins.forEach(this::enablePlugin);
-    }
-
     @Override
     public Plugin loadPlugin(File file) throws InvalidPluginException, UnknownDependencyException {
-        // TODO
-        return null;
+        System.out.println("#loadPlugin called");
+        return new LukkitPlugin(this, new LukkitPluginFile(file));
     }
 
     @Override
@@ -87,20 +88,20 @@ public class LukkitPluginLoader implements org.bukkit.plugin.PluginLoader {
 
     @Override
     public void enablePlugin(Plugin plugin) {
-        // TODO
         plugin.onEnable();
     }
 
     /**
-     * Disable all LukkitPlugin objects in the loadedPlugins list.
+     * Reload all LukkitPlugin objects in the loadedPlugins list.
      */
-    public void disableAll() {
+    public void reloadAll() {
         enabledPlugins.forEach(this::disablePlugin);
+        this.loadAllPlugins();
+        enabledPlugins.forEach(this::enablePlugin);
     }
 
     @Override
     public void disablePlugin(Plugin plugin) {
         plugin.onDisable();
-        enabledPlugins.remove(plugin);
     }
 }
