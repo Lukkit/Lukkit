@@ -3,6 +3,7 @@ package nz.co.jammehcow.lukkit.environment.plugin;
 import com.avaje.ebean.EbeanServer;
 import nz.co.jammehcow.lukkit.Main;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
+import nz.co.jammehcow.lukkit.environment.wrappers.PluginWrapper;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -64,7 +65,9 @@ public class LukkitPlugin implements Plugin {
         this.pluginMain = LuaEnvironment.globals.load(new InputStreamReader(this.pluginFile.getResource(this.descriptor.getMain())), this.descriptor.getMain());
         this.dataFolder = new File(Main.instance.getDataFolder().getAbsolutePath() + File.separator + this.name);
         this.pluginLoader = loader;
+
         this.globals = LuaEnvironment.globals;
+        this.globals.set("plugin", new PluginWrapper(this));
 
         // Sets callbacks (if any) and loads the commands & events into memory.
         Optional<String> isValid = this.checkValidity();
