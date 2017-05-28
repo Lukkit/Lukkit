@@ -1,28 +1,26 @@
-package nz.co.jammehcow.lukkit.environment;
+package nz.co.jammehcow.lukkit.environment.plugin;
 
 import com.avaje.ebean.EbeanServer;
-import com.sun.org.apache.xerces.internal.impl.io.UTF8Reader;
 import nz.co.jammehcow.lukkit.Main;
+import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.generator.ChunkGenerator;
-import org.bukkit.plugin.InvalidDescriptionException;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginLoader;
+import org.bukkit.plugin.*;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.LuaValue;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 /**
@@ -53,18 +51,24 @@ public class LukkitPlugin implements Plugin {
      * @param loader the loader
      * @param file   the file
      */
-    public LukkitPlugin(LukkitPluginLoader loader, LukkitPluginFile file) {
+    public LukkitPlugin(LukkitPluginLoader loader, LukkitPluginFile file) throws InvalidPluginException {
+        this.pluginFile = file;
+
         try {
             this.descriptor = new PluginDescriptionFile(this.pluginFile.getPluginYML());
-        } catch (InvalidDescriptionException e) { e.printStackTrace(); }
+        } catch (InvalidDescriptionException e) {
+            throw new InvalidPluginException("The description provided was invalid or missing.");
+        }
 
-        this.pluginFile = file;
-        try {
-            this.pluginMain = LuaEnvironment.globals.load(new UTF8Reader(this.pluginFile.getResource(this.descriptor.getMain())), this.descriptor.getMain());
-        } catch (FileNotFoundException e) { e.printStackTrace(); }
-        this.dataFolder = new File(Main.instance.getDataFolder().getAbsolutePath() + File.separator + this.name); // TODO: use a plugin.yml name to create datafolder
+        this.pluginMain = LuaEnvironment.globals.load(new InputStreamReader(this.pluginFile.getResource(this.descriptor.getMain())), this.descriptor.getMain());
+        this.dataFolder = new File(Main.instance.getDataFolder().getAbsolutePath() + File.separator + this.name);
         this.pluginLoader = loader;
         this.globals = LuaEnvironment.globals;
+
+        // Sets callbacks (if any) and loads the commands & events into memory.
+        Optional<String> isValid = this.checkValidity();
+        if (isValid.isPresent())
+            throw new InvalidPluginException("An issue occurred when loading the plugin: \n" + isValid.get());
 
         this.pluginMain.call();
     }
@@ -85,9 +89,8 @@ public class LukkitPlugin implements Plugin {
     }
 
     @Override
-    public InputStream getResource(String s) {
-        // TODO
-        return null;
+    public InputStream getResource(String path) {
+        return this.pluginFile.getResource(path);
     }
 
     @Override
@@ -195,5 +198,15 @@ public class LukkitPlugin implements Plugin {
     public List<String> onTabComplete(CommandSender commandSender, Command command, String label, String[] strings) {
         // TODO
         return null;
+    }
+
+    private Optional<String> checkValidity() {
+        if (this.pluginMain == null) {
+            return Optional.of("Unable to load the main Lua file. It may be missing from the plugin file or corrupted.");
+        } else if (this.descriptor == null) {
+            return Optional.of("Unable to load the plugin's description file. It may be missing from the plugin file or corrupted.");
+        }
+
+        return Optional.empty();
     }
 }

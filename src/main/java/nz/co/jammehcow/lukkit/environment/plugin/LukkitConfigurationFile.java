@@ -1,4 +1,4 @@
-package nz.co.jammehcow.lukkit.environment;
+package nz.co.jammehcow.lukkit.environment.plugin;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
