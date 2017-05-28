@@ -6,6 +6,7 @@ import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.ZeroArgFunction;
+import org.luaj.vm2.lib.VarArgFunction;
 
 /**
  * The type Plugin wrapper.
@@ -23,7 +24,7 @@ public class PluginWrapper extends LuaTable {
     public PluginWrapper(final LukkitPlugin plugin) {
         this.plugin = plugin;
 
-        set("onEnable", new OneArgFunction() {
+        set("onEnable", new VarArgFunction() {
             @Override
             public LuaValue call(LuaValue callback) {
                 if (callback.isfunction()) {
@@ -35,7 +36,7 @@ public class PluginWrapper extends LuaTable {
             }
         });
 
-        set("onDisable", new OneArgFunction() {
+        set("onDisable", new VarArgFunction() {
             @Override
             public LuaValue call(LuaValue callback) {
                 if (callback.isfunction()) {
