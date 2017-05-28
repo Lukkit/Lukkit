@@ -100,8 +100,28 @@ public class LukkitPluginLoader implements PluginLoader {
         enabledPlugins.forEach(this::enablePlugin);
     }
 
+    public void reloadPlugin(Plugin plugin) {
+        File jar = ((LukkitPlugin) plugin).getJarFile();
+        this.disablePlugin(plugin);
+
+        LukkitPlugin newPlugin = null;
+
+        try {
+            newPlugin = (LukkitPlugin) this.loadPlugin(jar);
+        } catch (InvalidPluginException e) { e.printStackTrace(); }
+
+        if (newPlugin == null) {
+            Main.instance.getLogger().severe("Unable to load the plugin from " + jar.getAbsolutePath());
+        } else {
+            this.enablePlugin(newPlugin);
+        }
+    }
+
+    @SuppressWarnings("SuspiciousMethodCalls")
     @Override
     public void disablePlugin(Plugin plugin) {
         plugin.onDisable();
+        loadedPlugins.remove(plugin);
+        enabledPlugins.remove(plugin);
     }
 }

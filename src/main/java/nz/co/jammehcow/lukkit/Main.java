@@ -1,6 +1,7 @@
 package nz.co.jammehcow.lukkit;
 
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
+import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginLoader;
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.ChatColor;
@@ -80,7 +81,15 @@ public class Main extends JavaPlugin {
                     sender.sendMessage(getHelpMessage());
                 } else if (cmd.equalsIgnoreCase("reload")) {
                     if (!isEmptyArgs(args)) {
-
+                        LukkitPlugin plugin = (LukkitPlugin) pluginManager.getPlugin(args[0]);
+                        if (plugin != null) {
+                            sender.sendMessage("Reloading " + plugin.getName());
+                            ((LukkitPluginLoader) pluginManager).reloadPlugin(plugin);
+                            return true;
+                        } else {
+                            sender.sendMessage(ChatColor.RED + "Plugin " + args[0] + " was not loaded. Try " + ChatColor.YELLOW + "/lukkit plugins");
+                            return true;
+                        }
                     } else {
                         LuaEnvironment.shutdown();
                         LuaEnvironment.init(this.getConfig().getBoolean("lua-debug"));
