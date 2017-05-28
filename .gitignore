@@ -1,7 +1,4 @@
 .idea/
-pkg/
-out/
-.DS_Store
 sandbox/
 target/
 
