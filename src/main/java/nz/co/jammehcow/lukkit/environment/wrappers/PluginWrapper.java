@@ -23,8 +23,6 @@ public class PluginWrapper extends LuaTable {
     public PluginWrapper(final LukkitPlugin plugin) {
         this.plugin = plugin;
 
-        // Would rather wrap the entire plugin manually than just coerce it. Make it Lua friendly.
-
         set("onEnable", new OneArgFunction() {
             @Override
             public LuaValue call(LuaValue callback) {
