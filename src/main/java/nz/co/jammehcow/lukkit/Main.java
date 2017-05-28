@@ -1,15 +1,21 @@
 package nz.co.jammehcow.lukkit;
 
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
-import nz.co.jammehcow.lukkit.environment.LukkitPluginLoader;
+import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginLoader;
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.InvalidDescriptionException;
+import org.bukkit.plugin.InvalidPluginException;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author jammehcow
@@ -22,6 +28,8 @@ public class Main extends JavaPlugin {
     public static Logger logger;
     public static Main instance;
 
+    private PluginManager pluginManager;
+
     @Override
     public void onEnable() {
         logger = this.getLogger();
@@ -31,14 +39,34 @@ public class Main extends JavaPlugin {
             UpdateChecker.checkForUpdates(getDescription().getVersion());
 
         LuaEnvironment.init(this.getConfig().getBoolean("lua-debug"));
-
-        // Register the Lukkit plugin loader with the plugin manager.
-        this.getServer().getPluginManager().registerInterface(LukkitPluginLoader.class);
     }
 
     @Override
     public void onDisable() {
         LuaEnvironment.shutdown();
+    }
+
+    @Override
+    public void onLoad() {
+        // Register the Lukkit plugin loader with the plugin manager.
+        this.getServer().getPluginManager().registerInterface(LukkitPluginLoader.class);
+
+        this.pluginManager = this.getServer().getPluginManager();
+
+        File[] plugins = this.getFile().getParentFile().listFiles();
+
+        if (plugins != null) {
+            for (File file : plugins) {
+                for (Pattern filter : LukkitPluginLoader.fileFilters) {
+                    Matcher match = filter.matcher(file.getName());
+
+                    if (match.find()) {
+                        try { this.pluginManager.loadPlugin(file); }
+                        catch (InvalidPluginException | InvalidDescriptionException e) { e.printStackTrace(); }
+                    }
+                }
+            }
+        }
     }
 
     @Override
