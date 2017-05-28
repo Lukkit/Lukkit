@@ -200,6 +200,10 @@ public class LukkitPlugin implements Plugin {
         return null;
     }
 
+    public File getJarFile() {
+        return new File(this.pluginFile.getPath());
+    }
+
     private Optional<String> checkValidity() {
         if (this.pluginMain == null) {
             return Optional.of("Unable to load the main Lua file. It may be missing from the plugin file or corrupted.");
