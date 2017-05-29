@@ -59,9 +59,8 @@ public class LukkitPluginFile {
 
     public InputStream getResource(String resource) {
         try {
-            if (this.isDevPlugin) {
+            if (this.isDevPlugin)
                 return new FileInputStream(new File(this.file.getAbsolutePath() + File.separator + resource));
-            }
             return this.zipFile.getInputStream(this.zipFile.getEntry(resource));
         } catch (IOException e) {
             return null;
