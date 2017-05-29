@@ -7,7 +7,7 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.VarArgFunction;
 
 /**
- * The type Plugin wrapper.
+ * The plugin wrapper providing access to plugin functions.
  *
  * @author jammehcow
  */
@@ -15,7 +15,7 @@ public class PluginWrapper extends LuaTable {
     private LukkitPlugin plugin;
 
     /**
-     * Creates a new wrapper for the plugin to interact with.
+     * Creates a new plugin wrapper.
      *
      * @param plugin the Lukkit plugin
      */
