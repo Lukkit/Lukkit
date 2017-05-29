@@ -33,13 +33,8 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        logger = this.getLogger();
-        instance = this;
-
         if (getConfig().get("update-checker").equals(true))
             UpdateChecker.checkForUpdates(getDescription().getVersion());
-
-        LuaEnvironment.init(this.getConfig().getBoolean("lua-debug"));
     }
 
     @Override
@@ -49,6 +44,11 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onLoad() {
+        logger = this.getLogger();
+        instance = this;
+
+        LuaEnvironment.init(this.getConfig().getBoolean("lua-debug"));
+
         // Register the Lukkit plugin loader with the plugin manager.
         this.getServer().getPluginManager().registerInterface(LukkitPluginLoader.class);
 
