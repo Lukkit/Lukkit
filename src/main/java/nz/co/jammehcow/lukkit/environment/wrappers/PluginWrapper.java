@@ -22,6 +22,18 @@ public class PluginWrapper extends LuaTable {
     public PluginWrapper(final LukkitPlugin plugin) {
         this.plugin = plugin;
 
+        set("onLoad", new VarArgFunction() {
+            @Override
+            public LuaValue call(LuaValue callback) {
+                if (callback.isfunction()) {
+                    plugin.setLoadCB(callback.checkfunction());
+                } else {
+                    Main.instance.getLogger().warning("The plugin " + plugin.getName() + " tried to add an onLoad callback but provided a " + callback.typename() + " instead of a function.");
+                }
+                return LuaValue.NIL;
+            }
+        });
+
         set("onEnable", new VarArgFunction() {
             @Override
             public LuaValue call(LuaValue callback) {

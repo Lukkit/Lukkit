@@ -79,6 +79,7 @@ public class LukkitPlugin implements Plugin {
             throw new InvalidPluginException("An issue occurred when loading the plugin: \n" + isValid.get());
 
         this.pluginMain.call();
+        this.onLoad();
     }
 
     @Override
@@ -209,6 +210,10 @@ public class LukkitPlugin implements Plugin {
 
     public File getJarFile() {
         return new File(this.pluginFile.getPath());
+    }
+
+    public void setLoadCB(LuaFunction cb) {
+        this.loadCB = cb;
     }
 
     public void setEnableCB(LuaFunction cb) {
