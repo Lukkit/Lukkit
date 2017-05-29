@@ -11,7 +11,6 @@ import org.luaj.vm2.lib.jse.JsePlatform;
 
 public class LuaEnvironment {
     public static Globals globals;
-    private static LukkitPluginLoader loader = new LukkitPluginLoader(Main.instance.getServer());
 
     public static void init(boolean isDebug) {
         globals = (isDebug) ? JsePlatform.debugGlobals() : JsePlatform.standardGlobals();
