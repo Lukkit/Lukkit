@@ -198,7 +198,8 @@ public class LukkitPlugin implements Plugin {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (commands.containsKey(command.getName())) {
-
+            commands.get(command.getName()).call();
+            return true;
         }
 
         return false;
@@ -224,6 +225,10 @@ public class LukkitPlugin implements Plugin {
 
     public void setDisableCB(LuaFunction cb) {
         this.disableCB = cb;
+    }
+
+    public void addCommand(String name, LuaFunction function) {
+        this.commands.put(name, function);
     }
 
     private Optional<String> checkValidity() {
