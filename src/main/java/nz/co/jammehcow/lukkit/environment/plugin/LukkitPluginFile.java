@@ -68,7 +68,7 @@ public class LukkitPluginFile {
     }
 
     /**
-     * Is the plugin a dev plugin (in a directory rather than tied up with a pink box).
+     * Is the plugin a dev plugin (in a directory rather than tied up with a pink bow).
      *
      * @return if the plugin is a indev plugin.
      */
