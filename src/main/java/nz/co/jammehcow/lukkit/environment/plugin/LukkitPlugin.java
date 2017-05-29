@@ -44,6 +44,7 @@ public class LukkitPlugin implements Plugin {
     private final Globals globals;
     private final File dataFolder;
     private boolean enabled = false;
+    private final Logger logger;
 
     private final HashMap<String, LuaFunction> commands = new HashMap<>();
 
@@ -61,6 +62,9 @@ public class LukkitPlugin implements Plugin {
         } catch (InvalidDescriptionException e) {
             throw new InvalidPluginException("The description provided was invalid or missing.");
         }
+
+        this.name = this.descriptor.getName();
+        this.logger = new PluginLogger(this);
 
         this.pluginMain = LuaEnvironment.globals.load(new InputStreamReader(this.pluginFile.getResource(this.descriptor.getMain())), this.descriptor.getMain());
         this.dataFolder = new File(Main.instance.getDataFolder().getAbsolutePath() + File.separator + this.name);
@@ -182,8 +186,7 @@ public class LukkitPlugin implements Plugin {
 
     @Override
     public Logger getLogger() {
-        // TODO: create plugin-individual logger
-        return Main.logger;
+        return this.logger;
     }
 
     @Override
