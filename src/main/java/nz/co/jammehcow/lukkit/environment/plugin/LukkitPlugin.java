@@ -31,21 +31,21 @@ import java.util.logging.Logger;
  * @author jammehcow
  */
 public class LukkitPlugin implements Plugin {
-    private String name;
-    private LukkitPluginFile pluginFile;
-    private LuaValue pluginMain;
+    private final String name;
+    private final LukkitPluginFile pluginFile;
+    private final LuaValue pluginMain;
     private LuaFunction loadCB;
     private LuaFunction enableCB;
     private LuaFunction disableCB;
     private File pluginConfig;
-    private LukkitPluginLoader pluginLoader;
+    private final LukkitPluginLoader pluginLoader;
     private LukkitConfigurationFile config;
-    private PluginDescriptionFile descriptor;
-    private Globals globals;
-    private File dataFolder;
+    private final PluginDescriptionFile descriptor;
+    private final Globals globals;
+    private final File dataFolder;
     private boolean enabled = false;
 
-    private HashMap<String, LuaFunction> commands = new HashMap<>();
+    private final HashMap<String, LuaFunction> commands = new HashMap<>();
 
     /**
      * Instantiates a new Lukkit plugin.
