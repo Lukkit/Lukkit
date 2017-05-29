@@ -29,7 +29,7 @@ public class PluginWrapper extends LuaTable {
                 if (callback.isfunction()) {
                     plugin.setLoadCB(callback.checkfunction());
                 } else {
-                    Main.instance.getLogger().warning("The plugin " + plugin.getName() + " tried to add an onLoad callback but provided a " + callback.typename() + " instead of a function.");
+                    plugin.getLogger().warning("I tried to add an onLoad callback but provided a " + callback.typename() + " instead of a function.");
                 }
                 return LuaValue.NIL;
             }
@@ -41,7 +41,7 @@ public class PluginWrapper extends LuaTable {
                 if (callback.isfunction()) {
                     plugin.setEnableCB(callback.checkfunction());
                 } else {
-                    Main.instance.getLogger().warning("The plugin " + plugin.getName() + " tried to add an onEnable callback but provided a " + callback.typename() + " instead of a function.");
+                    plugin.getLogger().warning("I tried to add an onEnable callback but provided a " + callback.typename() + " instead of a function.");
                 }
                 return LuaValue.NIL;
             }
@@ -53,7 +53,7 @@ public class PluginWrapper extends LuaTable {
                 if (callback.isfunction()) {
                     plugin.setDisableCB(callback.checkfunction());
                 } else {
-                    Main.instance.getLogger().warning("The plugin " + plugin.getName() + " tried to add an onDisable callback but provided a " + callback.typename() + " instead of a function.");
+                    plugin.getLogger().warning("I tried to add an onDisable callback but provided a " + callback.typename() + " instead of a function.");
                 }
                 return LuaValue.NIL;
             }
