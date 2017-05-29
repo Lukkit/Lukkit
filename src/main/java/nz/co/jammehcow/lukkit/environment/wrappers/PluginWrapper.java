@@ -4,6 +4,7 @@ import nz.co.jammehcow.lukkit.Main;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.TwoArgFunction;
 import org.luaj.vm2.lib.VarArgFunction;
 
 /**
@@ -53,6 +54,19 @@ public class PluginWrapper extends LuaTable {
                     plugin.setDisableCB(callback.checkfunction());
                 } else {
                     Main.instance.getLogger().warning("The plugin " + plugin.getName() + " tried to add an onDisable callback but provided a " + callback.typename() + " instead of a function.");
+                }
+                return LuaValue.NIL;
+            }
+        });
+
+        set("addCommand", new TwoArgFunction() {
+            @Override
+            public LuaValue call(LuaValue arg1, LuaValue arg2) {
+                if (!arg1.isstring() || !arg2.isfunction() || arg2.checkfunction().narg() != 4) {
+                    // TODO
+                    plugin.getLogger().severe("I tried to register a command but there was an issue doing so. Check that the command registration conforms to the layout here: ");
+                } else {
+                    plugin.addCommand(arg1.checkjstring(), arg2.checkfunction());
                 }
                 return LuaValue.NIL;
             }
