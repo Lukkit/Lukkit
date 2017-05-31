@@ -8,7 +8,9 @@ import nz.co.jammehcow.lukkit.environment.wrappers.PluginWrapper;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.*;
 import org.luaj.vm2.Globals;
@@ -21,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +43,7 @@ public class LukkitPlugin implements Plugin {
     private LuaFunction disableCB;
     private File pluginConfig;
     private final LukkitPluginLoader pluginLoader;
-    private LukkitConfigurationFile config;
+    private FileConfiguration config;
     private final PluginDescriptionFile descriptor;
     private final Globals globals;
     private final File dataFolder;
@@ -57,6 +60,7 @@ public class LukkitPlugin implements Plugin {
      */
     public LukkitPlugin(LukkitPluginLoader loader, LukkitPluginFile file) throws InvalidPluginException {
         this.pluginFile = file;
+        this.pluginLoader = loader;
 
         try {
             this.descriptor = new PluginDescriptionFile(this.pluginFile.getPluginYML());
@@ -69,7 +73,12 @@ public class LukkitPlugin implements Plugin {
 
         this.pluginMain = LuaEnvironment.globals.load(new InputStreamReader(this.pluginFile.getResource(this.descriptor.getMain())), this.descriptor.getMain());
         this.dataFolder = new File(Main.instance.getDataFolder().getAbsolutePath() + File.separator + this.name);
-        this.pluginLoader = loader;
+        if (this.dataFolder.exists()) //noinspection ResultOfMethodCallIgnored
+            this.dataFolder.mkdir();
+
+        this.pluginConfig = new File(this.dataFolder + File.separator + "config.yml");
+        this.config = new YamlConfiguration();
+        this.loadConfigWithChecks();
 
         this.globals = LuaEnvironment.globals;
         this.globals.set("plugin", new PluginWrapper(this));
@@ -106,7 +115,11 @@ public class LukkitPlugin implements Plugin {
 
     @Override
     public void saveConfig() {
-
+        if (this.config != null) {
+            try {
+                this.config.save(pluginConfig);
+            } catch (IOException e) { e.printStackTrace(); }
+        }
     }
 
     @Override
@@ -129,7 +142,11 @@ public class LukkitPlugin implements Plugin {
 
     @Override
     public void reloadConfig() {
-        this.config = new LukkitConfigurationFile(this.pluginConfig);
+        if (this.pluginConfig != null) {
+            try {
+                this.config.load(this.dataFolder);
+            } catch (IOException | InvalidConfigurationException e) { e.printStackTrace(); }
+        }
     }
 
     @Override
@@ -228,6 +245,55 @@ public class LukkitPlugin implements Plugin {
 
     public void addCommand(String name, LuaFunction function) {
         this.commands.put(name, function);
+    }
+
+    private void loadConfigWithChecks() {
+        InputStream internalConfig = this.pluginFile.getDefaultConfig();
+        if (!this.pluginConfig.exists() && internalConfig == null) {
+            // No need to do anything, there is no config.
+            this.config = null;
+        } else if (!this.pluginConfig.exists()) {
+            // There is no external config so we'll export one from the .lkt
+            try {
+                Files.copy(internalConfig, this.pluginConfig.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                this.loadConfig();
+            } catch (IOException e) {
+                this.logger.warning("Unable to export the internal config. We have a problem.");
+            }
+        } else {
+            // There is a config externally and one internally. External is fine, just load that.
+            this.loadConfig();
+        }
+    }
+
+    private void loadConfig() {
+        File brokenConfig;
+
+        try {
+            this.config.load(this.pluginConfig);
+            return;
+        } catch (InvalidConfigurationException e) {
+            brokenConfig = new File(this.dataFolder.getAbsolutePath() + File.separator + "config.broken.yml");
+        } catch (IOException e) {
+            this.logger.severe("There was an error creating the file to move the broken config to.");
+            e.printStackTrace();
+            return;
+        }
+
+        try {
+            Files.copy(this.pluginConfig.toPath(), brokenConfig.toPath());
+            Files.copy(this.pluginFile.getDefaultConfig(), this.pluginConfig.toPath());
+            this.config.load(this.pluginConfig);
+        } catch (IOException e) {
+            this.logger.severe("There was an error copying either the broken config to its new file or the default config to the data folder.");
+            e.printStackTrace();
+            return;
+        } catch (InvalidConfigurationException e) {
+            this.logger.severe("The internal config is invalid. If you are the plugin maintainer please verify it. If you believe this is a bug submit an issue on GitHub with your configuration.");
+            e.printStackTrace();
+        }
+
+        this.logger.warning("The config at " + this.pluginConfig.getAbsolutePath() + " was invalid. It has been moved to config.broken.yml and the default config has been exported to config.yml.");
     }
 
     private Optional<String> checkValidity() {
