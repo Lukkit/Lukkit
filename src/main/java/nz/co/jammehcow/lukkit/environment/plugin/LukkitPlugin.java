@@ -183,8 +183,7 @@ public class LukkitPlugin implements Plugin {
 
     @Override
     public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
-        // TODO: lookup
-        return null;
+        return Main.instance.getDefaultWorldGenerator(worldName, id);
     }
 
     @Override
