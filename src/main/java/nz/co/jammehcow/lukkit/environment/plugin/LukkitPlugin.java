@@ -131,12 +131,28 @@ public class LukkitPlugin implements Plugin {
 
     @Override
     public void saveResource(String resourcePath, boolean replace) {
-        File resourceOutput = new File(this.dataFolder.getAbsolutePath() + File.separator + "");
+        if (resourcePath.startsWith("/")) {
+            // Remove a leading slash if one is present
+            resourcePath = resourcePath.replaceFirst("/", "");
+            this.logger.warning("Please don't prefix a resource path with a forward slash. Lukkit will remove it, but you'll get spammed with this.");
+        }
 
-        if (!resourceOutput.exists() || replace) {
-            // TODO
+        File resourceOutput = new File(this.dataFolder.getAbsolutePath() + File.separator + (resourcePath.split("/")[resourcePath.length() - 1]));
+        InputStream is = this.pluginFile.getResource(resourcePath);
+
+        if (is != null) {
+            if (!resourceOutput.exists() || replace) {
+                try {
+                    Files.copy(is, resourceOutput.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException e) {
+                    this.logger.severe("There was an issue copying a resource to the data folder.");
+                    e.printStackTrace();
+                }
+            } else {
+                this.logger.info("Will not export resource " + resourcePath + " to " + this.dataFolder.getName() + " as it already exists and has not been marked to be replaced.");
+            }
         } else {
-            getLogger().warning("You tried to access a resource that doesn't exist");
+            this.logger.warning("The resource requested doesn't exist. Unable to find " + resourcePath + " in " + this.pluginFile.getPath());
         }
     }
 
