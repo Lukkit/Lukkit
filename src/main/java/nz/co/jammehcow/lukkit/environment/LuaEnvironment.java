@@ -23,12 +23,17 @@ public class LuaEnvironment {
     public static Globals getNewGlobals(LukkitPlugin plugin) {
         Globals g = (isDebug) ? JsePlatform.debugGlobals() : JsePlatform.standardGlobals();
         g.set("require_local", new OneArgFunction() {
+            @SuppressWarnings("ResultOfMethodCallIgnored")
             @Override
             public LuaValue call(LuaValue arg) {
+                if (arg.checkjstring().startsWith("/")) {
+                    arg.checkjstring().replaceFirst("/", "");
+                    plugin.getLogger().warning("Please don't prefix a resource path with a forward slash. Lukkit will remove it, but you'll get spammed with this.");
+                }
+
                 InputStream is = plugin.getResource(arg.checkjstring());
 
                 if (is != null) return g.load(new InputStreamReader(is), plugin.getName() + "-" + arg.tojstring());
-
                 plugin.getLogger().severe("Requested local plugin file " + arg.tojstring() + " but it could not be found in the plugin.");
 
                 return LuaValue.NIL;
