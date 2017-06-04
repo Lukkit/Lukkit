@@ -3,6 +3,8 @@ Lukkit
 
 [![Build Status](https://ci.jammehcow.co.nz/job/Lukkit/badge/icon)](https://ci.jammehcow.co.nz/job/Lukkit)
 
+Currently being rewritten on 2.0-dev branch
+
 Lukkit allows developers to create Bukkit plugins quickly and easily using the lua scripting language.
 
 For support or general disccusion, come join us on the [Lukkit forums](https://theartex.net/lukkit), the SpigotMC IRC channel [#lukkit](http://fry.spi.gt/iris/?nick=&channels=lukkit) or use the [Lukkit docs](https://theartex.net/lukkit/docs) to solve your problems.
