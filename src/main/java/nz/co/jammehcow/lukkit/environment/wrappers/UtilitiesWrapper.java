@@ -48,5 +48,13 @@ public class UtilitiesWrapper extends LuaTable {
                 return LuaValue.NIL;
             }
         });
+
+        set("getTableLength", new OneArgFunction() {
+            // Useful when you have a table with set keys (like strings) and you want to get the size of it. Using # will return 0.
+            @Override
+            public LuaValue call(LuaValue arg) {
+                return LuaValue.valueOf(arg.checktable().keyCount());
+            }
+        });
     }
 }
