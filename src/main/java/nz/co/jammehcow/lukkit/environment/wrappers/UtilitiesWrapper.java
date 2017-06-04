@@ -19,7 +19,7 @@ public class UtilitiesWrapper extends LuaTable {
     public UtilitiesWrapper(LukkitPlugin plugin) {
         this.plugin = plugin;
 
-        set("tableFromList", new OneArgFunction() {
+        set("getTableFromList", new OneArgFunction() {
             @Override
             public LuaValue call(LuaValue arg) {
                 Object[] list;
