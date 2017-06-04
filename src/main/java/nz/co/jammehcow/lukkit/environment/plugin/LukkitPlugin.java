@@ -48,6 +48,7 @@ public class LukkitPlugin implements Plugin {
     private final Globals globals;
     private final File dataFolder;
     private boolean enabled = false;
+    private boolean naggable = true;
     private final Logger logger;
 
     private final HashMap<String, LuaFunction> commands = new HashMap<>();
@@ -199,13 +200,12 @@ public class LukkitPlugin implements Plugin {
 
     @Override
     public boolean isNaggable() {
-        // TODO: lookup
-        return false;
+        return this.naggable;
     }
 
     @Override
-    public void setNaggable(boolean b) {
-        // TODO: lookup
+    public void setNaggable(boolean isNaggable) {
+        this.naggable = isNaggable;
     }
 
     @Override
