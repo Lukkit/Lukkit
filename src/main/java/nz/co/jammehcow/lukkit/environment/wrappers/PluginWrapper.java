@@ -1,6 +1,5 @@
 package nz.co.jammehcow.lukkit.environment.wrappers;
 
-import nz.co.jammehcow.lukkit.Main;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
