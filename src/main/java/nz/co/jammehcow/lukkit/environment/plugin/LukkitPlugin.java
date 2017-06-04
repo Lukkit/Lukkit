@@ -70,8 +70,9 @@ public class LukkitPlugin implements Plugin {
 
         this.name = this.descriptor.getName();
         this.logger = new PluginLogger(this);
+        this.globals = LuaEnvironment.getNewGlobals(this);
 
-        this.pluginMain = LuaEnvironment.globals.load(new InputStreamReader(this.pluginFile.getResource(this.descriptor.getMain())), this.descriptor.getMain());
+        this.pluginMain = this.globals.load(new InputStreamReader(this.pluginFile.getResource(this.descriptor.getMain())), this.descriptor.getMain());
         this.dataFolder = new File(Main.instance.getDataFolder().getAbsolutePath() + File.separator + this.name);
         if (this.dataFolder.exists()) //noinspection ResultOfMethodCallIgnored
             this.dataFolder.mkdir();
@@ -80,7 +81,6 @@ public class LukkitPlugin implements Plugin {
         this.config = new YamlConfiguration();
         this.loadConfigWithChecks();
 
-        this.globals = LuaEnvironment.globals;
         this.globals.set("plugin", new PluginWrapper(this));
         this.globals.set("logger", new LoggerWrapper(this));
 
