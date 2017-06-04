@@ -5,6 +5,7 @@ import nz.co.jammehcow.lukkit.Main;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
 import nz.co.jammehcow.lukkit.environment.wrappers.LoggerWrapper;
 import nz.co.jammehcow.lukkit.environment.wrappers.PluginWrapper;
+import nz.co.jammehcow.lukkit.environment.wrappers.UtilitiesWrapper;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -84,6 +85,7 @@ public class LukkitPlugin implements Plugin {
 
         this.globals.set("plugin", new PluginWrapper(this));
         this.globals.set("logger", new LoggerWrapper(this));
+        this.globals.set("utils", new UtilitiesWrapper(this));
 
         // Sets callbacks (if any) and loads the commands & events into memory.
         Optional<String> isValid = this.checkValidity();
