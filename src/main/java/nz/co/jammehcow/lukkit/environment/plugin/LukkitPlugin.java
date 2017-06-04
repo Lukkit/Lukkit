@@ -85,7 +85,7 @@ public class LukkitPlugin implements Plugin {
 
         this.globals.set("plugin", new PluginWrapper(this));
         this.globals.set("logger", new LoggerWrapper(this));
-        this.globals.set("utils", new UtilitiesWrapper(this));
+        this.globals.set("util", new UtilitiesWrapper(this));
 
         // Sets callbacks (if any) and loads the commands & events into memory.
         Optional<String> isValid = this.checkValidity();
