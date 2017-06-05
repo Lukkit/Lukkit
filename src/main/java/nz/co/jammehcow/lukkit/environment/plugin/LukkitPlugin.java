@@ -227,7 +227,9 @@ public class LukkitPlugin implements Plugin {
     }
 
     @Override
-    public String getName() { return this.getDescription().getName(); }
+    public String getName() {
+        return this.name;
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
