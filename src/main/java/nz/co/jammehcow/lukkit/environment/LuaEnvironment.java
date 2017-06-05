@@ -38,8 +38,8 @@ public class LuaEnvironment {
 
                 InputStream is = plugin.getResource(path);
 
-                if (is != null) return g.load(new InputStreamReader(is), plugin.getName() + "-" + arg.tojstring());
-                plugin.getLogger().severe("Requested local plugin file " + arg.tojstring() + " but it could not be found in the plugin.");
+                if (is != null) return g.load(new InputStreamReader(is), path.replace("/", "."));
+                plugin.getLogger().severe("Requested Lua file at " + path + " but it does not exist.");
 
                 return LuaValue.NIL;
             }
