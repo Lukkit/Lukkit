@@ -38,7 +38,7 @@ public class LuaEnvironment {
 
                 InputStream is = plugin.getResource(path);
 
-                if (is != null) return g.load(new InputStreamReader(is), path.replace("/", "."));
+                if (is != null) return g.load(new InputStreamReader(is), path.replace("/", ".")).call();
                 plugin.getLogger().severe("Requested Lua file at " + path + " but it does not exist.");
 
                 return LuaValue.NIL;
