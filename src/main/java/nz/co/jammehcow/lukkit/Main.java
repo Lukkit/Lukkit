@@ -13,7 +13,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -105,16 +104,13 @@ public class Main extends JavaPlugin {
     private static boolean isEmptyArgs(String[] args) { return (args.length == 0 || args[0].equals("")); }
 
     private String getHelpMessage() {
-        String[] message = {
-                ChatColor.GREEN + "Lukkit commands:\n",
-                ChatColor.YELLOW + "  • \"/lukkit\" - The root command for all commands (shows this message)\n",
-                "  • \"/lukkit help\" - Display this message\n",
-                "  • \"/lukkit reload [plugin]\" - Reloads all plugins or the specified plugin\n",
-                "  • \"/lukkit run (lua code)\" - Runs the specified code as command arguments\n",
-                "  • \"/lukkit plugins\" - Lists all enabled plugins\n",
-                "  • \"/lukkit stacktrace\" - Gets the last error as a stacktrace\n",
-                "  • \"/lukkit simple-error\" - Returns the last error as a one line message"
-        };
-        return Arrays.toString(message);
+        return ChatColor.GREEN + "Lukkit commands:\n" +
+        ChatColor.YELLOW + "  - \"/lukkit\" - The root command for all commands (shows this message)\n" +
+        "  - \"/lukkit help\" - Displays this message\n" +
+        "  - \"/lukkit reload [plugin]\" - Reloads all plugins or the specified plugin\n" +
+        "  - \"/lukkit run (lua code)\" - Runs the specified code as command arguments\n" +
+        "  - \"/lukkit plugins\" - Lists all enabled plugins\n" +
+        "  - \"/lukkit stacktrace\" - Gets the last error as a stacktrace\n" +
+        "  - \"/lukkit simple-error\" - Returns the last error as a one line message";
     }
 }
