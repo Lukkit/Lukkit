@@ -96,6 +96,7 @@ public class Main extends JavaPlugin {
                 }
             } else {
                 sender.sendMessage(getHelpMessage());
+                return true;
             }
         }
         return false;
