@@ -6,7 +6,7 @@ import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 
-import java.util.*;
+import java.util.Collection;
 import java.util.stream.Stream;
 
 /**
