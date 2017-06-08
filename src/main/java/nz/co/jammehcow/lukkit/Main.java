@@ -9,6 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -93,6 +94,22 @@ public class Main extends JavaPlugin {
                         LuaEnvironment.shutdown();
                         LuaEnvironment.init(this.getConfig().getBoolean("lua-debug"));
                     }
+                } else if (cmd.equalsIgnoreCase("plugins")) {
+                    Plugin[] plugins = pluginManager.getPlugins();
+                    StringBuilder sb = new StringBuilder().append(ChatColor.GREEN).append("Lukkit Plugins:").append(ChatColor.YELLOW);
+
+                    for (Plugin p : plugins) {
+                        if (p != this) {
+                            // Prevents Lukkit from being added as a plugin.
+                            sb.append("\n  - ").append(p.getName());
+                            if (p.getDescription().getDescription() != null) {
+                                sb.append(": ").append(p.getDescription().getDescription());
+                            }
+                        }
+                    }
+
+                    sender.sendMessage(sb.toString());
+                    return true;
                 }
             } else {
                 sender.sendMessage(getHelpMessage());
