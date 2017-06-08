@@ -22,7 +22,6 @@ public class UpdateChecker {
         try {
             HttpResponse<JsonNode> res = Unirest.get("https://api.github.com/repos/jammehcow/Lukkit/releases/latest").asJson();
             String tagName = res.getBody().getObject().getString("tag_name").replace("v", "");
-            Main.logger.info(tagName);
 
             if (isOutOfDate(pluginVersion.split("-")[0], tagName)) {
                 Main.logger.info("A new version of Lukkit has been released: " + tagName);
