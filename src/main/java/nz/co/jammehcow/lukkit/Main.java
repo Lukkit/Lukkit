@@ -39,12 +39,10 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         if (getConfig().get("update-checker").equals(true))
             UpdateChecker.checkForUpdates(getDescription().getVersion());
-        this.iteratePlugins(LukkitPlugin::onEnable);
     }
 
     @Override
     public void onDisable() {
-        this.iteratePlugins(LukkitPlugin::onDisable);
         LuaEnvironment.shutdown();
     }
 
