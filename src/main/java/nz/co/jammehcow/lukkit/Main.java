@@ -14,6 +14,10 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.function.Consumer;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,6 +52,8 @@ public class Main extends JavaPlugin {
     public void onLoad() {
         logger = this.getLogger();
         instance = this;
+
+        this.checkConfig();
 
         LuaEnvironment.init(this.getConfig().getBoolean("lua-debug"));
 
@@ -124,7 +130,24 @@ public class Main extends JavaPlugin {
         return false;
     }
 
-    private static boolean isEmptyArgs(String[] args) { return (args.length == 0 || args[0].equals("")); }
+    private void checkConfig() {
+        if (this.getConfig() == null) this.saveDefaultConfig();
+
+        if (this.getConfig().getInt("cfg-version") != CFG_VERSION) {
+            this.getLogger().info("Your config is out of date. Replacing the config with the default copy and moving the old version to config.old.yml");
+            File bkpCfg = new File(this.getDataFolder().getAbsolutePath() + File.separator + "config.old.yml");
+            File currentCfg = new File(this.getDataFolder().getAbsolutePath() + File.separator + "config.yml");
+            try {
+                Files.copy(currentCfg.toPath(), bkpCfg.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.delete(currentCfg.toPath());
+                this.saveDefaultConfig();
+            } catch (IOException e) {
+                this.getLogger().severe("There was an issue with moving the old config or replacing. Check the stacktrace for more.");
+                e.printStackTrace();
+            }
+        }
+    }
+
     // Needs a better name
     private void iteratePlugins(Consumer<LukkitPlugin> call) {
         for (Plugin plugin : this.pluginManager.getPlugins()) {
