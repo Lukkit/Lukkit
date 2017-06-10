@@ -66,7 +66,6 @@ public class LukkitPluginLoader implements PluginLoader {
 
     @Override
     public Plugin loadPlugin(File file) throws InvalidPluginException, UnknownDependencyException {
-        System.out.println("#loadPlugin called");
         return new LukkitPlugin(this, new LukkitPluginFile(file));
     }
 
