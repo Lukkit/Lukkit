@@ -75,8 +75,8 @@ public class LukkitPlugin implements Plugin {
         this.globals = LuaEnvironment.getNewGlobals(this);
 
         this.pluginMain = this.globals.load(new InputStreamReader(this.pluginFile.getResource(this.descriptor.getMain())), this.descriptor.getMain());
-        this.dataFolder = new File(Main.instance.getDataFolder().getAbsolutePath() + File.separator + this.name);
-        if (this.dataFolder.exists()) //noinspection ResultOfMethodCallIgnored
+        this.dataFolder = new File(Main.instance.getDataFolder().getParentFile().getAbsolutePath() + File.separator + this.name);
+        if (!this.dataFolder.exists()) //noinspection ResultOfMethodCallIgnored
             this.dataFolder.mkdir();
 
         this.pluginConfig = new File(this.dataFolder + File.separator + "config.yml");
@@ -275,10 +275,12 @@ public class LukkitPlugin implements Plugin {
         } else if (!this.pluginConfig.exists()) {
             // There is no external config so we'll export one from the .lkt
             try {
+                Files.createFile(this.pluginConfig.toPath());
                 Files.copy(internalConfig, this.pluginConfig.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 this.loadConfig();
             } catch (IOException e) {
                 this.logger.warning("Unable to export the internal config. We have a problem.");
+                e.printStackTrace();
             }
         } else {
             // There is a config externally and one internally. External is fine, just load that.
