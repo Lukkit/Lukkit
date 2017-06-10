@@ -53,6 +53,9 @@ public class Main extends JavaPlugin {
         logger = this.getLogger();
         instance = this;
 
+        if (!this.getDataFolder().exists()) //noinspection ResultOfMethodCallIgnored
+            this.getDataFolder().mkdir();
+
         this.checkConfig();
 
         LuaEnvironment.init(this.getConfig().getBoolean("lua-debug"));
@@ -131,15 +134,15 @@ public class Main extends JavaPlugin {
     }
 
     private void checkConfig() {
-        if (this.getConfig() == null) this.saveDefaultConfig();
+        File cfg = new File(this.getDataFolder().getAbsolutePath() + File.separator + "config.yml");
+        if (!cfg.exists()) this.saveDefaultConfig();
 
         if (this.getConfig().getInt("cfg-version") != CFG_VERSION) {
             this.getLogger().info("Your config is out of date. Replacing the config with the default copy and moving the old version to config.old.yml");
             File bkpCfg = new File(this.getDataFolder().getAbsolutePath() + File.separator + "config.old.yml");
-            File currentCfg = new File(this.getDataFolder().getAbsolutePath() + File.separator + "config.yml");
             try {
-                Files.copy(currentCfg.toPath(), bkpCfg.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                Files.delete(currentCfg.toPath());
+                Files.copy(cfg.toPath(), bkpCfg.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.delete(cfg.toPath());
                 this.saveDefaultConfig();
             } catch (IOException e) {
                 this.getLogger().severe("There was an issue with moving the old config or replacing. Check the stacktrace for more.");
