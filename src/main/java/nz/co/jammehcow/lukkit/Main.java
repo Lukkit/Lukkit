@@ -26,19 +26,21 @@ public class Main extends JavaPlugin {
     // Config version
     private static final int CFG_VERSION = 3;
 
-    public static Logger logger;
+    static Logger logger;
     public static Main instance;
 
-    private PluginManager pluginManager;
+    PluginManager pluginManager;
 
     @Override
     public void onEnable() {
         if (getConfig().get("update-checker").equals(true))
             UpdateChecker.checkForUpdates(getDescription().getVersion());
+        this.iteratePlugins(LukkitPlugin::onEnable);
     }
 
     @Override
     public void onDisable() {
+        this.iteratePlugins(LukkitPlugin::onDisable);
         LuaEnvironment.shutdown();
     }
 
@@ -120,6 +122,14 @@ public class Main extends JavaPlugin {
     }
 
     private static boolean isEmptyArgs(String[] args) { return (args.length == 0 || args[0].equals("")); }
+    // Needs a better name
+    private void iteratePlugins(Consumer<LukkitPlugin> call) {
+        for (Plugin plugin : this.pluginManager.getPlugins()) {
+            if (plugin != this) {
+                call.accept((LukkitPlugin) plugin);
+            }
+        }
+    }
 
     private String getHelpMessage() {
         return ChatColor.GREEN + "Lukkit commands:\n" +
