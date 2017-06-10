@@ -53,11 +53,10 @@ public class LukkitPluginLoader implements PluginLoader {
 
         if (files != null && files.length > 0) {
             for (File f : files) {
-                LukkitPluginFile lpf = new LukkitPluginFile(f);
                 try {
-                    loadedPlugins.add(new LukkitPlugin(this, lpf));
+                    loadedPlugins.add((LukkitPlugin) loadPlugin(f));
                 } catch (InvalidPluginException e) {
-                    Main.instance.getLogger().warning("The plugin at " + lpf.getPath() + " is invalid. Check the stacktrace for more information.");
+                    Main.instance.getLogger().warning("The plugin at " + f.getAbsolutePath() + " is invalid. Check the stacktrace for more information.");
                     e.printStackTrace();
                 }
             }
