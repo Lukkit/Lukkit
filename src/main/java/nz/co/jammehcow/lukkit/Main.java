@@ -82,20 +82,23 @@ public class Main extends JavaPlugin {
                 if (cmd.equalsIgnoreCase("help")) {
                     sender.sendMessage(getHelpMessage());
                 } else if (cmd.equalsIgnoreCase("reload")) {
-                    if (!isEmptyArgs(args)) {
+                    if (!(args.length == 0 || args[0].equals(""))) {
                         LukkitPlugin plugin = (LukkitPlugin) pluginManager.getPlugin(args[0]);
+                        // TODO make tab completion for plugins
                         if (plugin != null) {
                             sender.sendMessage("Reloading " + plugin.getName());
-                            ((LukkitPluginLoader) pluginManager).reloadPlugin(plugin);
-                            return true;
+                            ((LukkitPluginLoader) plugin.getPluginLoader()).reloadPlugin(plugin);
                         } else {
                             sender.sendMessage(ChatColor.RED + "Plugin " + args[0] + " was not loaded. Try " + ChatColor.YELLOW + "/lukkit plugins");
-                            return true;
                         }
                     } else {
                         LuaEnvironment.shutdown();
+                        this.getLogger().info("Reloading all Lukkit plugins...");
                         LuaEnvironment.init(this.getConfig().getBoolean("lua-debug"));
+                        this.iteratePlugins(LukkitPlugin::onEnable);
+                        this.getLogger().info(ChatColor.GREEN + "Reloaded plugins!");
                     }
+                    return true;
                 } else if (cmd.equalsIgnoreCase("plugins")) {
                     Plugin[] plugins = pluginManager.getPlugins();
                     StringBuilder sb = new StringBuilder().append(ChatColor.GREEN).append("Lukkit Plugins:").append(ChatColor.YELLOW);
