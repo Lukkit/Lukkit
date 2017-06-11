@@ -32,7 +32,7 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
                 return Arrays.asList(subCommands);
             }
         } else if (args.length == 2) {
-            if (args[0].equalsIgnoreCase("plugins")) {
+            if (args[0].equalsIgnoreCase("reload")) {
                 ArrayList<String> plugins = new ArrayList<>();
                 for (Plugin plugin : Main.instance.pluginManager.getPlugins()) {
                     if (plugin != Main.instance) {
