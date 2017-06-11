@@ -63,7 +63,7 @@ public class PluginWrapper extends LuaTable {
         set("addCommand", new TwoArgFunction() {
             @Override
             public LuaValue call(LuaValue arg1, LuaValue arg2) {
-                if (!arg1.isstring() || !arg2.isfunction() || arg2.checkfunction().narg() != 4) {
+                if (!arg1.isstring() || !arg2.isfunction()) {
                     // TODO
                     plugin.getLogger().severe("I tried to register a command but there was an issue doing so. Check that the command registration conforms to the layout here: ");
                 } else {
