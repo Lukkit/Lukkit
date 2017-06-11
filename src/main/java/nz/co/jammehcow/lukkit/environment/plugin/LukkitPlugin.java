@@ -212,7 +212,7 @@ public class LukkitPlugin implements Plugin {
 
     @Override
     public EbeanServer getDatabase() {
-        // Will be replaced with HSQLDB
+        // Deprecated
         return null;
     }
 
