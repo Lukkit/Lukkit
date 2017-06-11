@@ -35,16 +35,8 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
             if (args[0].equalsIgnoreCase("reload")) {
                 ArrayList<String> plugins = new ArrayList<>();
                 for (Plugin plugin : Main.instance.pluginManager.getPlugins()) {
-                    if (plugin != Main.instance) {
+                    if (plugin != Main.instance && plugin.getName().toLowerCase().startsWith(args[1].toLowerCase())) {
                         plugins.add(plugin.getName());
-                    }
-                }
-
-                if (!args[1].equals("")) {
-                    for (String s : plugins) {
-                        if (!s.toLowerCase().startsWith(args[1].toLowerCase())) {
-                            plugins.remove(s);
-                        }
                     }
                 }
 
