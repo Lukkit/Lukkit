@@ -180,7 +180,7 @@ public class LukkitPlugin implements Plugin {
 
     @Override
     public boolean isEnabled() {
-        return LukkitPluginLoader.loadedPlugins.contains(this) && this.enabled;
+        return this.enabled;
     }
 
     @Override
