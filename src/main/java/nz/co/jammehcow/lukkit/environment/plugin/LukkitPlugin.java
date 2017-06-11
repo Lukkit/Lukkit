@@ -234,7 +234,7 @@ public class LukkitPlugin implements Plugin {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (commands.containsKey(command.getName())) {
-            commands.get(command.getName()).call();
+            commands.get(command.getName()).invoke(new LuaValue[] {CoerceJavaToLua.coerce(sender), CoerceJavaToLua.coerce(command), CoerceJavaToLua.coerce("label"), CoerceJavaToLua.coerce(args)});
             return true;
         }
 
