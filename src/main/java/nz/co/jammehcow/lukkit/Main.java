@@ -41,6 +41,15 @@ public class Main extends JavaPlugin {
             UpdateChecker.checkForUpdates(getDescription().getVersion());
 
         this.getCommand("lukkit").setTabCompleter(new TabCompleter());
+
+        // Subtract one to count for Lukkit being loaded.
+        int totalPlugins = this.pluginManager.getPlugins().length - 1;
+
+        if (totalPlugins > 0) {
+            this.getLogger().info((totalPlugins != 1) ? totalPlugins + " Lukkit plugins were loaded" : "1 Lukkit plugins was loaded");
+        } else {
+            this.getLogger().info("No Lukkit plugins were loaded.");
+        }
     }
 
     @Override
@@ -64,6 +73,8 @@ public class Main extends JavaPlugin {
         this.getServer().getPluginManager().registerInterface(LukkitPluginLoader.class);
 
         this.pluginManager = this.getServer().getPluginManager();
+
+        this.getLogger().info("Loading Lukkit plugins...");
 
         File[] plugins = this.getFile().getParentFile().listFiles();
 
@@ -93,7 +104,6 @@ public class Main extends JavaPlugin {
                 } else if (cmd.equalsIgnoreCase("reload")) {
                     if (!(args.length == 0 || args[0].equals(""))) {
                         LukkitPlugin plugin = (LukkitPlugin) pluginManager.getPlugin(args[0]);
-                        // TODO make tab completion for plugins
                         if (plugin != null) {
                             sender.sendMessage("Reloading " + plugin.getName());
                             ((LukkitPluginLoader) plugin.getPluginLoader()).reloadPlugin(plugin);
