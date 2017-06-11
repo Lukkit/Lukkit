@@ -7,6 +7,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.*;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
@@ -24,43 +26,27 @@ public class LukkitPluginLoader implements PluginLoader {
      * If we get a list of every plugin installed we can check dependency requests against the plugins available and throw errors when they don't exist (for hard depends).
      */
     public static ArrayList<LukkitPlugin> loadedPlugins = new ArrayList<>();
-    /**
-     * The list of plugins that are loaded into memory and enabled (or being loaded on reload).
-     */
-    public static ArrayList<LukkitPlugin> enabledPlugins = new ArrayList<>();
 
+    /**
+     * The constant fileFilters.
+     */
     public static final Pattern[] fileFilters = new Pattern[] {
             Pattern.compile("^(.*)\\.lkt$"),
             Pattern.compile("^(.*)\\.lkt\\.zip$")
     };
 
+    /**
+     * The Server instance.
+     */
     final Server server;
 
+    /**
+     * Instantiates a new LukkitPluginLoader.
+     *
+     * @param server the server
+     */
     public LukkitPluginLoader(Server server) {
         this.server = server;
-    }
-
-    /**
-     * Load all Lukkit plugins.
-     */
-    public void loadAllPlugins() {
-        File folder = new File(Main.instance.getDataFolder().getParent());
-        if (!folder.exists()) {
-            Main.instance.getLogger().warning("Unable to open the server's plugin directory.");
-        }
-
-        File[] files = folder.listFiles();
-
-        if (files != null && files.length > 0) {
-            for (File f : files) {
-                try {
-                    loadedPlugins.add((LukkitPlugin) loadPlugin(f));
-                } catch (InvalidPluginException e) {
-                    Main.instance.getLogger().warning("The plugin at " + f.getAbsolutePath() + " is invalid. Check the stacktrace for more information.");
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 
     @Override
@@ -70,8 +56,11 @@ public class LukkitPluginLoader implements PluginLoader {
 
     @Override
     public PluginDescriptionFile getPluginDescription(File file) throws InvalidDescriptionException {
-        // TODO
-        return null;
+        try {
+            return new PluginDescriptionFile(new FileReader(file));
+        } catch (FileNotFoundException e) {
+            throw new InvalidDescriptionException("The provided file doesn't exist!");
+        }
     }
 
     @Override
@@ -89,15 +78,18 @@ public class LukkitPluginLoader implements PluginLoader {
         plugin.onEnable();
     }
 
-    /**
-     * Reload all LukkitPlugin objects in the loadedPlugins list.
-     */
-    public void reloadAll() {
-        enabledPlugins.forEach(this::disablePlugin);
-        this.loadAllPlugins();
-        enabledPlugins.forEach(this::enablePlugin);
+    @SuppressWarnings("SuspiciousMethodCalls")
+    @Override
+    public void disablePlugin(Plugin plugin) {
+        plugin.onDisable();
+        loadedPlugins.remove(plugin);
     }
 
+    /**
+     * Reload the specified plugin.
+     *
+     * @param plugin the {@link LukkitPlugin} object
+     */
     public void reloadPlugin(Plugin plugin) {
         File jar = ((LukkitPlugin) plugin).getJarFile();
         this.disablePlugin(plugin);
@@ -113,13 +105,5 @@ public class LukkitPluginLoader implements PluginLoader {
         } else {
             this.enablePlugin(newPlugin);
         }
-    }
-
-    @SuppressWarnings("SuspiciousMethodCalls")
-    @Override
-    public void disablePlugin(Plugin plugin) {
-        plugin.onDisable();
-        loadedPlugins.remove(plugin);
-        enabledPlugins.remove(plugin);
     }
 }
