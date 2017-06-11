@@ -39,6 +39,8 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         if (getConfig().get("update-checker").equals(true))
             UpdateChecker.checkForUpdates(getDescription().getVersion());
+
+        this.getCommand("lukkit").setTabCompleter(new TabCompleter());
     }
 
     @Override
