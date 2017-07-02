@@ -43,7 +43,7 @@ public class Main extends JavaPlugin {
         this.getCommand("lukkit").setTabCompleter(new TabCompleter());
 
         // Subtract one to count for Lukkit being loaded.
-        int totalPlugins = this.pluginManager.getPlugins().length - 1;
+        int totalPlugins = pluginManager.getPlugins().length - 1;
 
         if (totalPlugins > 0) {
             this.getLogger().info((totalPlugins != 1) ? totalPlugins + " Lukkit plugins were loaded" : "1 Lukkit plugins was loaded");
