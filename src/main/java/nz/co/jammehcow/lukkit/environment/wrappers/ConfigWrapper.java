@@ -38,8 +38,7 @@ public class ConfigWrapper extends LuaTable {
                     } else if (value instanceof LuaBoolean) {
                         plugin.getConfig().set(path.tojstring(), value.toboolean());
                     } else {
-                        // TODO
-                        plugin.getLogger().warning("A value was passed to config.setDefalt() which wasn't of a supported type.");
+                        plugin.getConfig().set(path.tojstring(), value.touserdata());
                     }
                 }
                 // Rather than making the developer save the config we'll do it automatically. Can be disabled by config.setAutosave(false)
@@ -60,8 +59,7 @@ public class ConfigWrapper extends LuaTable {
                 } else if (value instanceof LuaBoolean) {
                     plugin.getConfig().set(path.tojstring(), value.toboolean());
                 } else {
-                    // TODO
-                    plugin.getLogger().warning("A value was passed to config.set() which wasn't of a supported type.");
+                    plugin.getConfig().set(path.tojstring(), value.touserdata());
                 }
                 if (autosave) plugin.saveConfig();
                 return LuaValue.NIL;
