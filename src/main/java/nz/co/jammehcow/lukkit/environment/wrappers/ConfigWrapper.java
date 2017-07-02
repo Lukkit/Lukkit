@@ -11,6 +11,7 @@ import org.luaj.vm2.lib.TwoArgFunction;
 
 public class ConfigWrapper extends LuaTable {
     private LukkitPlugin plugin;
+    private boolean autosave;
 
     public ConfigWrapper(LukkitPlugin plugin) {
         this.plugin = plugin;
@@ -41,8 +42,8 @@ public class ConfigWrapper extends LuaTable {
                         plugin.getLogger().warning("A value was passed to config.setDefalt() which wasn't of a supported type.");
                     }
                 }
-                // Rather than making the developer save the config we'll do it automatically
-                plugin.saveConfig();
+                // Rather than making the developer save the config we'll do it automatically. Can be disabled by config.setAutosave(false)
+                if (autosave) plugin.saveConfig();
                 return LuaValue.NIL;
             }
         });
@@ -62,7 +63,7 @@ public class ConfigWrapper extends LuaTable {
                     // TODO
                     plugin.getLogger().warning("A value was passed to config.set() which wasn't of a supported type.");
                 }
-                plugin.saveConfig();
+                if (autosave) plugin.saveConfig();
                 return LuaValue.NIL;
             }
         });
@@ -72,6 +73,14 @@ public class ConfigWrapper extends LuaTable {
             public LuaValue call(LuaValue path) {
                 plugin.getConfig().set(path.checkjstring(), null);
                 plugin.saveConfig();
+                return LuaValue.NIL;
+            }
+        });
+
+        set("setAutosave", new OneArgFunction() {
+            @Override
+            public LuaValue call(LuaValue arg) {
+                autosave = arg.checkboolean();
                 return LuaValue.NIL;
             }
         });
