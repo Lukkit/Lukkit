@@ -3,6 +3,7 @@ package nz.co.jammehcow.lukkit.environment.plugin;
 import com.avaje.ebean.EbeanServer;
 import nz.co.jammehcow.lukkit.Main;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
+import nz.co.jammehcow.lukkit.environment.wrappers.BukkitWrapper;
 import nz.co.jammehcow.lukkit.environment.wrappers.LoggerWrapper;
 import nz.co.jammehcow.lukkit.environment.wrappers.PluginWrapper;
 import nz.co.jammehcow.lukkit.environment.wrappers.UtilitiesWrapper;
@@ -86,6 +87,7 @@ public class LukkitPlugin implements Plugin {
         this.globals.set("plugin", new PluginWrapper(this));
         this.globals.set("logger", new LoggerWrapper(this));
         this.globals.set("util", new UtilitiesWrapper(this));
+        this.globals.set("bukkit", new BukkitWrapper(this));
 
         // Sets callbacks (if any) and loads the commands & events into memory.
         Optional<String> isValid = this.checkValidity();
