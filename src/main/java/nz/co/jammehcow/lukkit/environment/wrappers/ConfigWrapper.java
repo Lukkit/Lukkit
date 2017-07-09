@@ -96,7 +96,7 @@ public class ConfigWrapper extends LuaTable {
     }
 
     @SuppressWarnings("ConstantConditions")
-    private LuaValue castObject(Object obj) {
+    static LuaValue castObject(Object obj) {
         if (obj instanceof String) {
             return LuaValue.valueOf((String) obj);
         } else if (obj instanceof Integer) {

@@ -7,6 +7,7 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 
 import java.util.Collection;
+import java.util.concurrent.*;
 import java.util.stream.Stream;
 
 /**
@@ -42,7 +43,7 @@ public class UtilitiesWrapper extends LuaTable {
 
                 LuaTable t = new LuaTable();
                 for (int i = 0; i < list.length; i++) {
-                    t.set(LuaValue.valueOf(i + 1), LuaValue.userdataOf(list[i]));
+                    t.set(LuaValue.valueOf(i + 1), ConfigWrapper.castObject(list[i]));
                 }
 
                 return t;
