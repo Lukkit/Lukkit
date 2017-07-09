@@ -1,6 +1,11 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "2.0.1"
+}
+
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'idea'
+apply plugin: "com.github.johnrengelman.shadow"
 
 group = 'nz.co.jammehcow.lukkit'
 version = '2.0.0-dev'
