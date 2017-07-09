@@ -4,6 +4,7 @@ import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import org.luaj.vm2.*;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
+import org.luaj.vm2.lib.ZeroArgFunction;
 
 /**
  * @author jammehcow
@@ -79,6 +80,14 @@ public class ConfigWrapper extends LuaTable {
             @Override
             public LuaValue call(LuaValue arg) {
                 autosave = arg.checkboolean();
+                return LuaValue.NIL;
+            }
+        });
+
+        set("save", new ZeroArgFunction() {
+            @Override
+            public LuaValue call() {
+                plugin.saveConfig();
                 return LuaValue.NIL;
             }
         });
