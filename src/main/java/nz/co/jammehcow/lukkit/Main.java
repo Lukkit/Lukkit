@@ -53,9 +53,7 @@ public class Main extends JavaPlugin {
     }
 
     @Override
-    public void onDisable() {
-        LuaEnvironment.shutdown();
-    }
+    public void onDisable() {}
 
     @Override
     public void onLoad() {
@@ -111,7 +109,6 @@ public class Main extends JavaPlugin {
                             sender.sendMessage(ChatColor.RED + "Plugin " + args[0] + " was not loaded. Try " + ChatColor.YELLOW + "/lukkit plugins");
                         }
                     } else {
-                        LuaEnvironment.shutdown();
                         this.getLogger().info("Reloading all Lukkit plugins...");
                         LuaEnvironment.init(this.getConfig().getBoolean("lua-debug"));
                         this.iteratePlugins(LukkitPlugin::onEnable);

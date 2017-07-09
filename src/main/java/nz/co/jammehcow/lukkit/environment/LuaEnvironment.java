@@ -46,8 +46,4 @@ public class LuaEnvironment {
         });
         return g;
     }
-
-    public static void shutdown() {
-        // Stub
-    }
 }
