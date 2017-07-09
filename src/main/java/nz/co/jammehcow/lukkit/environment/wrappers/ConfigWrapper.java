@@ -104,7 +104,7 @@ public class ConfigWrapper extends LuaTable {
         } else if (obj instanceof Boolean) {
             return LuaValue.valueOf(((boolean) obj));
         } else {
-            return LuaValue.NIL;
+            return LuaValue.userdataOf(obj);
         }
     }
 }
