@@ -50,6 +50,8 @@ public class UtilitiesWrapper extends LuaTable {
             }
         });
 
+        // TODO: map to keyed table.
+
         set("getTableLength", new OneArgFunction() {
             // Useful when you have a table with set keys (like strings) and you want to get the size of it. Using # will return 0.
             @Override
