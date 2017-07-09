@@ -2,6 +2,7 @@
 *.iml
 sandbox/
 build/
+classes/
 gradle/
 .gradle/
 *.sh
