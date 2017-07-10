@@ -74,6 +74,9 @@ public class BukkitWrapper extends LuaTable {
             this.set("getOwner", new ZeroArgFunction() {
                 @Override
                 public LuaValue call() {
+                    if (meta.getOwner() == null) {
+                        return LuaValue.NIL;
+                    }
                     return LuaValue.valueOf(meta.getOwner());
                 }
             });
