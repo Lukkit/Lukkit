@@ -77,6 +77,14 @@ public class BukkitWrapper extends LuaTable {
                     return LuaValue.valueOf(meta.getOwner());
                 }
             });
+
+            this.set("getItemStack", new ZeroArgFunction() {
+                @Override
+                public LuaValue call() {
+                    skull.setItemMeta(meta);
+                    return CoerceJavaToLua.coerce(skull);
+                }
+            });
         }
     }
 }
