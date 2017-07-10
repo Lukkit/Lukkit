@@ -6,6 +6,8 @@ import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
 import org.luaj.vm2.lib.ZeroArgFunction;
 
+import java.util.HashMap;
+
 /**
  * @author jammehcow
  */
@@ -93,6 +95,30 @@ public class ConfigWrapper extends LuaTable {
                 return LuaValue.NIL;
             }
         });
+
+        set("mapTableToKey", new TwoArgFunction() {
+            @Override
+            public LuaValue call(LuaValue path, LuaValue table) {
+                plugin.getConfig().createSection(path.checkjstring(), convertToMap(table.checktable()));
+                return LuaValue.NIL;
+            }
+        });
+    }
+
+    private HashMap<?, ?> convertToMap(LuaTable table) {
+        HashMap<Object, Object> map = new HashMap<>();
+
+        LuaValue[] rootKeys = table.keys();
+
+        for (LuaValue k : rootKeys) {
+            if (table.get(k).istable()) {
+                map.put(k, this.convertToMap(table.get(k).checktable()));
+            } else {
+                map.put(k, table.get(k).touserdata());
+            }
+        }
+
+        return map;
     }
 
     @SuppressWarnings("ConstantConditions")
