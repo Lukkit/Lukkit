@@ -5,8 +5,17 @@ import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
+import org.luaj.vm2.lib.TwoArgFunction;
+import org.luaj.vm2.lib.VarArgFunction;
+import org.luaj.vm2.lib.jse.CoerceJavaToLua;
+import org.reflections.Reflections;
+import org.reflections.scanners.ResourcesScanner;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
+import org.reflections.util.FilterBuilder;
 
-import java.util.Collection;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Stream;
 
@@ -16,6 +25,19 @@ import java.util.stream.Stream;
 
 public class UtilitiesWrapper extends LuaTable {
     private LukkitPlugin plugin;
+    private static Set<Class<?>> classes;
+    static {
+        List<ClassLoader> classLoadersList = new LinkedList<ClassLoader>();
+        classLoadersList.add(ClasspathHelper.contextClassLoader());
+        classLoadersList.add(ClasspathHelper.staticClassLoader());
+
+        Reflections reflections = new Reflections(new ConfigurationBuilder()
+                .setScanners(new SubTypesScanner(false), new ResourcesScanner())
+                .setUrls(ClasspathHelper.forClassLoader(classLoadersList.toArray(new ClassLoader[0])))
+                .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix("org.bukkit"))));;
+
+        classes = reflections.getSubTypesOf(Object.class);
+    }
 
     public UtilitiesWrapper(LukkitPlugin plugin) {
         this.plugin = plugin;
@@ -59,20 +81,43 @@ public class UtilitiesWrapper extends LuaTable {
                 return LuaValue.valueOf(arg.checktable().keyCount());
             }
         });
+
+        set("runAsync", new VarArgFunction() {
+            @Override
+            public LuaValue call(LuaValue function, LuaValue delay) {
+                Thread thread = new Thread(() -> {
+                    try {
+                        if (delay != null) Thread.sleep(delay.checklong());
+                        function.checkfunction().call();
+                    } catch (InterruptedException ignored) {}
+                });
+                thread.start();
+                return LuaValue.NIL;
+            }
+        });
+
+        set("runDelayed", new TwoArgFunction() {
+            // Runs the given function SYNCHRONOUSLY. Delay is in milliseconds.
+            @Override
+            public synchronized LuaValue call(LuaValue function, LuaValue time) {
+                System.out.println("before");
+
+                ScheduledExecutorService execService = Executors.newScheduledThreadPool(1);
+                ScheduledFuture future = execService.schedule((Callable<LuaValue>) function::call, time.checklong(), TimeUnit.MILLISECONDS);
+
+                while (true) {
+                    if (future.isDone()) {
+                        execService.shutdown();
+                        notify();
+                        return LuaValue.NIL;
+                    }
+                }
+            }
+        });
+
         set("castObject", new TwoArgFunction() {
             @Override
             public LuaValue call(LuaValue object, LuaValue cast) {
-                List<ClassLoader> classLoadersList = new LinkedList<ClassLoader>();
-                classLoadersList.add(ClasspathHelper.contextClassLoader());
-                classLoadersList.add(ClasspathHelper.staticClassLoader());
-
-                Reflections reflections = new Reflections(new ConfigurationBuilder()
-                        .setScanners(new SubTypesScanner(false), new ResourcesScanner())
-                        .setUrls(ClasspathHelper.forClassLoader(classLoadersList.toArray(new ClassLoader[0])))
-                        .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix("org.bukkit"))));;
-
-                Set<Class<?>> classes = reflections.getSubTypesOf(Object.class);
-
                 Class<?> obj = null;
 
                 for (Class<?> clazz : classes) {
