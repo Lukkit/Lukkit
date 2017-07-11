@@ -118,6 +118,7 @@ public class UtilitiesWrapper extends LuaTable {
         set("castObject", new TwoArgFunction() {
             @Override
             public LuaValue call(LuaValue object, LuaValue cast) {
+                plugin.getLogger().warning("Don't rely on utils.castObject() for your plugin. It will be removed (most likely) before 2.0 and should only be used for Lukkit's development.");
                 Class<?> obj = null;
 
                 for (Class<?> clazz : classes) {
