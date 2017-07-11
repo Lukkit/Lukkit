@@ -51,8 +51,8 @@ public class BukkitWrapper extends LuaTable {
         private ItemStack skull;
         private SkullMeta meta;
 
-        Skull(ItemStack skull) {
-            this.skull = (skull == null) ? new ItemStack(Material.SKULL_ITEM, 1) : skull;
+        Skull(ItemStack skullItem) {
+            this.skull = (skullItem == null) ? new ItemStack(Material.SKULL_ITEM, 1) : skull;
 
             if (skull == null) {
                 this.meta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
