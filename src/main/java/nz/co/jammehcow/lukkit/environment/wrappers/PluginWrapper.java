@@ -1,5 +1,6 @@
 package nz.co.jammehcow.lukkit.environment.wrappers;
 
+import nz.co.jammehcow.lukkit.Main;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
@@ -7,6 +8,7 @@ import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
 import org.luaj.vm2.lib.VarArgFunction;
 import org.luaj.vm2.lib.ZeroArgFunction;
+import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
 /**
  * The plugin wrapper providing access to plugin functions.
@@ -70,6 +72,13 @@ public class PluginWrapper extends LuaTable {
                     plugin.addCommand(arg1.checkjstring(), arg2.checkfunction());
                 }
                 return LuaValue.NIL;
+            }
+        });
+
+        set("getServer", new ZeroArgFunction() {
+            @Override
+            public LuaValue call() {
+                return CoerceJavaToLua.coerce(plugin.getServer());
             }
         });
 
