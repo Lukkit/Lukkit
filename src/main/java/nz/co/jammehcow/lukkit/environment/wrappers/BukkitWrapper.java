@@ -50,11 +50,14 @@ public class BukkitWrapper extends LuaTable {
     class Skull extends LuaTable {
         private ItemStack skull;
         private SkullMeta meta;
+        private Skull self;
 
         Skull(ItemStack skullItem) {
             this.skull = (skullItem == null) ? new ItemStack(Material.SKULL_ITEM, 1) : skull;
+            this.self = this; // Allows access from setOwner() since this is populate by the function.
 
-            if (skull == null) {
+            if (skullItem == null) {
+                this.skull.setDurability((short) 3);
                 this.meta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
             } else {
                 this.meta = (SkullMeta) this.skull.getItemMeta();
@@ -64,7 +67,7 @@ public class BukkitWrapper extends LuaTable {
                 @Override
                 public LuaValue call(LuaValue username) {
                     meta.setOwner(username.checkjstring());
-                    return LuaValue.NIL;
+                    return CoerceJavaToLua.coerce(self);
                 }
             });
 
