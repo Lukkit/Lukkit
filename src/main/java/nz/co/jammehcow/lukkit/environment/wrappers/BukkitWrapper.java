@@ -3,7 +3,6 @@ package nz.co.jammehcow.lukkit.environment.wrappers;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
@@ -39,11 +38,11 @@ public class BukkitWrapper extends LuaTable {
         set("getSkullMeta", new OneArgFunction() {
             @Override
             public LuaValue call(LuaValue item) {
-                if (!(item.checkuserdata() instanceof ItemStack)) {
+                if (!item.isnil() && !(item.checkuserdata() instanceof ItemStack)) {
                     return LuaValue.NIL;
                 }
 
-                return CoerceJavaToLua.coerce(new Skull((ItemStack) item.touserdata()));
+                return CoerceJavaToLua.coerce(new Skull((item.isnil()) ? null : (ItemStack) item.touserdata()));
             }
         });
     }
@@ -53,8 +52,13 @@ public class BukkitWrapper extends LuaTable {
         private SkullMeta meta;
 
         Skull(ItemStack skull) {
-            this.skull = skull;
-            this.meta = (SkullMeta) skull.getItemMeta();
+            this.skull = (skull == null) ? new ItemStack(Material.SKULL_ITEM, 1) : skull;
+
+            if (skull == null) {
+                this.meta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
+            } else {
+                this.meta = (SkullMeta) this.skull.getItemMeta();
+            }
 
             this.set("setOwner", new OneArgFunction() {
                 @Override
