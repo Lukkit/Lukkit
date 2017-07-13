@@ -10,9 +10,11 @@ import nz.co.jammehcow.lukkit.environment.wrappers.UtilitiesWrapper;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.*;
 import org.luaj.vm2.Globals;
@@ -236,7 +238,12 @@ public class LukkitPlugin implements Plugin {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (commands.containsKey(command.getName())) {
-            commands.get(command.getName()).invoke(new LuaValue[] {CoerceJavaToLua.coerce(sender), CoerceJavaToLua.coerce(command), CoerceJavaToLua.coerce("label"), CoerceJavaToLua.coerce(args)});
+            commands.get(command.getName()).invoke(new LuaValue[] {
+                    CoerceJavaToLua.coerce((sender instanceof Player) ? (Player) sender : (ConsoleCommandSender) sender),
+                    CoerceJavaToLua.coerce(command),
+                    LuaValue.valueOf(label),
+                    CoerceJavaToLua.coerce(args)
+            });
             return true;
         }
 
