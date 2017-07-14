@@ -142,11 +142,7 @@ public class LukkitPlugin implements Plugin {
 
     @Override
     public void saveResource(String resourcePath, boolean replace) {
-        if (resourcePath.startsWith("/")) {
-            // Remove a leading slash if one is present
-            resourcePath = resourcePath.replaceFirst("/", "");
-            this.logger.warning("Please don't prefix a resource path with a forward slash. Lukkit will remove it, but you'll get spammed with this.");
-        }
+        if (resourcePath.startsWith("/")) resourcePath = resourcePath.replaceFirst("/", "");
 
         File resourceOutput = new File(this.dataFolder.getAbsolutePath() + File.separator + (resourcePath.split("/")[resourcePath.length() - 1]));
         InputStream is = this.pluginFile.getResource(resourcePath);
