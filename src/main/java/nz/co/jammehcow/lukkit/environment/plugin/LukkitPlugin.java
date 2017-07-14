@@ -22,10 +22,7 @@ import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -79,7 +76,11 @@ public class LukkitPlugin implements Plugin {
         this.logger = new PluginLogger(this);
         this.globals = LuaEnvironment.getNewGlobals(this);
 
-        this.pluginMain = this.globals.load(new InputStreamReader(this.pluginFile.getResource(this.descriptor.getMain())), this.descriptor.getMain());
+        try {
+            this.pluginMain = this.globals.load(new InputStreamReader(this.pluginFile.getResource(this.descriptor.getMain()), "UTF-8"), this.descriptor.getMain());
+        } catch (UnsupportedEncodingException e) {
+            throw new InvalidPluginException("File could not be loaded using UTF-8.", e.getCause());
+        }
         this.dataFolder = new File(Main.instance.getDataFolder().getParentFile().getAbsolutePath() + File.separator + this.name);
         if (!this.dataFolder.exists()) //noinspection ResultOfMethodCallIgnored
             this.dataFolder.mkdir();
