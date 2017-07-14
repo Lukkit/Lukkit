@@ -28,6 +28,8 @@ public class LuaEnvironment {
             public LuaValue call(LuaValue arg) {
                 String path = arg.checkjstring();
 
+                // TODO: check if script is already loaded and link back
+
                 if (path.startsWith("/")) {
                     path.replaceFirst("/", "");
                     plugin.getLogger().warning("Please don't prefix a resource path with a forward slash. Lukkit will remove it, but you'll get spammed with this.");
