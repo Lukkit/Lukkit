@@ -74,6 +74,19 @@ public class PluginWrapper extends LuaTable {
             }
         });
 
+        set("registerEvent", new TwoArgFunction() {
+            @Override
+            public LuaValue call(LuaValue arg1, LuaValue arg2) {
+                if (Main.events.containsKey(arg1.checkjstring())) {
+                    plugin.registerEvent(Main.events.get(arg1.tojstring()), arg2.checkfunction());
+                    return LuaValue.NIL;
+                }
+
+                plugin.getLogger().warning("There was an issue trying to register the event " + arg1.tostring() + ". Is it a valid event name and properly capitalized?");
+                return LuaValue.NIL;
+            }
+        });
+
         set("getServer", new ZeroArgFunction() {
             @Override
             public LuaValue call() {

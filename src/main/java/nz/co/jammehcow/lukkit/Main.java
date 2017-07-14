@@ -7,16 +7,19 @@ import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.event.Event;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.reflections.Reflections;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -32,6 +35,15 @@ public class Main extends JavaPlugin {
 
     static Logger logger;
     public static Main instance;
+
+    public static HashMap<String, Class<? extends Event>> events = new HashMap<>();
+    static {
+        // TODO: It works, sure, but it's shit.
+        Reflections reflections = new Reflections("org.bukkit.event");
+        reflections.getSubTypesOf(Event.class).forEach(c -> {
+            if (reflections.getSubTypesOf(c).isEmpty()) events.put(c.getSimpleName(), c);
+        });
+    }
 
     PluginManager pluginManager;
 

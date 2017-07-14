@@ -15,6 +15,9 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.*;
 import org.luaj.vm2.Globals;
@@ -28,6 +31,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -56,6 +60,7 @@ public class LukkitPlugin implements Plugin {
     private final Logger logger;
 
     private final HashMap<String, LuaFunction> commands = new HashMap<>();
+    private final HashMap<String, ArrayList<LuaFunction>> eventCallbacks = new HashMap<>();
 
     /**
      * Instantiates a new Lukkit plugin.
@@ -191,6 +196,7 @@ public class LukkitPlugin implements Plugin {
     public void onEnable() {
         this.enabled = true;
         if (this.enableCB != null) this.enableCB.call(CoerceJavaToLua.coerce(this));
+        Main.events.forEach((s, e) -> this.getServer().getPluginManager().registerEvent(e, new Listener() {}, EventPriority.NORMAL, (listener, event) -> this.onEvent(event), this, false));
     }
 
     @Override
@@ -274,6 +280,25 @@ public class LukkitPlugin implements Plugin {
 
     public void addCommand(String name, LuaFunction function) {
         this.commands.put(name, function);
+    }
+
+    public void registerEvent(Class<? extends Event> event, LuaFunction function) {
+        if (this.getEventCallbacks(event.getSimpleName()) == null) {
+            ArrayList<LuaFunction> list = new ArrayList<>();
+            list.add(function);
+            this.eventCallbacks.put(event.getSimpleName(), list);
+        } else {
+            this.eventCallbacks.get(event.getSimpleName()).add(function);
+        }
+    }
+
+    private ArrayList<LuaFunction> getEventCallbacks(String simpleName) {
+        return this.eventCallbacks.get(simpleName);
+    }
+
+    private void onEvent(Event e) {
+        ArrayList<LuaFunction> callbacks = this.getEventCallbacks(e.getClass().getSimpleName());
+        if (callbacks != null) callbacks.forEach((f) -> f.call(CoerceJavaToLua.coerce(e)));
     }
 
     private void loadConfigWithChecks() {
