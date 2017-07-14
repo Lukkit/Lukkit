@@ -91,17 +91,17 @@ public class LukkitPluginLoader implements PluginLoader {
      * @param plugin the {@link LukkitPlugin} object
      */
     public void reloadPlugin(Plugin plugin) {
-        File jar = ((LukkitPlugin) plugin).getJarFile();
+        File pluginFile = ((LukkitPlugin) plugin).getFile();
         this.disablePlugin(plugin);
 
         LukkitPlugin newPlugin = null;
 
         try {
-            newPlugin = (LukkitPlugin) this.loadPlugin(jar);
+            newPlugin = (LukkitPlugin) this.loadPlugin(pluginFile);
         } catch (InvalidPluginException e) { e.printStackTrace(); }
 
         if (newPlugin == null) {
-            Main.instance.getLogger().severe("Unable to load the plugin from " + jar.getAbsolutePath());
+            Main.instance.getLogger().severe("Unable to load the plugin from " + pluginFile.getAbsolutePath());
         } else {
             this.enablePlugin(newPlugin);
         }

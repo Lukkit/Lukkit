@@ -256,7 +256,7 @@ public class LukkitPlugin implements Plugin {
         return null;
     }
 
-    public File getJarFile() {
+    public File getFile() {
         return new File(this.pluginFile.getPath());
     }
 
