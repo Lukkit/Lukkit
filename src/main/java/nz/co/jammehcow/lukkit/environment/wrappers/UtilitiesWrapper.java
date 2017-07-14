@@ -52,7 +52,7 @@ public class UtilitiesWrapper extends LuaTable {
                 } else if (arg.touserdata() instanceof Stream) {
                     list = ((Stream<?>) arg.touserdata()).toArray();
                 } else {
-                    throw new LuaError("utils.tableFromList(obj) was passed something other than an instance of Collection or Stream.");
+                    throw new LuaError("util.tableFromList(obj) was passed something other than an instance of Collection or Stream.");
                 }
 
                 LuaTable t = new LuaTable();
