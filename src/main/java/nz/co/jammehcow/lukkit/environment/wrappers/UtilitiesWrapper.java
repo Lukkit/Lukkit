@@ -42,14 +42,6 @@ public class UtilitiesWrapper extends LuaTable {
     public UtilitiesWrapper(LukkitPlugin plugin) {
         this.plugin = plugin;
 
-        set("broadcast", new OneArgFunction() {
-            @Override
-            public LuaValue call(LuaValue arg) {
-                plugin.getServer().broadcastMessage(arg.checkjstring());
-                return LuaValue.NIL;
-            }
-        });
-
         set("getTableFromList", new OneArgFunction() {
             @Override
             public LuaValue call(LuaValue arg) {
