@@ -298,7 +298,14 @@ public class LukkitPlugin implements Plugin {
 
     private void onEvent(Event e) {
         ArrayList<LuaFunction> callbacks = this.getEventCallbacks(e.getClass().getSimpleName());
-        if (callbacks != null) callbacks.forEach((f) -> f.call(CoerceJavaToLua.coerce(e)));
+        if (callbacks != null) callbacks.forEach((f) -> {
+            try {
+                f.call(CoerceJavaToLua.coerce(Class.forName(e.getClass().getName()).cast(e)));
+            } catch (ClassNotFoundException ex) {
+                this.logger.severe("Unable to cast event of type " + e.getEventName() + " to object. Event will not be handled by this plugin. I'd recommend that you send your plugin and the stacktrace to the developer on GitHub via an issue.");
+                ex.printStackTrace();
+            }
+        });
     }
 
     private void loadConfigWithChecks() {
