@@ -64,7 +64,23 @@ public class UtilitiesWrapper extends LuaTable {
             }
         });
 
-        // TODO: map to keyed table.
+        set("getTableFromMap", new OneArgFunction() {
+            @Override
+            public LuaValue call(LuaValue arg) {
+                Map<?, ?> map;
+
+                if (arg.checkuserdata() instanceof Map) {
+                    map = (Map<?, ?>) arg.touserdata();
+                } else {
+                    throw new LuaError("util.tableFromMap(obj) was passed something other than a implementation of Map.");
+                }
+
+                LuaTable t = new LuaTable();
+                map.forEach((k, v) -> t.set(ConfigWrapper.castObject(k), ConfigWrapper.castObject(v)));
+
+                return t;
+            }
+        });
 
         set("getTableLength", new OneArgFunction() {
             // Useful when you have a table with set keys (like strings) and you want to get the size of it. Using # will return 0.
