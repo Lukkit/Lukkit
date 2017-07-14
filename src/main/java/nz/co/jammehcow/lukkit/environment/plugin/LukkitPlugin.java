@@ -189,14 +189,14 @@ public class LukkitPlugin implements Plugin {
 
     @Override
     public void onEnable() {
-        if (this.enableCB != null) this.enableCB.call(CoerceJavaToLua.coerce(this));
         this.enabled = true;
+        if (this.enableCB != null) this.enableCB.call(CoerceJavaToLua.coerce(this));
     }
 
     @Override
     public void onDisable() {
-        if (this.disableCB != null) this.disableCB.call(CoerceJavaToLua.coerce(this));
         this.enabled = false;
+        if (this.disableCB != null) this.disableCB.call(CoerceJavaToLua.coerce(this));
     }
 
     @Override
