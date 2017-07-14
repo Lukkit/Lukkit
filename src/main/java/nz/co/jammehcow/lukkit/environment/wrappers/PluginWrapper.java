@@ -32,7 +32,7 @@ public class PluginWrapper extends LuaTable {
                 if (callback.isfunction()) {
                     plugin.setLoadCB(callback.checkfunction());
                 } else {
-                    plugin.getLogger().warning("I tried to add an onLoad callback but provided a " + callback.typename() + " instead of a function.");
+                    plugin.getLogger().warning("There was an issue registering the onLoad callback - was provided a " + callback.typename() + " instead of a function.");
                 }
                 return LuaValue.NIL;
             }
@@ -44,7 +44,7 @@ public class PluginWrapper extends LuaTable {
                 if (callback.isfunction()) {
                     plugin.setEnableCB(callback.checkfunction());
                 } else {
-                    plugin.getLogger().warning("I tried to add an onEnable callback but provided a " + callback.typename() + " instead of a function.");
+                    plugin.getLogger().warning("There was an issue registering the onEnable callback - was provided a " + callback.typename() + " instead of a function.");
                 }
                 return LuaValue.NIL;
             }
@@ -56,7 +56,7 @@ public class PluginWrapper extends LuaTable {
                 if (callback.isfunction()) {
                     plugin.setDisableCB(callback.checkfunction());
                 } else {
-                    plugin.getLogger().warning("I tried to add an onDisable callback but provided a " + callback.typename() + " instead of a function.");
+                    plugin.getLogger().warning("There was an issue registering the onDisable callback - was provided a " + callback.typename() + " instead of a function.");
                 }
                 return LuaValue.NIL;
             }
@@ -66,8 +66,7 @@ public class PluginWrapper extends LuaTable {
             @Override
             public LuaValue call(LuaValue arg1, LuaValue arg2) {
                 if (!arg1.isstring() || !arg2.isfunction()) {
-                    // TODO
-                    plugin.getLogger().severe("I tried to register a command but there was an issue doing so. Check that the command registration conforms to the layout here: ");
+                    plugin.getLogger().severe("There was an issue registering a command. Check that the command registration conforms to the layout here: ");
                 } else {
                     plugin.addCommand(arg1.checkjstring(), arg2.checkfunction());
                 }
