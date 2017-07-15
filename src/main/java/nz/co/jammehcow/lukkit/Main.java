@@ -116,6 +116,7 @@ public class Main extends JavaPlugin {
                         if (plugin != null) {
                             sender.sendMessage("Reloading " + plugin.getName());
                             ((LukkitPluginLoader) plugin.getPluginLoader()).reloadPlugin(plugin);
+                            sender.sendMessage(ChatColor.GREEN + "Reloaded!");
                         } else {
                             sender.sendMessage(ChatColor.RED + "Plugin " + args[0] + " was not loaded. Try " + ChatColor.YELLOW + "/lukkit plugins");
                         }
