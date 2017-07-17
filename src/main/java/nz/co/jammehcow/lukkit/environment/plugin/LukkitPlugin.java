@@ -261,6 +261,10 @@ public class LukkitPlugin implements Plugin {
         return new File(this.pluginFile.getPath());
     }
 
+    public boolean isDevPlugin() {
+        return this.pluginFile.isDevPlugin();
+    }
+
     public void setLoadCB(LuaFunction cb) {
         this.loadCB = cb;
     }
