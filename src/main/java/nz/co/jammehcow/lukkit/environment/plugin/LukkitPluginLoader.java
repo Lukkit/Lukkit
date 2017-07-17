@@ -92,7 +92,7 @@ public class LukkitPluginLoader implements PluginLoader {
      */
     public void reloadPlugin(Plugin plugin) {
         File pluginFile = ((LukkitPlugin) plugin).getFile();
-        this.disablePlugin(plugin);
+        this.server.getPluginManager().disablePlugin(plugin);
 
         LukkitPlugin newPlugin = null;
 
@@ -103,7 +103,7 @@ public class LukkitPluginLoader implements PluginLoader {
         if (newPlugin == null) {
             Main.instance.getLogger().severe("Unable to load the plugin from " + pluginFile.getAbsolutePath());
         } else {
-            this.enablePlugin(newPlugin);
+            this.server.getPluginManager().enablePlugin(newPlugin);
         }
     }
 }
