@@ -154,6 +154,7 @@ public class Main extends JavaPlugin {
 
         if (this.getConfig().getInt("cfg-version") != CFG_VERSION) {
             this.getLogger().info("Your config is out of date. Replacing the config with the default copy and moving the old version to config.old.yml");
+            
             File bkpCfg = new File(this.getDataFolder().getAbsolutePath() + File.separator + "config.old.yml");
             try {
                 Files.copy(cfg.toPath(), bkpCfg.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -166,7 +167,6 @@ public class Main extends JavaPlugin {
         }
     }
 
-    // Needs a better name
     private void iteratePlugins(Consumer<LukkitPlugin> call) {
         for (Plugin plugin : this.pluginManager.getPlugins()) {
             if (plugin != this) {
