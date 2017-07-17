@@ -128,18 +128,14 @@ public class Main extends JavaPlugin {
                     }
                     return true;
                 } else if (cmd.equalsIgnoreCase("plugins")) {
-                    Plugin[] plugins = pluginManager.getPlugins();
                     StringBuilder sb = new StringBuilder().append(ChatColor.GREEN).append("Lukkit Plugins:").append(ChatColor.YELLOW);
 
-                    for (Plugin p : plugins) {
-                        if (p != this) {
-                            // Prevents Lukkit from being added as a plugin.
-                            sb.append("\n  - ").append(p.getName());
-                            if (p.getDescription().getDescription() != null) {
-                                sb.append(": ").append(p.getDescription().getDescription());
-                            }
+                    this.iteratePlugins((p) -> {
+                        sb.append("\n  - ").append(p.getName());
+                        if (p.getDescription().getDescription() != null) {
+                            sb.append(": ").append(p.getDescription().getDescription());
                         }
-                    }
+                    });
 
                     sender.sendMessage(sb.toString());
                     return true;
