@@ -53,6 +53,7 @@ dependencies {
     compile group: 'org.hsqldb', name: 'hsqldb', version: '2.4.0'
     compile group: 'com.mashape.unirest', name: 'unirest-java', version: '1.4.9'
     compile group: 'org.reflections', name: 'reflections', version: '0.9.11'
+    compile group: 'org.zeroturnaround', name: 'zt-zip', version: '1.11'
     provided group: 'org.spigotmc', name: 'spigot-api', version: '1.11-R0.1-SNAPSHOT'
     provided group: 'org.bukkit', name: 'bukkit', version: '1.11-R0.1-SNAPSHOT'
 }

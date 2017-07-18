@@ -14,6 +14,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
+import org.zeroturnaround.zip.ZipUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +36,11 @@ public class Main extends JavaPlugin {
 
     static Logger logger;
     public static Main instance;
+
+    private enum ZipOperation {
+        PACKAGE,
+        UNPACK
+    }
 
     public static HashMap<String, Class<? extends Event>> events = new HashMap<>();
     static {
@@ -139,12 +145,22 @@ public class Main extends JavaPlugin {
 
                     sender.sendMessage(sb.toString());
                     return true;
+                } else if (cmd.equalsIgnoreCase("dev")) {
+                    if (args[2] == null) {
+                        sender.sendMessage(getDevHelpMessage());
+                    } else if (args[2].equalsIgnoreCase("reload")) {
+                        // TODO: later
+                    } else if (args[2].equalsIgnoreCase("pack")) {
+                        this.zipOperation(ZipOperation.PACKAGE, sender, args);
+                    } else if (args[2].equalsIgnoreCase("unpack")) {
+                        this.zipOperation(ZipOperation.UNPACK, sender, args);
+                    } else sender.sendMessage(getDevHelpMessage());
                 }
-            } else {
-                sender.sendMessage(getHelpMessage());
-                return true;
-            }
+            } else sender.sendMessage(getHelpMessage());
+
+            return true;
         }
+
         return false;
     }
 
@@ -175,7 +191,32 @@ public class Main extends JavaPlugin {
         }
     }
 
-    private String getHelpMessage() {
+    private void zipOperation(ZipOperation operation, CommandSender sender, String[] args) {
+        if (args[1] != null) {
+            HashMap<String, LukkitPlugin> plugins = new HashMap<>();
+            this.iteratePlugins(p -> plugins.put(p.getName().toLowerCase(), p));
+
+            LukkitPlugin plugin = plugins.get(args[1]);
+
+            if (plugin != null) {
+                if ((operation == ZipOperation.PACKAGE) == plugin.isDevPlugin()) {
+                    if (operation == ZipOperation.PACKAGE) {
+                        ZipUtil.unexplode(plugin.getFile());
+                    } else {
+                        ZipUtil.explode(plugin.getFile());
+                    }
+                } else {
+                    sender.sendMessage("The specified plugin \"" + plugin.getName() + "\" is already " + ((operation == ZipOperation.PACKAGE) ? "packaged" : "unpacked") + ".");
+                }
+            } else {
+                sender.sendMessage("The specified plugin \"" + args[1] + "\" does not exist.");
+            }
+        } else {
+            sender.sendMessage("You didn't specify a plugin to " + ((operation == ZipOperation.PACKAGE) ? "package" : "unpack") + "!");
+        }
+    }
+
+    private static String getHelpMessage() {
         return ChatColor.GREEN + "Lukkit commands:\n" +
         ChatColor.YELLOW + "  - \"/lukkit\" - The root command for all commands (shows this message)\n" +
         "  - \"/lukkit help\" - Displays this message\n" +
@@ -184,5 +225,14 @@ public class Main extends JavaPlugin {
         "  - \"/lukkit plugins\" - Lists all enabled plugins\n" +
         "  - \"/lukkit stacktrace\" - Gets the last error as a stacktrace\n" +
         "  - \"/lukkit simple-error\" - Returns the last error as a one line message";
+    }
+
+    private static String getDevHelpMessage() {
+        return ChatColor.GREEN + "Lukkit dev commands:\n" +
+                ChatColor.YELLOW + "  - \"/lukkit dev\" - The root command for developer actions (shows this message)\n" +
+                "  - \"/lukkit dev reload (plugin name)\" - Reloads the source file and clears all loaded requires\n" +
+                "  - \"/lukkit dev pack (plugin name)\" - Packages the plugin (directory) into a .lkt file for publishing\n" +
+                "  - \"/lukkit dev unpack (plugin name)\" - Unpacks the plugin (.lkt) to a directory based plugin\n" +
+                "  - \"/lukkit dev help\" - Shows this message";
     }
 }
