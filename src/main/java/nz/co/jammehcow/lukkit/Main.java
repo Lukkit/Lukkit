@@ -51,7 +51,7 @@ public class Main extends JavaPlugin {
         });
     }
 
-    PluginManager pluginManager;
+    private PluginManager pluginManager;
 
     @Override
     public void onEnable() {
