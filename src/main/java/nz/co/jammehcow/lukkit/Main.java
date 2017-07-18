@@ -136,7 +136,7 @@ public class Main extends JavaPlugin {
                         HashMap<String, LukkitPlugin> plugins = new HashMap<>();
                         this.iteratePlugins(p -> plugins.put(p.getName().toLowerCase(), p));
 
-                        if (plugins.containsKey(args[2])) {
+                        if (plugins.containsKey(args[2].toLowerCase())) {
                             // TODO later
                         } else {
                             sender.sendMessage("The specified plugin " + args[2] + " does not exist.");
