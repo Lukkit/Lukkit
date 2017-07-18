@@ -144,7 +144,9 @@ public class LukkitPlugin implements Plugin {
     public void saveResource(String resourcePath, boolean replace) {
         if (resourcePath.startsWith("/")) resourcePath = resourcePath.replaceFirst("/", "");
 
-        File resourceOutput = new File(this.dataFolder.getAbsolutePath() + File.separator + (resourcePath.split("/")[resourcePath.length() - 1]));
+        String fileName = resourcePath.split("/")[resourcePath.split("/").length - 1];
+
+        File resourceOutput = new File(this.dataFolder.getAbsolutePath() + File.separator + fileName);
         InputStream is = this.pluginFile.getResource(resourcePath);
 
         if (is != null) {
