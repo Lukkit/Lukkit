@@ -133,7 +133,14 @@ public class Main extends JavaPlugin {
                     if (args[2] == null) {
                         sender.sendMessage(getDevHelpMessage());
                     } else if (args[2].equalsIgnoreCase("reload")) {
-                        // TODO: later
+                        HashMap<String, LukkitPlugin> plugins = new HashMap<>();
+                        this.iteratePlugins(p -> plugins.put(p.getName().toLowerCase(), p));
+
+                        if (plugins.containsKey(args[2])) {
+                            // TODO later
+                        } else {
+                            sender.sendMessage("The specified plugin " + args[2] + " does not exist.");
+                        }
                     } else if (args[2].equalsIgnoreCase("pack")) {
                         this.zipOperation(ZipOperation.PACKAGE, sender, args);
                     } else if (args[2].equalsIgnoreCase("unpack")) {
