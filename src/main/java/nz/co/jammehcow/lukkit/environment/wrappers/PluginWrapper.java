@@ -108,5 +108,13 @@ public class PluginWrapper extends LuaTable {
                 return LuaValue.valueOf(plugin.isNaggable());
             }
         });
+
+        set("exportResource", new TwoArgFunction() {
+            @Override
+            public LuaValue call(LuaValue path, LuaValue replace) {
+                plugin.saveResource(path.checkjstring(), replace.checkboolean());
+                return LuaValue.NIL;
+            }
+        });
     }
 }
