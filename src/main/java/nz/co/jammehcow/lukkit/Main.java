@@ -169,7 +169,7 @@ public class Main extends JavaPlugin {
 
     private void iteratePlugins(Consumer<LukkitPlugin> call) {
         for (Plugin plugin : this.pluginManager.getPlugins()) {
-            if (plugin != this) {
+            if (plugin instanceof LukkitPlugin) {
                 call.accept((LukkitPlugin) plugin);
             }
         }
