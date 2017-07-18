@@ -56,7 +56,6 @@ public class LukkitPluginFile {
      * @param resource the name of the resource
      * @return the resource as a File
      */
-
     public InputStream getResource(String resource) {
         try {
             if (this.isDevPlugin)
@@ -76,6 +75,21 @@ public class LukkitPluginFile {
         return this.isDevPlugin;
     }
 
+    /**
+     * Checks if the resource at the given path exists.
+     *
+     * @param path the internal resource path
+     * @return if the resource exists
+     */
+    public boolean resourceExists(String path) {
+        return this.getResource(path) != null;
+    }
+
+    /**
+     * Gets the plugin file path.
+     *
+     * @return the path
+     */
     public String getPath() {
         return this.file.getPath();
     }
