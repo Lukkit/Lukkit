@@ -292,6 +292,10 @@ public class LukkitPlugin implements Plugin {
         }
     }
 
+    public LukkitPluginFile getPluginFile() {
+        return this.pluginFile;
+    }
+
     private ArrayList<LuaFunction> getEventCallbacks(String simpleName) {
         return this.eventCallbacks.get(simpleName);
     }

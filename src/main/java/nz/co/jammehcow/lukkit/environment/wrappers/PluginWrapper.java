@@ -112,8 +112,10 @@ public class PluginWrapper extends LuaTable {
         set("exportResource", new TwoArgFunction() {
             @Override
             public LuaValue call(LuaValue path, LuaValue replace) {
+                if (!plugin.getPluginFile().resourceExists(path.checkjstring())) return LuaValue.FALSE;
+
                 plugin.saveResource(path.checkjstring(), replace.checkboolean());
-                return LuaValue.NIL;
+                return LuaValue.TRUE;
             }
         });
     }
