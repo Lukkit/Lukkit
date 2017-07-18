@@ -111,6 +111,7 @@ public class Main extends JavaPlugin {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().startsWith("lukkit")) {
             if (args.length != 0) {
+                // Set the String "cmd" to the first arg and remove the arg from the "args" array.
                 String cmd = args[0];
                 args = (String[]) ArrayUtils.remove(args, 0);
 
@@ -170,7 +171,7 @@ public class Main extends JavaPlugin {
 
         if (this.getConfig().getInt("cfg-version") != CFG_VERSION) {
             this.getLogger().info("Your config is out of date. Replacing the config with the default copy and moving the old version to config.old.yml");
-            
+
             File bkpCfg = new File(this.getDataFolder().getAbsolutePath() + File.separator + "config.old.yml");
             try {
                 Files.copy(cfg.toPath(), bkpCfg.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -218,13 +219,13 @@ public class Main extends JavaPlugin {
 
     private static String getHelpMessage() {
         return ChatColor.GREEN + "Lukkit commands:\n" +
-        ChatColor.YELLOW + "  - \"/lukkit\" - The root command for all commands (shows this message)\n" +
-        "  - \"/lukkit help\" - Displays this message\n" +
-        "  - \"/lukkit reload [plugin]\" - Reloads all plugins or the specified plugin\n" +
-        "  - \"/lukkit run (lua code)\" - Runs the specified code as command arguments\n" +
-        "  - \"/lukkit plugins\" - Lists all enabled plugins\n" +
-        "  - \"/lukkit stacktrace\" - Gets the last error as a stacktrace\n" +
-        "  - \"/lukkit simple-error\" - Returns the last error as a one line message";
+                ChatColor.YELLOW + "  - \"/lukkit\" - The root command for all commands (shows this message)\n" +
+                "  - \"/lukkit help\" - Displays this message\n" +
+                "  - \"/lukkit run (lua code)\" - Runs the specified code as command arguments\n" +
+                "  - \"/lukkit plugins\" - Lists all enabled plugins\n" +
+                "  - \"/lukkit stacktrace\" - Gets the last error as a stacktrace\n" +
+                "  - \"/lukkit simple-error\" - Returns the last error as a one line message" +
+                "  - \"/lukkit dev\" - Contains all developer commands. Prints out the dev help message";
     }
 
     private static String getDevHelpMessage() {
