@@ -72,97 +72,12 @@ public abstract class StorageObject {
     public abstract boolean setDefaultValue(String path, Object value);
 
     /**
-     * Sets a value if it doesn't exist.
-     *
-     * @param path  the path of the key
-     * @param value the value
-     * @return true if the value is set, false if not
-     */
-    public abstract boolean setDefaultValue(String path, String value);
-
-    /**
-     * Sets a value if it doesn't exist.
-     *
-     * @param path  the path of the key
-     * @param value the value
-     * @return true if the value is set, false if not
-     */
-    public abstract boolean setDefaultValue(String path, int value);
-
-    /**
-     * Sets a value if it doesn't exist.
-     *
-     * @param path  the path of the key
-     * @param value the value
-     * @return true if the value is set, false if not
-     */
-    public abstract boolean setDefaultValue(String path, boolean value);
-
-    /**
-     * Sets a value if it doesn't exist.
-     *
-     * @param path  the path of the key
-     * @param value the value
-     * @return true if the value is set, false if not
-     */
-    public abstract boolean setDefaultValue(String path, double value);
-
-    /**
-     * Sets a value if it doesn't exist.
-     *
-     * @param path  the path of the key
-     * @param value the value
-     * @return true if the value is set, false if not
-     */
-    public abstract boolean setDefaultValue(String path, long value);
-
-    /**
      * Sets the value of a key.
      *
      * @param path  the path of the key
      * @param value the value
      */
     public abstract void setValue(String path, Object value);
-
-    /**
-     * Sets the value of a key.
-     *
-     * @param path  the path of the key
-     * @param value the value
-     */
-    public abstract void setValue(String path, String value);
-
-    /**
-     * Sets the value of a key.
-     *
-     * @param path  the path of the key
-     * @param value the value
-     */
-    public abstract void setValue(String path, int value);
-
-    /**
-     * Sets the value of a key.
-     *
-     * @param path  the path of the key
-     * @param value the value
-     */
-    public abstract void setValue(String path, boolean value);
-
-    /**
-     * Sets the value of a key.
-     *
-     * @param path  the path of the key
-     * @param value the value
-     */
-    public abstract void setValue(String path, double value);
-
-    /**
-     * Sets the value of a key.
-     *
-     * @param path  the path of the key
-     * @param value the value
-     */
-    public abstract void setValue(String path, long value);
 
     /**
      * Gets the value of a key.
@@ -173,7 +88,7 @@ public abstract class StorageObject {
     public abstract Object getValue(String path);
 
     /**
-     * Save.
+     * Save the file.
      */
     public abstract void save();
 
