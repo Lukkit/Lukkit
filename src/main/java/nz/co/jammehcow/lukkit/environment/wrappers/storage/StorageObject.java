@@ -22,8 +22,10 @@ public abstract class StorageObject {
     private File storageFile;
     private LukkitPlugin plugin;
     private boolean autosave = true;
+    private Storage type;
 
-    public StorageObject(LukkitPlugin plugin, String path) {
+    public StorageObject(LukkitPlugin plugin, String path, Storage type) {
+        this.type = type;
         this.plugin = plugin;
         this.storageFile = new File(this.plugin.getDataFolder().getAbsolutePath() + File.separator + path);
 
@@ -34,7 +36,9 @@ public abstract class StorageObject {
         }
     }
 
-    abstract String getType();
+    public String getType() {
+        return this.type.type;
+    }
 
     abstract String setDefaultValue(String path, Object value);
     abstract String setDefaultValue(String path, String value);
