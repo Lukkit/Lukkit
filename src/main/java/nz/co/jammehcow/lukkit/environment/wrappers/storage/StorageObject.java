@@ -40,23 +40,23 @@ public abstract class StorageObject {
         return this.type.type;
     }
 
-    abstract String setDefaultValue(String path, Object value);
-    abstract String setDefaultValue(String path, String value);
-    abstract String setDefaultValue(String path, int value);
-    abstract String setDefaultValue(String path, boolean value);
-    abstract String setDefaultValue(String path, double value);
-    abstract String setDefaultValue(String path, long value);
+    public abstract boolean setDefaultValue(String path, Object value);
+    public abstract boolean setDefaultValue(String path, String value);
+    public abstract boolean setDefaultValue(String path, int value);
+    public abstract boolean setDefaultValue(String path, boolean value);
+    public abstract boolean setDefaultValue(String path, double value);
+    public abstract boolean setDefaultValue(String path, long value);
 
-    abstract String setValue(String path, Object value);
-    abstract String setValue(String path, String value);
-    abstract String setValue(String path, int value);
-    abstract String setValue(String path, boolean value);
-    abstract String setValue(String path, double value);
-    abstract String setValue(String path, long value);
+    public abstract void setValue(String path, Object value);
+    public abstract void setValue(String path, String value);
+    public abstract void setValue(String path, int value);
+    public abstract void setValue(String path, boolean value);
+    public abstract void setValue(String path, double value);
+    public abstract void setValue(String path, long value);
 
-    abstract String getValue(String path);
+    public abstract Object getValue(String path);
 
-    abstract void save();
+    public abstract void save();
 
     public void setAutosave(boolean autosave) {
         this.autosave = autosave;
