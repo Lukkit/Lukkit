@@ -12,8 +12,8 @@ import java.nio.file.Files;
 
 public abstract class StorageObject {
     enum Storage {
-        JSON("JSON"),
-        YAML("YAML");
+        JSON("json"),
+        YAML("yaml");
 
         private final String type;
         Storage(String type) { this.type = type; }
