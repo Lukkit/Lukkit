@@ -65,4 +65,12 @@ public abstract class StorageObject {
     public String getFilePath() {
         return this.storageFile.getAbsolutePath();
     }
+
+    public LukkitPlugin getPlugin() {
+        return this.plugin;
+    }
+
+    public File getStorageFile() {
+        return this.storageFile;
+    }
 }
