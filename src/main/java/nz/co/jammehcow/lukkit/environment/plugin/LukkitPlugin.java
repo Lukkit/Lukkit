@@ -94,6 +94,7 @@ public class LukkitPlugin implements Plugin {
         this.globals.set("util", new UtilitiesWrapper(this));
         this.globals.set("bukkit", new BukkitWrapper(this));
         this.globals.set("config", new ConfigWrapper(this));
+        this.globals.set("storage", new StorageWrapper(this));
 
         // Sets callbacks (if any) and loads the commands & events into memory.
         Optional<String> isValid = this.checkValidity();
