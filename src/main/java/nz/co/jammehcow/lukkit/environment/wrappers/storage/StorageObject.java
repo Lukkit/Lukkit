@@ -15,7 +15,7 @@ public abstract class StorageObject {
     /**
      * The enum Storage.
      */
-    enum Storage {
+    public enum Storage {
         /**
          * JSON storage.
          */
@@ -31,7 +31,6 @@ public abstract class StorageObject {
 
     private File storageFile;
     private LukkitPlugin plugin;
-    private boolean autosave = true;
     private Storage type;
 
     /**
@@ -91,24 +90,6 @@ public abstract class StorageObject {
      * Save the file.
      */
     public abstract void save();
-
-    /**
-     * Sets whether or not to autosave.
-     *
-     * @param autosave true to enable, false to disable
-     */
-    public void setAutosave(boolean autosave) {
-        this.autosave = autosave;
-    }
-
-    /**
-     * Gets the state of autosaving.
-     *
-     * @return the autosave state
-     */
-    public boolean isAutosaving() {
-        return this.autosave;
-    }
 
     /**
      * Gets the absolute path of the storage file.
