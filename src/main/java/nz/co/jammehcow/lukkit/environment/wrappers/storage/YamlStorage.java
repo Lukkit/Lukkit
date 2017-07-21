@@ -26,21 +26,31 @@ public class YamlStorage extends StorageObject {
 
     @Override
     public boolean setDefaultValue(String path, Object value) {
+        value = (value instanceof LuaValue) ? ((LuaValue) value).checkuserdata() : value;
+
+        if (this.yamlConfiguration.get(path) == null) {
+            this.yamlConfiguration.set(path, value);
+            return true;
+        }
+
         return false;
     }
 
     @Override
     public void setValue(String path, Object value) {
-
+        value = (value instanceof LuaValue) ? ((LuaValue) value).checkuserdata() : value;
+        this.yamlConfiguration.set(path, value);
     }
 
     @Override
     public Object getValue(String path) {
-        return null;
+        return this.yamlConfiguration.get(path);
     }
 
     @Override
     public void save() {
-
+        try {
+            this.yamlConfiguration.save(this.getStorageFile());
+        } catch (IOException e) { e.printStackTrace(); }
     }
 }
