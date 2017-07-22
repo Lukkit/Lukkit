@@ -13,6 +13,7 @@ import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.luaj.vm2.LuaError;
 import org.reflections.Reflections;
 import org.zeroturnaround.zip.ZipUtil;
 
@@ -145,6 +146,14 @@ public class Main extends JavaPlugin {
                         this.zipOperation(ZipOperation.PACKAGE, sender, args);
                     } else if (args[2].equalsIgnoreCase("unpack")) {
                         this.zipOperation(ZipOperation.UNPACK, sender, args);
+                    } else if (args[2].equalsIgnoreCase("last-error")) {
+                        LuaError err = LuaEnvironment.lastError;
+                        if (err != null) {
+                            sender.sendMessage(err.getMessage());
+                            err.printStackTrace();
+                        } else {
+                            sender.sendMessage("There was no error to get.");
+                        }
                     } else sender.sendMessage(getDevHelpMessage());
                 }
             } else sender.sendMessage(getHelpMessage());
@@ -213,8 +222,6 @@ public class Main extends JavaPlugin {
                 "  - \"/lukkit help\" - Displays this message\n" +
                 "  - \"/lukkit run (lua code)\" - Runs the specified code as command arguments\n" +
                 "  - \"/lukkit plugins\" - Lists all enabled plugins\n" +
-                "  - \"/lukkit stacktrace\" - Gets the last error as a stacktrace\n" +
-                "  - \"/lukkit simple-error\" - Returns the last error as a one line message" +
                 "  - \"/lukkit dev\" - Contains all developer commands. Prints out the dev help message";
     }
 
@@ -224,6 +231,7 @@ public class Main extends JavaPlugin {
                 "  - \"/lukkit dev reload (plugin name)\" - Reloads the source file and clears all loaded requires\n" +
                 "  - \"/lukkit dev pack (plugin name)\" - Packages the plugin (directory) into a .lkt file for publishing\n" +
                 "  - \"/lukkit dev unpack (plugin name)\" - Unpacks the plugin (.lkt) to a directory based plugin\n" +
+                "  - \"/lukkit dev last-error\" - Gets the last error thrown by a plugin and sends the message to the sender. Also prints the stacktrace to the console.\n" +
                 "  - \"/lukkit dev help\" - Shows this message";
     }
 }
