@@ -1,6 +1,7 @@
 package nz.co.jammehcow.lukkit.environment.wrappers;
 
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
+import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
 import nz.co.jammehcow.lukkit.environment.plugin.wrappedClasses.Skull;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -26,8 +27,7 @@ public class BukkitWrapper extends LuaTable {
                 Material m = Material.getMaterial(material.checkjstring());
 
                 if (m == null) {
-                    plugin.getLogger().warning("Requested material " + material.tojstring() + " but a material by that name doesn't exist.");
-                    return LuaValue.NIL;
+                    throw new LukkitPluginException("Requested material " + material.tojstring() + " but a material by that name doesn't exist.");
                 }
 
                 return CoerceJavaToLua.coerce(m);
@@ -38,7 +38,7 @@ public class BukkitWrapper extends LuaTable {
             @Override
             public LuaValue call(LuaValue item) {
                 if (!item.isnil() && !(item.checkuserdata() instanceof ItemStack)) {
-                    return LuaValue.NIL;
+                    throw new LukkitPluginException("bukkit.getSkullMeta was passed something other than an ItemStack.");
                 }
 
                 return CoerceJavaToLua.coerce(new Skull((item.isnil()) ? null : (ItemStack) item.touserdata()));

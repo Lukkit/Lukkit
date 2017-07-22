@@ -1,6 +1,7 @@
 package nz.co.jammehcow.lukkit.environment;
 
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
+import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
@@ -41,9 +42,8 @@ public class LuaEnvironment {
                 if (is != null) try {
                     return g.load(new InputStreamReader(is, "UTF-8"), path.replace("/", ".")).call();
                 } catch (UnsupportedEncodingException e) { e.printStackTrace(); }
-                plugin.getLogger().severe("Requested Lua file at " + path + " but it does not exist.");
 
-                return LuaValue.NIL;
+                throw new LukkitPluginException("Requested Lua file at " + path + " but it does not exist.");
             }
         });
         return g;

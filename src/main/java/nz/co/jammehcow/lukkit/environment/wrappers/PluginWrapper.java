@@ -2,6 +2,7 @@ package nz.co.jammehcow.lukkit.environment.wrappers;
 
 import nz.co.jammehcow.lukkit.Main;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
+import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
@@ -32,7 +33,7 @@ public class PluginWrapper extends LuaTable {
                 if (callback.isfunction()) {
                     plugin.setLoadCB(callback.checkfunction());
                 } else {
-                    plugin.getLogger().warning("There was an issue registering the onLoad callback - was provided a " + callback.typename() + " instead of a function.");
+                    throw new LukkitPluginException("There was an issue registering the onLoad callback - was provided a " + callback.typename() + " instead of a function.");
                 }
                 return LuaValue.NIL;
             }
@@ -44,7 +45,7 @@ public class PluginWrapper extends LuaTable {
                 if (callback.isfunction()) {
                     plugin.setEnableCB(callback.checkfunction());
                 } else {
-                    plugin.getLogger().warning("There was an issue registering the onEnable callback - was provided a " + callback.typename() + " instead of a function.");
+                    throw new LukkitPluginException("There was an issue registering the onEnable callback - was provided a " + callback.typename() + " instead of a function.");
                 }
                 return LuaValue.NIL;
             }
@@ -56,7 +57,7 @@ public class PluginWrapper extends LuaTable {
                 if (callback.isfunction()) {
                     plugin.setDisableCB(callback.checkfunction());
                 } else {
-                    plugin.getLogger().warning("There was an issue registering the onDisable callback - was provided a " + callback.typename() + " instead of a function.");
+                    throw new LukkitPluginException("There was an issue registering the onDisable callback - was provided a " + callback.typename() + " instead of a function.");
                 }
                 return LuaValue.NIL;
             }
@@ -66,7 +67,7 @@ public class PluginWrapper extends LuaTable {
             @Override
             public LuaValue call(LuaValue arg1, LuaValue arg2) {
                 if (!arg1.isstring() || !arg2.isfunction()) {
-                    plugin.getLogger().severe("There was an issue registering a command. Check that the command registration conforms to the layout here: ");
+                    throw new LukkitPluginException("There was an issue registering a command. Check that the command registration conforms to the layout here: ");
                 } else {
                     plugin.addCommand(arg1.checkjstring(), arg2.checkfunction());
                 }
@@ -82,8 +83,7 @@ public class PluginWrapper extends LuaTable {
                     return LuaValue.NIL;
                 }
 
-                plugin.getLogger().warning("There was an issue trying to register the event " + arg1.tostring() + ". Is it a valid event name and properly capitalized?");
-                return LuaValue.NIL;
+                throw new LukkitPluginException("There was an issue trying to register the event " + arg1.tostring() + ". Is it a valid event name and properly capitalized?");
             }
         });
 

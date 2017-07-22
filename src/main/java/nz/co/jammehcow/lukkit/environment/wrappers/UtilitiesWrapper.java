@@ -1,7 +1,7 @@
 package nz.co.jammehcow.lukkit.environment.wrappers;
 
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
-import org.luaj.vm2.LuaError;
+import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
@@ -52,7 +52,7 @@ public class UtilitiesWrapper extends LuaTable {
                 } else if (arg.touserdata() instanceof Stream) {
                     list = ((Stream<?>) arg.touserdata()).toArray();
                 } else {
-                    throw new LuaError("util.tableFromList(obj) was passed something other than an instance of Collection or Stream.");
+                    throw new LukkitPluginException("util.tableFromList(obj) was passed something other than an instance of Collection or Stream.");
                 }
 
                 LuaTable t = new LuaTable();
@@ -72,7 +72,7 @@ public class UtilitiesWrapper extends LuaTable {
                 if (arg.checkuserdata() instanceof Map) {
                     map = (Map<?, ?>) arg.touserdata();
                 } else {
-                    throw new LuaError("util.tableFromMap(obj) was passed something other than a implementation of Map.");
+                    throw new LukkitPluginException("util.tableFromMap(obj) was passed something other than a implementation of Map.");
                 }
 
                 LuaTable t = new LuaTable();
@@ -126,7 +126,7 @@ public class UtilitiesWrapper extends LuaTable {
         set("castObject", new TwoArgFunction() {
             @Override
             public LuaValue call(LuaValue object, LuaValue cast) {
-                plugin.getLogger().warning("Don't rely on utils.castObject() for your plugin. It will be removed (most likely) before 2.0 and should only be used for Lukkit's development.");
+                plugin.getLogger().warning("Don't rely on utils.castObject() for your plugin. It's intended to only be used for Lukkit's development or testing. It isn't supported by the devs.");
                 Class<?> obj = null;
 
                 for (Class<?> clazz : classes) {
