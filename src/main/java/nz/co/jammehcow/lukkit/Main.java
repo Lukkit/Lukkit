@@ -64,7 +64,7 @@ public class Main extends JavaPlugin {
         int totalPlugins = pluginManager.getPlugins().length - 1;
 
         if (totalPlugins > 0) {
-            this.getLogger().info((totalPlugins != 1) ? totalPlugins + " Lukkit plugins were loaded" : "1 Lukkit plugins was loaded");
+            this.getLogger().info((totalPlugins != 1) ? totalPlugins + " Lukkit plugins were loaded" : "1 Lukkit plugin was loaded");
         } else {
             this.getLogger().info("No Lukkit plugins were loaded.");
         }
