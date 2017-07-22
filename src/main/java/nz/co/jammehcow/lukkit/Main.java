@@ -131,7 +131,7 @@ public class Main extends JavaPlugin {
                     sender.sendMessage(sb.toString());
                     return true;
                 } else if (cmd.equalsIgnoreCase("dev")) {
-                    if (args[2] == null) {
+                    if (args.length < 3) {
                         sender.sendMessage(getDevHelpMessage());
                     } else if (args[2].equalsIgnoreCase("reload")) {
                         HashMap<String, LukkitPlugin> plugins = new HashMap<>();
