@@ -3,6 +3,7 @@ package nz.co.jammehcow.lukkit.environment;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
 import org.luaj.vm2.Globals;
+import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.jse.JsePlatform;
@@ -17,6 +18,7 @@ import java.io.UnsupportedEncodingException;
 
 public class LuaEnvironment {
     private static boolean isDebug;
+    public static LuaError lastError;
 
     public static void init(boolean debug) {
         isDebug = debug;
