@@ -26,7 +26,7 @@ public class StorageWrapper extends LuaTable {
             public LuaValue call(LuaValue path) {
                 StorageObject.Storage type;
                 String stringPath = (path.checkjstring().startsWith("/")) ?
-                        path.checkjstring() : "/" + path.checkjstring();
+                        path.checkjstring().toLowerCase() : "/" + path.checkjstring().toLowerCase();
 
                 if (stringPath.endsWith(".json")) {
                     type = StorageObject.Storage.JSON;
