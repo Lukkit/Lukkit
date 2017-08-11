@@ -39,7 +39,7 @@ public class YamlStorage extends StorageObject {
 
     @Override
     public void setValue(LuaString path, LuaValue value) {
-        this.yamlConfiguration.set(path.tojstring(), this.getObjectFromLuavalue(value));
+        this.yamlConfiguration.set(path.checkjstring(), this.getObjectFromLuavalue(value));
     }
 
     @Override
