@@ -5,7 +5,6 @@ import org.luaj.vm2.LuaBoolean;
 import org.luaj.vm2.LuaString;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.lib.jse.CoerceLuaToJava;
 
 import java.io.File;
 import java.io.IOException;
@@ -142,7 +141,7 @@ public abstract class StorageObject {
      * @return the Java object
      */
     public Object getObjectFromLuavalue(LuaValue value) {
-        return (value.istable()) ? this.tableToMap(value.checktable()) : CoerceLuaToJava.coerce(value, value.touserdata().getClass());
+        return (value.istable()) ? this.tableToMap(value.checktable()) : value.checkuserdata();
     }
 
     private HashMap<Object, Object> tableToMap(LuaTable table) {
