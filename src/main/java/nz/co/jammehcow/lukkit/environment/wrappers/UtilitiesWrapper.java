@@ -95,10 +95,11 @@ public class UtilitiesWrapper extends LuaTable {
             public LuaValue call(LuaValue function, LuaValue delay) {
                 Thread thread = new Thread(() -> {
                     try {
-                        if (delay != null) Thread.sleep(delay.checklong());
+                        if (delay != LuaValue.NIL) Thread.sleep(delay.checklong());
                         function.checkfunction().call();
                     } catch (InterruptedException ignored) {}
                 });
+
                 thread.start();
                 return LuaValue.NIL;
             }
