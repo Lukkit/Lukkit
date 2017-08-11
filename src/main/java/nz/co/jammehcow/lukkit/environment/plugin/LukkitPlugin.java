@@ -7,11 +7,9 @@ import nz.co.jammehcow.lukkit.environment.wrappers.*;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -101,8 +99,13 @@ public class LukkitPlugin implements Plugin {
         if (isValid.isPresent())
             throw new InvalidPluginException("An issue occurred when loading the plugin: \n" + isValid.get());
 
-        this.pluginMain.call();
-        this.onLoad();
+        try {
+            this.pluginMain.call();
+            this.onLoad();
+        } catch (LukkitPluginException e) {
+            e.printStackTrace();
+            LuaEnvironment.lastError = e;
+        }
     }
 
     @Override
@@ -192,19 +195,35 @@ public class LukkitPlugin implements Plugin {
     @Override
     public void onEnable() {
         this.enabled = true;
-        if (this.enableCB != null) this.enableCB.call(CoerceJavaToLua.coerce(this));
+        try {
+            if (this.enableCB != null) this.enableCB.call(CoerceJavaToLua.coerce(this));
+        } catch (LukkitPluginException e) {
+            e.printStackTrace();
+            LuaEnvironment.lastError = e;
+        }
+
         Main.events.forEach((s, e) -> this.getServer().getPluginManager().registerEvent(e, new Listener() {}, EventPriority.NORMAL, (listener, event) -> this.onEvent(event), this, false));
     }
 
     @Override
     public void onDisable() {
         this.enabled = false;
-        if (this.disableCB != null) this.disableCB.call(CoerceJavaToLua.coerce(this));
+        try {
+            if (this.disableCB != null) this.disableCB.call(CoerceJavaToLua.coerce(this));
+        } catch (LukkitPluginException e) {
+            e.printStackTrace();
+            LuaEnvironment.lastError = e;
+        }
     }
 
     @Override
     public void onLoad() {
-        if (this.loadCB != null) this.loadCB.call();
+        try {
+            if (this.loadCB != null) this.loadCB.call();
+        } catch (LukkitPluginException e) {
+            e.printStackTrace();
+            LuaEnvironment.lastError = e;
+        }
     }
 
     @Override
@@ -241,12 +260,17 @@ public class LukkitPlugin implements Plugin {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (commands.containsKey(command.getName())) {
-            commands.get(command.getName()).invoke(new LuaValue[] {
-                    CoerceJavaToLua.coerce((sender instanceof Player) ? (Player) sender : (ConsoleCommandSender) sender),
-                    CoerceJavaToLua.coerce(command),
-                    LuaValue.valueOf(label),
-                    CoerceJavaToLua.coerce(args)
-            });
+            try {
+                commands.get(command.getName()).invoke(new LuaValue[] {
+                        CoerceJavaToLua.coerce(sender),
+                        CoerceJavaToLua.coerce(command),
+                        LuaValue.valueOf(label),
+                        CoerceJavaToLua.coerce(args)
+                });
+            } catch (LukkitPluginException e) {
+                e.printStackTrace();
+                LuaEnvironment.lastError = e;
+            }
             return true;
         }
 
@@ -309,6 +333,9 @@ public class LukkitPlugin implements Plugin {
             } catch (ClassNotFoundException ex) {
                 this.logger.severe("Unable to cast event of type " + e.getEventName() + " to object. Event will not be handled by this plugin. I'd recommend that you send your plugin and the stacktrace to the developer on GitHub via an issue.");
                 ex.printStackTrace();
+            } catch (LukkitPluginException ex) {
+                ex.printStackTrace();
+                LuaEnvironment.lastError = ex;
             }
         });
     }
