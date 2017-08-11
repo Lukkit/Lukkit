@@ -12,6 +12,7 @@ import org.luaj.vm2.lib.jse.JsePlatform;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.Stack;
 
 /**
  * @author jammehcow
@@ -19,8 +20,10 @@ import java.io.UnsupportedEncodingException;
 
 public class LuaEnvironment {
     private static boolean isDebug;
-    // TODO: make a better error capturing system. 2.1
-    public static LuaError lastError;
+    private static Stack<LuaError> errors = new Stack<>();
+    static {
+        errors.setSize(10);
+    }
 
     public static void init(boolean debug) {
         isDebug = debug;
@@ -51,7 +54,7 @@ public class LuaEnvironment {
                         return calledScript;
                     } catch (LukkitPluginException e) {
                         e.printStackTrace();
-                        lastError = e;
+                        addError(e);
                     }
                 } catch (UnsupportedEncodingException e) { e.printStackTrace(); }
 
@@ -59,5 +62,13 @@ public class LuaEnvironment {
             }
         });
         return g;
+    }
+
+    public static LuaError getLastError() {
+        return errors.peek();
+    }
+
+    public static void addError(LuaError e) {
+        errors.push(e);
     }
 }

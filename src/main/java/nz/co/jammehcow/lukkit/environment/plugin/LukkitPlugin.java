@@ -104,7 +104,7 @@ public class LukkitPlugin implements Plugin {
             this.onLoad();
         } catch (LukkitPluginException e) {
             e.printStackTrace();
-            LuaEnvironment.lastError = e;
+            LuaEnvironment.addError(e);
         }
     }
 
@@ -199,7 +199,7 @@ public class LukkitPlugin implements Plugin {
             if (this.enableCB != null) this.enableCB.call(CoerceJavaToLua.coerce(this));
         } catch (LukkitPluginException e) {
             e.printStackTrace();
-            LuaEnvironment.lastError = e;
+            LuaEnvironment.addError(e);
         }
 
         Main.events.forEach((s, e) -> this.getServer().getPluginManager().registerEvent(e, new Listener() {}, EventPriority.NORMAL, (listener, event) -> this.onEvent(event), this, false));
@@ -212,7 +212,7 @@ public class LukkitPlugin implements Plugin {
             if (this.disableCB != null) this.disableCB.call(CoerceJavaToLua.coerce(this));
         } catch (LukkitPluginException e) {
             e.printStackTrace();
-            LuaEnvironment.lastError = e;
+            LuaEnvironment.addError(e);
         }
     }
 
@@ -222,7 +222,7 @@ public class LukkitPlugin implements Plugin {
             if (this.loadCB != null) this.loadCB.call();
         } catch (LukkitPluginException e) {
             e.printStackTrace();
-            LuaEnvironment.lastError = e;
+            LuaEnvironment.addError(e);
         }
     }
 
@@ -269,7 +269,7 @@ public class LukkitPlugin implements Plugin {
                 });
             } catch (LukkitPluginException e) {
                 e.printStackTrace();
-                LuaEnvironment.lastError = e;
+                LuaEnvironment.addError(e);
             }
             return true;
         }
@@ -335,7 +335,7 @@ public class LukkitPlugin implements Plugin {
                 ex.printStackTrace();
             } catch (LukkitPluginException ex) {
                 ex.printStackTrace();
-                LuaEnvironment.lastError = ex;
+                LuaEnvironment.addError(ex);
             }
         });
     }

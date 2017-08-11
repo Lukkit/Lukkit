@@ -146,8 +146,8 @@ public class Main extends JavaPlugin {
                         this.zipOperation(ZipOperation.PACKAGE, sender, args);
                     } else if (args[1].equalsIgnoreCase("unpack")) {
                         this.zipOperation(ZipOperation.UNPACK, sender, args);
-                        LuaError err = LuaEnvironment.lastError;
                     } else if (args[1].equalsIgnoreCase("last-error")) {
+                        LuaError err = LuaEnvironment.getLastError();
                         if (err != null) {
                             sender.sendMessage(err.getMessage());
                             err.printStackTrace();
