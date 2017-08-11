@@ -37,6 +37,7 @@ public class Main extends JavaPlugin {
 
     static Logger logger;
     public static Main instance;
+    private static long loadTime = 0;
 
     private enum ZipOperation {
         PACKAGE,
@@ -65,7 +66,7 @@ public class Main extends JavaPlugin {
         int totalPlugins = pluginManager.getPlugins().length - 1;
 
         if (totalPlugins > 0) {
-            this.getLogger().info((totalPlugins != 1) ? totalPlugins + " Lukkit plugins were loaded" : "1 Lukkit plugin was loaded");
+            this.getLogger().info(((totalPlugins != 1) ? totalPlugins + " Lukkit plugins were loaded" : "1 Lukkit plugin was loaded") + " in " + loadTime + "ms.");
         } else {
             this.getLogger().info("No Lukkit plugins were loaded.");
         }
@@ -87,7 +88,6 @@ public class Main extends JavaPlugin {
         LuaEnvironment.init(this.getConfig().getBoolean("lua-debug"));
 
         this.getServer().getPluginManager().registerInterface(LukkitPluginLoader.class);
-
         this.pluginManager = this.getServer().getPluginManager();
 
         this.getLogger().info("Loading Lukkit plugins...");
@@ -95,6 +95,7 @@ public class Main extends JavaPlugin {
         File[] plugins = this.getFile().getParentFile().listFiles();
 
         if (plugins != null) {
+            long startTime = System.currentTimeMillis();
 
             Arrays.stream(plugins)
                     .filter((file -> isLukkitPluginFile(file.getName())))
@@ -102,6 +103,8 @@ public class Main extends JavaPlugin {
                         try { this.pluginManager.loadPlugin(file); }
                         catch (InvalidPluginException | InvalidDescriptionException e) { e.printStackTrace(); }
                     });
+
+            loadTime = System.currentTimeMillis() - startTime;
         }
     }
 
