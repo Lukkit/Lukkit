@@ -123,6 +123,8 @@ public class UtilitiesWrapper extends LuaTable {
                         wait();
                     } catch (InterruptedException e) {
                         future.cancel(true);
+                        plugin.getLogger().warning("A sync method was killed due to the future being interrupted. Dumping the stack trace for debug purposes");
+                        e.printStackTrace();
                     }
                 }
 
