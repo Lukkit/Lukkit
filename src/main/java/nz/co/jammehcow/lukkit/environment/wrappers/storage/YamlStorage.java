@@ -20,8 +20,8 @@ public class YamlStorage extends StorageObject {
 
     public YamlStorage(LukkitPlugin plugin, String path) {
         super(plugin, path, Storage.YAML);
-
         this.yamlConfiguration = new YamlConfiguration();
+
         try {
             this.yamlConfiguration.load(new FileReader(this.getStorageFile()));
         } catch (IOException | InvalidConfigurationException e) { e.printStackTrace(); }
