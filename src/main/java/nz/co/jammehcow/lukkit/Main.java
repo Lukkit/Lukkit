@@ -128,23 +128,23 @@ public class Main extends JavaPlugin {
                     sender.sendMessage(sb.toString());
                     return true;
                 } else if (cmd.equalsIgnoreCase("dev")) {
-                    if (args.length < 3) {
+                    if (args.length == 0) {
                         sender.sendMessage(getDevHelpMessage());
-                    } else if (args[2].equalsIgnoreCase("reload")) {
+                    } else if (args[1].equalsIgnoreCase("reload")) {
                         HashMap<String, LukkitPlugin> plugins = new HashMap<>();
                         this.iteratePlugins(p -> plugins.put(p.getName().toLowerCase(), p));
 
-                        if (plugins.containsKey(args[2].toLowerCase())) {
-                            // TODO later
+                        if (plugins.containsKey(args[1].toLowerCase())) {
+                            //plugins.get(args[2].toLowerCase()).reloadPlugin();
                         } else {
                             sender.sendMessage("The specified plugin " + args[2] + " does not exist.");
                         }
-                    } else if (args[2].equalsIgnoreCase("pack")) {
+                    } else if (args[1].equalsIgnoreCase("pack")) {
                         this.zipOperation(ZipOperation.PACKAGE, sender, args);
-                    } else if (args[2].equalsIgnoreCase("unpack")) {
+                    } else if (args[1].equalsIgnoreCase("unpack")) {
                         this.zipOperation(ZipOperation.UNPACK, sender, args);
-                    } else if (args[2].equalsIgnoreCase("last-error")) {
                         LuaError err = LuaEnvironment.lastError;
+                    } else if (args[1].equalsIgnoreCase("last-error")) {
                         if (err != null) {
                             sender.sendMessage(err.getMessage());
                             err.printStackTrace();
