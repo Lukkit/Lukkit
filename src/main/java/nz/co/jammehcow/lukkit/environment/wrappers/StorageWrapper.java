@@ -43,9 +43,7 @@ public class StorageWrapper extends LuaTable {
                     cachedObjects.put(stringPath, obj);
                 }
 
-                CoerceJavaToLua.coerce(cachedObjects.get(stringPath));
-
-                return LuaValue.NIL;
+                return CoerceJavaToLua.coerce(cachedObjects.get(stringPath));
             }
         });
     }
