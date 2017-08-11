@@ -114,13 +114,17 @@ public class UtilitiesWrapper extends LuaTable {
                 ScheduledExecutorService execService = Executors.newScheduledThreadPool(1);
                 ScheduledFuture future = execService.schedule((Callable<LuaValue>) function::call, time.checklong(), TimeUnit.MILLISECONDS);
 
-                while (true) {
-                    if (future.isDone()) {
-                        execService.shutdown();
-                        notify();
-                        return LuaValue.NIL;
+                while (!future.isDone()) {
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {
+                        future.cancel(true);
                     }
                 }
+
+                execService.shutdown();
+                notify();
+                return LuaValue.NIL;
             }
         });
 
