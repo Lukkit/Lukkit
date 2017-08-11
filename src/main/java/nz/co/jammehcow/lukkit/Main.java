@@ -21,10 +21,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -95,16 +95,13 @@ public class Main extends JavaPlugin {
         File[] plugins = this.getFile().getParentFile().listFiles();
 
         if (plugins != null) {
-            for (File file : plugins) {
-                for (Pattern filter : LukkitPluginLoader.fileFilters) {
-                    Matcher match = filter.matcher(file.getName());
 
-                    if (match.find()) {
+            Arrays.stream(plugins)
+                    .filter((file -> isLukkitPluginFile(file.getName())))
+                    .forEach(file -> {
                         try { this.pluginManager.loadPlugin(file); }
                         catch (InvalidPluginException | InvalidDescriptionException e) { e.printStackTrace(); }
-                    }
-                }
-            }
+                    });
         }
     }
 
@@ -214,6 +211,14 @@ public class Main extends JavaPlugin {
         } else {
             sender.sendMessage("You didn't specify a plugin to " + ((operation == ZipOperation.PACKAGE) ? "package" : "unpack") + "!");
         }
+    }
+
+    private static boolean isLukkitPluginFile(String fileName) {
+        for (Pattern pattern : LukkitPluginLoader.fileFilters) {
+            if (pattern.matcher(fileName).find()) return true;
+        }
+
+        return false;
     }
 
     private static String getHelpMessage() {
