@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * @author jammehcow
@@ -154,6 +155,28 @@ public class Main extends JavaPlugin {
                         } else {
                             sender.sendMessage("There was no error to get.");
                         }
+                    } else if (args[1].equalsIgnoreCase("errors")) {
+                        Stream<LuaError> errors = LuaEnvironment.getErrors();
+                        if (errors != null) {
+                            if (args[2] == null) {
+                                errors.forEach(luaError -> {
+                                    sender.sendMessage(luaError.getMessage());
+                                    luaError.printStackTrace();
+                                });
+                            } else {
+                                try {
+                                    LuaError error = ((LuaError[]) errors.toArray())[Integer.parseInt(args[2])];
+                                    sender.sendMessage(error.getMessage());
+                                    error.printStackTrace();
+                                } catch (NumberFormatException e) {
+                                    sender.sendMessage(ChatColor.RED + args[2] + " cannot be converted to an integer.");
+                                } catch (ArrayIndexOutOfBoundsException e) {
+                                    sender.sendMessage(ChatColor.RED + args[2] + " is out of bounds. Should be between 1 & 10");
+                                }
+                            }
+                        } else {
+                            sender.sendMessage("There were no errors in the stack");
+                        }
                     } else sender.sendMessage(getDevHelpMessage());
                 }
             } else sender.sendMessage(getHelpMessage());
@@ -240,6 +263,7 @@ public class Main extends JavaPlugin {
                 "  - \"/lukkit dev pack (plugin name)\" - Packages the plugin (directory) into a .lkt file for publishing\n" +
                 "  - \"/lukkit dev unpack (plugin name)\" - Unpacks the plugin (.lkt) to a directory based plugin\n" +
                 "  - \"/lukkit dev last-error\" - Gets the last error thrown by a plugin and sends the message to the sender. Also prints the stacktrace to the console.\n" +
+                "  - \"/lukkit dev errors [index]\" - Either prints out all 10 errors with stacktraces or prints out the specified error at the given index [1 - 10]\n" +
                 "  - \"/lukkit dev help\" - Shows this message";
     }
 }

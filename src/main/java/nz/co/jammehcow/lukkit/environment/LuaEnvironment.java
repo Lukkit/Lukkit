@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Stack;
+import java.util.stream.Stream;
 
 /**
  * @author jammehcow
@@ -66,6 +67,10 @@ public class LuaEnvironment {
 
     public static LuaError getLastError() {
         return errors.peek();
+    }
+
+    public static Stream<LuaError> getErrors() {
+        return (errors.isEmpty()) ? null : errors.stream();
     }
 
     public static void addError(LuaError e) {
