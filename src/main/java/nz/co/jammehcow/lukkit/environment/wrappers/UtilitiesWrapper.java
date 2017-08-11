@@ -106,7 +106,7 @@ public class UtilitiesWrapper extends LuaTable {
         });
 
         set("runDelayed", new TwoArgFunction() {
-            // Runs the given function SYNCHRONOUSLY. Delay is in milliseconds.
+            // Delay is in milliseconds.
             @Override
             public synchronized LuaValue call(LuaValue function, LuaValue time) {
                 System.out.println("before");
