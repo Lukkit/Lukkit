@@ -3,11 +3,14 @@ package nz.co.jammehcow.lukkit.environment.wrappers.storage;
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
+import nz.co.jammehcow.lukkit.environment.wrappers.storage.compat.LuaJsonElement;
 import org.luaj.vm2.LuaBoolean;
 import org.luaj.vm2.LuaString;
 import org.luaj.vm2.LuaValue;
 
 import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author jammehcow
@@ -39,7 +42,7 @@ public class JsonStorage extends StorageObject {
 
     @Override
     public LuaValue getValue(LuaString path) {
-        return LuaValue.NIL;
+        return new LuaJsonElement(this.getAtPath(path.tojstring())).getElement();
     }
 
     @Override
@@ -50,5 +53,26 @@ public class JsonStorage extends StorageObject {
             gson.toJson(this.object, writer);
             writer.close();
         } catch (IOException e) { e.printStackTrace(); }
+    }
+
+    private JsonElement getAtPath(String path) {
+        JsonElement current = this.object;
+        String splitPath[] = path.split(".");
+
+        Pattern arrayIndexPattern = Pattern.compile("/\\[(\\d*)]$/");
+
+        for (String pathSection : splitPath) {
+            if (current instanceof JsonObject) {
+                current = current.getAsJsonObject().get(pathSection);
+            } else if (current instanceof JsonArray) {
+                Matcher match = arrayIndexPattern.matcher(pathSection);
+                int index = (match.find()) ? Integer.parseInt(match.group(1)) : 0;
+
+                JsonElement jsonElement = current.getAsJsonArray().get(index);
+                current = jsonElement.getAsJsonObject().get(pathSection);
+            }
+        }
+
+        return current;
     }
 }
