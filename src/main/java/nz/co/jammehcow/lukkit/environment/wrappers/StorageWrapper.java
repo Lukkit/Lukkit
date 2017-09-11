@@ -1,5 +1,6 @@
 package nz.co.jammehcow.lukkit.environment.wrappers;
 
+import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.wrappers.storage.JsonStorage;
 import nz.co.jammehcow.lukkit.environment.wrappers.storage.StorageObject;
@@ -28,13 +29,14 @@ public class StorageWrapper extends LuaTable {
                 String stringPath = (path.checkjstring().startsWith("/")) ?
                         path.checkjstring() : "/" + path.checkjstring();
 
-                if (stringPath.endsWith(".json")) {
+                if (stringPath.toLowerCase().endsWith(".json")) {
                     type = StorageObject.Storage.JSON;
-                } else if (stringPath.endsWith(".yml")) {
+                } else if (stringPath.toLowerCase().endsWith(".yml")) {
                     type = StorageObject.Storage.YAML;
                 } else {
-                    // TODO
-                    throw new LuaError("");
+                    LuaError error = new LuaError("The provided file for a storage object was not a JSON or YAML file.");
+                    LuaEnvironment.addError(error);
+                    throw error;
                 }
 
 
