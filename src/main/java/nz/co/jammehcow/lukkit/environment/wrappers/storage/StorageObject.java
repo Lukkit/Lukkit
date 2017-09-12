@@ -67,6 +67,14 @@ public abstract class StorageObject extends LuaTable {
             }
         });
 
+        this.set("exists", new TwoArgFunction() {
+            @Override
+            public LuaValue call(LuaValue self, LuaValue path) {
+                if (!self.typename().equals(StorageObject.this.typename())) this.argerror("Expected call to StorageObject:exists() to be member call, not static call");
+                return ((StorageObject) self.touserdata()).exists(path.checkjstring());
+            }
+        });
+
         this.set("setDefaultValue", new ThreeArgFunction() {
             @Override
             public LuaValue call(LuaValue self, LuaValue path, LuaValue value) {
@@ -115,6 +123,13 @@ public abstract class StorageObject extends LuaTable {
     private Storage getType() {
         return this.type;
     }
+
+    /**
+     * Checks if the key exists.
+     *
+     * @return the type
+     */
+    protected abstract LuaBoolean exists(String path);
 
     /**
      * Sets a value if it doesn't exist.

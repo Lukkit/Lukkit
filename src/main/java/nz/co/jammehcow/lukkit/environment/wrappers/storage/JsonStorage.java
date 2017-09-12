@@ -34,6 +34,12 @@ public class JsonStorage extends StorageObject {
     }
 
     @Override
+    protected LuaBoolean exists(String path) {
+        // TODO
+        return LuaValue.FALSE;
+    }
+
+    @Override
     public LuaBoolean setDefaultValue(LuaString path, LuaValue value) {
         String[] objects = path.checkjstring().split(".");
         JsonElement currentElement = this.object;
@@ -67,7 +73,7 @@ public class JsonStorage extends StorageObject {
 
             return element.getElement();
         } else {
-            LuaError error = new LuaError("Tried to traverse over an JSON object/array where there was none. Try using storage.exists(\"path\")");
+            LuaError error = new LuaError("Tried to traverse over an JSON object/array where there was none. Try using StorageObject:exists(\"path\")");
             LuaEnvironment.addError(error);
             throw error;
         }

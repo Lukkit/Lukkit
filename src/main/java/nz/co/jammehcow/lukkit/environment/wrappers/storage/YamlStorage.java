@@ -28,6 +28,12 @@ public class YamlStorage extends StorageObject {
     }
 
     @Override
+    protected LuaBoolean exists(String path) {
+        // TODO
+        return LuaValue.FALSE;
+    }
+
+    @Override
     public LuaBoolean setDefaultValue(LuaString path, LuaValue value) {
         if (this.yamlConfiguration.get(path.checkjstring()) == null) {
             this.yamlConfiguration.set(path.checkjstring(), this.getObjectFromLuavalue(value));
