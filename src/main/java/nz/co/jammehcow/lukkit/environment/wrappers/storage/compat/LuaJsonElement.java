@@ -43,7 +43,7 @@ public class LuaJsonElement {
     }
 
     private LuaValue getValueFromElement(JsonElement element) {
-        if (element.isJsonArray() || element.isJsonArray()) {
+        if (element.isJsonArray() || element.isJsonObject()) {
             return this.getTableFromElement(element);
         } else if (element.isJsonNull()) {
             return LuaValue.NIL;
