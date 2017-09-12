@@ -2,13 +2,16 @@ package nz.co.jammehcow.lukkit.environment.wrappers.storage;
 
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
+import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.wrappers.storage.compat.LuaJsonElement;
 import org.luaj.vm2.LuaBoolean;
+import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaString;
 import org.luaj.vm2.LuaValue;
 
 import java.io.*;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,12 +53,24 @@ public class JsonStorage extends StorageObject {
 
     @Override
     public void setValue(LuaString path, LuaValue value) {
-
+        // TODO
     }
 
     @Override
     public LuaValue getValue(LuaString path) {
-        return new LuaJsonElement(this.getAtPath(path.checkjstring())).getElement();
+        Optional<JsonElement> possibleMatch = this.getAtPath(path.checkjstring());
+
+        if (possibleMatch.isPresent()) {
+            LuaJsonElement element = new LuaJsonElement(possibleMatch.get());
+
+            System.out.println(element.getElement().typename());
+
+            return element.getElement();
+        } else {
+            LuaError error = new LuaError("Tried to traverse over an JSON object/array where there was none. Try using storage.exists(\"path\")");
+            LuaEnvironment.addError(error);
+            throw error;
+        }
     }
 
     @Override
@@ -68,29 +83,33 @@ public class JsonStorage extends StorageObject {
         } catch (IOException e) { e.printStackTrace(); }
     }
 
-    private JsonElement getAtPath(String path) {
+    private Optional<JsonElement> getAtPath(String path) {
         JsonElement current = this.object;
-        String splitPath[] = path.split(".");
+        String splitPath[] = path.split("\\.");
 
         Pattern arrayIndexPattern = Pattern.compile("/\\[(\\d*)]$/");
 
-        for (String pathSection : splitPath) {
-            System.out.println("Current block: " + path);
-            if (current instanceof JsonObject) {
+        for (int i = 0; i < splitPath.length; i++) {
+            System.out.println("Current block: " + splitPath[i]);
+            if (current.isJsonObject()) {
                 System.out.println("Object");
-                current = current.getAsJsonObject().get(pathSection);
-            } else if (current instanceof JsonArray) {
+                current = current.getAsJsonObject().get(splitPath[i]);
+            } else if (current.isJsonArray()) {
                 System.out.println("Array");
-                Matcher match = arrayIndexPattern.matcher(pathSection);
+                Matcher match = arrayIndexPattern.matcher(splitPath[i]);
+                // TODO: safety check, rather than default array index
                 int index = (match.find()) ? Integer.parseInt(match.group(1)) : 0;
 
                 JsonElement jsonElement = current.getAsJsonArray().get(index);
-                current = jsonElement.getAsJsonObject().get(pathSection);
+                current = jsonElement.getAsJsonObject().get(splitPath[i]);
             } else {
-                return null;
+                if (i != splitPath.length - 1) {
+                    System.out.println(current.toString());
+                    return Optional.empty();
+                }
             }
         }
 
-        return current;
+        return Optional.of(current);
     }
 }
