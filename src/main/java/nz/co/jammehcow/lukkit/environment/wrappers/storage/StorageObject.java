@@ -6,8 +6,8 @@ import org.luaj.vm2.LuaString;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
+import org.luaj.vm2.lib.ThreeArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
-import org.luaj.vm2.lib.ZeroArgFunction;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,42 +59,52 @@ public abstract class StorageObject extends LuaTable {
             } catch (IOException e) { e.printStackTrace(); }
         }
 
-        this.set("getType", new ZeroArgFunction() {
+        this.set("getType", new OneArgFunction() {
             @Override
-            public LuaValue call() {
-                return LuaValue.valueOf(getType().type);
+            public LuaValue call(LuaValue self) {
+                if (!self.typename().equals(StorageObject.this.typename())) this.argerror("Expected call to StorageObject:getType() to be member call, not static call");
+                return LuaValue.valueOf(((StorageObject) self.touserdata()).getType().type);
             }
         });
 
-        this.set("setDefaultValue", new TwoArgFunction() {
+        this.set("setDefaultValue", new ThreeArgFunction() {
             @Override
-            public LuaValue call(LuaValue path, LuaValue value) {
-                return setDefaultValue(path.checkstring(), value);
+            public LuaValue call(LuaValue self, LuaValue path, LuaValue value) {
+                if (!self.typename().equals(StorageObject.this.typename())) this.argerror("Expected call to StorageObject:setDefaultValue() to be member method call, not static call");
+                return ((StorageObject) self.touserdata()).setDefaultValue(path.checkstring(), value);
             }
         });
 
-        this.set("setValue", new TwoArgFunction() {
+        this.set("setValue", new ThreeArgFunction() {
             @Override
-            public LuaValue call(LuaValue path, LuaValue value) {
-                setValue(path.checkstring(), value);
+            public LuaValue call(LuaValue self, LuaValue path, LuaValue value) {
+                if (!self.typename().equals(StorageObject.this.typename())) this.argerror("Expected call to StorageObject:setValue() to be member method call, not static call");
+                ((StorageObject) self.touserdata()).setValue(path.checkstring(), value);
                 return LuaValue.NIL;
             }
         });
 
-        this.set("getValue", new OneArgFunction() {
+        this.set("getValue", new TwoArgFunction() {
             @Override
-            public LuaValue call(LuaValue path) {
-                return getValue(path.checkstring());
+            public LuaValue call(LuaValue self, LuaValue path) {
+                if (!self.typename().equals(StorageObject.this.typename())) this.argerror("Expected call to StorageObject:getValue() to be member method call, not static call");
+                return ((StorageObject) self.touserdata()).getValue(path.checkstring());
             }
         });
 
-        this.set("save", new ZeroArgFunction() {
+        this.set("save", new OneArgFunction() {
             @Override
-            public LuaValue call() {
-                save();
+            public LuaValue call(LuaValue self) {
+                if (!self.typename().equals(StorageObject.this.typename())) this.argerror("Expected call to StorageObject:save() to be member method call, not static call");
+                ((StorageObject) self.touserdata()).save();
                 return LuaValue.NIL;
             }
         });
+    }
+
+    @Override
+    public String typename() {
+        return "StorageObject";
     }
 
     /**
