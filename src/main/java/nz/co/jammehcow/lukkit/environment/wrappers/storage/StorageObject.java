@@ -5,6 +5,9 @@ import org.luaj.vm2.LuaBoolean;
 import org.luaj.vm2.LuaString;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.OneArgFunction;
+import org.luaj.vm2.lib.TwoArgFunction;
+import org.luaj.vm2.lib.ZeroArgFunction;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +19,7 @@ import java.util.HashMap;
  *
  * @author jammehcow
  */
-public abstract class StorageObject {
+public abstract class StorageObject extends LuaTable {
     /**
      * The enum Storage.
      */
@@ -55,6 +58,43 @@ public abstract class StorageObject {
                 Files.createFile(this.storageFile.toPath());
             } catch (IOException e) { e.printStackTrace(); }
         }
+
+        this.set("getType", new ZeroArgFunction() {
+            @Override
+            public LuaValue call() {
+                return LuaValue.valueOf(getType().type);
+            }
+        });
+
+        this.set("setDefaultValue", new TwoArgFunction() {
+            @Override
+            public LuaValue call(LuaValue path, LuaValue value) {
+                return setDefaultValue(path.checkstring(), value);
+            }
+        });
+
+        this.set("setValue", new TwoArgFunction() {
+            @Override
+            public LuaValue call(LuaValue path, LuaValue value) {
+                setValue(path.checkstring(), value);
+                return LuaValue.NIL;
+            }
+        });
+
+        this.set("getValue", new OneArgFunction() {
+            @Override
+            public LuaValue call(LuaValue path) {
+                return getValue(path.checkstring());
+            }
+        });
+
+        this.set("save", new ZeroArgFunction() {
+            @Override
+            public LuaValue call() {
+                save();
+                return LuaValue.NIL;
+            }
+        });
     }
 
     /**
@@ -62,7 +102,7 @@ public abstract class StorageObject {
      *
      * @return the type
      */
-    public Storage getType() {
+    private Storage getType() {
         return this.type;
     }
 
@@ -73,7 +113,7 @@ public abstract class StorageObject {
      * @param value the value
      * @return true if the value is set, false if not
      */
-    public abstract LuaBoolean setDefaultValue(LuaString path, LuaValue value);
+    protected abstract LuaBoolean setDefaultValue(LuaString path, LuaValue value);
 
     /**
      * Sets the value of a key.
@@ -81,7 +121,7 @@ public abstract class StorageObject {
      * @param path  the path of the key
      * @param value the value
      */
-    public abstract void setValue(LuaString path, LuaValue value);
+    protected abstract void setValue(LuaString path, LuaValue value);
 
     /**
      * Gets the value of a key.
@@ -89,19 +129,19 @@ public abstract class StorageObject {
      * @param path the path of the key
      * @return the Object value
      */
-    public abstract LuaValue getValue(LuaString path);
+    protected abstract LuaValue getValue(LuaString path);
 
     /**
      * Save the file.
      */
-    public abstract void save();
+    protected abstract void save();
 
     /**
      * Gets the absolute path of the storage file.
      *
      * @return the absolute file path
      */
-    public String getFilePath() {
+    protected String getFilePath() {
         return this.storageFile.getAbsolutePath();
     }
 
@@ -110,7 +150,7 @@ public abstract class StorageObject {
      *
      * @return the LukkitPlugin
      */
-    public LukkitPlugin getPlugin() {
+    protected LukkitPlugin getPlugin() {
         return this.plugin;
     }
 
@@ -119,14 +159,14 @@ public abstract class StorageObject {
      *
      * @return the storage file
      */
-    public File getStorageFile() {
+    protected File getStorageFile() {
         return this.storageFile;
     }
 
     /**
      * Pre save file check.
      */
-    public void preSaveCheck() {
+    protected void preSaveCheck() {
         if (!this.storageFile.exists()) {
             try {
                 Files.createFile(this.storageFile.toPath());
@@ -140,7 +180,7 @@ public abstract class StorageObject {
      * @param value the LuaValue
      * @return the Java object
      */
-    public Object getObjectFromLuavalue(LuaValue value) {
+    protected Object getObjectFromLuavalue(LuaValue value) {
         return (value.istable()) ? this.tableToMap(value.checktable()) : value.checkuserdata();
     }
 

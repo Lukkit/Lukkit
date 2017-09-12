@@ -32,6 +32,19 @@ public class JsonStorage extends StorageObject {
 
     @Override
     public LuaBoolean setDefaultValue(LuaString path, LuaValue value) {
+        String[] objects = path.checkjstring().split(".");
+        JsonElement currentElement = this.object;
+
+        for (int i = 1; i < objects.length; i++) {
+
+
+            if (objects[i].contains("[")) {
+
+            } else {
+                currentElement = currentElement.getAsJsonObject().getAsJsonObject();
+            }
+        }
+
         return LuaValue.TRUE;
     }
 
@@ -42,7 +55,7 @@ public class JsonStorage extends StorageObject {
 
     @Override
     public LuaValue getValue(LuaString path) {
-        return new LuaJsonElement(this.getAtPath(path.tojstring())).getElement();
+        return new LuaJsonElement(this.getAtPath(path.checkjstring())).getElement();
     }
 
     @Override
@@ -62,14 +75,19 @@ public class JsonStorage extends StorageObject {
         Pattern arrayIndexPattern = Pattern.compile("/\\[(\\d*)]$/");
 
         for (String pathSection : splitPath) {
+            System.out.println("Current block: " + path);
             if (current instanceof JsonObject) {
+                System.out.println("Object");
                 current = current.getAsJsonObject().get(pathSection);
             } else if (current instanceof JsonArray) {
+                System.out.println("Array");
                 Matcher match = arrayIndexPattern.matcher(pathSection);
                 int index = (match.find()) ? Integer.parseInt(match.group(1)) : 0;
 
                 JsonElement jsonElement = current.getAsJsonArray().get(index);
                 current = jsonElement.getAsJsonObject().get(pathSection);
+            } else {
+                return null;
             }
         }
 
