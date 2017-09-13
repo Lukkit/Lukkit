@@ -1,5 +1,6 @@
 package nz.co.jammehcow.lukkit.environment.wrappers;
 
+import nz.co.jammehcow.lukkit.environment.LuaEnvironment.ObjectType;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
 import org.bukkit.command.BlockCommandSender;
@@ -179,5 +180,15 @@ public class UtilitiesWrapper extends LuaTable {
                 throw new LukkitPluginException("util.getSenderType() was passed a class not of the CommandSender type. If you got this via the onCommand method then report it to me on Github.");
             }
         });
+    }
+
+    @Override
+    public String typename() {
+        return ObjectType.Wrapper.name;
+    }
+
+    @Override
+    public int type() {
+        return ObjectType.Wrapper.type;
     }
 }

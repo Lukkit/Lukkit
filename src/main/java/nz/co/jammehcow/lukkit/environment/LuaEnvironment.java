@@ -26,6 +26,21 @@ public class LuaEnvironment {
         errors.setSize(10);
     }
 
+    /**
+     * Helps collate all of the types together and allows easy changing of IDs
+     */
+    public enum ObjectType {
+        Wrapper(100, "Wrapper"),
+        StorageObject(101, "StorageObject");
+
+        public final int type;
+        public final String name;
+        ObjectType(int type, String name) {
+            this.type = type;
+            this.name = name;
+        }
+    }
+
     public static void init(boolean debug) {
         isDebug = debug;
     }

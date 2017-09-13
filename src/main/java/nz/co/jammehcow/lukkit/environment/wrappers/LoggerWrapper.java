@@ -1,5 +1,6 @@
 package nz.co.jammehcow.lukkit.environment.wrappers;
 
+import nz.co.jammehcow.lukkit.environment.LuaEnvironment.ObjectType;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
@@ -50,5 +51,15 @@ public class LoggerWrapper extends LuaTable {
                 return LuaValue.NIL;
             }
         });
+    }
+
+    @Override
+    public String typename() {
+        return ObjectType.Wrapper.name;
+    }
+
+    @Override
+    public int type() {
+        return ObjectType.Wrapper.type;
     }
 }

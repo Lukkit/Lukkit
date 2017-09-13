@@ -29,7 +29,8 @@ public class LuaJsonElement {
             JsonArray array = element.getAsJsonArray();
 
             for (int i = 0; i < array.size(); i++) {
-                finalTable.set(i, this.getValueFromElement(array.get(i)));
+                // Add one to i to match Lua array indexing standards
+                finalTable.set(i + 1, this.getValueFromElement(array.get(i)));
             }
         } else {
             JsonObject obj = element.getAsJsonObject();

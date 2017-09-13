@@ -1,5 +1,6 @@
 package nz.co.jammehcow.lukkit.environment.wrappers;
 
+import nz.co.jammehcow.lukkit.environment.LuaEnvironment.ObjectType;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import org.luaj.vm2.*;
 import org.luaj.vm2.lib.OneArgFunction;
@@ -134,5 +135,15 @@ public class ConfigWrapper extends LuaTable {
         } else {
             return LuaValue.userdataOf(obj);
         }
+    }
+
+    @Override
+    public String typename() {
+        return ObjectType.Wrapper.name;
+    }
+
+    @Override
+    public int type() {
+        return ObjectType.Wrapper.type;
     }
 }

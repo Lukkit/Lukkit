@@ -1,8 +1,14 @@
 package nz.co.jammehcow.lukkit.environment.wrappers;
 
 import nz.co.jammehcow.lukkit.Main;
+import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
+import nz.co.jammehcow.lukkit.environment.LuaEnvironment.ObjectType;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
+import nz.co.jammehcow.lukkit.environment.wrappers.storage.JsonStorage;
+import nz.co.jammehcow.lukkit.environment.wrappers.storage.StorageObject;
+import nz.co.jammehcow.lukkit.environment.wrappers.storage.YamlStorage;
+import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
@@ -11,6 +17,8 @@ import org.luaj.vm2.lib.VarArgFunction;
 import org.luaj.vm2.lib.ZeroArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
+import java.util.HashMap;
+
 /**
  * The plugin wrapper providing access to plugin functions.
  *
@@ -18,6 +26,7 @@ import org.luaj.vm2.lib.jse.CoerceJavaToLua;
  */
 public class PluginWrapper extends LuaTable {
     private LukkitPlugin plugin;
+    private HashMap<String, StorageObject> cachedObjects = new HashMap<>(); // String path, StorageObject object
 
     /**
      * Creates a new plugin wrapper.
@@ -118,5 +127,42 @@ public class PluginWrapper extends LuaTable {
                 return LuaValue.TRUE;
             }
         });
+
+        set("getStorageObject", new OneArgFunction() {
+            @Override
+            public LuaValue call(LuaValue path) {
+                StorageObject.Storage type;
+                String stringPath = (path.checkjstring().startsWith("/")) ?
+                        path.checkjstring() : "/" + path.checkjstring();
+
+                if (stringPath.toLowerCase().endsWith(".json")) {
+                    type = StorageObject.Storage.JSON;
+                } else if (stringPath.toLowerCase().endsWith(".yml")) {
+                    type = StorageObject.Storage.YAML;
+                } else {
+                    LuaError error = new LuaError("The provided file for a storage object was not a JSON or YAML file.");
+                    LuaEnvironment.addError(error);
+                    throw error;
+                }
+
+
+                if (!cachedObjects.containsKey(stringPath)) {
+                    StorageObject obj = (type == StorageObject.Storage.JSON) ? new JsonStorage(plugin, stringPath) : new YamlStorage(plugin, stringPath);
+                    cachedObjects.put(stringPath, obj);
+                }
+
+                return CoerceJavaToLua.coerce(cachedObjects.get(stringPath));
+            }
+        });
+    }
+
+    @Override
+    public String typename() {
+        return ObjectType.Wrapper.name;
+    }
+
+    @Override
+    public int type() {
+        return ObjectType.Wrapper.type;
     }
 }

@@ -1,5 +1,6 @@
 package nz.co.jammehcow.lukkit.environment.wrappers;
 
+import nz.co.jammehcow.lukkit.environment.LuaEnvironment.ObjectType;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
 import nz.co.jammehcow.lukkit.environment.plugin.wrappedClasses.Skull;
@@ -44,5 +45,15 @@ public class BukkitWrapper extends LuaTable {
                 return CoerceJavaToLua.coerce(new Skull((item.isnil()) ? null : (ItemStack) item.touserdata()));
             }
         });
+    }
+
+    @Override
+    public String typename() {
+        return ObjectType.Wrapper.name;
+    }
+
+    @Override
+    public int type() {
+        return ObjectType.Wrapper.type;
     }
 }
