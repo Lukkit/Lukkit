@@ -3,6 +3,7 @@ package nz.co.jammehcow.lukkit.environment.wrappers.storage;
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
+import nz.co.jammehcow.lukkit.environment.exception.StorageObjectException;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.wrappers.storage.compat.LuaJsonElement;
 import org.luaj.vm2.LuaBoolean;
@@ -40,7 +41,7 @@ public class JsonStorage extends StorageObject {
     }
 
     @Override
-    public LuaBoolean setDefaultValue(LuaString path, LuaValue value) {
+    public LuaBoolean setDefaultValue(LuaString path, LuaValue value) throws StorageObjectException {
         String[] objects = path.checkjstring().split(".");
         JsonElement currentElement = this.object;
 
@@ -58,22 +59,22 @@ public class JsonStorage extends StorageObject {
     }
 
     @Override
-    public void setValue(LuaString path, LuaValue value) {
+    public void setValue(LuaString path, LuaValue value) throws StorageObjectException {
         // TODO
     }
 
     @Override
-    public LuaValue getValue(LuaString path) {
+    public LuaValue getValue(LuaString path) throws StorageObjectException {
         Optional<JsonElement> possibleMatch = this.getAtPath(path.checkjstring());
 
         if (possibleMatch.isPresent()) {
             LuaJsonElement element = new LuaJsonElement(possibleMatch.get());
 
-            System.out.println(element.getElement().typename());
+            System.out.println(element.getElement());
 
             return element.getElement();
         } else {
-            LuaError error = new LuaError("Tried to traverse over an JSON object/array where there was none. Try using StorageObject:exists(\"path\")");
+            StorageObjectException error = new StorageObjectException("Tried to traverse over an JSON object/array where there was none. Try using StorageObject:exists(\"path\")");
             LuaEnvironment.addError(error);
             throw error;
         }
