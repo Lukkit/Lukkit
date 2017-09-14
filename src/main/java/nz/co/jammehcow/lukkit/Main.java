@@ -99,8 +99,8 @@ public class Main extends JavaPlugin {
             long startTime = System.currentTimeMillis();
 
             Arrays.stream(plugins)
-                    .filter((file -> isLukkitPluginFile(file.getName())))
                     .forEach(file -> {
+                        if (!isLukkitPluginFile(file.getName())) return;
                         try { this.pluginManager.loadPlugin(file); }
                         catch (InvalidPluginException | InvalidDescriptionException e) { e.printStackTrace(); }
                     });
