@@ -76,7 +76,8 @@ public class JsonStorage extends StorageObject {
         } else {
             StorageObjectException error = new StorageObjectException("Tried to traverse over an JSON object/array where there was none. Try using StorageObject:exists(\"path\")");
             LuaEnvironment.addError(error);
-            throw error;
+            error.printStackTrace();
+            return LuaValue.NIL;
         }
     }
 
