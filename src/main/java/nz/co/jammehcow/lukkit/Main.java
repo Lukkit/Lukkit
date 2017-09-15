@@ -134,20 +134,21 @@ public class Main extends JavaPlugin {
                 } else if (cmd.equalsIgnoreCase("dev")) {
                     if (args.length == 0) {
                         sender.sendMessage(getDevHelpMessage());
-                    } else if (args[1].equalsIgnoreCase("reload")) {
+                    } else if (args[0].equalsIgnoreCase("reload")) {
                         HashMap<String, LukkitPlugin> plugins = new HashMap<>();
                         this.iteratePlugins(p -> plugins.put(p.getName().toLowerCase(), p));
 
-                        if (plugins.containsKey(args[1].toLowerCase())) {
+                        if (plugins.containsKey(args[0].toLowerCase())) {
+                            // TODO
                             //plugins.get(args[2].toLowerCase()).reloadPlugin();
                         } else {
-                            sender.sendMessage("The specified plugin " + args[2] + " does not exist.");
+                            sender.sendMessage("The specified plugin " + args[1] + " does not exist.");
                         }
-                    } else if (args[1].equalsIgnoreCase("pack")) {
+                    } else if (args[0].equalsIgnoreCase("pack")) {
                         this.zipOperation(ZipOperation.PACKAGE, sender, args);
-                    } else if (args[1].equalsIgnoreCase("unpack")) {
+                    } else if (args[0].equalsIgnoreCase("unpack")) {
                         this.zipOperation(ZipOperation.UNPACK, sender, args);
-                    } else if (args[1].equalsIgnoreCase("last-error")) {
+                    } else if (args[0].equalsIgnoreCase("last-error")) {
                         LuaError err = LuaEnvironment.getLastError();
                         if (err != null) {
                             sender.sendMessage(err.getMessage());
@@ -155,10 +156,10 @@ public class Main extends JavaPlugin {
                         } else {
                             sender.sendMessage("There was no error to get.");
                         }
-                    } else if (args[1].equalsIgnoreCase("errors")) {
+                    } else if (args[0].equalsIgnoreCase("errors")) {
                         Stream<LuaError> errors = LuaEnvironment.getErrors();
                         if (errors != null) {
-                            if (args[2] == null) {
+                            if (args[1] == null) {
                                 errors.forEach(luaError -> {
                                     sender.sendMessage(luaError.getMessage());
                                     luaError.printStackTrace();
@@ -169,9 +170,9 @@ public class Main extends JavaPlugin {
                                     sender.sendMessage(error.getMessage());
                                     error.printStackTrace();
                                 } catch (NumberFormatException e) {
-                                    sender.sendMessage(ChatColor.RED + args[2] + " cannot be converted to an integer.");
+                                    sender.sendMessage(ChatColor.RED + args[1] + " cannot be converted to an integer.");
                                 } catch (ArrayIndexOutOfBoundsException e) {
-                                    sender.sendMessage(ChatColor.RED + args[2] + " is out of bounds. Should be between 1 & 10");
+                                    sender.sendMessage(ChatColor.RED + args[1] + " is out of bounds. Should be between 1 & 10");
                                 }
                             }
                         } else {
