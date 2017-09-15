@@ -23,47 +23,69 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 /**
+ * The Main entry class of the plugin.
+ *
  * @author jammehcow
  */
-
 public class Main extends JavaPlugin {
     // Config version
     private static final int CFG_VERSION = 3;
 
+    /**
+     * The Logger for Lukkit.
+     */
     static Logger logger;
+    /**
+     * The instance of the plugin. Used for external access by plugin wrappers etc..
+     */
     public static Main instance;
     private static long loadTime = 0;
 
     private enum ZipOperation {
+        /**
+         * Zip operation.
+         */
         PACKAGE,
+        /**
+         * Unzip operation.
+         */
         UNPACK
     }
 
+    /**
+     * The events collected at runtime to match plugin event registrations against.
+     */
     public static HashMap<String, Class<? extends Event>> events = new HashMap<>();
     static {
         // TODO: It works, sure, but it's shit.
+        // Get all the events in the Bukkit events package
         Reflections reflections = new Reflections("org.bukkit.event");
+        // Iterate through the events and add their name + class object to the events HashMap
         reflections.getSubTypesOf(Event.class).forEach(c -> {
             if (reflections.getSubTypesOf(c).isEmpty()) events.put(c.getSimpleName(), c);
         });
     }
 
+    // The Lukkit PluginManager
     private PluginManager pluginManager;
 
     @Override
     public void onEnable() {
+        // Check for updates if it's enabled in the config
         if (getConfig().get("update-checker").equals(true))
             UpdateChecker.checkForUpdates(getDescription().getVersion());
 
+        // Set up the tab completer for the /lukkit command
         this.getCommand("lukkit").setTabCompleter(new TabCompleter());
 
-        // Subtract one to count for Lukkit being loaded.
+        // Subtract one to count for Lukkit being loaded. Should replace with check internally because other plugins will be registered
         int totalPlugins = pluginManager.getPlugins().length - 1;
 
         if (totalPlugins > 0) {
@@ -78,24 +100,32 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onLoad() {
+        // Set the logger and instance
         logger = this.getLogger();
         instance = this;
 
+        // Create the data folder directory if it doesn't exist
         if (!this.getDataFolder().exists()) //noinspection ResultOfMethodCallIgnored
             this.getDataFolder().mkdir();
 
+        // Check the config
         this.checkConfig();
 
+        // Initialize the Lua env (sets up globals)
         LuaEnvironment.init(this.getConfig().getBoolean("lua-debug"));
 
+        // Register our custom plugin loader on the plugin manager
         this.getServer().getPluginManager().registerInterface(LukkitPluginLoader.class);
+        // Save the plugin manager for future use
         this.pluginManager = this.getServer().getPluginManager();
 
         this.getLogger().info("Loading Lukkit plugins...");
 
+        // Get the files in the plugins directory
         File[] plugins = this.getFile().getParentFile().listFiles();
 
         if (plugins != null) {
+            // Set the start time of loading
             long startTime = System.currentTimeMillis();
 
             Arrays.stream(plugins)
@@ -105,6 +135,7 @@ public class Main extends JavaPlugin {
                         catch (InvalidPluginException | InvalidDescriptionException e) { e.printStackTrace(); }
                     });
 
+            // Get the total time to load plugins and save to loadTime member
             loadTime = System.currentTimeMillis() - startTime;
         }
     }
@@ -115,6 +146,7 @@ public class Main extends JavaPlugin {
             if (args.length != 0) {
                 // Set the String "cmd" to the first arg and remove the arg from the "args" array.
                 String cmd = args[0];
+
                 args = (String[]) ArrayUtils.remove(args, 0);
 
                 if (cmd.equalsIgnoreCase("help")) {
@@ -189,16 +221,22 @@ public class Main extends JavaPlugin {
     }
 
     private void checkConfig() {
+        // Get the config by relative path
         File cfg = new File(this.getDataFolder().getAbsolutePath() + File.separator + "config.yml");
+        // Save the config if it doesn't exist
         if (!cfg.exists()) this.saveDefaultConfig();
 
+        // Check the config version against the internal version
         if (this.getConfig().getInt("cfg-version") != CFG_VERSION) {
             this.getLogger().info("Your config is out of date. Replacing the config with the default copy and moving the old version to config.old.yml");
 
+            // Create a new place for the old config to live
             File bkpCfg = new File(this.getDataFolder().getAbsolutePath() + File.separator + "config.old.yml");
             try {
+                // Copy the config to the new path and delete the old one, essentially moving it
                 Files.copy(cfg.toPath(), bkpCfg.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 Files.delete(cfg.toPath());
+                // Save the internal config to the data folder
                 this.saveDefaultConfig();
             } catch (IOException e) {
                 this.getLogger().severe("There was an issue with moving the old config or replacing. Check the stacktrace for more.");
