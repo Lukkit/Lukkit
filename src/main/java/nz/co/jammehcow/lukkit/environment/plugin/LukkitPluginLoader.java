@@ -1,6 +1,7 @@
 package nz.co.jammehcow.lukkit.environment.plugin;
 
 import nz.co.jammehcow.lukkit.Main;
+import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
 import org.bukkit.Server;
 import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
@@ -20,13 +21,6 @@ import java.util.regex.Pattern;
  * @author jammehcow
  */
 public class LukkitPluginLoader implements PluginLoader {
-    /**
-     * The list of available plugins installed in the Lukkit data folder.
-     * Plugins aren't loaded by default due to dependency requirements.
-     * If we get a list of every plugin installed we can check dependency requests against the plugins available and throw errors when they don't exist (for hard depends).
-     */
-    public static ArrayList<LukkitPlugin> loadedPlugins = new ArrayList<>();
-
     /**
      * The constant fileFilters.
      */
@@ -51,7 +45,9 @@ public class LukkitPluginLoader implements PluginLoader {
 
     @Override
     public Plugin loadPlugin(File file) throws InvalidPluginException, UnknownDependencyException {
-        return new LukkitPlugin(this, new LukkitPluginFile(file));
+        LukkitPlugin plugin = new LukkitPlugin(this, new LukkitPluginFile(file));
+        LuaEnvironment.loadedPlugins.add(plugin);
+        return plugin;
     }
 
     @Override
@@ -82,7 +78,7 @@ public class LukkitPluginLoader implements PluginLoader {
     @Override
     public void disablePlugin(Plugin plugin) {
         plugin.onDisable();
-        loadedPlugins.remove(plugin);
+        LuaEnvironment.loadedPlugins.remove(plugin);
     }
 
     /**

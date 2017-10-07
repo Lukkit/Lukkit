@@ -12,6 +12,7 @@ import org.luaj.vm2.lib.jse.JsePlatform;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Stack;
 import java.util.stream.Stream;
 
@@ -21,6 +22,14 @@ import java.util.stream.Stream;
 
 public class LuaEnvironment {
     private static boolean isDebug;
+
+    /**
+     * The list of available plugins installed in the Lukkit data folder.
+     * Plugins aren't loaded by default due to dependency requirements.
+     * If we get a list of every plugin installed we can check dependency requests against the plugins available and throw errors when they don't exist (for hard depends).
+     */
+    public static ArrayList<LukkitPlugin> loadedPlugins = new ArrayList<>();
+
     private static Stack<LuaError> errors = new Stack<>();
     static {
         errors.setSize(10);

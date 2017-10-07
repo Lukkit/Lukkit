@@ -86,7 +86,7 @@ public class Main extends JavaPlugin {
         this.getCommand("lukkit").setTabCompleter(new TabCompleter());
 
         // Subtract one to count for Lukkit being loaded. Should replace with check internally because other plugins will be registered
-        int totalPlugins = pluginManager.getPlugins().length - 1;
+        int totalPlugins = LuaEnvironment.loadedPlugins.size();
 
         if (totalPlugins > 0) {
             this.getLogger().info(((totalPlugins != 1) ? totalPlugins + " Lukkit plugins were loaded" : "1 Lukkit plugin was loaded") + " in " + loadTime + "ms.");
