@@ -128,12 +128,14 @@ public class Main extends JavaPlugin {
             // Set the start time of loading
             long startTime = System.currentTimeMillis();
 
-            Arrays.stream(plugins)
-                    .forEach(file -> {
-                        if (!isLukkitPluginFile(file.getName())) return;
-                        try { this.pluginManager.loadPlugin(file); }
-                        catch (InvalidPluginException | InvalidDescriptionException e) { e.printStackTrace(); }
-                    });
+            for (File file : plugins) {
+                // "break" if the file isn't for Lukkit
+                if (isLukkitPluginFile(file.getName())) {
+                    // Load the plugin using LukkitPluginLoader
+                    try { ((LukkitPluginLoader) this.pluginManager).loadPlugin(file); }
+                    catch (InvalidPluginException e) { e.printStackTrace(); }
+                }
+            }
 
             // Get the total time to load plugins and save to loadTime member
             loadTime = System.currentTimeMillis() - startTime;
