@@ -3,7 +3,6 @@ package nz.co.jammehcow.lukkit.environment;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
 import org.luaj.vm2.Globals;
-import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
@@ -14,6 +13,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Stack;
 import java.util.stream.Stream;
 
@@ -31,7 +31,7 @@ public class LuaEnvironment {
      */
     public static ArrayList<LukkitPlugin> loadedPlugins = new ArrayList<>();
 
-    private static Stack<LuaError> errors = new Stack<>();
+    private static Stack<Exception> errors = new Stack<>();
     static {
         errors.setSize(10);
     }
@@ -90,15 +90,15 @@ public class LuaEnvironment {
         return g;
     }
 
-    public static LuaError getLastError() {
-        return errors.peek();
+    public static Optional<Exception> getLastError() {
+        return Optional.of(errors.peek());
     }
 
-    public static Stream<LuaError> getErrors() {
-        return (errors.stream().filter(Objects::nonNull).count() == 0) ? null : errors.stream().filter(Objects::nonNull);
+    public static Optional<Stream<Exception>> getErrors() {
+        return (errors.stream().filter(Objects::nonNull).count() == 0) ? Optional.empty() : Optional.of(errors.stream().filter(Objects::nonNull));
     }
 
-    public static void addError(LuaError e) {
+    public static void addError(Exception e) {
         errors.push(e);
     }
 }

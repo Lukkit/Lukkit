@@ -23,7 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -73,7 +73,7 @@ public class Main extends JavaPlugin {
         });
     }
 
-    // The Lukkit PluginManager
+    // The server-wide PluginManager
     private PluginManager pluginManager;
 
     @Override
@@ -132,8 +132,13 @@ public class Main extends JavaPlugin {
                 // "break" if the file isn't for Lukkit
                 if (isLukkitPluginFile(file.getName())) {
                     // Load the plugin using LukkitPluginLoader
-                    try { ((LukkitPluginLoader) this.pluginManager).loadPlugin(file); }
-                    catch (InvalidPluginException e) { e.printStackTrace(); }
+                    try {
+                        this.pluginManager.loadPlugin(file);
+                    }
+                    catch (InvalidPluginException | InvalidDescriptionException e) {
+                        LuaEnvironment.addError(e);
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -201,32 +206,32 @@ public class Main extends JavaPlugin {
                         // Unzip the plugin
                         this.zipOperation(ZipOperation.UNPACK, sender, args);
                     } else if (args[0].equalsIgnoreCase("last-error")) {
-                        LuaError err = LuaEnvironment.getLastError();
-                        if (err != null) {
-                            sender.sendMessage(err.getMessage());
-                            err.printStackTrace();
+                        Optional<Exception> err = LuaEnvironment.getLastError();
+                        if (err.isPresent()) {
+                            sender.sendMessage(err.get().getMessage());
+                            err.get().printStackTrace();
                         } else {
                             sender.sendMessage("There was no error to get.");
                         }
                     } else if (args[0].equalsIgnoreCase("errors")) {
                         // Get all the errors off of the stack
-                        Stream<LuaError> errors = LuaEnvironment.getErrors();
+                        Optional<Stream<Exception>> errors = LuaEnvironment.getErrors();
 
                         // Check if the errors list equals null (returned if empty)
-                        if (errors != null) {
+                        if (errors.isPresent()) {
                             // Check if the only arg is the "errors" sub-command
                             if (args.length == 1) {
                                 // Get all the non-null error objects
 
-                                errors.forEach(luaError -> {
+                                errors.get().forEach(exception -> {
                                     // Send each error message to the player and print the stack trace
-                                    sender.sendMessage(luaError.getMessage());
-                                    luaError.printStackTrace();
+                                    sender.sendMessage(exception.getMessage());
+                                    exception.printStackTrace();
                                 });
                             } else {
                                 try {
                                     // Get the error at the specified index
-                                    LuaError error = ((LuaError[]) errors.toArray())[Integer.parseInt(args[2])];
+                                    LuaError error = ((LuaError[]) errors.get().toArray())[Integer.parseInt(args[2])];
 
                                     // Send the error message to the player and print the stack trace
                                     sender.sendMessage(error.getMessage());
@@ -234,7 +239,7 @@ public class Main extends JavaPlugin {
                                 } catch (NumberFormatException e) {
                                     sender.sendMessage(ChatColor.RED + args[1] + " cannot be converted to an integer.");
                                 } catch (ArrayIndexOutOfBoundsException e) {
-                                    sender.sendMessage(ChatColor.RED + args[1] + " is out of bounds in the stack. Should be between 1 & " + errors.count());
+                                    sender.sendMessage(ChatColor.RED + args[1] + " is out of bounds in the stack. Should be between 1 & " + errors.get().count());
                                 }
                             }
                         } else {
