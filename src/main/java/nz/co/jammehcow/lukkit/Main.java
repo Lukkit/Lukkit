@@ -148,28 +148,37 @@ public class Main extends JavaPlugin {
             if (args.length != 0) {
                 // Set the String "cmd" to the first arg and remove the arg from the "args" array.
                 String cmd = args[0];
-
+                // Get a new array with the first arg omitted
                 args = (String[]) ArrayUtils.remove(args, 0);
 
                 if (cmd.equalsIgnoreCase("help")) {
+                    // Send the help message to the user
                     sender.sendMessage(getHelpMessage());
                 } else if (cmd.equalsIgnoreCase("plugins")) {
+                    // Create a new StringBuilder object with "Lukkit Plugins:" as a prefix.
                     StringBuilder sb = new StringBuilder().append(ChatColor.GREEN).append("Lukkit Plugins:").append(ChatColor.YELLOW);
 
                     this.iteratePlugins((p) -> {
+                        // Add the name to the list
                         sb.append("\n  - ").append(p.getName());
+                        // Check if a description for the plugin exists
                         if (p.getDescription().getDescription() != null) {
+                            // Add the description to the line
                             sb.append(": ").append(p.getDescription().getDescription());
                         }
                     });
 
+                    // Send the message
                     sender.sendMessage(sb.toString());
                     return true;
                 } else if (cmd.equalsIgnoreCase("dev")) {
                     if (args.length == 0) {
+                        // Send the dev help message
                         sender.sendMessage(getDevHelpMessage());
                     } else if (args[0].equalsIgnoreCase("reload")) {
+                        // Create a new HashMap to store LukkitPlugins by name
                         HashMap<String, LukkitPlugin> plugins = new HashMap<>();
+                        // Iterate over the plugins and add them to the map by lower-cased name
                         this.iteratePlugins(p -> plugins.put(p.getName().toLowerCase(), p));
 
                         if (plugins.containsKey(args[0].toLowerCase())) {
@@ -179,8 +188,10 @@ public class Main extends JavaPlugin {
                             sender.sendMessage("The specified plugin " + args[1] + " does not exist.");
                         }
                     } else if (args[0].equalsIgnoreCase("pack")) {
+                        // Zip the plugin
                         this.zipOperation(ZipOperation.PACKAGE, sender, args);
                     } else if (args[0].equalsIgnoreCase("unpack")) {
+                        // Unzip the plugin
                         this.zipOperation(ZipOperation.UNPACK, sender, args);
                     } else if (args[0].equalsIgnoreCase("last-error")) {
                         LuaError err = LuaEnvironment.getLastError();
@@ -191,26 +202,36 @@ public class Main extends JavaPlugin {
                             sender.sendMessage("There was no error to get.");
                         }
                     } else if (args[0].equalsIgnoreCase("errors")) {
+                        // Get all the errors off of the stack
                         Stream<LuaError> errors = LuaEnvironment.getErrors();
+
+                        // Check if the errors list equals null (returned if empty)
                         if (errors != null) {
-                            if (args[1] == null) {
+                            // Check if the only arg is the "errors" sub-command
+                            if (args.length == 1) {
+                                // Get all the non-null error objects
+
                                 errors.forEach(luaError -> {
+                                    // Send each error message to the player and print the stack trace
                                     sender.sendMessage(luaError.getMessage());
                                     luaError.printStackTrace();
                                 });
                             } else {
                                 try {
+                                    // Get the error at the specified index
                                     LuaError error = ((LuaError[]) errors.toArray())[Integer.parseInt(args[2])];
+
+                                    // Send the error message to the player and print the stack trace
                                     sender.sendMessage(error.getMessage());
                                     error.printStackTrace();
                                 } catch (NumberFormatException e) {
                                     sender.sendMessage(ChatColor.RED + args[1] + " cannot be converted to an integer.");
                                 } catch (ArrayIndexOutOfBoundsException e) {
-                                    sender.sendMessage(ChatColor.RED + args[1] + " is out of bounds. Should be between 1 & 10");
+                                    sender.sendMessage(ChatColor.RED + args[1] + " is out of bounds in the stack. Should be between 1 & " + errors.count());
                                 }
                             }
                         } else {
-                            sender.sendMessage("There were no errors in the stack");
+                            sender.sendMessage("There are no errors to display!");
                         }
                     } else sender.sendMessage(getDevHelpMessage());
                 }
