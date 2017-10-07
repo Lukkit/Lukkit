@@ -7,7 +7,6 @@ import nz.co.jammehcow.lukkit.environment.exception.StorageObjectException;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.wrappers.storage.compat.LuaJsonElement;
 import org.luaj.vm2.LuaBoolean;
-import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaString;
 import org.luaj.vm2.LuaValue;
 
