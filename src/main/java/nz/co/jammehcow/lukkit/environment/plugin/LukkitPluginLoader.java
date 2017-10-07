@@ -85,20 +85,16 @@ public class LukkitPluginLoader implements PluginLoader {
      *
      * @param plugin the {@link LukkitPlugin} object
      */
-    public void reloadPlugin(Plugin plugin) {
-        File pluginFile = ((LukkitPlugin) plugin).getFile();
+    public void reloadPlugin(LukkitPlugin plugin) throws InvalidPluginException, InvalidDescriptionException, LukkitPluginException {
+        // Check if the plugin is a dev plugin.
+        if (!plugin.isDevPlugin()) throw new LukkitPluginException("Cannot reload a standard Lukkit plugin, use /reload instead. This is a developer-only feature.");
+        // Get the .lkt plugin file.
+        File pluginFile = plugin.getFile();
+        // Disable the plugin (also unregisters all events).
         this.server.getPluginManager().disablePlugin(plugin);
 
-        LukkitPlugin newPlugin = null;
-
-        try {
-            newPlugin = (LukkitPlugin) this.loadPlugin(pluginFile);
-        } catch (InvalidPluginException e) { e.printStackTrace(); }
-
-        if (newPlugin == null) {
-            Main.instance.getLogger().severe("Unable to load the plugin from " + pluginFile.getAbsolutePath());
-        } else {
-            this.server.getPluginManager().enablePlugin(newPlugin);
-        }
+        // Create the plugin and load it.
+        Plugin newPlugin = this.server.getPluginManager().loadPlugin(pluginFile);
+        this.server.getPluginManager().enablePlugin(newPlugin);
     }
 }

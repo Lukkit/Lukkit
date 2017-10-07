@@ -181,11 +181,18 @@ public class Main extends JavaPlugin {
                         // Iterate over the plugins and add them to the map by lower-cased name
                         this.iteratePlugins(p -> plugins.put(p.getName().toLowerCase(), p));
 
-                        if (plugins.containsKey(args[0].toLowerCase())) {
-                            // TODO
-                            //plugins.get(args[2].toLowerCase()).reloadPlugin();
+                        String pluginName = String.join(" ", Arrays.copyOfRange(args, 1, args.length)).toLowerCase();
+
+                        if (plugins.containsKey(pluginName)) {
+                            LukkitPlugin plugin = plugins.get(pluginName);
+                            try {
+                                ((LukkitPluginLoader) plugin.getPluginLoader()).reloadPlugin(plugin);
+                            } catch (InvalidPluginException | InvalidDescriptionException e) {
+                                sender.sendMessage(ChatColor.RED + "There was an error reloading this plugin: " + e.getMessage() + "\nCheck the console for more information.");
+                                e.printStackTrace();
+                            }
                         } else {
-                            sender.sendMessage("The specified plugin " + args[1] + " does not exist.");
+                            sender.sendMessage("The specified plugin \"" + args[1] + "\" does not exist.");
                         }
                     } else if (args[0].equalsIgnoreCase("pack")) {
                         // Zip the plugin
