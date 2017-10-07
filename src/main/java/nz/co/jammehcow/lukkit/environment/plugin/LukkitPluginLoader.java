@@ -25,14 +25,13 @@ public class LukkitPluginLoader implements PluginLoader {
      * The constant fileFilters.
      */
     public static final Pattern[] fileFilters = new Pattern[] {
-            Pattern.compile("^(.*)\\.lkt$"),
-            Pattern.compile("^(.*)\\.lkt\\.zip$")
+            Pattern.compile("^(.*)\\.lkt$")
     };
 
     /**
      * The Server instance.
      */
-    final Server server;
+    private final Server server;
 
     /**
      * Instantiates a new LukkitPluginLoader.
