@@ -75,6 +75,7 @@ public class Main extends JavaPlugin {
 
     // The server-wide PluginManager
     private PluginManager pluginManager;
+    private LukkitPluginLoader pluginLoader = null;
 
     @Override
     public void onEnable() {
@@ -86,7 +87,7 @@ public class Main extends JavaPlugin {
         this.getCommand("lukkit").setTabCompleter(new TabCompleter());
 
         // Subtract one to count for Lukkit being loaded. Should replace with check internally because other plugins will be registered
-        int totalPlugins = LuaEnvironment.loadedPlugins.size();
+        int totalPlugins = (this.pluginLoader == null) ? 0 : this.pluginLoader.loadedPlugins.size();
 
         if (totalPlugins > 0) {
             this.getLogger().info(((totalPlugins != 1) ? totalPlugins + " Lukkit plugins were loaded" : "1 Lukkit plugin was loaded") + " in " + loadTime + "ms.");
@@ -144,6 +145,13 @@ public class Main extends JavaPlugin {
 
             // Get the total time to load plugins and save to loadTime member
             loadTime = System.currentTimeMillis() - startTime;
+        }
+
+        for (Plugin plugin : this.pluginManager.getPlugins()) {
+            if (plugin instanceof LukkitPlugin) {
+                this.pluginLoader = (LukkitPluginLoader) plugin.getPluginLoader();
+                break;
+            }
         }
     }
 
