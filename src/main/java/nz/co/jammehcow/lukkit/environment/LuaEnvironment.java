@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Stack;
 import java.util.stream.Stream;
 
@@ -94,7 +95,7 @@ public class LuaEnvironment {
     }
 
     public static Stream<LuaError> getErrors() {
-        return (errors.isEmpty()) ? null : errors.stream();
+        return (errors.stream().filter(Objects::nonNull).count() == 0) ? null : errors.stream().filter(Objects::nonNull);
     }
 
     public static void addError(LuaError e) {
