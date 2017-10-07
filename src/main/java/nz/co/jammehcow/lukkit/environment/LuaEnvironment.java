@@ -83,7 +83,7 @@ public class LuaEnvironment {
     }
 
     public static Optional<Exception> getLastError() {
-        return Optional.of(errors.peek());
+        return Optional.ofNullable(errors.peek());
     }
 
     public static Optional<Stream<Exception>> getErrors() {
