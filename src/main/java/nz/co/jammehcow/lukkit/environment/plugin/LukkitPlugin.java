@@ -45,7 +45,6 @@ public class LukkitPlugin implements Plugin {
     private final LukkitPluginLoader pluginLoader;
     private FileConfiguration config;
     private final PluginDescriptionFile descriptor;
-    private final Globals globals;
     private final File dataFolder;
     private boolean enabled = false;
     private boolean naggable = true;
@@ -72,10 +71,10 @@ public class LukkitPlugin implements Plugin {
 
         this.name = this.descriptor.getName();
         this.logger = new PluginLogger(this);
-        this.globals = LuaEnvironment.getNewGlobals(this);
+        Globals globals = LuaEnvironment.getNewGlobals(this);
 
         try {
-            this.pluginMain = this.globals.load(new InputStreamReader(this.pluginFile.getResource(this.descriptor.getMain()), "UTF-8"), this.descriptor.getMain());
+            this.pluginMain = globals.load(new InputStreamReader(this.pluginFile.getResource(this.descriptor.getMain()), "UTF-8"), this.descriptor.getMain());
         } catch (UnsupportedEncodingException e) {
             throw new InvalidPluginException("File could not be loaded using UTF-8.", e.getCause());
         }
@@ -87,14 +86,14 @@ public class LukkitPlugin implements Plugin {
         this.config = new YamlConfiguration();
         this.loadConfigWithChecks();
 
-        this.globals.set("plugin", new PluginWrapper(this));
-        this.globals.set("logger", new LoggerWrapper(this));
-        this.globals.set("util", new UtilitiesWrapper(this));
-        this.globals.set("bukkit", new BukkitWrapper(this));
-        this.globals.set("config", new ConfigWrapper(this));
+        globals.set("plugin", new PluginWrapper(this));
+        globals.set("logger", new LoggerWrapper(this));
+        globals.set("util", new UtilitiesWrapper(this));
+        globals.set("bukkit", new BukkitWrapper(this));
+        globals.set("config", new ConfigWrapper(this));
 
         // Sets callbacks (if any) and loads the commands & events into memory.
-        Optional<String> isValid = this.checkValidity();
+        Optional<String> isValid = this.checkPluginValidity();
         if (isValid.isPresent())
             throw new InvalidPluginException("An issue occurred when loading the plugin: \n" + isValid.get());
 
@@ -339,6 +338,8 @@ public class LukkitPlugin implements Plugin {
         });
     }
 
+    // TODO: combine both config methods into one.
+
     private void loadConfigWithChecks() {
         InputStream internalConfig = this.pluginFile.getDefaultConfig();
         if (!this.pluginConfig.exists() && internalConfig == null) {
@@ -390,7 +391,7 @@ public class LukkitPlugin implements Plugin {
         this.logger.warning("The config at " + this.pluginConfig.getAbsolutePath() + " was invalid. It has been moved to config.broken.yml and the default config has been exported to config.yml.");
     }
 
-    private Optional<String> checkValidity() {
+    private Optional<String> checkPluginValidity() {
         if (this.pluginMain == null) {
             return Optional.of("Unable to load the main Lua file. It may be missing from the plugin file or corrupted.");
         } else if (this.descriptor == null) {
