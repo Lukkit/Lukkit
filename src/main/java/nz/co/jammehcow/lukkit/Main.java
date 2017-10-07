@@ -114,10 +114,10 @@ public class Main extends JavaPlugin {
         // Initialize the Lua env (sets up globals)
         LuaEnvironment.init(this.getConfig().getBoolean("lua-debug"));
 
-        // Register our custom plugin loader on the plugin manager
-        this.getServer().getPluginManager().registerInterface(LukkitPluginLoader.class);
         // Save the plugin manager for future use
         this.pluginManager = this.getServer().getPluginManager();
+        // Register our custom plugin loader on the plugin manager
+        this.pluginManager.registerInterface(LukkitPluginLoader.class);
 
         this.getLogger().info("Loading Lukkit plugins...");
 
