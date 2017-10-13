@@ -4,11 +4,11 @@
 #
 version: 2
 
-general:
-  branches:
-    only: 2.0-dev
-
 jobs:
+  general:
+    branches:
+      only: 2.0-dev
+
   build:
     docker:
       # specify the version you desire here
@@ -45,6 +45,3 @@ jobs:
 
       # run tests!
       - run: gradle test
-
-
-
