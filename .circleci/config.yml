@@ -5,11 +5,11 @@
 version: 2
 
 jobs:
-  general:
-    branches:
-      only: 2.0-dev
-
   build:
+    general:
+      branches:
+        only: 2.0-dev
+
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
