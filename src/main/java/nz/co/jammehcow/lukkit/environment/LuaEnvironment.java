@@ -48,12 +48,16 @@ public class LuaEnvironment {
     }
 
     public static Globals getNewGlobals(LukkitPlugin plugin) {
+        // Create the globals based on the config debug setting
         Globals g = (isDebug) ? JsePlatform.debugGlobals() : JsePlatform.standardGlobals();
+
+        // Make a table to store local requires
         g.set("__lukkitpackages__", new LuaTable());
         g.set("require_local", new OneArgFunction() {
             @SuppressWarnings("ResultOfMethodCallIgnored")
             @Override
             public LuaValue call(LuaValue arg) {
+                // Get the path as a Java String
                 String path = arg.checkjstring();
 
                 // It's fine to append your path with .lua as it follows Lua standards.
@@ -64,8 +68,9 @@ public class LuaEnvironment {
                 LuaValue possiblyLoadedScript = g.get("__lukkitpackages__").checktable().get(path);
                 if (possiblyLoadedScript != null) return possiblyLoadedScript;
 
+                // Get the resource as an InputStream from the plugin's resource getter
                 InputStream is = plugin.getResource(path);
-                if (is != null) try {
+                if (is != null) {
                     try {
                         LuaValue calledScript = g.load(new InputStreamReader(is, "UTF-8"), path.replace("/", ".")).call();
                         g.get("__lukkitpackages__").checktable().set(path, calledScript);
@@ -73,8 +78,10 @@ public class LuaEnvironment {
                     } catch (LukkitPluginException e) {
                         e.printStackTrace();
                         addError(e);
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
                     }
-                } catch (UnsupportedEncodingException e) { e.printStackTrace(); }
+                }
 
                 throw new LukkitPluginException("Requested Lua file at " + path + " but it does not exist.");
             }
@@ -87,10 +94,12 @@ public class LuaEnvironment {
     }
 
     public static Optional<Stream<Exception>> getErrors() {
+        // Filter out all the nulls from the stream, only returning the Error object and not nulls (Stack#setSize sets the size and fills with nulls if nothing exists)
         return (errors.stream().filter(Objects::nonNull).count() == 0) ? Optional.empty() : Optional.of(errors.stream().filter(Objects::nonNull));
     }
 
     public static void addError(Exception e) {
+        // Push the error onto the stack
         errors.push(e);
     }
 }
