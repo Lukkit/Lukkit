@@ -3,7 +3,7 @@ main: nz.co.jammehcow.lukkit.Main
 version: 2.0.0-dev
 
 author: jammehcow
-authors: [UnwrittenFun]
+authors: [UnwrittenFun,No_lifer]
 
 commands:
   lukkit:

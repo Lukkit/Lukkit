@@ -196,7 +196,7 @@ public abstract class StorageObject extends LuaTable {
     }
 
     /**
-     * Gets the associated {@link nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin}.
+     * Gets the associated {@link LukkitPlugin}.
      *
      * @return the LukkitPlugin
      */

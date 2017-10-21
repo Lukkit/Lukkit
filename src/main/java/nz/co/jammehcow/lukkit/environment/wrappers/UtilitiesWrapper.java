@@ -39,7 +39,7 @@ public class UtilitiesWrapper extends LuaTable {
         Reflections reflections = new Reflections(new ConfigurationBuilder()
                 .setScanners(new SubTypesScanner(false), new ResourcesScanner())
                 .setUrls(ClasspathHelper.forClassLoader(classLoadersList.toArray(new ClassLoader[0])))
-                .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix("org.bukkit"))));;
+                .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix("org.bukkit"))));
 
         classes = reflections.getSubTypesOf(Object.class);
     }

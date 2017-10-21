@@ -29,7 +29,7 @@ public class UpdateChecker {
             } else {
                 Main.logger.info("You're up to date with the latest version of Lukkit.");
             }
-        } catch (UnirestException e) { e.printStackTrace(); }
+        } catch (Exception e ) { e.printStackTrace(); }
     }
 
     /**
