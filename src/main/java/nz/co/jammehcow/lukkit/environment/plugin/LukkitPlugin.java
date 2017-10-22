@@ -234,7 +234,6 @@ public class LukkitPlugin implements Plugin {
         this.naggable = isNaggable;
     }
 
-    @Override
     public EbeanServer getDatabase() {
         // Deprecated
         return null;
