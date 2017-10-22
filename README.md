@@ -5,7 +5,10 @@ Lukkit
 
 Lukkit allows developers to create Bukkit plugins quickly and easily using the lua scripting language.
 
-For support or general disccusion, come join us on the [Lukkit forums](https://theartex.net/lukkit), the SpigotMC IRC channel [#lukkit](http://fry.spi.gt/iris/?nick=&channels=lukkit) or use the [Lukkit docs](https://theartex.net/lukkit/docs) to solve your problems.
+We are busy with setting up forums and everything because the original developers have stopped for now.
+I want to thank all old developers and in special Jammehcow.
+
+Discord moved to [Here](https://discord.gg/5Ys9kct).
 
 Dev builds can be found [here](https://ci.jammehcow.co.nz). Use them at your own risk (not in production).
 
