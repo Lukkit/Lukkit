@@ -1,7 +1,7 @@
 Lukkit
 ======
 
-[![Build Status](https://ci.jammehcow.co.nz/job/Lukkit/badge/icon)](https://ci.jammehcow.co.nz/job/Lukkit)
+[![Build Status](http://lukkit.info/image.php)](https://ci.jammehcow.co.nz/job/Lukkit)
 
 Lukkit allows developers to create Bukkit plugins quickly and easily using the lua scripting language.
 
