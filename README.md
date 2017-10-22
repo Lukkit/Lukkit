@@ -10,8 +10,6 @@ I want to thank all old developers and in special Jammehcow.
 
 Discord moved to [Here](https://discord.gg/5Ys9kct).
 
-Dev builds can be found [here](https://ci.jammehcow.co.nz). Use them at your own risk (not in production).
-
 ### What's the point?
  - Lua is a very friendly language for beginners
  - It is very easy to make a simple plugin
