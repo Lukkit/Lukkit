@@ -1,7 +1,7 @@
 Lukkit
 ======
 
-[![Build Status](http://lukkit.info/image.php)](https://ci.jammehcow.co.nz/job/Lukkit)
+[![Build Status](https://lukkit.info/image.php)](https://lukkit.info)
 
 Lukkit allows developers to create Bukkit plugins quickly and easily using the lua scripting language.
 
