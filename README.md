@@ -1,7 +1,7 @@
 Lukkit
 ======
 
-[![Build Status](https://ci.jammehcow.co.nz/job/Lukkit/badge/icon)](https://ci.jammehcow.co.nz/job/Lukkit)
+[![Build Status](https://lukkit.info/image.php](https://lukkit.info)
 
 Currently being rewritten on 2.0-dev branch
 
