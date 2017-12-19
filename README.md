@@ -1,8 +1,6 @@
 Lukkit
 ======
 
-[![Build Status](https://lukkit.info/image.php)](https://lukkit.info)
-
 Currently being rewritten on 2.0-dev branch
 
 Lukkit allows developers to create Bukkit plugins quickly and easily using the lua scripting language.
