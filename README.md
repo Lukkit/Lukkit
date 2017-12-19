@@ -1,20 +1,25 @@
 Lukkit
 ======
 
+Lukkit is currently being rewritten on the 2.0-dev branch.
+
 Lukkit allows developers to create Bukkit plugins quickly and easily using the lua scripting language.
 
-We are busy with setting up forums and everything because the original developers have stopped for now.
-I want to thank all old developers and in special Jammehcow.
+Since it was first release by UnwrittenFun, Lukkit has moved from developer to developer. Although updates have been rolling out from time to time, no one person has been able to continue maintaining Lukkit. However, we are trying to change that. 
 
-Discord moved to [Here](https://discord.gg/5Ys9kct).
+UnwrittenFun and jammehcow have made the greatest contributions to Lukkit and we would like to thank them for their work.
+
+The Discord guild has been moved to https://dev.theartex.net/discord/.
+
 
 ### What's the point?
  - Lua is a very friendly language for beginners
  - It is very easy to make a simple plugin
- - Lua supports ALL Spigot functions, with more lua-like ways of doing things added frequently
- - Projects added in v1.0-alpha4 and later allow for more advanced plugins to be made within their own folder
+ - Lua supports all of the Spigot API
+ - Projects from v1.0-alpha4 allow for more advanced plugins
 
 ### Examples
+More examples can be found [here](https://github.com/artex-development/Lukkit/tree/master/examples).
 
 Add command /shout to broadcast a message to the server. Bear in mind that, at the moment, naming a command with a capital letter will stop the command from being deregistered when running /lukkit reload or /lukkit resetenv.
 ```lua
