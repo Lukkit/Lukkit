@@ -3,6 +3,7 @@ package nz.co.jammehcow.lukkit.environment.plugin;
 import com.avaje.ebean.EbeanServer;
 import nz.co.jammehcow.lukkit.Main;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
+import nz.co.jammehcow.lukkit.environment.plugin.commands.LukkitCommand;
 import nz.co.jammehcow.lukkit.environment.wrappers.*;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -42,7 +43,7 @@ public class LukkitPlugin implements Plugin {
     private final PluginDescriptionFile descriptor;
     private final File dataFolder;
     private final Logger logger;
-    private final HashMap<String, LuaFunction> commands = new HashMap<>();
+    private final List<LukkitCommand> commands = new ArrayList<>();
     private final HashMap<String, ArrayList<LuaFunction>> eventCallbacks = new HashMap<>();
     private LuaFunction loadCB;
     private LuaFunction enableCB;
@@ -219,6 +220,7 @@ public class LukkitPlugin implements Plugin {
             e.printStackTrace();
             LuaEnvironment.addError(e);
         }
+        unregisterAllCommands();
     }
 
     @Override
@@ -263,22 +265,7 @@ public class LukkitPlugin implements Plugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (commands.containsKey(command.getName())) {
-            try {
-                commands.get(command.getName()).invoke(new LuaValue[]{
-                        CoerceJavaToLua.coerce(sender),
-                        CoerceJavaToLua.coerce(command),
-                        LuaValue.valueOf(label),
-                        CoerceJavaToLua.coerce(args)
-                });
-            } catch (LukkitPluginException e) {
-                e.printStackTrace();
-                LuaEnvironment.addError(e);
-            }
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     @Override
@@ -305,10 +292,6 @@ public class LukkitPlugin implements Plugin {
 
     public void setDisableCB(LuaFunction cb) {
         this.disableCB = cb;
-    }
-
-    public void addCommand(String name, LuaFunction function) {
-        this.commands.put(name, function);
     }
 
     public void registerEvent(Class<? extends Event> event, LuaFunction function) {
@@ -405,5 +388,30 @@ public class LukkitPlugin implements Plugin {
         }
 
         return Optional.empty();
+    }
+
+    public void registerCommand(LukkitCommand command) {
+        commands.add(command);
+        try {
+            command.register();
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void unregisterCommand(LukkitCommand command) {
+        commands.remove(command);
+        try {
+            command.unregister();
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void unregisterAllCommands() {
+        // Create new array to get rid of concurrent modification
+        List<LukkitCommand> cmds = new ArrayList<>();
+        cmds.addAll(commands);
+        cmds.forEach(this::unregisterCommand);
     }
 }

@@ -5,6 +5,7 @@ import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment.ObjectType;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
+import nz.co.jammehcow.lukkit.environment.plugin.commands.LukkitCommand;
 import nz.co.jammehcow.lukkit.environment.wrappers.storage.JsonStorage;
 import nz.co.jammehcow.lukkit.environment.wrappers.storage.StorageObject;
 import nz.co.jammehcow.lukkit.environment.wrappers.storage.YamlStorage;
@@ -78,9 +79,12 @@ public class PluginWrapper extends LuaTable {
                 if (!arg1.isstring() || !arg2.isfunction()) {
                     throw new LukkitPluginException("There was an issue registering a command. Check that the command registration conforms to the layout here: ");
                 } else {
-                    plugin.addCommand(arg1.checkjstring(), arg2.checkfunction());
+                    //plugin.addCommand(arg1.checkjstring(), arg2.checkfunction());
+                    LukkitCommand command = new LukkitCommand(plugin, arg2.checkfunction(), arg1.checkjstring());
+                    plugin.registerCommand(command);
+                    return CoerceJavaToLua.coerce(command);
                 }
-                return LuaValue.NIL;
+                // return LuaValue.NIL;
             }
         });
 
