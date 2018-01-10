@@ -21,23 +21,21 @@ import java.util.regex.Pattern;
  */
 public class LukkitPluginLoader implements PluginLoader {
     /**
+     * The constant fileFilters.
+     */
+    public static final Pattern[] fileFilters = new Pattern[]{
+            Pattern.compile("^(.*)\\.lkt$")
+    };
+    /**
+     * The Server instance.
+     */
+    private final Server server;
+    /**
      * The list of available plugins installed in the Lukkit data folder.
      * Plugins aren't loaded by default due to dependency requirements.
      * If we get a list of every plugin installed we can check dependency requests against the plugins available and throw errors when they don't exist (for hard depends).
      */
     public ArrayList<LukkitPlugin> loadedPlugins = new ArrayList<>();
-
-    /**
-     * The constant fileFilters.
-     */
-    public static final Pattern[] fileFilters = new Pattern[] {
-            Pattern.compile("^(.*)\\.lkt$")
-    };
-
-    /**
-     * The Server instance.
-     */
-    private final Server server;
 
     /**
      * Instantiates a new LukkitPluginLoader.
@@ -93,7 +91,8 @@ public class LukkitPluginLoader implements PluginLoader {
      */
     public void reloadPlugin(LukkitPlugin plugin) throws InvalidPluginException, InvalidDescriptionException, LukkitPluginException {
         // Check if the plugin is a dev plugin.
-        if (!plugin.isDevPlugin()) throw new LukkitPluginException("Cannot reload a standard Lukkit plugin, use /reload instead. This is a developer-only feature.");
+        if (!plugin.isDevPlugin())
+            throw new LukkitPluginException("Cannot reload a standard Lukkit plugin, use /reload instead. This is a developer-only feature.");
         // Get the .lkt plugin file.
         File pluginFile = plugin.getFile();
         // Disable the plugin (also unregisters all events).
@@ -102,5 +101,20 @@ public class LukkitPluginLoader implements PluginLoader {
         // Create the plugin and load it.
         Plugin newPlugin = this.server.getPluginManager().loadPlugin(pluginFile);
         this.server.getPluginManager().enablePlugin(newPlugin);
+    }
+
+    /**
+     * Unload the specified plugin.
+     *
+     * @param plugin the {@link LukkitPlugin} object
+     */
+    public void unloadPlugin(LukkitPlugin plugin) throws InvalidPluginException, InvalidDescriptionException, LukkitPluginException {
+        // Check if the plugin is a dev plugin.
+        if (!plugin.isDevPlugin())
+            throw new LukkitPluginException("Cannot unload a standard Lukkit plugin, use /stop instead. This is a developer-only feature.");
+        // Get the .lkt plugin file.
+        File pluginFile = plugin.getFile();
+        // Disable the plugin (also unregisters all events).
+        this.server.getPluginManager().disablePlugin(plugin);
     }
 }

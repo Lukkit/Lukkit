@@ -37,32 +37,20 @@ import java.util.stream.Stream;
 public class Main extends JavaPlugin {
     // Config version
     private static final int CFG_VERSION = 3;
-
-    /**
-     * The Logger for Lukkit.
-     */
-    static Logger logger;
     /**
      * The instance of the plugin. Used for external access by plugin wrappers etc..
      */
     public static Main instance;
-    private static long loadTime = 0;
-
-    private enum ZipOperation {
-        /**
-         * Zip operation.
-         */
-        PACKAGE,
-        /**
-         * Unzip operation.
-         */
-        UNPACK
-    }
-
     /**
      * The events collected at runtime to match plugin event registrations against.
      */
     public static HashMap<String, Class<? extends Event>> events = new HashMap<>();
+    /**
+     * The Logger for Lukkit.
+     */
+    static Logger logger;
+    private static long loadTime = 0;
+
     static {
         // TODO: It works, sure, but it's shit.
         // Get all the events in the Bukkit events package
@@ -76,6 +64,35 @@ public class Main extends JavaPlugin {
     // The server-wide PluginManager
     private PluginManager pluginManager;
     private LukkitPluginLoader pluginLoader = null;
+
+    private static boolean isLukkitPluginFile(String fileName) {
+        for (Pattern pattern : LukkitPluginLoader.fileFilters) {
+            if (pattern.matcher(fileName).find()) return true;
+        }
+
+        return false;
+    }
+
+    private static String getHelpMessage() {
+        return ChatColor.GREEN + "Lukkit commands:\n" +
+                ChatColor.YELLOW + "  - \"/lukkit\" - The root command for all commands (shows this message)\n" +
+                "  - \"/lukkit help\" - Displays this message\n" +
+                "  - \"/lukkit run (lua code)\" - Runs the specified code as command arguments\n" +
+                "  - \"/lukkit plugins\" - Lists all enabled plugins\n" +
+                "  - \"/lukkit dev\" - Contains all developer commands. Prints out the dev help message";
+    }
+
+    private static String getDevHelpMessage() {
+        return ChatColor.GREEN + "Lukkit dev commands:\n" +
+                ChatColor.YELLOW + "  - \"/lukkit dev\" - The root command for developer actions (shows this message)\n" +
+                "  - \"/lukkit dev reload (plugin name)\" - Reloads the source file and clears all loaded requires\n" +
+                "  - \"/lukkit dev unload (plugin name)\" - Unloads the source file and clears all loaded requires\n" +
+                "  - \"/lukkit dev pack (plugin name)\" - Packages the plugin (directory) into a .lkt file for publishing\n" +
+                "  - \"/lukkit dev unpack (plugin name)\" - Unpacks the plugin (.lkt) to a directory based plugin\n" +
+                "  - \"/lukkit dev last-error\" - Gets the last error thrown by a plugin and sends the message to the sender. Also prints the stacktrace to the console.\n" +
+                "  - \"/lukkit dev errors [index]\" - Either prints out all 10 errors with stacktraces or prints out the specified error at the given index [1 - 10]\n" +
+                "  - \"/lukkit dev help\" - Shows this message";
+    }
 
     @Override
     public void onEnable() {
@@ -97,7 +114,8 @@ public class Main extends JavaPlugin {
     }
 
     @Override
-    public void onDisable() {}
+    public void onDisable() {
+    }
 
     @Override
     public void onLoad() {
@@ -135,8 +153,7 @@ public class Main extends JavaPlugin {
                     // Load the plugin using LukkitPluginLoader
                     try {
                         this.pluginManager.loadPlugin(file);
-                    }
-                    catch (InvalidPluginException | InvalidDescriptionException e) {
+                    } catch (InvalidPluginException | InvalidDescriptionException e) {
                         LuaEnvironment.addError(e);
                         e.printStackTrace();
                     }
@@ -202,6 +219,25 @@ public class Main extends JavaPlugin {
                                 ((LukkitPluginLoader) plugin.getPluginLoader()).reloadPlugin(plugin);
                             } catch (InvalidPluginException | InvalidDescriptionException e) {
                                 sender.sendMessage(ChatColor.RED + "There was an error reloading this plugin: " + e.getMessage() + "\nCheck the console for more information.");
+                                e.printStackTrace();
+                            }
+                        } else {
+                            sender.sendMessage("The specified plugin \"" + args[1] + "\" does not exist.");
+                        }
+                    } else if (args[0].equalsIgnoreCase("unload")) {
+                        // Create a new HashMap to store LukkitPlugins by name
+                        HashMap<String, LukkitPlugin> plugins = new HashMap<>();
+                        // Iterate over the plugins and add them to the map by lower-cased name
+                        this.iteratePlugins(p -> plugins.put(p.getName().toLowerCase(), p));
+
+                        String pluginName = String.join(" ", Arrays.copyOfRange(args, 1, args.length)).toLowerCase();
+
+                        if (plugins.containsKey(pluginName)) {
+                            LukkitPlugin plugin = plugins.get(pluginName);
+                            try {
+                                ((LukkitPluginLoader) plugin.getPluginLoader()).unloadPlugin(plugin);
+                            } catch (InvalidPluginException | InvalidDescriptionException e) {
+                                sender.sendMessage(ChatColor.RED + "There was an error unloading this plugin: " + e.getMessage() + "\nCheck the console for more information.");
                                 e.printStackTrace();
                             }
                         } else {
@@ -321,31 +357,14 @@ public class Main extends JavaPlugin {
         }
     }
 
-    private static boolean isLukkitPluginFile(String fileName) {
-        for (Pattern pattern : LukkitPluginLoader.fileFilters) {
-            if (pattern.matcher(fileName).find()) return true;
-        }
-
-        return false;
-    }
-
-    private static String getHelpMessage() {
-        return ChatColor.GREEN + "Lukkit commands:\n" +
-                ChatColor.YELLOW + "  - \"/lukkit\" - The root command for all commands (shows this message)\n" +
-                "  - \"/lukkit help\" - Displays this message\n" +
-                "  - \"/lukkit run (lua code)\" - Runs the specified code as command arguments\n" +
-                "  - \"/lukkit plugins\" - Lists all enabled plugins\n" +
-                "  - \"/lukkit dev\" - Contains all developer commands. Prints out the dev help message";
-    }
-
-    private static String getDevHelpMessage() {
-        return ChatColor.GREEN + "Lukkit dev commands:\n" +
-                ChatColor.YELLOW + "  - \"/lukkit dev\" - The root command for developer actions (shows this message)\n" +
-                "  - \"/lukkit dev reload (plugin name)\" - Reloads the source file and clears all loaded requires\n" +
-                "  - \"/lukkit dev pack (plugin name)\" - Packages the plugin (directory) into a .lkt file for publishing\n" +
-                "  - \"/lukkit dev unpack (plugin name)\" - Unpacks the plugin (.lkt) to a directory based plugin\n" +
-                "  - \"/lukkit dev last-error\" - Gets the last error thrown by a plugin and sends the message to the sender. Also prints the stacktrace to the console.\n" +
-                "  - \"/lukkit dev errors [index]\" - Either prints out all 10 errors with stacktraces or prints out the specified error at the given index [1 - 10]\n" +
-                "  - \"/lukkit dev help\" - Shows this message";
+    private enum ZipOperation {
+        /**
+         * Zip operation.
+         */
+        PACKAGE,
+        /**
+         * Unzip operation.
+         */
+        UNPACK
     }
 }
