@@ -32,7 +32,7 @@ public class YamlStorage extends StorageObject {
 
     @Override
     protected LuaBoolean exists(String path) {
-        return yamlConfiguration.get(path) == null ? LuaValue.TRUE : LuaValue.FALSE;
+        return yamlConfiguration.get(path) != null ? LuaValue.TRUE : LuaValue.FALSE;
     }
 
     @Override
