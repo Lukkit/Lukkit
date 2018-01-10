@@ -132,12 +132,12 @@ public abstract class StorageObject extends LuaTable {
 
     @Override
     public String typename() {
-        return ObjectType.StorageObject.name;
+        return ObjectType.STORAGE_OBJECT.name;
     }
 
     @Override
     public int type() {
-        return ObjectType.StorageObject.type;
+        return ObjectType.STORAGE_OBJECT.type;
     }
 
     /**

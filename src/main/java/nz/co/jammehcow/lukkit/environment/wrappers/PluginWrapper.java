@@ -158,11 +158,11 @@ public class PluginWrapper extends LuaTable {
 
     @Override
     public String typename() {
-        return ObjectType.Wrapper.name;
+        return ObjectType.WRAPPER.name;
     }
 
     @Override
     public int type() {
-        return ObjectType.Wrapper.type;
+        return ObjectType.WRAPPER.type;
     }
 }
