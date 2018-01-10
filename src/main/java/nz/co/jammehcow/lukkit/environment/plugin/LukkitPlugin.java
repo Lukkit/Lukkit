@@ -38,20 +38,19 @@ public class LukkitPlugin implements Plugin {
     private final String name;
     private final LukkitPluginFile pluginFile;
     private final LuaValue pluginMain;
+    private final LukkitPluginLoader pluginLoader;
+    private final PluginDescriptionFile descriptor;
+    private final File dataFolder;
+    private final Logger logger;
+    private final HashMap<String, LuaFunction> commands = new HashMap<>();
+    private final HashMap<String, ArrayList<LuaFunction>> eventCallbacks = new HashMap<>();
     private LuaFunction loadCB;
     private LuaFunction enableCB;
     private LuaFunction disableCB;
     private File pluginConfig;
-    private final LukkitPluginLoader pluginLoader;
     private FileConfiguration config;
-    private final PluginDescriptionFile descriptor;
-    private final File dataFolder;
     private boolean enabled = false;
     private boolean naggable = true;
-    private final Logger logger;
-
-    private final HashMap<String, LuaFunction> commands = new HashMap<>();
-    private final HashMap<String, ArrayList<LuaFunction>> eventCallbacks = new HashMap<>();
 
     /**
      * Instantiates a new Lukkit plugin.
@@ -66,6 +65,7 @@ public class LukkitPlugin implements Plugin {
         try {
             this.descriptor = new PluginDescriptionFile(this.pluginFile.getPluginYML());
         } catch (InvalidDescriptionException e) {
+            e.printStackTrace();
             throw new InvalidPluginException("The description provided was invalid or missing.");
         }
 
@@ -131,7 +131,9 @@ public class LukkitPlugin implements Plugin {
         if (this.config != null) {
             try {
                 this.config.save(pluginConfig);
-            } catch (IOException e) { e.printStackTrace(); }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -139,7 +141,9 @@ public class LukkitPlugin implements Plugin {
     public void saveDefaultConfig() {
         try {
             Files.copy(this.pluginFile.getDefaultConfig(), new File(this.dataFolder.getAbsolutePath() + File.separator + "config.yml").toPath());
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -171,7 +175,9 @@ public class LukkitPlugin implements Plugin {
         if (this.pluginConfig != null) {
             try {
                 this.config.load(this.dataFolder);
-            } catch (IOException | InvalidConfigurationException e) { e.printStackTrace(); }
+            } catch (IOException | InvalidConfigurationException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -200,7 +206,8 @@ public class LukkitPlugin implements Plugin {
             LuaEnvironment.addError(e);
         }
 
-        Main.events.forEach((s, e) -> this.getServer().getPluginManager().registerEvent(e, new Listener() {}, EventPriority.NORMAL, (listener, event) -> this.onEvent(event), this, false));
+        Main.events.forEach((s, e) -> this.getServer().getPluginManager().registerEvent(e, new Listener() {
+        }, EventPriority.NORMAL, (listener, event) -> this.onEvent(event), this, false));
     }
 
     @Override
@@ -258,7 +265,7 @@ public class LukkitPlugin implements Plugin {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (commands.containsKey(command.getName())) {
             try {
-                commands.get(command.getName()).invoke(new LuaValue[] {
+                commands.get(command.getName()).invoke(new LuaValue[]{
                         CoerceJavaToLua.coerce(sender),
                         CoerceJavaToLua.coerce(command),
                         LuaValue.valueOf(label),
