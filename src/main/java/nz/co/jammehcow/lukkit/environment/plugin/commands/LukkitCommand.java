@@ -82,7 +82,7 @@ public class LukkitCommand extends Command {
             function.invoke(new LuaValue[]{
                     CoerceJavaToLua.coerce(sender),
                     CoerceJavaToLua.coerce(command),
-                    //LuaValue.valueOf(command),
+                    LuaValue.valueOf(this.getLabel()),
                     CoerceJavaToLua.coerce(args)
             });
         } catch (LukkitPluginException e) {
