@@ -25,13 +25,14 @@ public class YamlStorage extends StorageObject {
 
         try {
             this.yamlConfiguration.load(new FileReader(this.getStorageFile()));
-        } catch (IOException | InvalidConfigurationException e) { e.printStackTrace(); }
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected LuaBoolean exists(String path) {
-        // TODO
-        return LuaValue.FALSE;
+        return yamlConfiguration.get(path) == null ? LuaValue.TRUE : LuaValue.FALSE;
     }
 
     @Override
@@ -59,6 +60,8 @@ public class YamlStorage extends StorageObject {
         this.preSaveCheck();
         try {
             this.yamlConfiguration.save(this.getStorageFile());
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
