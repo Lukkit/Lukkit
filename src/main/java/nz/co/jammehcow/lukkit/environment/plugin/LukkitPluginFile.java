@@ -1,9 +1,12 @@
 package nz.co.jammehcow.lukkit.environment.plugin;
 
+import org.bukkit.plugin.InvalidDescriptionException;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 /**
@@ -28,7 +31,9 @@ public class LukkitPluginFile {
         if (!this.isDevPlugin) {
             try {
                 this.zipFile = new ZipFile(this.file);
-            } catch (IOException e) { e.printStackTrace(); }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -37,8 +42,11 @@ public class LukkitPluginFile {
      *
      * @return the config
      */
-    public InputStream getPluginYML() {
-        return this.getResource("plugin.yml");
+    public InputStream getPluginYML() throws InvalidDescriptionException {
+        InputStream pluginYml = this.getResource("plugin.yml");
+        if (pluginYml == null)
+            throw new InvalidDescriptionException("The description provided was missing.");
+        return pluginYml;
     }
 
     /**
@@ -54,13 +62,20 @@ public class LukkitPluginFile {
      * Gets a packaged resource from the plugin file and exports it to the plugin's datafolder.
      *
      * @param resource the name of the resource
-     * @return the resource as a File
+     * @return the resource as a File or null if not found
      */
     public InputStream getResource(String resource) {
         try {
-            if (this.isDevPlugin)
-                return new FileInputStream(new File(this.file.getAbsolutePath() + File.separator + resource));
-            return this.zipFile.getInputStream(this.zipFile.getEntry(resource));
+            if (this.isDevPlugin) {
+                File file = new File(this.file.getAbsolutePath() + File.separator + resource);
+                if (!file.exists())
+                    return null;
+                return new FileInputStream(file);
+            }
+            ZipEntry entry = this.zipFile.getEntry(resource);
+            if (entry == null)
+                return null;
+            return this.zipFile.getInputStream(entry);
         } catch (IOException e) {
             return null;
         }
