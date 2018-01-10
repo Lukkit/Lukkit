@@ -3,6 +3,7 @@ package nz.co.jammehcow.lukkit.environment.wrappers;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment.ObjectType;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
+import nz.co.jammehcow.lukkit.environment.plugin.wrappedClasses.Banner;
 import nz.co.jammehcow.lukkit.environment.plugin.wrappedClasses.Skull;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -43,6 +44,17 @@ public class BukkitWrapper extends LuaTable {
                 }
 
                 return CoerceJavaToLua.coerce(new Skull((item.isnil()) ? null : (ItemStack) item.touserdata()));
+            }
+        });
+
+        set("getBannerMeta", new OneArgFunction() {
+            @Override
+            public LuaValue call(LuaValue item) {
+                if (!item.isnil() && !(item.checkuserdata() instanceof ItemStack)) {
+                    throw new LukkitPluginException("bukkit.getBannerMeta was passed something other than an ItemStack.");
+                }
+
+                return CoerceJavaToLua.coerce(new Banner((item.isnil()) ? null : (ItemStack) item.touserdata()));
             }
         });
     }
