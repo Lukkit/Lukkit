@@ -217,7 +217,7 @@ public class Main extends JavaPlugin {
                             LukkitPlugin plugin = plugins.get(pluginName);
                             try {
                                 ((LukkitPluginLoader) plugin.getPluginLoader()).reloadPlugin(plugin);
-                            } catch (InvalidPluginException | InvalidDescriptionException e) {
+                            } catch (Exception e) {
                                 sender.sendMessage(ChatColor.RED + "There was an error reloading this plugin: " + e.getMessage() + "\nCheck the console for more information.");
                                 e.printStackTrace();
                             }
@@ -236,7 +236,7 @@ public class Main extends JavaPlugin {
                             LukkitPlugin plugin = plugins.get(pluginName);
                             try {
                                 ((LukkitPluginLoader) plugin.getPluginLoader()).unloadPlugin(plugin);
-                            } catch (InvalidPluginException | InvalidDescriptionException e) {
+                            } catch (Exception e) {
                                 sender.sendMessage(ChatColor.RED + "There was an error unloading this plugin: " + e.getMessage() + "\nCheck the console for more information.");
                                 e.printStackTrace();
                             }
