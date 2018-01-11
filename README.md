@@ -24,9 +24,9 @@ More examples can be found [here](https://github.com/artex-development/Lukkit/tr
 Add command /shout to broadcast a message to the server. Bear in mind that, at the moment, naming a command with a capital letter will stop the command from being deregistered when running /lukkit reload or /lukkit resetenv.
 ```lua
 -- Command name, short description, command usage
-local shoutCommand = lukkit.addCommand({name="shout",description="Broadcast a message to the server",usage="/shout <message>"}, function(sender, command, label, args)
+local shoutCommand = lukkit.addCommand({name="shout",description="Broadcast a message to the server",usage="/shout <message>"}, function(cmd)
   -- Collate all arguments into a string to broadcast globally.
-  plugin.getServer():broadcastMessage(table.concat(args, " "))
+  plugin.getServer():broadcastMessage(table.concat(cmd.getArgs(), " "))
 end)
 ```
 
@@ -67,7 +67,7 @@ plugin.onDisable(function()
 end)
 
 -- Add command
-local helloCommand = plugin.addCommand({name="hello",description="Send the sender the message 'Hello, world!'",usage="/hello"}, function(sender, command, label, args)
+local helloCommand = plugin.addCommand({name="hello",description="Send the sender the message 'Hello, world!'",usage="/hello"}, function(cmd)
     sender:sendMessage("Hello, world!")
 end)
 ```
