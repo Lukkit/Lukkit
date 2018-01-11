@@ -13,9 +13,8 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class LukkitCommand extends Command {
 
@@ -28,15 +27,20 @@ public class LukkitCommand extends Command {
     // TODO: Add options to use min/max args, set permission, set run async, and more helper functions
 
     public LukkitCommand(LukkitPlugin plugin, LuaFunction function, String name) {
-        this(plugin, function, name, "", new ArrayList<>());
+        this(plugin, function, name, "", "", new String[0]);
     }
 
     public LukkitCommand(LukkitPlugin plugin, LuaFunction function, String name, String description) {
-        this(plugin, function, name, description, new ArrayList<>());
+        this(plugin, function, name, description, "", new String[0]);
     }
 
-    public LukkitCommand(LukkitPlugin plugin, LuaFunction function, String name, String description, List<String> aliases) {
-        super(name.toLowerCase(), description, "", aliases);
+
+    public LukkitCommand(LukkitPlugin plugin, LuaFunction function, String name, String description, String usage) {
+        this(plugin, function, name, description, usage, new String[0]);
+    }
+
+    public LukkitCommand(LukkitPlugin plugin, LuaFunction function, String name, String description, String usage, String[] aliases) {
+        super(name.toLowerCase(), description, usage, Arrays.asList(aliases));
         this.function = function;
         this.plugin = plugin;
     }

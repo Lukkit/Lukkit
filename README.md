@@ -24,9 +24,9 @@ More examples can be found [here](https://github.com/artex-development/Lukkit/tr
 Add command /shout to broadcast a message to the server. Bear in mind that, at the moment, naming a command with a capital letter will stop the command from being deregistered when running /lukkit reload or /lukkit resetenv.
 ```lua
 -- Command name, short description, command usage
-lukkit.addCommand("shout", "Broadcast a message to the server", "/shout Your message here", function(sender, args)
-  -- Collate all arguments into dtring to broadcast globally.
-  broadcast(table.concat(args, " "))
+local shoutCommand = lukkit.addCommand({name="shout",description="Broadcast a message to the server",usage="/shout <message>"}, function(sender, command, label, args)
+  -- Collate all arguments into a string to broadcast globally.
+  plugin.getServer():broadcastMessage(table.concat(args, " "))
 end)
 ```
 
@@ -43,24 +43,31 @@ events.add("blockBreak", function(event)
 end)
 ```
 
-Register a new plugin called HelloPlugin. This should go in `..plugins/Lukkit/PROJECT_NAME/main.lua`.
-```lua
--- Register the plugin with a name, version and code. 
--- lukkit.addPlugin(pluginName, pluginVersion, pluginContent)
-local helloPlugin = lukkit.addPlugin("HelloPlugin", "1.0", function(plugin)
-  -- When the plugin is enabled (startup)
-  plugin.onEnable(function()
-    plugin.print("HelloPlugin v" .. plugin.version .. " enabled")
-  end)
+Register a new plugin called HelloPlugin. This should go in a directory named `..plugins/Lukkit/PROJECT_NAME.lkt`.
 
-  -- When the plugin is disabled (shutdown)
-  plugin.onDisable(function()
+`plugin.yml`
+```yaml
+name: HelloWorld
+main: main.lua
+version: 1.0
+description: My first Lukkit plugin
+author: Username
+```
+
+`main.lua`
+```lua
+-- When the plugin is enabled (startup)
+plugin.onEnable(function()
+    plugin.print("HelloPlugin v" .. plugin.version .. " enabled")
+end)
+
+-- When the plugin is disabled (shutdown)
+plugin.onDisable(function()
     plugin.warn("HelloPlugin v" .. plugin.version .. " disabled")
-  end)
-  
-  -- Add command
-  plugin.addCommand("hello", "Send the sender the message 'Hello, world!'", "/hello", function(sender, args)
+end)
+
+-- Add command
+local helloCommand = plugin.addCommand({name="hello",description="Send the sender the message 'Hello, world!'",usage="/hello"}, function(sender, command, label, args)
     sender:sendMessage("Hello, world!")
-  end)
 end)
 ```
