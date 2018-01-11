@@ -5,11 +5,13 @@ import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
 import nz.co.jammehcow.lukkit.environment.plugin.wrappedClasses.Banner;
 import nz.co.jammehcow.lukkit.environment.plugin.wrappedClasses.Skull;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
+import org.luaj.vm2.lib.ZeroArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
 /**
@@ -57,6 +59,15 @@ public class BukkitWrapper extends LuaTable {
                 return CoerceJavaToLua.coerce(new Banner((item.isnil()) ? null : (ItemStack) item.touserdata()));
             }
         });
+
+        set("getServer", new ZeroArgFunction() {
+            @Override
+            public LuaValue call() {
+                return CoerceJavaToLua.coerce(Bukkit.getServer());
+            }
+        });
+
+
     }
 
     @Override
