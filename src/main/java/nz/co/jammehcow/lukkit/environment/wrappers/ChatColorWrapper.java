@@ -6,7 +6,7 @@ import org.bukkit.ChatColor;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
-import org.luaj.vm2.lib.ZeroArgFunction;
+import org.luaj.vm2.lib.TwoArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
 /**
@@ -14,29 +14,6 @@ import org.luaj.vm2.lib.jse.CoerceJavaToLua;
  */
 
 public class ChatColorWrapper extends LuaTable {
-    public final ChatColor[] colors = {
-            ChatColor.DARK_BLUE,
-            ChatColor.DARK_GREEN,
-            ChatColor.DARK_AQUA,
-            ChatColor.DARK_RED,
-            ChatColor.DARK_PURPLE,
-            ChatColor.GOLD,
-            ChatColor.GRAY,
-            ChatColor.DARK_GRAY,
-            ChatColor.BLUE,
-            ChatColor.GREEN,
-            ChatColor.AQUA,
-            ChatColor.RED,
-            ChatColor.LIGHT_PURPLE,
-            ChatColor.YELLOW,
-            ChatColor.WHITE,
-            ChatColor.MAGIC,
-            ChatColor.BOLD,
-            ChatColor.STRIKETHROUGH,
-            ChatColor.UNDERLINE,
-            ChatColor.ITALIC,
-            ChatColor.RESET
-    };
 
     private LukkitPlugin plugin;
 
@@ -51,14 +28,37 @@ public class ChatColorWrapper extends LuaTable {
             }
         });
 
-        for (ChatColor color : colors) {
-            set(color.name().toLowerCase(), new ZeroArgFunction() {
-                @Override
-                public LuaValue call() {
-                    return CoerceJavaToLua.coerce(color.toString());
-                }
-            });
-        }
+        set("getLastColors", new OneArgFunction() {
+            @Override
+            public LuaValue call(LuaValue c) {
+                return CoerceJavaToLua.coerce(ChatColor.getLastColors(c.checkjstring()));
+            }
+        });
+
+        set("stripColor", new OneArgFunction() {
+            @Override
+            public LuaValue call(LuaValue c) {
+                return CoerceJavaToLua.coerce(ChatColor.stripColor(c.checkjstring()));
+            }
+        });
+
+        set("valueOf", new OneArgFunction() {
+            @Override
+            public LuaValue call(LuaValue c) {
+                return CoerceJavaToLua.coerce(ChatColor.valueOf(c.checkjstring()).toString());
+            }
+        });
+
+        set("translateAlternateColorCodes", new TwoArgFunction() {
+            @Override
+            public LuaValue call(LuaValue c, LuaValue s) {
+                return CoerceJavaToLua.coerce(ChatColor.translateAlternateColorCodes(c.checkjstring().charAt(0), s.checkjstring()));
+            }
+        });
+
+
+        for (ChatColor color : ChatColor.values())
+            set(color.name(), CoerceJavaToLua.coerce(color.toString()));
 
 
     }
