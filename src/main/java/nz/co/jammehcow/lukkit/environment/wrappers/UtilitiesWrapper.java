@@ -163,23 +163,6 @@ public class UtilitiesWrapper extends LuaTable {
                 return LuaValue.NIL;
             }
         });
-
-        set("getSenderType", new OneArgFunction() {
-            @Override
-            public LuaValue call(LuaValue arg) {
-                if (arg.isuserdata()) {
-                    if (arg.touserdata() instanceof Player) {
-                        return LuaString.valueOf("player");
-                    } else if (arg.touserdata() instanceof ConsoleCommandSender) {
-                        return LuaString.valueOf("console");
-                    } else if (arg.touserdata() instanceof BlockCommandSender) {
-                        return LuaString.valueOf("block");
-                    }
-                }
-
-                throw new LukkitPluginException("util.getSenderType() was passed a class not of the CommandSender type. If you got this via the onCommand method then report it to me on Github.");
-            }
-        });
     }
 
     @Override
