@@ -10,7 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.SimpleCommandMap;
 import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -84,10 +83,7 @@ public class LukkitCommand extends Command {
     public boolean execute(CommandSender sender, String command, String[] args) {
         try {
             function.invoke(new LuaValue[]{
-                    CoerceJavaToLua.coerce(sender),
-                    CoerceJavaToLua.coerce(command),
-                    LuaValue.valueOf(this.getLabel()),
-                    CoerceJavaToLua.coerce(args)
+                    new CommandEvent(sender, command, args)
             });
         } catch (LukkitPluginException e) {
             e.printStackTrace();

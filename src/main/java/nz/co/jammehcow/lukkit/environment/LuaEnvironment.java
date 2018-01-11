@@ -33,7 +33,8 @@ public class LuaEnvironment {
      */
     public enum ObjectType {
         WRAPPER(100, "Wrapper"),
-        STORAGE_OBJECT(101, "StorageObject");
+        STORAGE_OBJECT(101, "StorageObject"),
+        COMMAND_EVENT(102,"CommandEvent");
 
         public final int type;
         public final String name;
