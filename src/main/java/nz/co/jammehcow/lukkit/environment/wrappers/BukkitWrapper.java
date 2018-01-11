@@ -25,19 +25,6 @@ public class BukkitWrapper extends LuaTable {
     public BukkitWrapper(LukkitPlugin plugin) {
         this.plugin = plugin;
 
-        set("getMaterial", new OneArgFunction() {
-            @Override
-            public LuaValue call(LuaValue material) {
-                Material m = Material.getMaterial(material.checkjstring());
-
-                if (m == null) {
-                    throw new LukkitPluginException("Requested material " + material.tojstring() + " but a material by that name doesn't exist.");
-                }
-
-                return CoerceJavaToLua.coerce(m);
-            }
-        });
-
         set("getSkullMeta", new OneArgFunction() {
             @Override
             public LuaValue call(LuaValue item) {
