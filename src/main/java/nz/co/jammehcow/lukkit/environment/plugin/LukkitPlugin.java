@@ -90,7 +90,6 @@ public class LukkitPlugin implements Plugin {
         globals.set("plugin", new PluginWrapper(this));
         globals.set("logger", new LoggerWrapper(this));
         globals.set("util", new UtilitiesWrapper(this));
-        globals.set("bukkit", new BukkitWrapper(this));
         globals.set("config", new ConfigWrapper(this));
         globals.set("color", new ChatColorWrapper(this));
         globals.set("server", CoerceJavaToLua.coerce(getServer()));
