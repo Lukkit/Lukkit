@@ -96,6 +96,22 @@ public class PluginWrapper extends LuaTable {
 
 
                 command = new LukkitCommand(plugin, function, cmdName, cmdDescription, cmdUsage);
+
+                if (cmd.get("permission") != LuaValue.NIL)
+                    command.setPermission(cmd.get("permission").checkjstring());
+
+                if (cmd.get("permissionMessage") != LuaValue.NIL)
+                    command.setPermissionMessage(cmd.get("permissionMessage").checkjstring());
+
+                if (cmd.get("maxArgs") != LuaValue.NIL)
+                    command.setMaxArgs(cmd.get("maxArgs").checkint());
+
+                if (cmd.get("minArgs") != LuaValue.NIL)
+                    command.setMinArgs(cmd.get("minArgs").checkint());
+
+                if (cmd.get("runAsync") != LuaValue.NIL)
+                    command.setRunAsync(cmd.get("runAsync").checkboolean());
+
                 plugin.registerCommand(command);
                 return CoerceJavaToLua.coerce(command);
             }

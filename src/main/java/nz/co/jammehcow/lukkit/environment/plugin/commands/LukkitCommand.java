@@ -4,10 +4,12 @@ import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.SimpleCommandMap;
+import org.bukkit.scheduler.BukkitScheduler;
 import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.LuaValue;
 
@@ -16,6 +18,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class LukkitCommand extends Command {
+
+    private static final String ERROR_MISSING_ARGS = ChatColor.DARK_RED + "" + ChatColor.BOLD + "ERROR!" +
+            ChatColor.RED + " Missing args.";
+    private static final String ERROR_TOO_MANY_ARGS = ChatColor.DARK_RED + "" + ChatColor.BOLD + "ERROR!" +
+            ChatColor.RED + " Too many args.";
+    private static final String ERROR_INVALID_SENDER = ChatColor.DARK_RED + "" + ChatColor.BOLD + "ERROR!" +
+            ChatColor.RED + " You can not run this command.";
+    private static final String ERROR_NO_PERMISSION = ChatColor.DARK_RED + "" + ChatColor.BOLD + "ERROR!" +
+            ChatColor.RED + " No permission.";
 
     private final LuaFunction function;
     private final LukkitPlugin plugin;
@@ -81,14 +92,51 @@ public class LukkitCommand extends Command {
 
     @Override
     public boolean execute(CommandSender sender, String command, String[] args) {
+        if (!this.testPermissionSilent(sender)) {
+            sender.sendMessage(ERROR_NO_PERMISSION);
+            return true;
+        }
         try {
-            function.invoke(new LuaValue[]{
-                    new CommandEvent(sender, command, args)
-            });
+            if (args.length > maxArgs && maxArgs >= 0) {
+                sender.sendMessage(ERROR_TOO_MANY_ARGS);
+            } else if (args.length < minArgs) {
+                sender.sendMessage(ERROR_MISSING_ARGS);
+            } else {
+                if (runAsync) {
+                    BukkitScheduler scheduler = Bukkit.getScheduler();
+                    scheduler.runTaskAsynchronously(plugin, () -> function.invoke(new LuaValue[]{new CommandEvent(sender, command, args)}));
+                } else {
+                    function.invoke(new LuaValue[]{new CommandEvent(sender, command, args)});
+                }
+            }
         } catch (LukkitPluginException e) {
             e.printStackTrace();
             LuaEnvironment.addError(e);
         }
         return true;
+    }
+
+    public int getMaxArgs() {
+        return maxArgs;
+    }
+
+    public void setMaxArgs(int maxArgs) {
+        this.maxArgs = maxArgs;
+    }
+
+    public int getMinArgs() {
+        return minArgs;
+    }
+
+    public void setMinArgs(int minArgs) {
+        this.minArgs = minArgs;
+    }
+
+    public boolean isRunAsync() {
+        return runAsync;
+    }
+
+    public void setRunAsync(boolean runAsync) {
+        this.runAsync = runAsync;
     }
 }
