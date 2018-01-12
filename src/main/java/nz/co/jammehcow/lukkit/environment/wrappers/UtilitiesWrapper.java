@@ -3,10 +3,9 @@ package nz.co.jammehcow.lukkit.environment.wrappers;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment.ObjectType;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
-import org.bukkit.command.BlockCommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
-import org.luaj.vm2.LuaString;
+import nz.co.jammehcow.lukkit.environment.plugin.wrappedClasses.Banner;
+import nz.co.jammehcow.lukkit.environment.plugin.wrappedClasses.Skull;
+import org.bukkit.inventory.ItemStack;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
@@ -29,8 +28,8 @@ import java.util.stream.Stream;
  */
 
 public class UtilitiesWrapper extends LuaTable {
-    private LukkitPlugin plugin;
     private static Set<Class<?>> classes;
+
     static {
         List<ClassLoader> classLoadersList = new LinkedList<ClassLoader>();
         classLoadersList.add(ClasspathHelper.contextClassLoader());
@@ -43,6 +42,8 @@ public class UtilitiesWrapper extends LuaTable {
 
         classes = reflections.getSubTypesOf(Object.class);
     }
+
+    private LukkitPlugin plugin;
 
     public UtilitiesWrapper(LukkitPlugin plugin) {
         this.plugin = plugin;
@@ -102,7 +103,8 @@ public class UtilitiesWrapper extends LuaTable {
                     try {
                         if (delay != LuaValue.NIL) Thread.sleep(delay.checklong());
                         function.checkfunction().call();
-                    } catch (InterruptedException ignored) {}
+                    } catch (InterruptedException ignored) {
+                    }
                 });
 
                 thread.start();
@@ -161,6 +163,29 @@ public class UtilitiesWrapper extends LuaTable {
 
                 System.out.println("Not casting");
                 return LuaValue.NIL;
+            }
+        });
+
+
+        set("getSkullMeta", new OneArgFunction() {
+            @Override
+            public LuaValue call(LuaValue item) {
+                if (!item.isnil() && !(item.checkuserdata() instanceof ItemStack)) {
+                    throw new LukkitPluginException("bukkit.getSkullMeta was passed something other than an ItemStack.");
+                }
+
+                return CoerceJavaToLua.coerce(new Skull((item.isnil()) ? null : (ItemStack) item.touserdata()));
+            }
+        });
+
+        set("getBannerMeta", new OneArgFunction() {
+            @Override
+            public LuaValue call(LuaValue item) {
+                if (!item.isnil() && !(item.checkuserdata() instanceof ItemStack)) {
+                    throw new LukkitPluginException("bukkit.getBannerMeta was passed something other than an ItemStack.");
+                }
+
+                return CoerceJavaToLua.coerce(new Banner((item.isnil()) ? null : (ItemStack) item.touserdata()));
             }
         });
     }
