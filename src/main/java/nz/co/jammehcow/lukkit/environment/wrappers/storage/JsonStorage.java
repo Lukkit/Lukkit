@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
+import nz.co.jammehcow.lukkit.Utilitys;
 import nz.co.jammehcow.lukkit.environment.exception.StorageObjectException;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import org.luaj.vm2.LuaBoolean;
@@ -48,7 +49,7 @@ public class JsonStorage extends StorageObject {
 
     @Override
     public void setValue(LuaString path, LuaValue value) throws StorageObjectException {
-        object.add(path.checkjstring(), gson.toJsonTree(this.getObjectFromLuavalue(value)));
+        object.add(path.checkjstring(), gson.toJsonTree(Utilitys.getObjectFromLuavalue(value)));
     }
 
     @Override
