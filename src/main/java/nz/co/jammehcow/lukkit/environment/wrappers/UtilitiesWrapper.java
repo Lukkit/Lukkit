@@ -10,7 +10,6 @@ import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
-import org.luaj.vm2.lib.VarArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
@@ -96,7 +95,7 @@ public class UtilitiesWrapper extends LuaTable {
             }
         });
 
-        set("runAsync", new VarArgFunction() {
+        set("runAsync", new TwoArgFunction() {
             @Override
             public LuaValue call(LuaValue function, LuaValue delay) {
                 Thread thread = new Thread(() -> {
