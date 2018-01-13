@@ -1,5 +1,6 @@
 package nz.co.jammehcow.lukkit;
 
+import org.bukkit.event.Event;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 
@@ -72,5 +73,9 @@ public class Utilitys {
             return list;
         }
         return returnedMap;
+    }
+
+    public static boolean classIsEvent(Class<?> c) {
+        return Event.class.isAssignableFrom(c);
     }
 }

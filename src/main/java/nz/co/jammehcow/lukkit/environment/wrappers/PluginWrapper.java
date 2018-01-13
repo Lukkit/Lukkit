@@ -1,6 +1,7 @@
 package nz.co.jammehcow.lukkit.environment.wrappers;
 
 import nz.co.jammehcow.lukkit.Main;
+import nz.co.jammehcow.lukkit.Utilitys;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment.ObjectType;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
@@ -123,6 +124,12 @@ public class PluginWrapper extends LuaTable {
                 if (Main.events.containsKey(arg1.checkjstring())) {
                     plugin.registerEvent(Main.events.get(arg1.tojstring()), arg2.checkfunction());
                     return LuaValue.NIL;
+                } else try {
+                    Class<?> c = Class.forName(arg1.checkjstring());
+                    if (Utilitys.classIsEvent(c))
+                        plugin.registerEvent(c, arg2.checkfunction());
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
                 }
 
                 throw new LukkitPluginException("There was an issue trying to register the event " + arg1.tostring() + ". Is it a valid event name and properly capitalized?");
