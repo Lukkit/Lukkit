@@ -27,7 +27,7 @@ public class JsonStorage extends StorageObject {
 
         try {
             this.object = new JsonParser().parse(new JsonReader(new FileReader(this.getStorageFile()))).getAsJsonObject();
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | IllegalStateException e) {
             this.object = new JsonObject();
         }
     }

@@ -7,14 +7,17 @@ import org.luaj.vm2.LuaBoolean;
 import org.luaj.vm2.LuaString;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.ThreeArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
+import org.luaj.vm2.lib.ZeroArgFunction;
+import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * The abstract Storage class.
@@ -22,26 +25,10 @@ import java.util.HashMap;
  * @author jammehcow
  */
 public abstract class StorageObject extends LuaTable {
-    /**
-     * The enum Storage.
-     */
-    public enum Storage {
-        /**
-         * JSON storage.
-         */
-        JSON("json"),
-        /**
-         * YAML storage.
-         */
-        YAML("yaml");
-
-        private final String type;
-        Storage(String type) { this.type = type; }
-    }
-
     private File storageFile;
     private LukkitPlugin plugin;
     private Storage type;
+    private StorageObject self = this;
 
     /**
      * Instantiates a new StorageObject.
@@ -58,34 +45,31 @@ public abstract class StorageObject extends LuaTable {
         if (!this.storageFile.exists()) {
             try {
                 Files.createFile(this.storageFile.toPath());
-            } catch (IOException e) { e.printStackTrace(); }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
-        this.set("getType", new OneArgFunction() {
+        this.set("getType", new ZeroArgFunction() {
             @Override
-            public LuaValue call(LuaValue self) {
-                if (!self.typename().equals(StorageObject.this.typename())) throw new StorageObjectException("Expected call to StorageObject:getType() to be member call, not static call");
+            public LuaValue call() {
 
-                return LuaValue.valueOf(((StorageObject) self.touserdata()).getType().type);
+                return CoerceJavaToLua.coerce(self.getType().type);
             }
         });
 
         this.set("exists", new TwoArgFunction() {
             @Override
-            public LuaValue call(LuaValue self, LuaValue path) {
-                if (!self.typename().equals(StorageObject.this.typename())) throw new StorageObjectException("Expected call to StorageObject:exists() to be member call, not static call");
-
-                return ((StorageObject) self.touserdata()).exists(path.checkjstring());
+            public LuaValue call(LuaValue storage, LuaValue path) {
+                return self.exists(path.checkjstring());
             }
         });
 
         this.set("setDefaultValue", new ThreeArgFunction() {
             @Override
-            public LuaValue call(LuaValue self, LuaValue path, LuaValue value) {
-                if (!self.typename().equals(StorageObject.this.typename())) throw new StorageObjectException("Expected call to StorageObject:setDefaultValue() to be member method call, not static call");
-
+            public LuaValue call(LuaValue storage, LuaValue path, LuaValue value) {
                 try {
-                    return ((StorageObject) self.touserdata()).setDefaultValue(path.checkstring(), value);
+                    return self.setDefaultValue(path.checkstring(), value);
                 } catch (StorageObjectException e) {
                     return LuaValue.NIL;
                 }
@@ -94,11 +78,9 @@ public abstract class StorageObject extends LuaTable {
 
         this.set("setValue", new ThreeArgFunction() {
             @Override
-            public LuaValue call(LuaValue self, LuaValue path, LuaValue value) {
-                if (!self.typename().equals(StorageObject.this.typename())) throw new StorageObjectException("Expected call to StorageObject:setValue() to be member method call, not static call");
-
+            public LuaValue call(LuaValue storage, LuaValue path, LuaValue value) {
                 try {
-                    ((StorageObject) self.touserdata()).setValue(path.checkstring(), value);
+                    self.setValue(path.checkstring(), value);
                     return LuaValue.TRUE;
                 } catch (StorageObjectException e) {
                     return LuaValue.FALSE;
@@ -108,23 +90,19 @@ public abstract class StorageObject extends LuaTable {
 
         this.set("getValue", new TwoArgFunction() {
             @Override
-            public LuaValue call(LuaValue self, LuaValue path) {
-                if (!self.typename().equals(StorageObject.this.typename())) throw new StorageObjectException("Expected call to StorageObject:getValue() to be member method call, not static call");
-
+            public LuaValue call(LuaValue storage, LuaValue path) {
                 try {
-                    return ((StorageObject) self.touserdata()).getValue(path.checkstring());
+                    return self.getValue(path.checkstring());
                 } catch (StorageObjectException e) {
                     return LuaValue.NIL;
                 }
             }
         });
 
-        this.set("save", new OneArgFunction() {
+        this.set("save", new ZeroArgFunction() {
             @Override
-            public LuaValue call(LuaValue self) {
-                if (!self.typename().equals(StorageObject.this.typename())) throw new StorageObjectException("Expected call to StorageObject:save() to be member method call, not static call");
-
-                ((StorageObject) self.touserdata()).save();
+            public LuaValue call() {
+                self.save();
                 return LuaValue.NIL;
             }
         });
@@ -220,7 +198,9 @@ public abstract class StorageObject extends LuaTable {
         if (!this.storageFile.exists()) {
             try {
                 Files.createFile(this.storageFile.toPath());
-            } catch (IOException e) { e.printStackTrace(); }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -231,17 +211,81 @@ public abstract class StorageObject extends LuaTable {
      * @return the Java object
      */
     protected Object getObjectFromLuavalue(LuaValue value) {
-        return (value.istable()) ? this.tableToMap(value.checktable()) : value.checkuserdata();
+        if (value.istable()) {
+            return this.convertTable(value.checktable());
+        } else if (value.isstring()) {
+            return value.checkjstring();
+        } else if (value.isboolean()) {
+            return value.checkboolean();
+        } else if (value.islong()) {
+            return value.checklong();
+        } else if (value.isint()) {
+            return value.checkint();
+        } else if (value.isnil()) {
+            return null;
+        } else if (value.isnumber()) {
+            return value.checkdouble();
+        } else {
+            return value.checkuserdata();
+        }
     }
 
-    private HashMap<Object, Object> tableToMap(LuaTable table) {
+    private boolean isInteger(String str) {
+        if (str == null)
+            return false;
+        int length = str.length();
+        if (length == 0)
+            return false;
+        int i = 0;
+        if (str.charAt(0) == '-') {
+            if (length == 1)
+                return false;
+            i = 1;
+        }
+        for (; i < length; i++) {
+            char c = str.charAt(i);
+            if (c < '0' || c > '9')
+                return false;
+        }
+        return true;
+    }
+
+    private Object convertTable(LuaTable table) {
         HashMap<Object, Object> returnedMap = new HashMap<>();
+        boolean isArray = true;
         LuaValue[] keys = table.keys();
 
         for (LuaValue k : keys) {
+            if (!isInteger(k.tojstring()))
+                isArray = false;
             returnedMap.put(k.tojstring(), this.getObjectFromLuavalue(table.get(k)));
         }
 
+        if (isArray) {
+            List<String> list = new ArrayList<String>();
+            returnedMap.values().forEach(o -> list.add(o.toString()));
+            return list;
+        }
         return returnedMap;
+    }
+
+    /**
+     * The enum Storage.
+     */
+    public enum Storage {
+        /**
+         * JSON storage.
+         */
+        JSON("json"),
+        /**
+         * YAML storage.
+         */
+        YAML("yaml");
+
+        private final String type;
+
+        Storage(String type) {
+            this.type = type;
+        }
     }
 }
