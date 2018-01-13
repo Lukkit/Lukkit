@@ -165,6 +165,18 @@ public class UtilitiesWrapper extends LuaTable {
             }
         });
 
+        set("getClass", new OneArgFunction() {
+            @Override
+            public LuaValue call(LuaValue path) {
+                try {
+                    return CoerceJavaToLua.coerce(Class.forName(path.checkjstring()));
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                return NIL;
+            }
+        });
+
 
         set("getSkullMeta", new OneArgFunction() {
             @Override
