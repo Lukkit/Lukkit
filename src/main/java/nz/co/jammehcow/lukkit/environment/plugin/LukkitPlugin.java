@@ -5,8 +5,10 @@ import nz.co.jammehcow.lukkit.Main;
 import nz.co.jammehcow.lukkit.Utilitys;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
 import nz.co.jammehcow.lukkit.environment.plugin.commands.LukkitCommand;
-import nz.co.jammehcow.lukkit.environment.wrappers.*;
-import org.bukkit.Bukkit;
+import nz.co.jammehcow.lukkit.environment.wrappers.ConfigWrapper;
+import nz.co.jammehcow.lukkit.environment.wrappers.LoggerWrapper;
+import nz.co.jammehcow.lukkit.environment.wrappers.PluginWrapper;
+import nz.co.jammehcow.lukkit.environment.wrappers.UtilitiesWrapper;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -96,11 +98,38 @@ public class LukkitPlugin implements Plugin {
         globals.set("util", new UtilitiesWrapper(this));
         globals.set("config", new ConfigWrapper(this));
 
+        globals.set("require", new OneArgFunction() {
+            @Override
+            public LuaValue call(LuaValue luaValue) {
+                String path = luaValue.checkjstring();
+                if (!path.endsWith(".lua"))
+                    path += ".lua";
+
+                // Replace all but last dot
+                path = path.replaceAll("\\.(?=[^.]*\\.)", "/");
+
+                logger.info("Module: " + luaValue.checkjstring());
+                logger.info("Path: " + path);
+                try {
+                    return globals.load(new InputStreamReader(pluginFile.getResource(path), "UTF-8"), luaValue.checkjstring()).call();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                return NIL;
+
+            }
+        });
+
         globals.set("import", new OneArgFunction() {
             @Override
             public LuaValue call(LuaValue luaValue) {
                 try {
-                    return CoerceJavaToLua.coerce(Class.forName(luaValue.checkjstring()));
+                    String path = luaValue.checkjstring();
+                    if (path.startsWith("$"))
+                        path = "org.bukkit" + path.substring(1);
+                    if (path.startsWith("#"))
+                        path = "nz.co.jammehcow.lukkit.environment" + path.substring(1);
+                    return CoerceJavaToLua.coerce(Class.forName(path));
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -112,6 +141,10 @@ public class LukkitPlugin implements Plugin {
             public LuaValue call(LuaValue cls, LuaValue args) {
                 String classPath = cls.checkjstring();
                 try {
+                    if (classPath.startsWith("$"))
+                        classPath = "org.bukkit" + classPath.substring(1);
+                    if (classPath.startsWith("#"))
+                        classPath = "nz.co.jammehcow.lukkit.environment" + classPath.substring(1);
                     if (args.isnil()) {
                         return CoerceJavaToLua.coerce(Class.forName(classPath).newInstance());
                     } else if (args.istable()) {
