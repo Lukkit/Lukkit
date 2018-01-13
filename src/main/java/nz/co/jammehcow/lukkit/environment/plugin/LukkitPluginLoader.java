@@ -1,6 +1,10 @@
 package nz.co.jammehcow.lukkit.environment.plugin;
 
 import nz.co.jammehcow.lukkit.Main;
+import nz.co.jammehcow.lukkit.api.events.LukkitPluginDisableEvent;
+import nz.co.jammehcow.lukkit.api.events.LukkitPluginEnableEvent;
+import nz.co.jammehcow.lukkit.api.events.LukkitPluginLoadEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
@@ -52,9 +56,17 @@ public class LukkitPluginLoader implements PluginLoader {
 
     @Override
     public Plugin loadPlugin(File file) throws InvalidPluginException, UnknownDependencyException {
-        LukkitPlugin plugin = new LukkitPlugin(this, new LukkitPluginFile(file));
-        this.loadedPlugins.add(plugin);
-        return plugin;
+        LukkitPluginFile pluginFile = new LukkitPluginFile(file);
+
+        LukkitPluginLoadEvent event = new LukkitPluginLoadEvent(pluginFile);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+
+        if (!event.isCancelled()) {
+            LukkitPlugin plugin = new LukkitPlugin(this, pluginFile);
+            this.loadedPlugins.add(plugin);
+            return plugin;
+        }
+        return null;
     }
 
     @Override
@@ -78,12 +90,22 @@ public class LukkitPluginLoader implements PluginLoader {
 
     @Override
     public void enablePlugin(Plugin plugin) {
-        plugin.onEnable();
+        LukkitPluginEnableEvent event = new LukkitPluginEnableEvent((LukkitPlugin) plugin);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+
+        if (!event.isCancelled()) {
+            plugin.onEnable();
+        } else {
+            if (plugin.isEnabled())
+                Bukkit.getPluginManager().disablePlugin(plugin);
+        }
     }
 
     @SuppressWarnings("SuspiciousMethodCalls")
     @Override
     public void disablePlugin(Plugin plugin) {
+        LukkitPluginDisableEvent event = new LukkitPluginDisableEvent((LukkitPlugin) plugin);
+        Bukkit.getServer().getPluginManager().callEvent(event);
         plugin.onDisable();
         this.loadedPlugins.remove(plugin);
     }
