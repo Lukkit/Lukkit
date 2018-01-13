@@ -15,7 +15,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -163,10 +162,6 @@ public class LukkitPluginLoader implements PluginLoader {
                 names.remove(pName);
             }
         }
-
-        // Kill the plugin class
-        ClassLoader cl = plugin.getClass().getClassLoader();
-        ((URLClassLoader) cl).close();
 
         // Ask java to clean up
         System.gc();
