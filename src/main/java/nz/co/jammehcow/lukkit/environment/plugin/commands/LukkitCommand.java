@@ -1,5 +1,6 @@
 package nz.co.jammehcow.lukkit.environment.plugin.commands;
 
+import nz.co.jammehcow.lukkit.Utilitys;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
@@ -11,11 +12,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.luaj.vm2.LuaFunction;
+import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class LukkitCommand extends Command {
 
@@ -30,6 +34,7 @@ public class LukkitCommand extends Command {
 
     private final LuaFunction function;
     private final LukkitPlugin plugin;
+    private LuaFunction tabComleteFunction;
     private boolean registered = false;
     private boolean runAsync = false;
     private int minArgs = 0;
@@ -138,5 +143,30 @@ public class LukkitCommand extends Command {
 
     public void setRunAsync(boolean runAsync) {
         this.runAsync = runAsync;
+    }
+
+    @Override
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+        List<String> def = super.tabComplete(sender, alias, args);
+
+        if (tabComleteFunction != null) {
+            LuaValue val = tabComleteFunction.invoke(
+                    CoerceJavaToLua.coerce(sender),
+                    CoerceJavaToLua.coerce(alias),
+                    CoerceJavaToLua.coerce(args)
+            ).arg1();
+            if (val != LuaValue.NIL) {
+                LuaTable tbl = val.checktable();
+                Object o = Utilitys.convertTable(tbl);
+                if (o instanceof List)
+                    return (List<String>) o;
+            }
+        }
+        return def;
+    }
+
+
+    public void onTabComlete(LuaValue f) {
+        tabComleteFunction = f.checkfunction();
     }
 }
