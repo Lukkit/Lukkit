@@ -10,6 +10,7 @@ import nz.co.jammehcow.lukkit.environment.plugin.commands.LukkitCommand;
 import nz.co.jammehcow.lukkit.environment.wrappers.storage.JsonStorage;
 import nz.co.jammehcow.lukkit.environment.wrappers.storage.StorageObject;
 import nz.co.jammehcow.lukkit.environment.wrappers.storage.YamlStorage;
+import org.bukkit.event.Event;
 import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.LuaTable;
@@ -127,7 +128,7 @@ public class PluginWrapper extends LuaTable {
                 } else try {
                     Class<?> c = Class.forName(arg1.checkjstring());
                     if (Utilitys.classIsEvent(c))
-                        plugin.registerEvent(c, arg2.checkfunction());
+                        plugin.registerEvent((Class<? extends Event>) c, arg2.checkfunction());
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
