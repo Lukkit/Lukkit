@@ -2,9 +2,11 @@ package nz.co.jammehcow.lukkit.environment.plugin;
 
 import com.avaje.ebean.EbeanServer;
 import nz.co.jammehcow.lukkit.Main;
+import nz.co.jammehcow.lukkit.Utilitys;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
 import nz.co.jammehcow.lukkit.environment.plugin.commands.LukkitCommand;
 import nz.co.jammehcow.lukkit.environment.wrappers.*;
+import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -19,6 +21,8 @@ import org.bukkit.plugin.*;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.OneArgFunction;
+import org.luaj.vm2.lib.VarArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
 import java.io.*;
@@ -91,9 +95,41 @@ public class LukkitPlugin implements Plugin {
         globals.set("logger", new LoggerWrapper(this));
         globals.set("util", new UtilitiesWrapper(this));
         globals.set("config", new ConfigWrapper(this));
-        globals.set("color", new ChatColorWrapper(this));
-        globals.set("server", CoerceJavaToLua.coerce(getServer()));
-        globals.set("material", new MaterialWrapper(this));
+
+        globals.set("import", new OneArgFunction() {
+            @Override
+            public LuaValue call(LuaValue luaValue) {
+                try {
+                    return CoerceJavaToLua.coerce(Class.forName(luaValue.checkjstring()));
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                return NIL;
+            }
+        });
+        globals.set("newInstance", new VarArgFunction() {
+            @Override
+            public LuaValue call(LuaValue cls, LuaValue args) {
+                String classPath = cls.checkjstring();
+                try {
+                    if (args.isnil()) {
+                        return CoerceJavaToLua.coerce(Class.forName(classPath).newInstance());
+                    } else if (args.istable()) {
+                        List<Object> argList = (List<Object>) Utilitys.convertTable(args.checktable());
+                        List<Class<?>> typesList = new ArrayList<>();
+
+                        argList.forEach(o -> typesList.add(o.getClass()));
+
+                        return CoerceJavaToLua.coerce(Class.forName(classPath).getDeclaredConstructor(
+                                typesList.toArray(new Class<?>[0]))
+                                .newInstance(argList.toArray(new Object[0])));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return NIL;
+            }
+        });
 
         // Sets callbacks (if any) and loads the commands & events into memory.
         Optional<String> isValid = this.checkPluginValidity();
