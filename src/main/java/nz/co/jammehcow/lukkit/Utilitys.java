@@ -68,8 +68,8 @@ public class Utilitys {
         }
 
         if (isArray) {
-            List<String> list = new ArrayList<String>();
-            returnedMap.values().forEach(o -> list.add(o.toString()));
+            List<Object> list = new ArrayList<>();
+            returnedMap.values().forEach(o -> list.add(o));
             return list;
         }
         return returnedMap;
