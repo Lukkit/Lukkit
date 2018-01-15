@@ -57,6 +57,13 @@ public class LukkitPluginLoader implements PluginLoader {
     public Plugin loadPlugin(File file) throws InvalidPluginException, UnknownDependencyException {
         LukkitPluginFile pluginFile = new LukkitPluginFile(file);
 
+        try {
+            Main.instance.getLogger().info("Loading " + new PluginDescriptionFile(pluginFile.getPluginYML()).getFullName());
+        } catch (InvalidDescriptionException e) {
+            e.printStackTrace();
+            throw new InvalidPluginException("Error while loading " + file.getName() + ".");
+        }
+
         LukkitPluginLoadEvent event = new LukkitPluginLoadEvent(pluginFile);
         Bukkit.getServer().getPluginManager().callEvent(event);
 
@@ -89,6 +96,7 @@ public class LukkitPluginLoader implements PluginLoader {
 
     @Override
     public void enablePlugin(Plugin plugin) {
+        Main.instance.getLogger().info("Enabling " + plugin.getDescription().getFullName());
         LukkitPluginEnableEvent event = new LukkitPluginEnableEvent((LukkitPlugin) plugin);
         Bukkit.getServer().getPluginManager().callEvent(event);
 
@@ -103,6 +111,7 @@ public class LukkitPluginLoader implements PluginLoader {
     @SuppressWarnings("SuspiciousMethodCalls")
     @Override
     public void disablePlugin(Plugin plugin) {
+        Main.instance.getLogger().info("Disabling " + plugin.getDescription().getFullName());
         LukkitPluginDisableEvent event = new LukkitPluginDisableEvent((LukkitPlugin) plugin);
         Bukkit.getServer().getPluginManager().callEvent(event);
         plugin.onDisable();
