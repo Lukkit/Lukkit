@@ -129,6 +129,7 @@ public class PluginWrapper extends LuaTable {
                     Class<?> c = Class.forName(arg1.checkjstring());
                     if (Utilitys.classIsEvent(c))
                         plugin.registerEvent((Class<? extends Event>) c, arg2.checkfunction());
+                    return LuaValue.NIL;
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }

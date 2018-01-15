@@ -7,6 +7,7 @@ import nz.co.jammehcow.lukkit.api.events.LukkitPluginLoadEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.event.Event;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.*;
 
@@ -114,6 +115,7 @@ public class LukkitPluginLoader implements PluginLoader {
         Main.instance.getLogger().info("Disabling " + plugin.getDescription().getFullName());
         LukkitPluginDisableEvent event = new LukkitPluginDisableEvent((LukkitPlugin) plugin);
         Bukkit.getServer().getPluginManager().callEvent(event);
+        HandlerList.unregisterAll(plugin);
         plugin.onDisable();
         this.loadedPlugins.remove(plugin);
     }

@@ -50,7 +50,7 @@ public class LukkitPlugin implements Plugin {
     private final File dataFolder;
     private final Logger logger;
     private final List<LukkitCommand> commands = new ArrayList<>();
-    private final HashMap<String, ArrayList<LuaFunction>> eventCallbacks = new HashMap<>();
+    private final HashMap<Class<? extends Event>, ArrayList<LuaFunction>> eventListeners = new HashMap<>();
     private LuaFunction loadCB;
     private LuaFunction enableCB;
     private LuaFunction disableCB;
@@ -276,8 +276,11 @@ public class LukkitPlugin implements Plugin {
             LuaEnvironment.addError(e);
         }
 
-        Main.events.forEach((s, e) -> this.getServer().getPluginManager().registerEvent(e, new Listener() {
-        }, EventPriority.NORMAL, (listener, event) -> this.onEvent(event), this, false));
+        eventListeners.forEach((event, list) ->
+                list.forEach(function ->
+                        this.getServer().getPluginManager().registerEvent(event, new Listener() {
+                        }, EventPriority.NORMAL, (l, e) -> function.call(CoerceJavaToLua.coerce(e)), this, false)
+                ));
     }
 
     @Override
@@ -364,36 +367,19 @@ public class LukkitPlugin implements Plugin {
     }
 
     public void registerEvent(Class<? extends Event> event, LuaFunction function) {
-        if (this.getEventCallbacks(event.getSimpleName()) == null) {
-            ArrayList<LuaFunction> list = new ArrayList<>();
-            list.add(function);
-            this.eventCallbacks.put(event.getSimpleName(), list);
-        } else {
-            this.eventCallbacks.get(event.getSimpleName()).add(function);
-        }
+        getEventListeners(event).add(function);
+        if (this.enabled)
+            this.getServer().getPluginManager().registerEvent(event, new Listener() {
+            }, EventPriority.NORMAL, (l, e) -> function.call(CoerceJavaToLua.coerce(e)), this, false);
     }
 
     public LukkitPluginFile getPluginFile() {
         return this.pluginFile;
     }
 
-    private ArrayList<LuaFunction> getEventCallbacks(String simpleName) {
-        return this.eventCallbacks.get(simpleName);
-    }
-
-    private void onEvent(Event e) {
-        ArrayList<LuaFunction> callbacks = this.getEventCallbacks(e.getClass().getSimpleName());
-        if (callbacks != null) callbacks.forEach((f) -> {
-            try {
-                f.call(CoerceJavaToLua.coerce(Class.forName(e.getClass().getName()).cast(e)));
-            } catch (ClassNotFoundException ex) {
-                this.logger.severe("Unable to cast event of type " + e.getEventName() + " to object. Event will not be handled by this plugin. I'd recommend that you send your plugin and the stacktrace to the developer on GitHub via an issue.");
-                ex.printStackTrace();
-            } catch (LukkitPluginException ex) {
-                ex.printStackTrace();
-                LuaEnvironment.addError(ex);
-            }
-        });
+    private ArrayList<LuaFunction> getEventListeners(Class<? extends Event> event) {
+        this.eventListeners.computeIfAbsent(event, k -> new ArrayList<>());
+        return this.eventListeners.get(event);
     }
 
     // TODO: combine both config methods into one.
