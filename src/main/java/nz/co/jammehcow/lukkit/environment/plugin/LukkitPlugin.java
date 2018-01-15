@@ -108,8 +108,6 @@ public class LukkitPlugin implements Plugin {
                 // Replace all but last dot
                 path = path.replaceAll("\\.(?=[^.]*\\.)", "/");
 
-                logger.info("Module: " + luaValue.checkjstring());
-                logger.info("Path: " + path);
                 try {
                     return globals.load(new InputStreamReader(pluginFile.getResource(path), "UTF-8"), luaValue.checkjstring()).call();
                 } catch (UnsupportedEncodingException e) {
