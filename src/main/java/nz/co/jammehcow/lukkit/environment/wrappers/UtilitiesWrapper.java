@@ -4,6 +4,7 @@ import nz.co.jammehcow.lukkit.environment.LuaEnvironment.ObjectType;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
 import nz.co.jammehcow.lukkit.environment.plugin.wrappedClasses.Banner;
+import nz.co.jammehcow.lukkit.environment.plugin.wrappedClasses.LukkitItemStack;
 import nz.co.jammehcow.lukkit.environment.plugin.wrappedClasses.Skull;
 import org.bukkit.inventory.ItemStack;
 import org.luaj.vm2.LuaTable;
@@ -199,6 +200,19 @@ public class UtilitiesWrapper extends LuaTable {
                 return CoerceJavaToLua.coerce(new Banner((item.isnil()) ? null : (ItemStack) item.touserdata()));
             }
         });
+
+        set("parseItemStack", new OneArgFunction() {
+            @Override
+            public LuaValue call(LuaValue item) {
+                if (!item.isnil() && !(item.checkuserdata() instanceof ItemStack)) {
+                    throw new LukkitPluginException("parseItemStack was given something other than an ItemStack");
+                }
+
+                return CoerceJavaToLua.coerce(new LukkitItemStack((ItemStack) item.touserdata()));
+            }
+        });
+
+
     }
 
     @Override
