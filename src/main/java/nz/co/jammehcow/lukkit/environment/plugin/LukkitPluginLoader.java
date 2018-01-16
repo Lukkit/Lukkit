@@ -60,7 +60,7 @@ public class LukkitPluginLoader implements PluginLoader {
 
         try {
             PluginDescriptionFile descriptionFile = new PluginDescriptionFile(pluginFile.getPluginYML());
-            System.out.println("[" + descriptionFile.getPrefix() + "] Loading " + descriptionFile.getFullName());
+            System.out.println("[" + descriptionFile.getName() + "] Loading " + descriptionFile.getFullName());
         } catch (InvalidDescriptionException e) {
             e.printStackTrace();
             throw new InvalidPluginException("Error while loading " + file.getName() + ".");
