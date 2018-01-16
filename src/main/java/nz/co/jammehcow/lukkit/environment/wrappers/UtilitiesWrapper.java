@@ -62,7 +62,7 @@ public class UtilitiesWrapper extends LuaTable {
 
                 LuaTable t = new LuaTable();
                 for (int i = 0; i < list.length; i++) {
-                    t.set(LuaValue.valueOf(i + 1), ConfigWrapper.castObject(list[i]));
+                    t.set(LuaValue.valueOf(i + 1), CoerceJavaToLua.coerce(list[i]));
                 }
 
                 return t;
@@ -81,7 +81,7 @@ public class UtilitiesWrapper extends LuaTable {
                 }
 
                 LuaTable t = new LuaTable();
-                map.forEach((k, v) -> t.set(ConfigWrapper.castObject(k), ConfigWrapper.castObject(v)));
+                map.forEach((k, v) -> t.set(CoerceJavaToLua.coerce(k), CoerceJavaToLua.coerce(v)));
 
                 return t;
             }
