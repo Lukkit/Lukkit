@@ -58,7 +58,10 @@ public class CommandEvent extends LuaTable {
         this.set("getArgs", new ZeroArgFunction() {
             @Override
             public LuaValue call() {
-                return CoerceJavaToLua.coerce(args);
+                LuaTable tbl = new LuaTable();
+                for (int i = 0; i < args.length; i++)
+                    tbl.set(i + 1, args[i]);
+                return tbl;
             }
         });
 
