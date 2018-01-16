@@ -52,6 +52,16 @@ public class YamlStorage extends StorageObject {
     }
 
     @Override
+    protected LuaBoolean clearVaule(LuaString path) throws StorageObjectException {
+        if (this.yamlConfiguration.get(path.checkjstring()) == null) {
+            this.yamlConfiguration.set(path.checkjstring(), null);
+            return LuaValue.TRUE;
+        }
+
+        return LuaValue.FALSE;
+    }
+
+    @Override
     public LuaValue getValue(LuaString path) throws StorageObjectException {
         return CoerceJavaToLua.coerce(this.yamlConfiguration.get(path.tojstring()));
     }

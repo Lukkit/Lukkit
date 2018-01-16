@@ -53,6 +53,15 @@ public class JsonStorage extends StorageObject {
     }
 
     @Override
+    protected LuaBoolean clearVaule(LuaString path) throws StorageObjectException {
+        if (object.has(path.checkjstring())) {
+            object.remove(path.checkjstring());
+            return LuaValue.TRUE;
+        }
+        return LuaValue.FALSE;
+    }
+
+    @Override
     public LuaValue getValue(LuaString path) throws StorageObjectException {
         return CoerceJavaToLua.coerce(object.get(path.checkjstring()));
     }

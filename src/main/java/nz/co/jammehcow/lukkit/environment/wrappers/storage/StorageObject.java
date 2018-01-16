@@ -15,9 +15,6 @@ import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * The abstract Storage class.
@@ -99,6 +96,17 @@ public abstract class StorageObject extends LuaTable {
             }
         });
 
+        this.set("clearVaule", new TwoArgFunction() {
+            @Override
+            public LuaValue call(LuaValue storage, LuaValue path) {
+                try {
+                    return self.clearVaule(path.checkstring());
+                } catch (StorageObjectException e) {
+                    return LuaValue.NIL;
+                }
+            }
+        });
+
         this.set("save", new ZeroArgFunction() {
             @Override
             public LuaValue call() {
@@ -140,6 +148,7 @@ public abstract class StorageObject extends LuaTable {
      * @param path  the path of the key
      * @param value the value
      * @return true if the value is set, false if not
+     * @throws StorageObjectException
      */
     protected abstract LuaBoolean setDefaultValue(LuaString path, LuaValue value) throws StorageObjectException;
 
@@ -148,14 +157,24 @@ public abstract class StorageObject extends LuaTable {
      *
      * @param path  the path of the key
      * @param value the value
+     * @throws StorageObjectException
      */
     protected abstract void setValue(LuaString path, LuaValue value) throws StorageObjectException;
+
+    /**
+     * Clears a value
+     *
+     * @param path the path of the key
+     * @throws StorageObjectException
+     */
+    protected abstract LuaBoolean clearVaule(LuaString path) throws StorageObjectException;
 
     /**
      * Gets the value of a key.
      *
      * @param path the path of the key
      * @return the Object value
+     * @throws StorageObjectException
      */
     protected abstract LuaValue getValue(LuaString path) throws StorageObjectException;
 
