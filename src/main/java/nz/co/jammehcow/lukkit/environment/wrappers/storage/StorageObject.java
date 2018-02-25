@@ -96,7 +96,7 @@ public abstract class StorageObject extends LuaTable {
             }
         });
 
-        this.set("clearVaule", new TwoArgFunction() {
+        this.set("clearValue", new TwoArgFunction() {
             @Override
             public LuaValue call(LuaValue storage, LuaValue path) {
                 try {
