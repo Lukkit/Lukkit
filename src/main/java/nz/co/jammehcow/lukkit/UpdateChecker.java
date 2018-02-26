@@ -13,6 +13,8 @@ import java.util.ArrayList;
  * @author jammehcow
  */
 public class UpdateChecker {
+    // If the repo ever gets moved again this should make it easier.
+    private static final String GITHUB_ORG = "artex-development";
     /**
      * Check for updates against the GitHub repo releases page.
      *
@@ -20,7 +22,7 @@ public class UpdateChecker {
      */
     public static void checkForUpdates(String pluginVersion) {
         try {
-            HttpResponse<JsonNode> res = Unirest.get("https://api.github.com/repos/jammehcow/Lukkit/releases/latest").asJson();
+            HttpResponse<JsonNode> res = Unirest.get("https://api.github.com/repos/" + GITHUB_ORG + "/Lukkit/releases/latest").asJson();
             String tagName = res.getBody().getObject().getString("tag_name").replace("v", "");
 
             if (isOutOfDate(pluginVersion.split("-")[0], tagName)) {
