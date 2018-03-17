@@ -2,7 +2,8 @@ name: Lukkit
 main: nz.co.jammehcow.lukkit.Main
 version: 2.0.0-dev
 
-authors: [AL_1,jammehcow,UnwrittenFun,No_lifer]
+author: ArtexDevelopment
+authors: [jammehcow, AL_1, mathhulk]
 
 commands:
   lukkit:
