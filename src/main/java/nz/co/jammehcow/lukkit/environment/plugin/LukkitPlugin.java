@@ -2,7 +2,7 @@ package nz.co.jammehcow.lukkit.environment.plugin;
 
 import com.avaje.ebean.EbeanServer;
 import nz.co.jammehcow.lukkit.Main;
-import nz.co.jammehcow.lukkit.Utilitys;
+import nz.co.jammehcow.lukkit.Utilities;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
 import nz.co.jammehcow.lukkit.environment.plugin.commands.LukkitCommand;
 import nz.co.jammehcow.lukkit.environment.wrappers.ConfigWrapper;
@@ -146,7 +146,7 @@ public class LukkitPlugin implements Plugin {
                     if (args.isnil()) {
                         return CoerceJavaToLua.coerce(Class.forName(classPath).newInstance());
                     } else if (args.istable()) {
-                        List<Object> argList = (List<Object>) Utilitys.convertTable(args.checktable());
+                        List<Object> argList = (List<Object>) Utilities.convertTable(args.checktable());
                         List<Class<?>> typesList = new ArrayList<>();
 
                         argList.forEach(o -> typesList.add(o.getClass()));

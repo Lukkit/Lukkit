@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Utilitys {
+public class Utilities {
 
     /**
      * Gets the Java object from a LuaValue.

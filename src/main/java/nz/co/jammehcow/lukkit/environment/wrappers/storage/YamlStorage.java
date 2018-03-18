@@ -1,6 +1,6 @@
 package nz.co.jammehcow.lukkit.environment.wrappers.storage;
 
-import nz.co.jammehcow.lukkit.Utilitys;
+import nz.co.jammehcow.lukkit.Utilities;
 import nz.co.jammehcow.lukkit.environment.exception.StorageObjectException;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -39,7 +39,7 @@ public class YamlStorage extends StorageObject {
     @Override
     public LuaBoolean setDefaultValue(LuaString path, LuaValue value) throws StorageObjectException {
         if (this.yamlConfiguration.get(path.checkjstring()) == null) {
-            this.yamlConfiguration.set(path.checkjstring(), Utilitys.getObjectFromLuavalue(value));
+            this.yamlConfiguration.set(path.checkjstring(), Utilities.getObjectFromLuavalue(value));
             return LuaValue.TRUE;
         }
 
@@ -48,7 +48,7 @@ public class YamlStorage extends StorageObject {
 
     @Override
     public void setValue(LuaString path, LuaValue value) throws StorageObjectException {
-        this.yamlConfiguration.set(path.checkjstring(), Utilitys.getObjectFromLuavalue(value));
+        this.yamlConfiguration.set(path.checkjstring(), Utilities.getObjectFromLuavalue(value));
     }
 
     @Override

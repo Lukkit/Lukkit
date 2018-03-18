@@ -1,7 +1,7 @@
 package nz.co.jammehcow.lukkit.environment.wrappers;
 
 import nz.co.jammehcow.lukkit.Main;
-import nz.co.jammehcow.lukkit.Utilitys;
+import nz.co.jammehcow.lukkit.Utilities;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment.ObjectType;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
@@ -127,7 +127,7 @@ public class PluginWrapper extends LuaTable {
                     return LuaValue.NIL;
                 } else try {
                     Class<?> c = Class.forName(arg1.checkjstring());
-                    if (Utilitys.classIsEvent(c))
+                    if (Utilities.classIsEvent(c))
                         plugin.registerEvent((Class<? extends Event>) c, arg2.checkfunction());
                     return LuaValue.NIL;
                 } catch (ClassNotFoundException e) {

@@ -1,6 +1,6 @@
 package nz.co.jammehcow.lukkit.environment.plugin.commands;
 
-import nz.co.jammehcow.lukkit.Utilitys;
+import nz.co.jammehcow.lukkit.Utilities;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
@@ -157,7 +157,7 @@ public class LukkitCommand extends Command {
             ).arg1();
             if (val != LuaValue.NIL) {
                 LuaTable tbl = val.checktable();
-                Object o = Utilitys.convertTable(tbl);
+                Object o = Utilities.convertTable(tbl);
                 if (o instanceof List)
                     return (List<String>) o;
             }
