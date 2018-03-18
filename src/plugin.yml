@@ -2,8 +2,8 @@ name: Lukkit
 main: unwrittenfun.minecraft.lukkit.Lukkit
 version: 1.1.4-beta
 
-author: UnwrittenFun
-authors: [jammehcow]
+author: ArtexDevelopment
+authors: [jammehcow, AL_1, mathhulk]
 
 commands:
   lukkit:
