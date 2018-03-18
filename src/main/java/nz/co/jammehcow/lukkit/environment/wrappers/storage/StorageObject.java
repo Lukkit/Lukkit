@@ -37,7 +37,9 @@ public abstract class StorageObject extends LuaTable {
     public StorageObject(LukkitPlugin plugin, String path, Storage type) {
         this.type = type;
         this.plugin = plugin;
-        this.storageFile = new File(this.plugin.getDataFolder().getAbsolutePath() + File.separator + path);
+
+        String filteredPath = (path.startsWith(File.separator)) ? path : File.separator + path;
+        this.storageFile = new File(this.plugin.getDataFolder().getAbsolutePath() + filteredPath);
 
         if (!this.storageFile.exists()) {
             try {

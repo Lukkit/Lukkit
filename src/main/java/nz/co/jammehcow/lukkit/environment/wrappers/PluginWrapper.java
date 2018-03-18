@@ -174,8 +174,7 @@ public class PluginWrapper extends LuaTable {
             @Override
             public LuaValue call(LuaValue path) {
                 StorageObject.Storage type;
-                String stringPath = (path.checkjstring().startsWith("/")) ?
-                        path.checkjstring() : "/" + path.checkjstring();
+                String stringPath = path.checkjstring();
 
                 if (stringPath.toLowerCase().endsWith(".json")) {
                     type = StorageObject.Storage.JSON;
