@@ -122,16 +122,37 @@ public class PluginWrapper extends LuaTable {
         set("registerEvent", new TwoArgFunction() {
             @Override
             public LuaValue call(LuaValue arg1, LuaValue arg2) {
-                if (Main.events.containsKey(arg1.checkjstring())) {
-                    plugin.registerEvent(Main.events.get(arg1.tojstring()), arg2.checkfunction());
+
+                String eventName = arg1.checkjstring();
+                LuaFunction callback = arg2.checkfunction();
+
+                if (Main.events.containsKey(eventName)) {
+                    // Check and see if the event is in the main event list
+                    plugin.registerEvent(Main.events.get(arg1.tojstring()), callback);
                     return LuaValue.NIL;
                 } else try {
-                    Class<?> c = Class.forName(arg1.checkjstring());
-                    if (Utilities.classIsEvent(c))
-                        plugin.registerEvent((Class<? extends Event>) c, arg2.checkfunction());
-                    return LuaValue.NIL;
+                    // Try to see if the event is a class path, for custom events
+                    Class<?> c = Class.forName(eventName);
+                    if (Utilities.classIsEvent(c) && c != null) {
+                        plugin.registerEvent((Class<? extends Event>) c, callback);
+                        return LuaValue.NIL;
+                    }
                 } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+                    // Attempt to find the event Bukkit again
+                    String[] events = {"block", "enchantment", "entity", "hanging", "inventory", "player", "server",
+                            "vehicle", "weather", "world"};
+
+                    for (String pkg : events) {
+                        try {
+                            Class<?> c = Class.forName("org.bukkit.event." + pkg + "." + eventName);
+                            if (Utilities.classIsEvent(c) && c != null) {
+                                plugin.registerEvent((Class<? extends Event>) c, callback);
+                                return LuaValue.NIL;
+                            }
+                        } catch (ClassNotFoundException ignored) {
+                            // This would spam the console anytime an event is registered if we print the stack trace
+                        }
+                    }
                 }
 
                 throw new LukkitPluginException("There was an issue trying to register the event " + arg1.tostring() + ". Is it a valid event name and properly capitalized?");
