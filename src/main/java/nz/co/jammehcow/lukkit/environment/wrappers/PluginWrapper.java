@@ -199,7 +199,7 @@ public class PluginWrapper extends LuaTable {
 
                 if (stringPath.toLowerCase().endsWith(".json")) {
                     type = StorageObject.Storage.JSON;
-                } else if (stringPath.toLowerCase().endsWith(".yml")) {
+                } else if (stringPath.toLowerCase().endsWith(".yml") || stringPath.toLowerCase().endsWith(".yaml")) {
                     type = StorageObject.Storage.YAML;
                 } else {
                     LuaError error = new LuaError("The provided file for a storage object was not a JSON or YAML file.");
