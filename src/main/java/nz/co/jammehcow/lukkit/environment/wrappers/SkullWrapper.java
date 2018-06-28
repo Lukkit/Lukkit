@@ -1,4 +1,4 @@
-package nz.co.jammehcow.lukkit.environment.plugin.wrappedClasses;
+package nz.co.jammehcow.lukkit.environment.wrappers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -14,12 +14,12 @@ import org.luaj.vm2.lib.jse.CoerceJavaToLua;
  * @author jammehcow
  */
 
-public class Skull extends LuaTable {
+public class SkullWrapper extends LuaTable {
     private ItemStack skull;
     private SkullMeta meta;
-    private Skull self;
+    private SkullWrapper self;
 
-    public Skull(ItemStack skullItem) {
+    public SkullWrapper(ItemStack skullItem) {
         this.skull = (skullItem == null) ? new ItemStack(Material.SKULL_ITEM, 1) : skull;
         this.self = this; // Allows access from setOwner() since this is populate by the function.
 

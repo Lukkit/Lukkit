@@ -1,6 +1,5 @@
-package nz.co.jammehcow.lukkit.environment.plugin.wrappedClasses;
+package nz.co.jammehcow.lukkit.environment.wrappers;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -15,24 +14,24 @@ import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.ZeroArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
-public class LukkitItemStack extends LuaTable {
+public class ItemStackWrapper extends LuaTable {
 
     private final ItemStack item;
     private ItemMeta meta;
 
-    public LukkitItemStack(Material mat) {
+    public ItemStackWrapper(Material mat) {
         this(new ItemStack(mat));
     }
 
-    public LukkitItemStack(Material mat, int amt) {
+    public ItemStackWrapper(Material mat, int amt) {
         this(new ItemStack(mat, amt));
     }
 
-    public LukkitItemStack(Material mat, int amt, short d) {
+    public ItemStackWrapper(Material mat, int amt, short d) {
         this(new ItemStack(mat, amt, d));
     }
 
-    public LukkitItemStack(ItemStack item) {
+    public ItemStackWrapper(ItemStack item) {
         this.item = item;
         this.meta = item.getItemMeta();
 

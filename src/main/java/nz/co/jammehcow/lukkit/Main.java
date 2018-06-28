@@ -174,129 +174,130 @@ public class Main extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().startsWith("lukkit")) {
-            if (args.length != 0) {
-                // Set the String "cmd" to the first arg and remove the arg from the "args" array.
-                String cmd = args[0];
-                // Get a new array with the first arg omitted
-                args = (String[]) ArrayUtils.remove(args, 0);
-
-                if (cmd.equalsIgnoreCase("help")) {
-                    // Send the help message to the user
-                    sender.sendMessage(getHelpMessage());
-                } else if (cmd.equalsIgnoreCase("plugins")) {
-                    // Create a new StringBuilder object with "Lukkit Plugins:" as a prefix.
-                    StringBuilder sb = new StringBuilder().append(ChatColor.GREEN).append("Lukkit Plugins:").append(ChatColor.YELLOW);
-
-                    this.iteratePlugins((p) -> {
-                        // Add the name to the list
-                        sb.append("\n  - ").append(p.getName());
-                        // Check if a description for the plugin exists
-                        if (p.getDescription().getDescription() != null) {
-                            // Add the description to the line
-                            sb.append(": ").append(p.getDescription().getDescription());
-                        }
-                    });
-
-                    // Send the message
-                    sender.sendMessage(sb.toString());
-                    return true;
-                } else if (cmd.equalsIgnoreCase("dev")) {
-                    if (args.length == 0) {
-                        // Send the dev help message
-                        sender.sendMessage(getDevHelpMessage());
-                    } else if (args[0].equalsIgnoreCase("reload")) {
-                        // Create a new HashMap to store LukkitPlugins by name
-                        HashMap<String, LukkitPlugin> plugins = new HashMap<>();
-                        // Iterate over the plugins and add them to the map by lower-cased name
-                        this.iteratePlugins(p -> plugins.put(p.getName().toLowerCase(), p));
-
-                        String pluginName = String.join(" ", Arrays.copyOfRange(args, 1, args.length)).toLowerCase();
-
-                        if (plugins.containsKey(pluginName)) {
-                            LukkitPlugin plugin = plugins.get(pluginName);
-                            try {
-                                ((LukkitPluginLoader) plugin.getPluginLoader()).reloadPlugin(plugin);
-                            } catch (Exception e) {
-                                sender.sendMessage(ChatColor.RED + "There was an error reloading this plugin: " + e.getMessage() + "\nCheck the console for more information.");
-                                e.printStackTrace();
-                            }
-                        } else {
-                            sender.sendMessage("The specified plugin \"" + args[1] + "\" does not exist.");
-                        }
-                    } else if (args[0].equalsIgnoreCase("unload")) {
-                        // Create a new HashMap to store LukkitPlugins by name
-                        HashMap<String, LukkitPlugin> plugins = new HashMap<>();
-                        // Iterate over the plugins and add them to the map by lower-cased name
-                        this.iteratePlugins(p -> plugins.put(p.getName().toLowerCase(), p));
-
-                        String pluginName = String.join(" ", Arrays.copyOfRange(args, 1, args.length)).toLowerCase();
-
-                        if (plugins.containsKey(pluginName)) {
-                            LukkitPlugin plugin = plugins.get(pluginName);
-                            try {
-                                ((LukkitPluginLoader) plugin.getPluginLoader()).unloadPlugin(plugin);
-                            } catch (Exception e) {
-                                sender.sendMessage(ChatColor.RED + "There was an error unloading this plugin: " + e.getMessage() + "\nCheck the console for more information.");
-                                e.printStackTrace();
-                            }
-                        } else {
-                            sender.sendMessage("The specified plugin \"" + args[1] + "\" does not exist.");
-                        }
-                    } else if (args[0].equalsIgnoreCase("pack")) {
-                        // Zip the plugin
-                        this.zipOperation(ZipOperation.PACKAGE, sender, args);
-                    } else if (args[0].equalsIgnoreCase("unpack")) {
-                        // Unzip the plugin
-                        this.zipOperation(ZipOperation.UNPACK, sender, args);
-                    } else if (args[0].equalsIgnoreCase("last-error")) {
-                        Optional<Exception> err = LuaEnvironment.getLastError();
-                        if (err.isPresent()) {
-                            sender.sendMessage(err.get().getMessage());
-                            err.get().printStackTrace();
-                        } else {
-                            sender.sendMessage("There was no error to get.");
-                        }
-                    } else if (args[0].equalsIgnoreCase("errors")) {
-                        // Get all the errors off of the stack
-                        Optional<Stream<Exception>> errors = LuaEnvironment.getErrors();
-
-                        // Check if the errors list equals null (returned if empty)
-                        if (errors.isPresent()) {
-                            // Check if the only arg is the "errors" sub-command
-                            if (args.length == 1) {
-                                // Get all the non-null error objects
-
-                                errors.get().forEach(exception -> {
-                                    // Send each error message to the player and print the stack trace
-                                    sender.sendMessage(exception.getMessage());
-                                    exception.printStackTrace();
-                                });
-                            } else {
-                                try {
-                                    // Get the error at the specified index
-                                    LuaError error = ((LuaError[]) errors.get().toArray())[Integer.parseInt(args[2])];
-
-                                    // Send the error message to the player and print the stack trace
-                                    sender.sendMessage(error.getMessage());
-                                    error.printStackTrace();
-                                } catch (NumberFormatException e) {
-                                    sender.sendMessage(ChatColor.RED + args[1] + " cannot be converted to an integer.");
-                                } catch (ArrayIndexOutOfBoundsException e) {
-                                    sender.sendMessage(ChatColor.RED + args[1] + " is out of bounds in the stack. Should be between 1 & " + errors.get().count());
-                                }
-                            }
-                        } else {
-                            sender.sendMessage("There are no errors to display!");
-                        }
-                    } else sender.sendMessage(getDevHelpMessage());
-                }
-            } else sender.sendMessage(getHelpMessage());
-
+        if (!command.getName().startsWith("lukkit"))
+            return false;
+        if (args.length == 0) {
+            sender.sendMessage(getHelpMessage());
             return true;
         }
 
-        return false;
+        // Set the String "cmd" to the first arg and remove the arg from the "args" array.
+        String cmd = args[0];
+        // Get a new array with the first arg omitted
+        args = (String[]) ArrayUtils.remove(args, 0);
+
+        if (cmd.equalsIgnoreCase("help")) {
+            // Send the help message to the user
+            sender.sendMessage(getHelpMessage());
+        } else if (cmd.equalsIgnoreCase("plugins")) {
+            // Create a new StringBuilder object with "Lukkit Plugins:" as a prefix.
+            StringBuilder sb = new StringBuilder().append(ChatColor.GREEN).append("Lukkit Plugins:").append(ChatColor.YELLOW);
+
+            this.iteratePlugins((p) -> {
+                // Add the name to the list
+                sb.append("\n  - ").append(p.getName());
+                // Check if a description for the plugin exists
+                if (p.getDescription().getDescription() != null) {
+                    // Add the description to the line
+                    sb.append(": ").append(p.getDescription().getDescription());
+                }
+            });
+
+            // Send the message
+            sender.sendMessage(sb.toString());
+            return true;
+        } else if (cmd.equalsIgnoreCase("dev")) {
+            if (args.length == 0) {
+                // Send the dev help message
+                sender.sendMessage(getDevHelpMessage());
+            } else if (args[0].equalsIgnoreCase("reload")) {
+                // Create a new HashMap to store LukkitPlugins by name
+                HashMap<String, LukkitPlugin> plugins = new HashMap<>();
+                // Iterate over the plugins and add them to the map by lower-cased name
+                this.iteratePlugins(p -> plugins.put(p.getName().toLowerCase(), p));
+
+                String pluginName = String.join(" ", Arrays.copyOfRange(args, 1, args.length)).toLowerCase();
+
+                if (plugins.containsKey(pluginName)) {
+                    LukkitPlugin plugin = plugins.get(pluginName);
+                    try {
+                        ((LukkitPluginLoader) plugin.getPluginLoader()).reloadPlugin(plugin);
+                    } catch (Exception e) {
+                        sender.sendMessage(ChatColor.RED + "There was an error reloading this plugin: " + e.getMessage() + "\nCheck the console for more information.");
+                        e.printStackTrace();
+                    }
+                } else {
+                    sender.sendMessage("The specified plugin \"" + args[1] + "\" does not exist.");
+                }
+            } else if (args[0].equalsIgnoreCase("unload")) {
+                // Create a new HashMap to store LukkitPlugins by name
+                HashMap<String, LukkitPlugin> plugins = new HashMap<>();
+                // Iterate over the plugins and add them to the map by lower-cased name
+                this.iteratePlugins(p -> plugins.put(p.getName().toLowerCase(), p));
+
+                String pluginName = String.join(" ", Arrays.copyOfRange(args, 1, args.length)).toLowerCase();
+
+                if (plugins.containsKey(pluginName)) {
+                    LukkitPlugin plugin = plugins.get(pluginName);
+                    try {
+                        ((LukkitPluginLoader) plugin.getPluginLoader()).unloadPlugin(plugin);
+                    } catch (Exception e) {
+                        sender.sendMessage(ChatColor.RED + "There was an error unloading this plugin: " + e.getMessage() + "\nCheck the console for more information.");
+                        e.printStackTrace();
+                    }
+                } else {
+                    sender.sendMessage("The specified plugin \"" + args[1] + "\" does not exist.");
+                }
+            } else if (args[0].equalsIgnoreCase("pack")) {
+                // Zip the plugin
+                this.zipOperation(ZipOperation.PACKAGE, sender, args);
+            } else if (args[0].equalsIgnoreCase("unpack")) {
+                // Unzip the plugin
+                this.zipOperation(ZipOperation.UNPACK, sender, args);
+            } else if (args[0].equalsIgnoreCase("last-error")) {
+                Optional<Exception> err = LuaEnvironment.getLastError();
+                if (err.isPresent()) {
+                    sender.sendMessage(err.get().getMessage());
+                    err.get().printStackTrace();
+                } else {
+                    sender.sendMessage("There was no error to get.");
+                }
+            } else if (args[0].equalsIgnoreCase("errors")) {
+                // Get all the errors off of the stack
+                Optional<Stream<Exception>> errors = LuaEnvironment.getErrors();
+
+                // Check if the errors list equals null (returned if empty)
+                if (errors.isPresent()) {
+                    // Check if the only arg is the "errors" sub-command
+                    if (args.length == 1) {
+                        // Get all the non-null error objects
+
+                        errors.get().forEach(exception -> {
+                            // Send each error message to the player and print the stack trace
+                            sender.sendMessage(exception.getMessage());
+                            exception.printStackTrace();
+                        });
+                    } else {
+                        try {
+                            // Get the error at the specified index
+                            LuaError error = ((LuaError[]) errors.get().toArray())[Integer.parseInt(args[2])];
+
+                            // Send the error message to the player and print the stack trace
+                            sender.sendMessage(error.getMessage());
+                            error.printStackTrace();
+                        } catch (NumberFormatException e) {
+                            sender.sendMessage(ChatColor.RED + args[1] + " cannot be converted to an integer.");
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            sender.sendMessage(ChatColor.RED + args[1] + " is out of bounds in the stack. Should be between 1 & " + errors.get().count());
+                        }
+                    }
+                } else {
+                    sender.sendMessage("There are no errors to display!");
+                }
+            } else sender.sendMessage(getDevHelpMessage());
+        }
+
+        return true;
     }
 
     private void checkConfig() {

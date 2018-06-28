@@ -3,9 +3,6 @@ package nz.co.jammehcow.lukkit.environment.wrappers;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment.ObjectType;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
-import nz.co.jammehcow.lukkit.environment.plugin.wrappedClasses.Banner;
-import nz.co.jammehcow.lukkit.environment.plugin.wrappedClasses.LukkitItemStack;
-import nz.co.jammehcow.lukkit.environment.plugin.wrappedClasses.Skull;
 import org.bukkit.inventory.ItemStack;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
@@ -186,7 +183,7 @@ public class UtilitiesWrapper extends LuaTable {
                     throw new LukkitPluginException("bukkit.getSkullMeta was passed something other than an ItemStack.");
                 }
 
-                return CoerceJavaToLua.coerce(new Skull((item.isnil()) ? null : (ItemStack) item.touserdata()));
+                return CoerceJavaToLua.coerce(new SkullWrapper((item.isnil()) ? null : (ItemStack) item.touserdata()));
             }
         });
 
@@ -197,7 +194,7 @@ public class UtilitiesWrapper extends LuaTable {
                     throw new LukkitPluginException("bukkit.getBannerMeta was passed something other than an ItemStack.");
                 }
 
-                return CoerceJavaToLua.coerce(new Banner((item.isnil()) ? null : (ItemStack) item.touserdata()));
+                return CoerceJavaToLua.coerce(new BannerWrapper((item.isnil()) ? null : (ItemStack) item.touserdata()));
             }
         });
 
@@ -208,7 +205,7 @@ public class UtilitiesWrapper extends LuaTable {
                     throw new LukkitPluginException("parseItemStack was given something other than an ItemStack");
                 }
 
-                return CoerceJavaToLua.coerce(new LukkitItemStack((ItemStack) item.touserdata()));
+                return CoerceJavaToLua.coerce(new ItemStackWrapper((ItemStack) item.touserdata()));
             }
         });
 

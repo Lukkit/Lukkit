@@ -1,4 +1,4 @@
-package nz.co.jammehcow.lukkit.environment.plugin.wrappedClasses;
+package nz.co.jammehcow.lukkit.environment.wrappers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -14,12 +14,12 @@ import org.luaj.vm2.lib.jse.CoerceJavaToLua;
  * @author AL_1
  */
 
-public class Banner extends LuaTable {
+public class BannerWrapper extends LuaTable {
     private ItemStack banner;
     private BannerMeta meta;
-    private Banner self;
+    private BannerWrapper self;
 
-    public Banner(ItemStack bannerItem) {
+    public BannerWrapper(ItemStack bannerItem) {
         this.banner = (bannerItem == null) ? new ItemStack(Material.BANNER, 1) : banner;
         this.self = this; // Allows access from setOwner() since this is populate by the function.
 
