@@ -205,6 +205,7 @@ public class PluginWrapper extends LuaTable {
                     LuaError error = new LuaError("The provided file for a storage object was not a JSON or YAML file.");
                     LuaEnvironment.addError(error);
                     throw error;
+
                 }
 
 
