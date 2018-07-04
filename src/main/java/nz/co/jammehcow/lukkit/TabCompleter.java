@@ -49,6 +49,18 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
                                 args[0].equalsIgnoreCase("unpack")) {
                             return getFilteredCompletions(args[1], pluginArr);
                         }
+                    } else if (args[0].equalsIgnoreCase("errors")) {
+                        Optional<Stream<Exception>> errors = LuaEnvironment.getErrors();
+
+                        errors.ifPresent(exceptionStream -> exceptionStream.forEach(new Consumer<Exception>() {
+                            int count = 0;
+
+                            @Override
+                            public void accept(Exception e) {
+                                tabComplete.add(String.valueOf(count));
+                                count++;
+                            }
+                        }));
                     }
                 }
             }
