@@ -206,6 +206,7 @@ public class Main extends JavaPlugin {
                     LukkitPlugin plugin = plugins.get(pluginName);
                     try {
                         ((LukkitPluginLoader) plugin.getPluginLoader()).reloadPlugin(plugin);
+                        sender.sendMessage(ChatColor.GREEN + "Successfully reloaded " + plugin.getName());
                     } catch (Exception e) {
                         sender.sendMessage(ChatColor.RED + "There was an error reloading this plugin: " + e.getMessage() + "\nCheck the console for more information.");
                         e.printStackTrace();
@@ -225,6 +226,7 @@ public class Main extends JavaPlugin {
                     LukkitPlugin plugin = plugins.get(pluginName);
                     try {
                         ((LukkitPluginLoader) plugin.getPluginLoader()).unloadPlugin(plugin);
+                        sender.sendMessage(ChatColor.GREEN + "Successfully unloaded " + plugin.getName());
                     } catch (Exception e) {
                         sender.sendMessage(ChatColor.RED + "There was an error unloading this plugin: " + e.getMessage() + "\nCheck the console for more information.");
                         e.printStackTrace();
@@ -328,8 +330,10 @@ public class Main extends JavaPlugin {
                 if ((operation == ZipOperation.PACKAGE) == plugin.isDevPlugin()) {
                     if (operation == ZipOperation.PACKAGE) {
                         ZipUtil.unexplode(plugin.getFile());
+                        sender.sendMessage(ChatColor.GREEN + "Successfully packed " + plugin.getName());
                     } else {
                         ZipUtil.explode(plugin.getFile());
+                        sender.sendMessage(ChatColor.GREEN + "Successfully unpacked " + plugin.getName());
                     }
                 } else {
                     sender.sendMessage("The specified plugin \"" + plugin.getName() + "\" is already " + ((operation == ZipOperation.PACKAGE) ? "packaged" : "unpacked") + ".");
