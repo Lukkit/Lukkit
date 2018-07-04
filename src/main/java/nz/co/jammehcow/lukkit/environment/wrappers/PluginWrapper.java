@@ -126,11 +126,7 @@ public class PluginWrapper extends LuaTable {
                 String eventName = arg1.checkjstring();
                 LuaFunction callback = arg2.checkfunction();
 
-                if (Main.events.containsKey(eventName)) {
-                    // Check and see if the event is in the main event list
-                    plugin.registerEvent(Main.events.get(arg1.tojstring()), callback);
-                    return LuaValue.NIL;
-                } else try {
+                try {
                     // Try to see if the event is a class path, for custom events
                     Class<?> c = Class.forName(eventName);
                     if (Utilities.classIsEvent(c) && c != null) {

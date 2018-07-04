@@ -42,24 +42,10 @@ public class Main extends JavaPlugin {
      */
     public static Main instance;
     /**
-     * The events collected at runtime to match plugin event registrations against.
-     */
-    public static HashMap<String, Class<? extends Event>> events = new HashMap<>();
-    /**
      * The Logger for Lukkit.
      */
     static Logger logger;
     private static long loadTime = 0;
-
-    static {
-        // TODO: It works, sure, but it's shit.
-        // Get all the events in the Bukkit events package
-        Reflections reflections = new Reflections("org.bukkit.event");
-        // Iterate through the events and add their name + class object to the events HashMap
-        reflections.getSubTypesOf(Event.class).forEach(c -> {
-            if (reflections.getSubTypesOf(c).isEmpty()) events.put(c.getSimpleName(), c);
-        });
-    }
 
     // The server-wide PluginManager
     private PluginManager pluginManager;

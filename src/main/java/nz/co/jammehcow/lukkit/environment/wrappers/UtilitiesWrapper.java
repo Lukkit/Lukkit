@@ -9,12 +9,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
-import org.reflections.Reflections;
-import org.reflections.scanners.ResourcesScanner;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
-import org.reflections.util.FilterBuilder;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -25,20 +19,6 @@ import java.util.stream.Stream;
  */
 
 public class UtilitiesWrapper extends LuaTable {
-    private static Set<Class<?>> classes;
-
-    static {
-        List<ClassLoader> classLoadersList = new LinkedList<ClassLoader>();
-        classLoadersList.add(ClasspathHelper.contextClassLoader());
-        classLoadersList.add(ClasspathHelper.staticClassLoader());
-
-        Reflections reflections = new Reflections(new ConfigurationBuilder()
-                .setScanners(new SubTypesScanner(false), new ResourcesScanner())
-                .setUrls(ClasspathHelper.forClassLoader(classLoadersList.toArray(new ClassLoader[0])))
-                .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix("org.bukkit"))));
-
-        classes = reflections.getSubTypesOf(Object.class);
-    }
 
     private LukkitPlugin plugin;
 
@@ -130,35 +110,6 @@ public class UtilitiesWrapper extends LuaTable {
 
                 execService.shutdown();
                 notify();
-                return LuaValue.NIL;
-            }
-        });
-
-        set("castObject", new TwoArgFunction() {
-            @Override
-            public LuaValue call(LuaValue object, LuaValue cast) {
-                plugin.getLogger().warning("Don't rely on utils.castObject() for your plugin. It's intended to only be used for Lukkit's development or testing. It isn't supported by the devs.");
-                Class<?> obj = null;
-
-                for (Class<?> clazz : classes) {
-                    if (Objects.equals(clazz.getSimpleName(), cast.tojstring())) {
-                        System.out.println("Found the class to cast with");
-                        obj = clazz;
-                        break;
-                    }
-                }
-
-                if (obj != null) {
-                    try {
-                        System.out.println("Casting");
-                        return CoerceJavaToLua.coerce(Class.forName(obj.getName()).cast(object.touserdata()));
-                    } catch (ClassNotFoundException e) {
-                        System.out.println("Failed cast");
-                        return LuaValue.NIL;
-                    }
-                }
-
-                System.out.println("Not casting");
                 return LuaValue.NIL;
             }
         });
