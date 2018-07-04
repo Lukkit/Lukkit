@@ -130,8 +130,7 @@ public class PluginWrapper extends LuaTable {
                     // Try to see if the event is a class path, for custom events
                     Class<?> c = Class.forName(eventName);
                     if (Utilities.classIsEvent(c) && c != null) {
-                        plugin.registerEvent((Class<? extends Event>) c, callback);
-                        return LuaValue.NIL;
+                        return CoerceJavaToLua.coerce(plugin.registerEvent((Class<? extends Event>) c, callback));
                     }
                 } catch (ClassNotFoundException e) {
                     // Attempt to find the event Bukkit again
@@ -142,8 +141,7 @@ public class PluginWrapper extends LuaTable {
                         try {
                             Class<?> c = Class.forName("org.bukkit.event." + pkg + "." + eventName);
                             if (Utilities.classIsEvent(c) && c != null) {
-                                plugin.registerEvent((Class<? extends Event>) c, callback);
-                                return LuaValue.NIL;
+                                return CoerceJavaToLua.coerce(plugin.registerEvent((Class<? extends Event>) c, callback));
                             }
                         } catch (ClassNotFoundException ignored) {
                             // This would spam the console anytime an event is registered if we print the stack trace

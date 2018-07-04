@@ -5,6 +5,7 @@ import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
 import org.bukkit.inventory.ItemStack;
 import org.luaj.vm2.LuaTable;
+import org.luaj.vm2.LuaUserdata;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
@@ -37,6 +38,20 @@ public class UtilitiesWrapper extends LuaTable {
                 } else {
                     throw new LukkitPluginException("util.tableFromList(obj) was passed something other than an instance of Collection or Stream.");
                 }
+
+                LuaTable t = new LuaTable();
+                for (int i = 0; i < list.length; i++) {
+                    t.set(LuaValue.valueOf(i + 1), CoerceJavaToLua.coerce(list[i]));
+                }
+
+                return t;
+            }
+        });
+
+        set("getTableFromArray", new OneArgFunction() {
+            @Override
+            public LuaValue call(LuaValue arg) {
+                Object[] list = (Object[]) arg.touserdata();
 
                 LuaTable t = new LuaTable();
                 for (int i = 0; i < list.length; i++) {
@@ -159,8 +174,6 @@ public class UtilitiesWrapper extends LuaTable {
                 return CoerceJavaToLua.coerce(new ItemStackWrapper((ItemStack) item.touserdata()));
             }
         });
-
-
     }
 
     @Override

@@ -366,11 +366,15 @@ public class LukkitPlugin implements Plugin {
         this.disableCB = cb;
     }
 
-    public void registerEvent(Class<? extends Event> event, LuaFunction function) {
+    public Listener registerEvent(Class<? extends Event> event, LuaFunction function) {
         getEventListeners(event).add(function);
-        if (this.enabled)
-            this.getServer().getPluginManager().registerEvent(event, new Listener() {
-            }, EventPriority.NORMAL, (l, e) -> function.call(CoerceJavaToLua.coerce(e)), this, false);
+        if (this.enabled) {
+            Listener listener = new Listener() {
+            };
+
+            this.getServer().getPluginManager().registerEvent(event, listener, EventPriority.NORMAL, (l, e) -> function.call(CoerceJavaToLua.coerce(e)), this, false);
+        }
+        return null;
     }
 
     public LukkitPluginFile getPluginFile() {

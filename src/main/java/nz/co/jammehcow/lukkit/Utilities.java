@@ -19,18 +19,18 @@ public class Utilities {
     public static Object getObjectFromLuavalue(LuaValue value) {
         if (value.istable()) {
             return convertTable(value.checktable());
+        } else if (value.isint()) {
+            return value.checkint();
+        } else if (value.islong()) {
+            return value.checklong();
+        } else if (value.isnumber()) {
+            return value.checkdouble();
         } else if (value.isstring()) {
             return value.checkjstring();
         } else if (value.isboolean()) {
             return value.checkboolean();
-        } else if (value.islong()) {
-            return value.checklong();
-        } else if (value.isint()) {
-            return value.checkint();
         } else if (value.isnil()) {
             return null;
-        } else if (value.isnumber()) {
-            return value.checkdouble();
         } else {
             return value.checkuserdata();
         }
