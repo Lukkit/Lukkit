@@ -23,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
@@ -61,23 +62,23 @@ public class Main extends JavaPlugin {
 
     private static String getHelpMessage() {
         return ChatColor.GREEN + "Lukkit commands:\n" +
-                ChatColor.YELLOW + "  - \"/lukkit\" - The root command for all commands (shows this message)\n" +
-                "  - \"/lukkit help\" - Displays this message\n" +
-                "  - \"/lukkit run (lua code)\" - Runs the specified code as command arguments\n" +
-                "  - \"/lukkit plugins\" - Lists all enabled plugins\n" +
-                "  - \"/lukkit dev\" - Contains all developer commands. Prints out the dev help message";
+                ChatColor.YELLOW + "  - \"/lukkit\" " + ChatColor.GRAY + "- The root command for all commands (shows this message)\n" +
+                ChatColor.YELLOW + "  - \"/lukkit help\" " + ChatColor.GRAY + "- Displays this message\n" +
+                ChatColor.YELLOW + "  - \"/lukkit run (lua code)\" " + ChatColor.GRAY + "- Runs the specified code as command arguments\n" +
+                ChatColor.YELLOW + "  - \"/lukkit plugins\" " + ChatColor.GRAY + "- Lists all enabled plugins\n" +
+                ChatColor.YELLOW + "  - \"/lukkit dev\" " + ChatColor.GRAY + "- Contains all developer commands. Prints out the dev help message";
     }
 
     private static String getDevHelpMessage() {
         return ChatColor.GREEN + "Lukkit dev commands:\n" +
-                ChatColor.YELLOW + "  - \"/lukkit dev\" - The root command for developer actions (shows this message)\n" +
-                "  - \"/lukkit dev reload (plugin name)\" - Reloads the source file and clears all loaded requires\n" +
-                "  - \"/lukkit dev unload (plugin name)\" - Unloads the source file and clears all loaded requires\n" +
-                "  - \"/lukkit dev pack (plugin name)\" - Packages the plugin (directory) into a .lkt file for publishing\n" +
-                "  - \"/lukkit dev unpack (plugin name)\" - Unpacks the plugin (.lkt) to a directory based plugin\n" +
-                "  - \"/lukkit dev last-error\" - Gets the last error thrown by a plugin and sends the message to the sender. Also prints the stacktrace to the console.\n" +
-                "  - \"/lukkit dev errors [index]\" - Either prints out all 10 errors with stacktraces or prints out the specified error at the given index [1 - 10]\n" +
-                "  - \"/lukkit dev help\" - Shows this message";
+                ChatColor.YELLOW + "  - \"/lukkit dev\" " + ChatColor.GRAY + "- The root command for developer actions (shows this message)\n" +
+                ChatColor.YELLOW + "  - \"/lukkit dev reload (plugin name)\" " + ChatColor.GRAY + "- Reloads the source file and clears all loaded requires\n" +
+                ChatColor.YELLOW + "  - \"/lukkit dev unload (plugin name)\" " + ChatColor.GRAY + "- Unloads the source file and clears all loaded requires\n" +
+                ChatColor.YELLOW + "  - \"/lukkit dev pack (plugin name)\" " + ChatColor.GRAY + "- Packages the plugin (directory) into a .lkt file for publishing\n" +
+                ChatColor.YELLOW + "  - \"/lukkit dev unpack (plugin name)\" " + ChatColor.GRAY + "- Unpacks the plugin (.lkt) to a directory based plugin\n" +
+                ChatColor.YELLOW + "  - \"/lukkit dev last-error\" " + ChatColor.GRAY + "- Gets the last error thrown by a plugin and sends the message to the sender. Also prints the stacktrace to the console.\n" +
+                ChatColor.YELLOW + "  - \"/lukkit dev errors [index]\" " + ChatColor.GRAY + "- Either prints out all 10 errors with stacktraces or prints out the specified error at the given index [1 - 10]\n" +
+                ChatColor.YELLOW + "  - \"/lukkit dev help\" " + ChatColor.GRAY + "- Shows this message";
     }
 
     @Override
