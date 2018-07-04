@@ -21,10 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -312,7 +309,7 @@ public class Main extends JavaPlugin {
         }
     }
 
-    private void iteratePlugins(Consumer<LukkitPlugin> call) {
+    void iteratePlugins(Consumer<LukkitPlugin> call) {
         for (Plugin plugin : this.pluginManager.getPlugins()) {
             if (plugin instanceof LukkitPlugin) {
                 call.accept((LukkitPlugin) plugin);
