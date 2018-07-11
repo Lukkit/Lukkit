@@ -134,7 +134,7 @@ public class LukkitPlugin implements Plugin {
                 return NIL;
             }
         });
-        globals.set("new_instance", new VarArgFunction() {
+        globals.set("newInstance", new VarArgFunction() {
             @Override
             public LuaValue call(LuaValue cls, LuaValue args) {
                 String classPath = cls.checkjstring();
