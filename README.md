@@ -1,5 +1,5 @@
 # Lukkit
-=======
+
 Lukkit allows developers to create Bukkit plugins quickly and easily using the lua scripting language.
 
 Since it was first release by UnwrittenFun, Lukkit has moved from developer to developer. Although updates have been rolling out from time to time, no one person has been able to continue maintaining Lukkit. However, we are trying to change that. 
