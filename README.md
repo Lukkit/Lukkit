@@ -13,3 +13,8 @@ The Discord guild has been moved [here](https://discord.gg/mhsyabW).
 Because of the amount of updates and changes that have gone into Lukkit, the old wiki pages have been removed and new documentation is being created. Information in the current wiki is subject to change at any time and may not be reliable as of right now.
 
 Check out the new wiki [here](https://lukkit.net).
+
+## Branch Conventions
+
+``master`` contains the latest released version of the code.
+``dev`` is the actively developed branch. Upon a release, it will be merged into ``master``.
