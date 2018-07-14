@@ -9,6 +9,7 @@ UnwrittenFun and jammehcow have made the greatest contributions to Lukkit and we
 The Discord guild has been moved [here](https://discord.gg/mhsyabW).
 
 ## Wiki
+
 Because of the amount of updates and changes that have gone into Lukkit, the old wiki pages have been removed and new documentation is being created. Information in the current wiki is subject to change at any time and may not be reliable as of right now.
 
 Check out the new wiki [here](https://lukkit.net).
