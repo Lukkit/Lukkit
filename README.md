@@ -18,3 +18,4 @@ Check out the new wiki [here](https://lukkit.net).
 
 ``master`` contains the latest released version of the code.
 ``dev`` is the actively developed branch. Upon a release, it will be merged into ``master``.
+``patch-x.x.x`` will be created with the appropriate version in the branch name when a patch release is in development. For example, if there's a bug in release 2.0 and features for 2.1.0 are in the ``dev`` branch, we will pull 2.0 into this new branch, fix the bug, merge to ``master`` and ``dev`` then create a release from ``master``. This avoids incomplete features for the next milestone being incorporated into a patch.
