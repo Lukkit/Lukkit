@@ -60,16 +60,16 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
+
 *.prefs
 *.classpath
 *.project
 *.zip
 out/
 target/
- *.iml
- sandbox/
- build/
- classes/
- gradle/
- .gradle/
- *.sh
+sandbox/
+build/
+classes/
+gradle/
+.gradle/
+*.sh
