@@ -9,6 +9,7 @@ import nz.co.jammehcow.lukkit.environment.wrappers.ConfigWrapper;
 import nz.co.jammehcow.lukkit.environment.wrappers.LoggerWrapper;
 import nz.co.jammehcow.lukkit.environment.wrappers.PluginWrapper;
 import nz.co.jammehcow.lukkit.environment.wrappers.UtilitiesWrapper;
+import nz.co.jammehcow.lukkit.environment.wrappers.thread.LukkitThreadPool;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -51,6 +52,7 @@ public class LukkitPlugin implements Plugin {
     private final Logger logger;
     private final List<LukkitCommand> commands = new ArrayList<>();
     private final HashMap<Class<? extends Event>, ArrayList<LuaFunction>> eventListeners = new HashMap<>();
+    private final LukkitThreadPool threadPool;
     private LuaFunction loadCB;
     private LuaFunction enableCB;
     private LuaFunction disableCB;
@@ -166,6 +168,8 @@ public class LukkitPlugin implements Plugin {
         Optional<String> isValid = this.checkPluginValidity();
         if (isValid.isPresent())
             throw new InvalidPluginException("An issue occurred when loading the plugin: \n" + isValid.get());
+
+        this.threadPool = new LukkitThreadPool(this);
 
         try {
             this.pluginMain.call();
@@ -286,6 +290,9 @@ public class LukkitPlugin implements Plugin {
     @Override
     public void onDisable() {
         this.enabled = false;
+
+        this.threadPool.shutdown();
+
         try {
             if (this.disableCB != null) this.disableCB.call(CoerceJavaToLua.coerce(this));
         } catch (LukkitPluginException e) {
@@ -472,5 +479,9 @@ public class LukkitPlugin implements Plugin {
         List<LukkitCommand> cmds = new ArrayList<>();
         cmds.addAll(commands);
         cmds.forEach(this::unregisterCommand);
+    }
+
+    public LukkitThreadPool getThreadPool() {
+        return this.threadPool;
     }
 }

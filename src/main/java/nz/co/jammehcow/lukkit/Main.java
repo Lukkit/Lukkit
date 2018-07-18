@@ -3,6 +3,7 @@ package nz.co.jammehcow.lukkit;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginLoader;
+import nz.co.jammehcow.lukkit.environment.wrappers.thread.LukkitThreadPool;
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -99,6 +100,8 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        // Safety, make sure all threads have stopped
+        LukkitThreadPool.shutdownAll();
     }
 
     @Override

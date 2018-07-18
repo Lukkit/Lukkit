@@ -3,6 +3,7 @@ package nz.co.jammehcow.lukkit.environment.wrappers;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment.ObjectType;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
+import nz.co.jammehcow.lukkit.environment.wrappers.thread.LukkitThread;
 import org.bukkit.inventory.ItemStack;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaUserdata;
@@ -91,16 +92,8 @@ public class UtilitiesWrapper extends LuaTable {
         set("runAsync", new TwoArgFunction() {
             @Override
             public LuaValue call(LuaValue function, LuaValue delay) {
-                Thread thread = new Thread(() -> {
-                    try {
-                        if (delay != LuaValue.NIL) Thread.sleep(delay.checklong());
-                        function.checkfunction().call();
-                    } catch (InterruptedException ignored) {
-                    }
-                });
-
-                thread.start();
-                return LuaValue.NIL;
+                LukkitThread thread = plugin.getThreadPool().createThread(function.checkfunction(), delay.checklong());
+                return CoerceJavaToLua.coerce(thread);
             }
         });
 
