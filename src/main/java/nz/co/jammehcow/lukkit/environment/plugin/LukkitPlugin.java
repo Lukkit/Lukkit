@@ -1,6 +1,5 @@
 package nz.co.jammehcow.lukkit.environment.plugin;
 
-import com.avaje.ebean.EbeanServer;
 import nz.co.jammehcow.lukkit.Main;
 import nz.co.jammehcow.lukkit.Utilities;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
@@ -320,11 +319,6 @@ public class LukkitPlugin implements Plugin {
     @Override
     public void setNaggable(boolean isNaggable) {
         this.naggable = isNaggable;
-    }
-
-    public EbeanServer getDatabase() {
-        // Deprecated
-        return null;
     }
 
     @Override
