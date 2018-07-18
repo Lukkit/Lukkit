@@ -1,12 +1,14 @@
-apply plugin: 'java'
-apply plugin: 'maven'
+plugins {
+    id "maven"
+    id "java"
+    id "com.github.johnrengelman.shadow" version "2.0.4"
+}
 
 group = 'nz.co.jammehcow'
-version = '2.0'
+version = '2.0.1'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-
 
 
 repositories {
@@ -28,4 +30,11 @@ dependencies {
     compileOnly group: 'org.bukkit', name: 'bukkit', version:'1.12.2-R0.1-SNAPSHOT'
     // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
     testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.2.0'
+}
+
+shadowJar {
+    classifier = null
+    baseName = rootProject.name
+    version = version
+    destinationDir = file("out/")
 }
