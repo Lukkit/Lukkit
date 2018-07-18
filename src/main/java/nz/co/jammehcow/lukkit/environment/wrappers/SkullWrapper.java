@@ -48,10 +48,10 @@ public class SkullWrapper extends LuaTable {
         this.set("getOwner", new ZeroArgFunction() {
             @Override
             public LuaValue call() {
-                if (meta.getOwner() == null) {
+                if (meta.getOwningPlayer() == null) {
                     return LuaValue.NIL;
                 }
-                return LuaValue.valueOf(meta.getOwner());
+                return LuaValue.valueOf(meta.getOwningPlayer().getName());
             }
         });
 
