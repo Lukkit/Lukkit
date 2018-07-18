@@ -10,8 +10,9 @@ targetCompatibility = 1.8
 
 
 repositories {
-     maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
-     maven { url "http://repo.maven.apache.org/maven2" }
+    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+    maven { url "http://repo.maven.apache.org/maven2" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
 
@@ -25,4 +26,6 @@ dependencies {
     compile group: 'org.reflections', name: 'reflections', version:'0.9.11'
     compileOnly group: 'org.spigotmc', name: 'spigot-api', version:'1.12.2-R0.1-SNAPSHOT'
     compileOnly group: 'org.bukkit', name: 'bukkit', version:'1.12.2-R0.1-SNAPSHOT'
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.2.0'
 }
