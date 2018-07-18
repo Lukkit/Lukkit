@@ -1,6 +1,5 @@
 package nz.co.jammehcow.lukkit.environment.wrappers;
 
-import nz.co.jammehcow.lukkit.Main;
 import nz.co.jammehcow.lukkit.Utilities;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment.ObjectType;

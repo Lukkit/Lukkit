@@ -6,13 +6,13 @@ import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
 import nz.co.jammehcow.lukkit.environment.wrappers.thread.LukkitThread;
 import org.bukkit.inventory.ItemStack;
 import org.luaj.vm2.LuaTable;
-import org.luaj.vm2.LuaUserdata;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
 import java.util.concurrent.*;
 import java.util.stream.Stream;
 
