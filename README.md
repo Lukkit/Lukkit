@@ -1,21 +1,14 @@
-# Lukkit
+The purpose of Lukkit is to allow developers and server administrators to create plugins for the Spigot API with ease using the Lua scripting language. The language is simple and can be quick to pick up, even for beginners. UnwrittenFun was the original author behind Lukkit. However, he abandoned the project and jammehcow took over a couple years later. He was able to update the project to 1.11.2, but lacked the time and motivation to continue maintaining the project himself. Because of this, Lukkit has been in the hands of a number of developers since jammehcow, but has now landed in the hands of AL_1 and Artex Development.
 
-Lukkit allows developers to create Bukkit plugins quickly and easily using the lua scripting language.
+The Lukkit Discord guild can be found [here](https://discord.gg/mhsyabW).
 
-Since it was first release by UnwrittenFun, Lukkit has moved from developer to developer. Although updates have been rolling out from time to time, no one person has been able to continue maintaining Lukkit. However, we are trying to change that. 
+### Documentation
+There have been numerous updates and changes made to Lukkit since the original documentation for both Lukkit v1.1.3 and Lukkit v2.0 had been released. In order to keep the documentation updated and in the best interest of users, documentation has been moved from using the GitHub wiki to using GitBook.
 
-UnwrittenFun and jammehcow have made the greatest contributions to Lukkit and we would like to thank them for their work.
+The documentation can be found on [here](https://docs.lukkit.net) and on [GitHub](https://github.com/artex-development/docs.lukkit.net).
 
-The Discord guild has been moved [here](https://discord.gg/mhsyabW).
-
-## Wiki
-
-Because of the amount of updates and changes that have gone into Lukkit, the old wiki pages have been removed and new documentation is being created. Information in the current wiki is subject to change at any time and may not be reliable as of right now.
-
-Check out the new wiki [here](https://lukkit.net).
-
-## Branch Conventions
-
-``master`` contains the latest released version of the code.\
-``dev`` is the actively developed branch. Upon a release, it will be merged into ``master``.\
-``patch-x.x.x`` will be created with the appropriate version in the branch name when a patch release is in development. For example, if there's a bug in release 2.0 and features for 2.1.0 are in the ``dev`` branch, we will pull 2.0 into this new branch, fix the bug, merge to ``master`` and ``dev`` then create a release from ``master``. This avoids incomplete features for the next milestone being incorporated into a patch.
+### Branch Conventions
+Lukkit follows a set of branch conventions that make it easier for developers and contributors to manage the project.
+* ``master`` contains the latest released version of Lukkit.
+* ``dev`` is the active development branch. Upon a release, this will be merged into ``master``.
+* ``patch-x.x.x`` will be created with the appropriate version in the branch name when a patch release is in development. For example, if there is an issue in the v2.0 release and features for v2.1.0 are in the ``dev`` branch, we will pull v2.0 into a new branch, fix the issue, merge into both ``master`` and ``dev`` and then create a release from ``master``. This will avoid incomplete features for the next milestone being incorporated into a patch.
