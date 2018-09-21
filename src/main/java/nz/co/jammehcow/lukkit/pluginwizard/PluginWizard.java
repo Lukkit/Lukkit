@@ -111,12 +111,15 @@ public class PluginWizard implements Runnable {
 
         String finalDesc;
         if (description.toString().equalsIgnoreCase("\\")) {
-            finalDesc = "";
+            finalDesc = null;
         } else {
             finalDesc = description.toString().replace("\\", "\n");
         }
 
-        this.sender.sendMessage("Cool, description is done.");
+        // TODO: add null check
+        this.template.description = finalDesc;
+
+        this.sender.sendMessage("Cool, the description is done.");
 
         return Step.VERSION;
     }
