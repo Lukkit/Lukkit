@@ -127,7 +127,7 @@ public class PluginWizard implements Runnable {
     @WizardStep(value = Step.VERSION, firstRunOutput = "Your version should look something like 1.0.0, but you can do whatever really. Don't go too crazy.")
     private synchronized Step version() {
         this.sender.sendMessage("Input your version:");
-        String version = this.chatHandler.getInput();
+        this.template.version = this.chatHandler.getInput();
 
         return Step.EXIT;
     }
