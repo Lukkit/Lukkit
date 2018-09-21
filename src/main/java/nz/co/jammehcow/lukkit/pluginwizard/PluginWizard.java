@@ -94,6 +94,7 @@ public class PluginWizard implements Runnable {
     @WizardStep(value = Step.DESC, firstRunOutput = "Next up is a description!")
     private synchronized Step description() {
         this.sender.sendMessage("If you want to write this over multiple lines, add a backslash (\\) at the end of the line.");
+        this.sender.sendMessage("If you don't want to write anything at all, do a single backslash.");
         this.sender.sendMessage("Enter a description:");
 
         StringBuilder description = new StringBuilder();
@@ -101,7 +102,12 @@ public class PluginWizard implements Runnable {
             description.append(this.chatHandler.getInput());
         } while (description.toString().endsWith("\\"));
 
-        String finalDesc = description.toString().replace("\\", "\n");
+        String finalDesc;
+        if (description.toString().equalsIgnoreCase("\\")) {
+            finalDesc = "";
+        } else {
+            finalDesc = description.toString().replace("\\", "\n");
+        }
 
         this.sender.sendMessage("Cool, description is done.");
 
