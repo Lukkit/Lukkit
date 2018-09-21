@@ -86,8 +86,15 @@ public class PluginWizard implements Runnable {
 
     @WizardStep(value = Step.AUTHOR, firstRunOutput = "Now we'll move on to an author name.")
     private synchronized Step author() {
-        // TODO regex test
-        this.sender.sendMessage("To set the name to your own, just type \"self\" (without the quotes).");
+        this.sender.sendMessage("To set the name to your own, just type a backslash (\\).");
+        this.sender.sendMessage("Enter the plugin author:");
+
+        String senderName = this.sender.getName();
+        String author = this.chatHandler.getInput();
+        this.template.author = author.equals("\\") ? senderName : author;
+
+        this.sender.sendMessage("Set the author to " + senderName);
+
         return Step.DESC;
     }
 
