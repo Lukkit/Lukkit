@@ -4,6 +4,7 @@ import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginLoader;
 import nz.co.jammehcow.lukkit.environment.wrappers.thread.LukkitThreadPool;
+import nz.co.jammehcow.lukkit.pluginwizard.PluginWizard;
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -22,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
@@ -49,6 +51,9 @@ public class Main extends JavaPlugin {
     // The server-wide PluginManager
     private PluginManager pluginManager;
     private LukkitPluginLoader pluginLoader = null;
+
+    // Linked list as we only refer to it when we need to shut down all plugins.
+    private LinkedList<PluginWizard> wizards = new LinkedList<>();
 
     private static boolean isLukkitPluginFile(String fileName) {
         for (Pattern pattern : LukkitPluginLoader.fileFilters) {
@@ -100,6 +105,8 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        this.wizards.forEach(PluginWizard::cleanup);
+        this.wizards.clear();
         // Safety, make sure all threads have stopped
         LukkitThreadPool.shutdownAll();
     }
@@ -237,6 +244,10 @@ public class Main extends JavaPlugin {
                 } else {
                     sender.sendMessage("The specified plugin \"" + args[1] + "\" does not exist.");
                 }
+            } else if (args[0].equalsIgnoreCase("new-plugin")) {
+                PluginWizard wizard = new PluginWizard(this, sender);
+                this.wizards.add(wizard);
+                wizard.run();
             } else if (args[0].equalsIgnoreCase("pack")) {
                 // Zip the plugin
                 this.zipOperation(ZipOperation.PACKAGE, sender, args);
@@ -347,6 +358,10 @@ public class Main extends JavaPlugin {
         } else {
             sender.sendMessage("You didn't specify a plugin to " + ((operation == ZipOperation.PACKAGE) ? "package" : "unpack") + "!");
         }
+    }
+
+    public void removeWizard(PluginWizard wizard) {
+        this.wizards.remove(wizard);
     }
 
     private enum ZipOperation {

@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 
 public class TabCompleter implements org.bukkit.command.TabCompleter {
     private static String[] subCommands = {"help", "plugins", "dev", "run"};
-    private static String[] devSubCommands = {"reload", "unload", "pack", "unpack", "last-error", "errors"};
+    private static String[] devSubCommands = {"reload", "unload", "pack", "unpack", "last-error", "errors", "new-plugin"};
 
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String label, String[] args) {
