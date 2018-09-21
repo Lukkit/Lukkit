@@ -93,13 +93,26 @@ public class PluginWizard implements Runnable {
 
     @WizardStep(value = Step.DESC, firstRunOutput = "Next up is a description!")
     private synchronized Step description() {
-        this.sender.sendMessage("");
+        this.sender.sendMessage("If you want to write this over multiple lines, add a backslash (\\) at the end of the line.");
+        this.sender.sendMessage("Enter a description:");
+
+        StringBuilder description = new StringBuilder();
+        do {
+            description.append(this.chatHandler.getInput());
+        } while (description.toString().endsWith("\\"));
+
+        String finalDesc = description.toString().replace("\\", "\n");
+
+        this.sender.sendMessage("Cool, description is done.");
+
         return Step.VERSION;
     }
 
-    @WizardStep(value = Step.VERSION, firstRunOutput = "")
+    @WizardStep(value = Step.VERSION, firstRunOutput = "Your version should look something like 1.0.0, but you can do whatever really. Don't go too crazy.")
     private synchronized Step version() {
-        this.sender.sendMessage("Version");
+        this.sender.sendMessage("Input your version:");
+        String version = this.chatHandler.getInput();
+
         return Step.EXIT;
     }
 
