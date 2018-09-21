@@ -6,7 +6,6 @@ public class PluginTemplate {
     public String version;
     public String description;
     public String author;
-    public String authors[]; // may be null
 
     public void setFinalized() {
         this.isFinalized = true;
