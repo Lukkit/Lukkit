@@ -200,12 +200,22 @@ public class PluginWizard implements Runnable {
         //noinspection ResultOfMethodCallIgnored
         baseDir.mkdir();
 
+        File mainFile = new File(baseDir, "main.lua");
+        try {
+            //noinspection ResultOfMethodCallIgnored
+            mainFile.createNewFile();
+        } catch (IOException e) {
+            // TODO
+            e.printStackTrace();
+        }
+
         String apiVersion = this.plugin.getServer().getBukkitVersion();
         // Format version
         apiVersion = apiVersion.split("-")[0];
 
         File pluginYML = new File(baseDir, "plugin.yml");
         YamlConfiguration config = new YamlConfiguration();
+        config.set("main", "main.lua");
         config.set("name", this.template.name);
         config.set("author", this.template.author);
         config.set("version", this.template.version);
