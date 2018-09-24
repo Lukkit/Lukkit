@@ -77,7 +77,6 @@ public class PluginWizard implements Runnable {
             } else if (input.equalsIgnoreCase("n")) {
                 this.template.setFinalized();
                 this.sender.sendMessage(ChatColor.YELLOW + "You can do /lukkit dev new-plugin any time to go through this again.");
-                this.sender.sendMessage(ChatColor.YELLOW + "Exiting.");
             } else {
                 this.sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "It's yes or no; try either y or n");
             }
