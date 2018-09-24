@@ -86,8 +86,6 @@ public class PluginWizard implements Runnable {
             }
         }
 
-        this.sender.sendMessage(ChatColor.GREEN + "Thanks for using the Lukkit plugin wizard. Have a nice day!");
-
         this.cleanup();
     }
 
@@ -241,7 +239,7 @@ public class PluginWizard implements Runnable {
     }
 
     public void cleanup() {
-        this.sender.sendMessage(ChatColor.YELLOW + "Quitting Lukkit plugin wizard...");
+        this.sender.sendMessage(ChatColor.GREEN + "Thanks for using the Lukkit plugin wizard. Have a nice day!");
         this.chatHandler.cleanup();
         Main.instance.removeWizard(this);
     }
