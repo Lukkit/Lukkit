@@ -64,7 +64,15 @@ public class PluginWizard implements Runnable {
 
             if (input.equalsIgnoreCase("y")) {
                 this.template.setFinalized();
-                this.finalizePlugin();
+                try {
+                    this.finalizePlugin();
+                } catch (IOException e) {
+                    // Clean up everything, quit early
+                    this.sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "There was an error writing the plugin.yml file. Check the console for more info.");
+                    e.printStackTrace();
+                    this.cleanup();
+                    return;
+                }
                 this.sender.sendMessage(ChatColor.GREEN + "Written plugin to disk!");
             } else if (input.equalsIgnoreCase("n")) {
                 this.template.setFinalized();
@@ -190,7 +198,7 @@ public class PluginWizard implements Runnable {
         this.sender.sendMessage(ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "\n--------------------------------\n" + ChatColor.RESET);
     }
 
-    private void finalizePlugin() {
+    private void finalizePlugin() throws IOException, SecurityException {
         File baseDir = new File(
                 this.plugin.getDataFolder().getParent() + File.separator +
                         this.template.name + ".lkt" + File.separator
@@ -200,13 +208,8 @@ public class PluginWizard implements Runnable {
         baseDir.mkdir();
 
         File mainFile = new File(baseDir, "main.lua");
-        try {
-            //noinspection ResultOfMethodCallIgnored
-            mainFile.createNewFile();
-        } catch (IOException e) {
-            // TODO
-            e.printStackTrace();
-        }
+        //noinspection ResultOfMethodCallIgnored
+        mainFile.createNewFile();
 
         String apiVersion = this.plugin.getServer().getBukkitVersion();
         // Format version
@@ -221,12 +224,7 @@ public class PluginWizard implements Runnable {
         if (this.template.description != null) config.set("description", this.template.version);
         config.set("api-version", apiVersion);
 
-        try {
-            config.save(pluginYML);
-        } catch (IOException e) {
-            // TODO
-            e.printStackTrace();
-        }
+        config.save(pluginYML);
     }
 
     private void showPluginSummary() {
