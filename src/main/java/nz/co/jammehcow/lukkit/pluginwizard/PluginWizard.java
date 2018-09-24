@@ -181,7 +181,7 @@ public class PluginWizard implements Runnable {
                 if (!preMessage.isEmpty()) this.sender.sendMessage(ChatColor.GREEN + preMessage);
 
                 //noinspection ConfusingArgumentToVarargsMethod
-                return (Step) finalMethod.invoke(this, null);
+                return (Step) finalMethod.invoke(this);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 Main.instance.getLogger().severe(e.getLocalizedMessage());
             }
