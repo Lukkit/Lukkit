@@ -37,8 +37,6 @@ public class PluginWizard implements Runnable {
 
     @Override
     public void run() {
-        // TODO: add breaks
-
         this.chatHandler.setup();
 
         while (true) {
