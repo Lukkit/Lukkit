@@ -98,7 +98,7 @@ public class PluginWizard implements Runnable {
             return Step.REPEAT;
         }
 
-        this.sender.sendMessage("Cool, that's one this done.");
+        this.sender.sendMessage("Cool, that's this one done.");
 
         return Step.AUTHOR;
     }
