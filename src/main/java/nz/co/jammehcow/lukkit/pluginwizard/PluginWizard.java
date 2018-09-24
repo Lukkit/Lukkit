@@ -53,7 +53,9 @@ public class PluginWizard implements Runnable {
             }
         }
 
+        this.printBreak();
         this.showPluginSummary();
+        this.sender.sendMessage("\n\n");
 
         this.sender.sendMessage(ChatColor.YELLOW + "Are you happy with the plugin? Last chance to scrap it before writing to disk.");
 
