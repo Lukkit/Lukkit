@@ -97,7 +97,7 @@ public class PluginWizard implements Runnable {
         String tempName = this.chatHandler.getInput();
 
         if (!tempName.matches(nameRegex)) {
-            this.sender.sendMessage(ChatColor.RED + "Invalid name, let's try that again...");
+            this.sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Invalid name, let's try that again...");
             return Step.REPEAT;
         }
 
