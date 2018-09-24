@@ -138,7 +138,6 @@ public class PluginWizard implements Runnable {
             finalDesc = description.toString().replace("\\", "\n");
         }
 
-        // TODO: add null check
         this.template.description = finalDesc;
 
         this.sender.sendMessage(ChatColor.GREEN + "Cool, the description is done.");
@@ -219,7 +218,7 @@ public class PluginWizard implements Runnable {
         config.set("name", this.template.name);
         config.set("author", this.template.author);
         config.set("version", this.template.version);
-        config.set("description", this.template.version);
+        if (this.template.description != null) config.set("description", this.template.version);
         config.set("api-version", apiVersion);
 
         try {
