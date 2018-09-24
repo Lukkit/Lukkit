@@ -4,11 +4,14 @@ import nz.co.jammehcow.lukkit.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.regex.Matcher;
@@ -50,11 +53,34 @@ public class PluginWizard implements Runnable {
                 // Break loop, cleanup
                 break;
             } else if (step != Step.REPEAT) {
+                // Progress step variable
                 this.currentStep = step;
             }
         }
 
-        // TODO: plugins created, summary etc..
+        this.showPluginSummary();
+
+        this.sender.sendMessage("Are you happy with the plugin? Last chance to scrap it before writing to disk.");
+
+        while (!this.template.isFinalized()) {
+            this.sender.sendMessage("Yes or no? (y/n)");
+
+            String input = this.chatHandler.getInput();
+
+            if (input.equalsIgnoreCase("y")) {
+                this.template.setFinalized();
+                this.finalizePlugin();
+                this.sender.sendMessage("Written plugin to disk!");
+            } else if (input.equalsIgnoreCase("n")) {
+                this.template.setFinalized();
+                this.sender.sendMessage("You can do /lukkit dev new-plugin any time to go through this again.");
+                this.sender.sendMessage("Exiting.");
+            } else {
+                this.sender.sendMessage("It's yes or no; try either y or n");
+            }
+        }
+
+        this.sender.sendMessage("Thanks for using the Lukkit plugin wizard. Have a nice day!");
 
         this.cleanup();
     }
@@ -170,7 +196,40 @@ public class PluginWizard implements Runnable {
     }
 
     private void finalizePlugin() {
-        // stub
+        File baseDir = new File(
+                this.plugin.getDataFolder().getParent() + File.separator +
+                        this.template.name + ".lkt" + File.separator
+        );
+
+        //noinspection ResultOfMethodCallIgnored
+        baseDir.mkdir();
+
+        String apiVersion = this.plugin.getServer().getBukkitVersion();
+        // Format version
+        apiVersion = apiVersion.split("-")[0];
+
+        File pluginYML = new File(baseDir, "plugin.yml");
+        YamlConfiguration config = new YamlConfiguration();
+        config.set("name", this.template.name);
+        config.set("author", this.template.author);
+        config.set("version", this.template.version);
+        config.set("description", this.template.version);
+        config.set("api-version", apiVersion);
+
+        try {
+            config.save(pluginYML);
+        } catch (IOException e) {
+            // TODO
+            e.printStackTrace();
+        }
+    }
+
+    private void showPluginSummary() {
+        this.sender.sendMessage("Here's a quick summary of your plugin:");
+        this.sender.sendMessage("Name: "        + this.template.name);
+        this.sender.sendMessage("Author: "      + this.template.author);
+        this.sender.sendMessage("Version: "     + this.template.version);
+        this.sender.sendMessage("Description: " + this.template.description);
     }
 
     public void cleanup() {
