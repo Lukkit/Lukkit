@@ -18,6 +18,7 @@ public class PluginWizard implements Runnable {
         AUTHOR,
         DESC,
         EXIT, // terminate loop, create (or error) and cleanup. Not used in currentStep member
+        ERROR_EXIT, // Same as Step.EXIT, but skip finalization and just cleanup
         REPEAT // Used to repeat the current action if the input was invalid. Also no used in current step member
     }
 
@@ -45,6 +46,9 @@ public class PluginWizard implements Runnable {
             if (step == Step.EXIT) {
                 // Break loop, progress to writing
                 break;
+            } else if (step == Step.ERROR_EXIT) {
+                this.cleanup();
+                return;
             } else if (step != Step.REPEAT) {
                 // Progress step variable
                 this.currentStep = step;
@@ -183,7 +187,9 @@ public class PluginWizard implements Runnable {
                 //noinspection ConfusingArgumentToVarargsMethod
                 return (Step) finalMethod.invoke(this);
             } catch (IllegalAccessException | InvocationTargetException e) {
+                this.sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "There was an error running one of the steps. More information can be found in the console.");
                 Main.instance.getLogger().severe(e.getLocalizedMessage());
+                return Step.ERROR_EXIT;
             }
         }
 
