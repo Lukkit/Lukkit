@@ -22,7 +22,7 @@ public class PluginWizard extends Thread {
         REPEAT // Used to repeat the current action if the input was invalid. Also no used in current step member
     }
 
-    private static final String nameRegex = "/^([0-9]|[a-z]|[A-Z])([0-9]|[a-z]|[A-Z]|-|_)+$/g";
+    private static final String nameRegex = "^([a-z]|[A-Z])([0-9]|[a-z]|[A-Z]|-|_)+$";
 
     final Main plugin;
     private final CommandSender sender;
