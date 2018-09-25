@@ -22,6 +22,7 @@ public class WizardChatHandler {
             @EventHandler
             public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent event) {
                 if (event.getPlayer() == sender) {
+                    event.setCancelled(true);
                     String message = event.getMessage();
 
                     if (message.equalsIgnoreCase("quit")) {
@@ -32,6 +33,8 @@ public class WizardChatHandler {
                     }
 
                     //
+                } else {
+                    event.setCancelled(false);
                 }
             }
 
