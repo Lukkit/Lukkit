@@ -57,7 +57,7 @@ public class WizardChatHandler {
     synchronized String getInput() {
         while (!chatContent.isPresent()) {
             try {
-                wait();
+                wait(1);
             } catch (InterruptedException ignored) {}
         }
 
