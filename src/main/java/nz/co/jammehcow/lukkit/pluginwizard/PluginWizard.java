@@ -40,7 +40,7 @@ public class PluginWizard extends Thread {
     @Override
     public void run() {
         if (this.sender instanceof ConsoleCommandSender) {
-            this.sender.sendMessage("Creating Lukkit plugins isn't supported from the console due to player-like chat being unavailable. Sorry, do it yourself.");
+            this.sender.sendMessage("Creating Lukkit plugins from the console isn't supported due to player-like chat being unavailable. Sorry, do it yourself.");
             return;
         }
 
