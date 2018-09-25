@@ -226,7 +226,7 @@ public class PluginWizard extends Thread {
         config.set("name", this.template.name);
         config.set("author", this.template.author);
         config.set("version", this.template.version);
-        if (this.template.description != null) config.set("description", this.template.version);
+        config.set("description", this.template.description);
         config.set("api-version", apiVersion);
 
         config.save(pluginYML);
