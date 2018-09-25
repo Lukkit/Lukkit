@@ -3,6 +3,7 @@ package nz.co.jammehcow.lukkit.pluginwizard;
 import nz.co.jammehcow.lukkit.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -38,6 +39,11 @@ public class PluginWizard extends Thread {
 
     @Override
     public void run() {
+        if (this.sender instanceof ConsoleCommandSender) {
+            this.sender.sendMessage("Creating Lukkit plugins isn't supported from the console due to player-like chat being unavailable. Sorry, do it yourself.");
+            return;
+        }
+
         this.chatHandler.setup();
 
         while (true) {
