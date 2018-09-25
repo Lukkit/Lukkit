@@ -110,6 +110,8 @@ public class PluginWizard extends Thread {
             return Step.REPEAT;
         }
 
+        this.template.name = tempName;
+
         this.sender.sendMessage(ChatColor.GREEN + "Cool, that's this one done.");
 
         return Step.AUTHOR;
