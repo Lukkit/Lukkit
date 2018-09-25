@@ -19,6 +19,7 @@ public class WizardChatHandler {
 
         //noinspection unused
         this.listener = new Listener() {
+            @EventHandler
             public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent event) {
                 if (event.getPlayer() == sender) {
                     String message = event.getMessage();
@@ -34,12 +35,14 @@ public class WizardChatHandler {
                 }
             }
 
+            @EventHandler
             public void onPlayerQuitEvent(PlayerQuitEvent event) {
                 if (event.getPlayer() == sender) {
                     wizard.cleanup();
                 }
             }
 
+            @EventHandler
             public void onPlayerKickEvent(PlayerKickEvent event) {
                 if (event.getPlayer() == sender) {
                     wizard.cleanup();
