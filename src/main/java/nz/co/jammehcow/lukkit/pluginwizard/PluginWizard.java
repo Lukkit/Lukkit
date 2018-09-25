@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class PluginWizard implements Runnable {
+public class PluginWizard extends Thread {
     public enum Step {
         ENTRY,
         NAME,

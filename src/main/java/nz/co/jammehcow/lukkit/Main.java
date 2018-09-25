@@ -247,7 +247,7 @@ public class Main extends JavaPlugin {
             } else if (args[0].equalsIgnoreCase("new-plugin")) {
                 PluginWizard wizard = new PluginWizard(this, sender);
                 this.wizards.add(wizard);
-                wizard.run();
+                wizard.start();
             } else if (args[0].equalsIgnoreCase("pack")) {
                 // Zip the plugin
                 this.zipOperation(ZipOperation.PACKAGE, sender, args);
