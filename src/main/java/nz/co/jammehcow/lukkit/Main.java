@@ -77,6 +77,7 @@ public class Main extends JavaPlugin {
                 ChatColor.YELLOW + "  - \"/lukkit dev\" " + ChatColor.GRAY + "- The root command for developer actions (shows this message)\n" +
                 ChatColor.YELLOW + "  - \"/lukkit dev reload (plugin name)\" " + ChatColor.GRAY + "- Reloads the source file and clears all loaded requires\n" +
                 ChatColor.YELLOW + "  - \"/lukkit dev unload (plugin name)\" " + ChatColor.GRAY + "- Unloads the source file and clears all loaded requires\n" +
+                ChatColor.YELLOW + "  - \"/lukkit dev new-plugin\" " + ChatColor.GRAY + "- Runs an interactive plugin builder to generate stub files\n" +
                 ChatColor.YELLOW + "  - \"/lukkit dev pack (plugin name)\" " + ChatColor.GRAY + "- Packages the plugin (directory) into a .lkt file for publishing\n" +
                 ChatColor.YELLOW + "  - \"/lukkit dev unpack (plugin name)\" " + ChatColor.GRAY + "- Unpacks the plugin (.lkt) to a directory based plugin\n" +
                 ChatColor.YELLOW + "  - \"/lukkit dev last-error\" " + ChatColor.GRAY + "- Gets the last error thrown by a plugin and sends the message to the sender. Also prints the stacktrace to the console.\n" +
