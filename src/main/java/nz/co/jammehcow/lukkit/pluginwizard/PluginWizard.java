@@ -124,7 +124,7 @@ public class PluginWizard extends Thread {
         String author = this.chatHandler.getInput();
         this.template.author = author.equals("\\") ? senderName : author;
 
-        this.sender.sendMessage(ChatColor.GREEN + "Set the author to " + senderName);
+        this.sender.sendMessage(ChatColor.GREEN + "Set the author to " + this.template.author);
 
         return Step.DESC;
     }
