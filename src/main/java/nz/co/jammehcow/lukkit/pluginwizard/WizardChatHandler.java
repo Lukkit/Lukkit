@@ -8,12 +8,10 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.util.Optional;
-
-public class WizardChatHandler {
+class WizardChatHandler {
     private final PluginWizard wizard;
     private final Listener listener;
-    private Optional<String> chatContent = Optional.empty();
+    private String chatContent = "";
 
     WizardChatHandler(PluginWizard wizard, CommandSender sender) {
         this.wizard = wizard;
@@ -33,7 +31,7 @@ public class WizardChatHandler {
                         return;
                     }
 
-                    //
+                    chatContent = message;
                 } else {
                     event.setCancelled(false);
                 }
@@ -56,15 +54,15 @@ public class WizardChatHandler {
     }
 
     synchronized String getInput() {
-        while (!chatContent.isPresent()) {
+        while (!chatContent.isEmpty()) {
             try {
                 wait(1);
             } catch (InterruptedException ignored) {}
         }
 
-        String msg = this.chatContent.get();
-        // Reset optional
-        this.chatContent = Optional.empty();
+        String msg = this.chatContent;
+        // Set to empty string
+        this.chatContent = "";
         return msg;
     }
 
