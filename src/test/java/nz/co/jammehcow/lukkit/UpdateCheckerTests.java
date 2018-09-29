@@ -1,4 +1,5 @@
-import nz.co.jammehcow.lukkit.UpdateChecker;
+package nz.co.jammehcow.lukkit;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
