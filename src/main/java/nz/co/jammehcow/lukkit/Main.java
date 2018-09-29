@@ -192,7 +192,6 @@ public class Main extends JavaPlugin {
 
             // Send the message
             sender.sendMessage(sb.toString());
-            return true;
         } else if (cmd.equalsIgnoreCase("dev")) {
             if (args.length == 0) {
                 // Send the dev help message
