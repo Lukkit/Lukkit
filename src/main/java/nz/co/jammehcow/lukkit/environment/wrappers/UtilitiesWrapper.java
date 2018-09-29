@@ -41,7 +41,8 @@ public class UtilitiesWrapper extends LuaTable {
                 } else if (arg.touserdata() instanceof Stream) {
                     list = ((Stream<?>) arg.touserdata()).toArray();
                 } else {
-                    throw new LukkitPluginException("util.tableFromList(obj) was passed something other than an instance of Collection or Stream.");
+                    throw new LukkitPluginException("util.tableFromList(obj) was passed something other than an " +
+                            "instance of Collection or Stream.");
                 }
 
                 LuaTable t = new LuaTable();
@@ -75,7 +76,8 @@ public class UtilitiesWrapper extends LuaTable {
                 if (arg.checkuserdata() instanceof Map) {
                     map = (Map<?, ?>) arg.touserdata();
                 } else {
-                    throw new LukkitPluginException("util.tableFromMap(obj) was passed something other than a implementation of Map.");
+                    throw new LukkitPluginException("util.tableFromMap(obj) was passed something other than an " +
+                            "implementation of Map.");
                 }
 
                 LuaTable t = new LuaTable();
@@ -108,14 +110,19 @@ public class UtilitiesWrapper extends LuaTable {
                 System.out.println("before");
 
                 ScheduledExecutorService execService = Executors.newScheduledThreadPool(1);
-                ScheduledFuture future = execService.schedule((Callable<LuaValue>) function::call, time.checklong(), TimeUnit.MILLISECONDS);
+                ScheduledFuture future = execService.schedule(
+                        (Callable<LuaValue>) function::call,
+                        time.checklong(),
+                        TimeUnit.MILLISECONDS
+                );
 
                 while (!future.isDone()) {
                     try {
                         wait();
                     } catch (InterruptedException e) {
                         future.cancel(true);
-                        plugin.getLogger().warning("A sync method was killed due to the future being interrupted. Dumping the stack trace for debug purposes");
+                        plugin.getLogger().warning("A sync method was killed due to the future being interrupted. " +
+                                "Dumping the stack trace for debug purposes");
                         e.printStackTrace();
                     }
                 }

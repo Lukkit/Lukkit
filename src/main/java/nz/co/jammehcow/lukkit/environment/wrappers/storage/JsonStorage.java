@@ -31,7 +31,9 @@ public class JsonStorage extends StorageObject {
         super(plugin, path, Storage.JSON);
 
         try {
-            this.object = new JsonParser().parse(new JsonReader(new FileReader(this.getStorageFile()))).getAsJsonObject();
+            this.object = new JsonParser().parse(
+                    new JsonReader(new FileReader(this.getStorageFile()))
+            ).getAsJsonObject();
         } catch (FileNotFoundException | IllegalStateException e) {
             this.object = new JsonObject();
         }

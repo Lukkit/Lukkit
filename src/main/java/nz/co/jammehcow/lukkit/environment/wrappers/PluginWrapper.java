@@ -45,7 +45,8 @@ public class PluginWrapper extends LuaTable {
                 if (callback.isfunction()) {
                     plugin.setLoadCB(callback.checkfunction());
                 } else {
-                    throw new LukkitPluginException("There was an issue registering the onLoad callback - was provided a " + callback.typename() + " instead of a function.");
+                    throw new LukkitPluginException("There was an issue registering the onLoad callback - " +
+                            "was provided a " + callback.typename() + " instead of a function.");
                 }
                 return LuaValue.NIL;
             }
@@ -57,7 +58,8 @@ public class PluginWrapper extends LuaTable {
                 if (callback.isfunction()) {
                     plugin.setEnableCB(callback.checkfunction());
                 } else {
-                    throw new LukkitPluginException("There was an issue registering the onEnable callback - was provided a " + callback.typename() + " instead of a function.");
+                    throw new LukkitPluginException("There was an issue registering the onEnable callback - " +
+                            "was provided a " + callback.typename() + " instead of a function.");
                 }
                 return LuaValue.NIL;
             }
@@ -69,7 +71,8 @@ public class PluginWrapper extends LuaTable {
                 if (callback.isfunction()) {
                     plugin.setDisableCB(callback.checkfunction());
                 } else {
-                    throw new LukkitPluginException("There was an issue registering the onDisable callback - was provided a " + callback.typename() + " instead of a function.");
+                    throw new LukkitPluginException("There was an issue registering the onDisable callback - " +
+                            "was provided a " + callback.typename() + " instead of a function.");
                 }
                 return LuaValue.NIL;
             }
@@ -79,7 +82,8 @@ public class PluginWrapper extends LuaTable {
             @Override
             public LuaValue call(LuaValue arg1, LuaValue arg2) {
                 if (!arg1.istable() || !arg2.isfunction())
-                    throw new LukkitPluginException("There was an issue registering a command. Check that the command registration conforms to the layout here: ");
+                    throw new LukkitPluginException("There was an issue registering a command. " +
+                            "Check that the command registration conforms to the layout here: ");
 
                 LukkitCommand command;
                 LuaTable cmd = arg1.checktable();
@@ -129,7 +133,9 @@ public class PluginWrapper extends LuaTable {
                     // Try to see if the event is a class path, for custom events
                     Class<?> c = Class.forName(eventName);
                     if (Utilities.classIsEvent(c) && c != null) {
-                        return CoerceJavaToLua.coerce(plugin.registerEvent((Class<? extends Event>) c, callback));
+                        return CoerceJavaToLua.coerce(
+                                plugin.registerEvent((Class<? extends Event>) c, callback)
+                        );
                     }
                 } catch (ClassNotFoundException e) {
                     // Attempt to find the event Bukkit again
@@ -140,7 +146,9 @@ public class PluginWrapper extends LuaTable {
                         try {
                             Class<?> c = Class.forName("org.bukkit.event." + pkg + "." + eventName);
                             if (Utilities.classIsEvent(c) && c != null) {
-                                return CoerceJavaToLua.coerce(plugin.registerEvent((Class<? extends Event>) c, callback));
+                                return CoerceJavaToLua.coerce(
+                                        plugin.registerEvent((Class<? extends Event>) c, callback)
+                                );
                             }
                         } catch (ClassNotFoundException ignored) {
                             // This would spam the console anytime an event is registered if we print the stack trace
@@ -148,7 +156,8 @@ public class PluginWrapper extends LuaTable {
                     }
                 }
 
-                throw new LukkitPluginException("There was an issue trying to register the event " + arg1.tostring() + ". Is it a valid event name and properly capitalized?");
+                throw new LukkitPluginException("There was an issue trying to register the event " + arg1.tostring() +
+                        ". Is it a valid event name and properly capitalized?");
             }
         });
 
@@ -203,7 +212,9 @@ public class PluginWrapper extends LuaTable {
 
 
                 if (!cachedObjects.containsKey(stringPath)) {
-                    StorageObject obj = (type == StorageObject.Storage.JSON) ? new JsonStorage(plugin, stringPath) : new YamlStorage(plugin, stringPath);
+                    StorageObject obj = (type == StorageObject.Storage.JSON)
+                            ? new JsonStorage(plugin, stringPath)
+                            : new YamlStorage(plugin, stringPath);
                     cachedObjects.put(stringPath, obj);
                 }
 

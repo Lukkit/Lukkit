@@ -56,7 +56,9 @@ public class ChatColorWrapper extends LuaTable {
         set("translateAlternateColorCodes", new TwoArgFunction() {
             @Override
             public LuaValue call(LuaValue c, LuaValue s) {
-                return CoerceJavaToLua.coerce(ChatColor.translateAlternateColorCodes(c.checkjstring().charAt(0), s.checkjstring()));
+                return CoerceJavaToLua.coerce(
+                        ChatColor.translateAlternateColorCodes(c.checkjstring().charAt(0), s.checkjstring())
+                );
             }
         });
 

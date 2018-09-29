@@ -47,8 +47,10 @@ public class LukkitPluginLoader implements PluginLoader {
     private final Server server;
     /**
      * The list of available plugins installed in the Lukkit data folder.
+     *
      * Plugins aren't loaded by default due to dependency requirements.
-     * If we get a list of every plugin installed we can check dependency requests against the plugins available and throw errors when they don't exist (for hard depends).
+     * If we get a list of every plugin installed we can check dependency requests against
+     * the plugins available and throw errors when they don't exist (for hard depends).
      */
     public ArrayList<LukkitPlugin> loadedPlugins = new ArrayList<>();
 
@@ -133,7 +135,7 @@ public class LukkitPluginLoader implements PluginLoader {
      *
      * @param plugin the {@link LukkitPlugin} object
      */
-    public void reloadPlugin(LukkitPlugin plugin) throws InvalidPluginException, InvalidDescriptionException, LukkitPluginException, IllegalAccessException, NoSuchFieldException, IOException {
+    public void reloadPlugin(LukkitPlugin plugin) throws InvalidPluginException, InvalidDescriptionException, LukkitPluginException, IllegalAccessException, NoSuchFieldException {
         // Check if the plugin is a dev plugin.
         if (!plugin.isDevPlugin())
             throw new LukkitPluginException("Cannot reload a standard Lukkit plugin, use /reload instead. This is a developer-only feature.");
@@ -152,10 +154,11 @@ public class LukkitPluginLoader implements PluginLoader {
      *
      * @param plugin the {@link LukkitPlugin} object
      */
-    public void unloadPlugin(LukkitPlugin plugin) throws InvalidPluginException, InvalidDescriptionException, LukkitPluginException, NoSuchFieldException, IllegalAccessException, IOException {
+    public void unloadPlugin(LukkitPlugin plugin) throws LukkitPluginException, NoSuchFieldException, IllegalAccessException {
         // Check if the plugin is a dev plugin.
         if (!plugin.isDevPlugin())
-            throw new LukkitPluginException("Cannot unload a standard Lukkit plugin, use /stop instead. This is a developer-only feature.");
+            throw new LukkitPluginException("Cannot unload a standard Lukkit plugin, use /stop instead. " +
+                    "This is a developer-only feature.");
 
         String pName = plugin.getName();
         PluginManager pluginManager = this.server.getPluginManager();
@@ -173,11 +176,11 @@ public class LukkitPluginLoader implements PluginLoader {
 
         // Remove the plugin from spigot
         synchronized (pluginManager) {
-            if (plugins != null && plugins.contains(plugin)) {
+            if (plugins != null) {
                 plugins.remove(plugin);
             }
 
-            if (names != null && names.containsKey(pName)) {
+            if (names != null) {
                 names.remove(pName);
             }
         }

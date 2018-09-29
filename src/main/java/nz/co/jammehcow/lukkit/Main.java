@@ -99,7 +99,11 @@ public class Main extends JavaPlugin {
         int totalPlugins = (this.pluginLoader == null) ? 0 : this.pluginLoader.loadedPlugins.size();
 
         if (totalPlugins > 0) {
-            this.getLogger().info(((totalPlugins != 1) ? totalPlugins + " Lukkit plugins were loaded" : "1 Lukkit plugin was loaded") + " in " + loadTime + "ms.");
+            this.getLogger().info(
+                    ((totalPlugins != 1) ?
+                            totalPlugins + " Lukkit plugins were loaded" :
+                            "1 Lukkit plugin was loaded"
+                    ) + " in " + loadTime + "ms.");
         } else {
             this.getLogger().info("No Lukkit plugins were loaded.");
         }
@@ -187,7 +191,10 @@ public class Main extends JavaPlugin {
             sender.sendMessage(getHelpMessage());
         } else if (cmd.equalsIgnoreCase("plugins")) {
             // Create a new StringBuilder object with "Lukkit Plugins:" as a prefix.
-            StringBuilder sb = new StringBuilder().append(ChatColor.GREEN).append("Lukkit Plugins:").append(ChatColor.YELLOW);
+            StringBuilder sb = new StringBuilder()
+                    .append(ChatColor.GREEN)
+                    .append("Lukkit Plugins:")
+                    .append(ChatColor.YELLOW);
 
             this.iteratePlugins((p) -> {
                 // Add the name to the list
@@ -219,7 +226,8 @@ public class Main extends JavaPlugin {
                         ((LukkitPluginLoader) plugin.getPluginLoader()).reloadPlugin(plugin);
                         sender.sendMessage(ChatColor.GREEN + "Successfully reloaded " + plugin.getName());
                     } catch (Exception e) {
-                        sender.sendMessage(ChatColor.RED + "There was an error reloading this plugin: " + e.getMessage() + "\nCheck the console for more information.");
+                        sender.sendMessage(ChatColor.RED + "There was an error reloading this plugin: " +
+                                e.getMessage() + "\nCheck the console for more information.");
                         e.printStackTrace();
                     }
                 } else {
@@ -239,7 +247,8 @@ public class Main extends JavaPlugin {
                         ((LukkitPluginLoader) plugin.getPluginLoader()).unloadPlugin(plugin);
                         sender.sendMessage(ChatColor.GREEN + "Successfully unloaded " + plugin.getName());
                     } catch (Exception e) {
-                        sender.sendMessage(ChatColor.RED + "There was an error unloading this plugin: " + e.getMessage() + "\nCheck the console for more information.");
+                        sender.sendMessage(ChatColor.RED + "There was an error unloading this plugin: " +
+                                e.getMessage() + "\nCheck the console for more information.");
                         e.printStackTrace();
                     }
                 } else {
@@ -289,7 +298,8 @@ public class Main extends JavaPlugin {
                         } catch (NumberFormatException e) {
                             sender.sendMessage(ChatColor.RED + args[1] + " cannot be converted to an integer.");
                         } catch (ArrayIndexOutOfBoundsException e) {
-                            sender.sendMessage(ChatColor.RED + args[1] + " is out of bounds in the stack. Should be between 1 & " + errors.get().count());
+                            sender.sendMessage(ChatColor.RED + args[1] + " is out of bounds in the stack. " +
+                                    "Should be between 1 & " + errors.get().count());
                         }
                     }
                 } else {
@@ -309,7 +319,8 @@ public class Main extends JavaPlugin {
 
         // Check the config version against the internal version
         if (this.getConfig().getInt("cfg-version") != CFG_VERSION) {
-            this.getLogger().info("Your config is out of date. Replacing the config with the default copy and moving the old version to config.old.yml");
+            this.getLogger().info("Your config is out of date. Replacing the config with the default copy and " +
+                    "moving the old version to config.old.yml");
 
             // Create a new place for the old config to live
             File bkpCfg = new File(this.getDataFolder().getAbsolutePath() + File.separator + "config.old.yml");
@@ -320,7 +331,8 @@ public class Main extends JavaPlugin {
                 // Save the internal config to the data folder
                 this.saveDefaultConfig();
             } catch (IOException e) {
-                this.getLogger().severe("There was an issue with moving the old config or replacing. Check the stacktrace for more.");
+                this.getLogger().severe("There was an issue with moving the old config or replacing. " +
+                        "Check the stacktrace for more.");
                 e.printStackTrace();
             }
         }
@@ -351,13 +363,15 @@ public class Main extends JavaPlugin {
                         sender.sendMessage(ChatColor.GREEN + "Successfully unpacked " + plugin.getName());
                     }
                 } else {
-                    sender.sendMessage("The specified plugin \"" + plugin.getName() + "\" is already " + ((operation == ZipOperation.PACKAGE) ? "packaged" : "unpacked") + ".");
+                    sender.sendMessage("The specified plugin \"" + plugin.getName() + "\" is already " +
+                            ((operation == ZipOperation.PACKAGE) ? "packaged" : "unpacked") + ".");
                 }
             } else {
                 sender.sendMessage("The specified plugin \"" + args[1] + "\" does not exist.");
             }
         } else {
-            sender.sendMessage("You didn't specify a plugin to " + ((operation == ZipOperation.PACKAGE) ? "package" : "unpack") + "!");
+            sender.sendMessage("You didn't specify a plugin to " +
+                    ((operation == ZipOperation.PACKAGE) ? "package" : "unpack") + "!");
         }
     }
 

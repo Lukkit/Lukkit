@@ -109,7 +109,12 @@ public class LukkitCommand extends Command {
             } else {
                 if (runAsync) {
                     BukkitScheduler scheduler = Bukkit.getScheduler();
-                    scheduler.runTaskAsynchronously(plugin, () -> function.invoke(new LuaValue[]{new CommandEvent(sender, command, args)}));
+                    //noinspection CodeBlock2Expr
+                    scheduler.runTaskAsynchronously(plugin, () -> {
+                        function.invoke(new LuaValue[]{
+                                new CommandEvent(sender, command, args)
+                        });
+                    });
                 } else {
                     function.invoke(new LuaValue[]{new CommandEvent(sender, command, args)});
                 }

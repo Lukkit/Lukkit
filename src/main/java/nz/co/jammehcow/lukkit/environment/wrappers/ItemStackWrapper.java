@@ -80,7 +80,9 @@ public class ItemStackWrapper extends LuaTable {
         this.set("getEnchantmentLevel", new OneArgFunction() {
             @Override
             public LuaValue call(LuaValue value) {
-                return CoerceJavaToLua.coerce(item.getEnchantmentLevel((Enchantment) value.checkuserdata(Enchantment.class)));
+                return CoerceJavaToLua.coerce(
+                        item.getEnchantmentLevel((Enchantment) value.checkuserdata(Enchantment.class))
+                );
             }
         });
 

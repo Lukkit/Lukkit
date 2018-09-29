@@ -66,7 +66,8 @@ public class LuaJsonElement {
                 else if (numberValue instanceof Byte) return LuaValue.valueOf(numberValue.byteValue());
             }
         } else {
-            LuaError error = new LuaError("A LuaJsonElement object was passed an unsupported value other than that supported by LuaJ. Value: " + element.toString());
+            LuaError error = new LuaError("A LuaJsonElement object was passed an unsupported value other than that " +
+                    "supported by LuaJ. Value: " + element.toString());
             LuaEnvironment.addError(error);
             error.printStackTrace();
         }

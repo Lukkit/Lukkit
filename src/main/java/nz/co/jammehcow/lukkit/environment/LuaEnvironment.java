@@ -58,14 +58,16 @@ public class LuaEnvironment {
                 InputStream is = plugin.getResource(path);
                 if (is != null) {
                     try {
-                        LuaValue calledScript = g.load(new InputStreamReader(is, "UTF-8"), path.replace("/", ".")).call();
+                        LuaValue calledScript = g.load(
+                                new InputStreamReader(
+                                        is, java.nio.charset.StandardCharsets.UTF_8
+                                ), path.replace("/", ".")
+                        ).call();
                         g.get("__lukkitpackages__").checktable().set(path, calledScript);
                         return calledScript;
                     } catch (LukkitPluginException e) {
                         e.printStackTrace();
                         addError(e);
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
                     }
                 }
 
@@ -80,8 +82,11 @@ public class LuaEnvironment {
     }
 
     public static Optional<Stream<Exception>> getErrors() {
-        // Filter out all the nulls from the stream, only returning the Error object and not nulls (Stack#setSize sets the size and fills with nulls if nothing exists)
-        return (errors.stream().filter(Objects::nonNull).count() == 0) ? Optional.empty() : Optional.of(errors.stream().filter(Objects::nonNull));
+        // Filter out all the nulls from the stream, only returning the Error object and not nulls
+        // (Stack#setSize sets the size and fills with nulls if nothing exists)
+        return (errors.stream().noneMatch(java.util.Objects::nonNull))
+                ? Optional.empty()
+                : Optional.of(errors.stream().filter(Objects::nonNull));
     }
 
     public static void addError(Exception e) {
