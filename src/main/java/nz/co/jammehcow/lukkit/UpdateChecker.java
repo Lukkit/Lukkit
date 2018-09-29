@@ -12,17 +12,28 @@ import com.mashape.unirest.http.Unirest;
 public class UpdateChecker {
     // If the repo ever gets moved again this should make it easier.
     private static final String GITHUB_ORG = "artex-development";
+
+    private static final String VERSION_PATTERN = "^\\d+\\.\\d+\\.\\d+$";
+    private static final String DEV_VERSION_PATTERN = "^\\d+\\.\\d+\\.\\d+-.+$";
     /**
      * Check for updates against the GitHub repo releases page.
      *
      * @param pluginVersion the locally installed plugin version
      */
     public static void checkForUpdates(String pluginVersion) {
+        if (pluginVersion.matches(DEV_VERSION_PATTERN)) {
+            Main.logger.info("Update checking is disabled for development builds. Giving the GitHub API a break.");
+            return;
+        } else if (!pluginVersion.matches(VERSION_PATTERN)) {
+            Main.logger.warning("Your version string seems to be invalid. This shouldn't happen so please add an issue on our GitHub page with where you got your build from and this string: " + pluginVersion);
+            return;
+        }
+
         try {
             HttpResponse<JsonNode> res = Unirest.get("https://api.github.com/repos/" + GITHUB_ORG + "/Lukkit/releases/latest").asJson();
             String tagName = res.getBody().getObject().getString("tag_name").replace("v", "");
 
-            if (isOutOfDate(pluginVersion.split("-")[0], tagName)) {
+            if (isOutOfDate(pluginVersion, tagName)) {
                 Main.logger.info("A new version of Lukkit has been released: " + tagName);
                 Main.logger.info("You can download it from https://www.spigotmc.org/resources/lukkit.32599/ or https://github.com/jammehcow/Lukkit/releases");
             } else {
