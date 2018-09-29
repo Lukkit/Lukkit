@@ -9,7 +9,7 @@ import com.mashape.unirest.http.Unirest;
  *
  * @author jammehcow
  */
-public class UpdateChecker {
+class UpdateChecker {
     // If the repo ever gets moved again this should make it easier.
     private static final String GITHUB_ORG = "artex-development";
 
@@ -20,7 +20,7 @@ public class UpdateChecker {
      *
      * @param pluginVersion the locally installed plugin version
      */
-    public static void checkForUpdates(String pluginVersion) {
+    static void checkForUpdates(String pluginVersion) {
         if (pluginVersion.matches(DEV_VERSION_PATTERN)) {
             Main.logger.info("Update checking is disabled for development builds. Giving the GitHub API a break.");
             return;
@@ -49,7 +49,7 @@ public class UpdateChecker {
      * @param remote  the remote version (GitHub releases)
      * @return whether the local version is lower than the remote version.
      */
-    public static boolean isOutOfDate(String local, String remote) {
+    static boolean isOutOfDate(String local, String remote) {
         // Versions are formatted as "x.x.x" so we split on every period and convert to ints
         // Formats the int array to look like {1, 2, 3}
         int[] localVersion  = getVersionInts(local);
