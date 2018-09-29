@@ -100,9 +100,9 @@ public class Main extends JavaPlugin {
 
         if (totalPlugins > 0) {
             this.getLogger().info(
-                    ((totalPlugins != 1) ?
-                            totalPlugins + " Lukkit plugins were loaded" :
-                            "1 Lukkit plugin was loaded"
+                    ((totalPlugins != 1)
+                            ? totalPlugins + " Lukkit plugins were loaded"
+                            : "1 Lukkit plugin was loaded"
                     ) + " in " + loadTime + "ms.");
         } else {
             this.getLogger().info("No Lukkit plugins were loaded.");
