@@ -57,7 +57,6 @@ public class UpdateChecker {
 
         for (int i = 0; i < localVersion.length; i++) {
             if (localVersion[i] < remoteVersion[i]) return true;
-            if (localVersion[i] > remoteVersion[i]) return false;  // covers dev versions
         }
 
         return false;
