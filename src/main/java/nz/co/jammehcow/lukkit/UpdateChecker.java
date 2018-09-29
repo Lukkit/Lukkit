@@ -36,22 +36,22 @@ public class UpdateChecker {
     /**
      * Checks if the local version is out of date by comparing the current version with the remote.
      *
-     * @param current the currently installed version
+     * @param local the currently installed version
      * @param remote  the remote version (GitHub releases)
      * @return whether the local version is lower than the remote version.
      */
-    public static boolean isOutOfDate(String current, String remote) {
+    public static boolean isOutOfDate(String local, String remote) {
         // Version are formatted as "x.x.x" so we split on every period and convert to ints
-        ArrayList<Integer> currentVersion = new ArrayList<>(3);
+        ArrayList<Integer> localVersion = new ArrayList<>(3);
         ArrayList<Integer> remoteVersion = new ArrayList<>(3);
 
         // Formats the ArrayList to look like {1, 2, 3}
-        currentVersion.addAll(getIntegers(current.split("\\.")));
+        localVersion.addAll(getIntegers(local.split("\\.")));
         remoteVersion.addAll(getIntegers(remote.split("\\.")));
 
-        for (int i = 0; i < currentVersion.size(); i++) {
-            if (currentVersion.get(i).compareTo(remoteVersion.get(i)) < 0) return true;
-            else if (currentVersion.get(i).compareTo(remoteVersion.get(i)) > 0) return false;
+        for (int i = 0; i < localVersion.size(); i++) {
+            if (localVersion.get(i).compareTo(remoteVersion.get(i)) < 0) return true;
+            else if (localVersion.get(i).compareTo(remoteVersion.get(i)) > 0) return false;
         }
 
         return false;
