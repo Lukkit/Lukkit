@@ -7,19 +7,17 @@ import java.util.ArrayList;
 
 public class LukkitThreadPool {
     private static ArrayList<LukkitThreadPool> pluginPools = new ArrayList<>();
+    private final LukkitPlugin plugin;
+    private int currentThreadID = 0;
+    private ArrayList<LukkitThread> pool = new ArrayList<>();
+    public LukkitThreadPool(LukkitPlugin plugin) {
+        this.plugin = plugin;
+        pluginPools.add(this);
+    }
 
     public static synchronized void shutdownAll() {
         // Safety from the Lukkit plugin disable method
         pluginPools.forEach(LukkitThreadPool::shutdown);
-    }
-
-    private final LukkitPlugin plugin;
-    private int currentThreadID = 0;
-    private ArrayList<LukkitThread> pool = new ArrayList<>();
-
-    public LukkitThreadPool(LukkitPlugin plugin) {
-        this.plugin = plugin;
-        pluginPools.add(this);
     }
 
     public LukkitThread createThread(LuaFunction func, long delay) {

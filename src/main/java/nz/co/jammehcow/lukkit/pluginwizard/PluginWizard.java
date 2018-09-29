@@ -12,25 +12,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class PluginWizard extends Thread {
-    public enum Step {
-        ENTRY,
-        NAME,
-        VERSION,
-        AUTHOR,
-        DESC,
-        EXIT, // terminate loop, create (or error) and cleanup. Not used in currentStep member
-        ERROR_EXIT, // Same as Step.EXIT, but skip finalization and just cleanup
-        REPEAT // Used to repeat the current action if the input was invalid. Also no used in current step member
-    }
-
     private static final String nameRegex = "^([a-z]|[A-Z])([0-9]|[a-z]|[A-Z]|-|_)+$";
-
     final Main plugin;
     private final CommandSender sender;
     private final WizardChatHandler chatHandler;
     private final PluginTemplate template = new PluginTemplate();
     private Step currentStep = Step.ENTRY;
-
     public PluginWizard(Main plugin, CommandSender sender) {
         this.plugin = plugin;
         this.sender = sender;
@@ -239,10 +226,10 @@ public class PluginWizard extends Thread {
     }
 
     private void showPluginSummary() {
-        this.sender.sendMessage(ChatColor.GREEN  + "Here's a quick summary of your plugin:");
-        this.sender.sendMessage(ChatColor.YELLOW + "Name: "        + this.template.name);
-        this.sender.sendMessage(ChatColor.YELLOW + "Author: "      + this.template.author);
-        this.sender.sendMessage(ChatColor.YELLOW + "Version: "     + this.template.version);
+        this.sender.sendMessage(ChatColor.GREEN + "Here's a quick summary of your plugin:");
+        this.sender.sendMessage(ChatColor.YELLOW + "Name: " + this.template.name);
+        this.sender.sendMessage(ChatColor.YELLOW + "Author: " + this.template.author);
+        this.sender.sendMessage(ChatColor.YELLOW + "Version: " + this.template.version);
         this.sender.sendMessage(ChatColor.YELLOW + "Description: " + this.template.description);
     }
 
@@ -250,5 +237,16 @@ public class PluginWizard extends Thread {
         this.sender.sendMessage(ChatColor.GREEN + "Thanks for using the Lukkit plugin wizard. Have a nice day!");
         this.chatHandler.cleanup();
         Main.instance.removeWizard(this);
+    }
+
+    public enum Step {
+        ENTRY,
+        NAME,
+        VERSION,
+        AUTHOR,
+        DESC,
+        EXIT, // terminate loop, create (or error) and cleanup. Not used in currentStep member
+        ERROR_EXIT, // Same as Step.EXIT, but skip finalization and just cleanup
+        REPEAT // Used to repeat the current action if the input was invalid. Also no used in current step member
     }
 }

@@ -23,10 +23,12 @@ public class LukkitThread {
     }
 
     public boolean isAlive() {
-        return this.thread.isAlive() ;
+        return this.thread.isAlive();
     }
 
-    public String getName() { return this.thread.getName(); }
+    public String getName() {
+        return this.thread.getName();
+    }
 
     public synchronized void end() {
         this.thread.interrupt();

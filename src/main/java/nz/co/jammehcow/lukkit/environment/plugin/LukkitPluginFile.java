@@ -24,7 +24,7 @@ public class LukkitPluginFile {
      *
      * @param plugin the plugin file (.lkt)
      */
-    public  LukkitPluginFile(File plugin) {
+    public LukkitPluginFile(File plugin) {
         this.file = plugin;
         this.isDevPlugin = this.file.isDirectory();
 

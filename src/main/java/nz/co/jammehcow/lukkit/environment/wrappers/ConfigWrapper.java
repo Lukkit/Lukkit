@@ -111,6 +111,21 @@ public class ConfigWrapper extends LuaTable {
         });
     }
 
+    @SuppressWarnings("ConstantConditions")
+    static LuaValue castObject(Object obj) {
+        if (obj instanceof String) {
+            return LuaValue.valueOf((String) obj);
+        } else if (obj instanceof Integer) {
+            return LuaValue.valueOf((int) obj);
+        } else if (obj instanceof Double) {
+            return LuaValue.valueOf(((double) obj));
+        } else if (obj instanceof Boolean) {
+            return LuaValue.valueOf(((boolean) obj));
+        } else {
+            return LuaValue.userdataOf(obj);
+        }
+    }
+
     private HashMap<?, ?> convertToMap(LuaTable table) {
         HashMap<Object, Object> map = new HashMap<>();
 
@@ -125,21 +140,6 @@ public class ConfigWrapper extends LuaTable {
         }
 
         return map;
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    static LuaValue castObject(Object obj) {
-        if (obj instanceof String) {
-            return LuaValue.valueOf((String) obj);
-        } else if (obj instanceof Integer) {
-            return LuaValue.valueOf((int) obj);
-        } else if (obj instanceof Double) {
-            return LuaValue.valueOf(((double) obj));
-        } else if (obj instanceof Boolean) {
-            return LuaValue.valueOf(((boolean) obj));
-        } else {
-            return LuaValue.userdataOf(obj);
-        }
     }
 
     @Override

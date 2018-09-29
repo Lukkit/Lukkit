@@ -90,8 +90,8 @@ public class LukkitPlugin implements Plugin {
         this.logger = new PluginLogger(this);
         Globals globals = LuaEnvironment.getNewGlobals(this);
 
-        this.pluginMain = globals.load(new InputStreamReader(this.pluginFile.getResource(this.descriptor.getMain()), StandardCharsets.UTF_8), this.descriptor.getMain());
-        this.dataFolder = new File(Main.instance.getDataFolder().getParentFile().getAbsolutePath() + File.separator + this.name);
+        this.dataFolder = new File(Main.instance.getDataFolder().getParentFile().getAbsolutePath()
+                + File.separator + this.name);
         if (!this.dataFolder.exists()) //noinspection ResultOfMethodCallIgnored
             this.dataFolder.mkdir();
 
@@ -212,7 +212,10 @@ public class LukkitPlugin implements Plugin {
     @Override
     public void saveDefaultConfig() {
         try {
-            Files.copy(this.pluginFile.getDefaultConfig(), new File(this.dataFolder.getAbsolutePath() + File.separator + "config.yml").toPath());
+            Files.copy(
+                    this.pluginFile.getDefaultConfig(),
+                    new File(this.dataFolder.getAbsolutePath() + File.separator + "config.yml").toPath()
+            );
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -235,10 +238,12 @@ public class LukkitPlugin implements Plugin {
                     e.printStackTrace();
                 }
             } else {
-                this.logger.info("Will not export resource " + resourcePath + " to " + this.dataFolder.getName() + " as it already exists and has not been marked to be replaced.");
+                this.logger.info("Will not export resource " + resourcePath + " to " + this.dataFolder.getName()
+                        + " as it already exists and has not been marked to be replaced.");
             }
         } else {
-            this.logger.warning("The resource requested doesn't exist. Unable to find " + resourcePath + " in " + this.pluginFile.getPath());
+            this.logger.warning("The resource requested doesn't exist. Unable to find " + resourcePath
+                    + " in " + this.pluginFile.getPath());
         }
     }
 
@@ -278,7 +283,7 @@ public class LukkitPlugin implements Plugin {
             LuaEnvironment.addError(e);
         }
 
-        eventListeners.forEach((event, list) ->
+        this.eventListeners.forEach((event, list) ->
                 list.forEach(function ->
                         this.getServer().getPluginManager().registerEvent(event, new Listener() {
                         }, EventPriority.NORMAL, (l, e) -> function.call(CoerceJavaToLua.coerce(e)), this, false)
@@ -369,10 +374,13 @@ public class LukkitPlugin implements Plugin {
     public Listener registerEvent(Class<? extends Event> event, LuaFunction function) {
         getEventListeners(event).add(function);
         if (this.enabled) {
-            Listener listener = new Listener() {
-            };
+            Listener listener = new Listener() {};
 
-            this.getServer().getPluginManager().registerEvent(event, listener, EventPriority.NORMAL, (l, e) -> function.call(CoerceJavaToLua.coerce(e)), this, false);
+            this.getServer().getPluginManager().registerEvent(
+                    event, listener, EventPriority.NORMAL,
+                    (l, e) -> function.call(org.luaj.vm2.lib.jse.CoerceJavaToLua.coerce(e)),
+                    this, false
+            );
         }
         return null;
     }
@@ -428,29 +436,34 @@ public class LukkitPlugin implements Plugin {
             Files.copy(this.pluginFile.getDefaultConfig(), this.pluginConfig.toPath());
             this.config.load(this.pluginConfig);
         } catch (IOException e) {
-            this.logger.severe("There was an error copying either the broken config to its new file or the default config to the data folder.");
+            this.logger.severe("There was an error copying either the broken config to its new file or the default " +
+                    "config to the data folder.");
             e.printStackTrace();
             return;
         } catch (InvalidConfigurationException e) {
-            this.logger.severe("The internal config is invalid. If you are the plugin maintainer please verify it. If you believe this is a bug submit an issue on GitHub with your configuration.");
+            this.logger.severe("The internal config is invalid. If you are the plugin maintainer please verify it. " +
+                    "If you believe this is a bug submit an issue on GitHub with your configuration.");
             e.printStackTrace();
         }
 
-        this.logger.warning("The config at " + this.pluginConfig.getAbsolutePath() + " was invalid. It has been moved to config.broken.yml and the default config has been exported to config.yml.");
+        this.logger.warning("The config at " + this.pluginConfig.getAbsolutePath() + " was invalid. " +
+                "It has been moved to config.broken.yml and the default config has been exported to config.yml.");
     }
 
     private Optional<String> checkPluginValidity() {
         if (this.pluginMain == null) {
-            return Optional.of("Unable to load the main Lua file. It may be missing from the plugin file or corrupted.");
+            return Optional.of("Unable to load the main Lua file. " +
+                    "It may be missing from the plugin file or corrupted.");
         } else if (this.descriptor == null) {
-            return Optional.of("Unable to load the plugin's description file. It may be missing from the plugin file or corrupted.");
+            return Optional.of("Unable to load the plugin's description file. " +
+                    "It may be missing from the plugin file or corrupted.");
         }
 
         return Optional.empty();
     }
 
     public void registerCommand(LukkitCommand command) {
-        commands.add(command);
+        this.commands.add(command);
         try {
             command.register();
         } catch (NoSuchFieldException | IllegalAccessException e) {
@@ -459,7 +472,7 @@ public class LukkitPlugin implements Plugin {
     }
 
     public void unregisterCommand(LukkitCommand command) {
-        commands.remove(command);
+        this.commands.remove(command);
         try {
             command.unregister();
         } catch (NoSuchFieldException | IllegalAccessException e) {
@@ -469,7 +482,7 @@ public class LukkitPlugin implements Plugin {
 
     public void unregisterAllCommands() {
         // Create new array to get rid of concurrent modification
-        List<LukkitCommand> cmds = new ArrayList<>(commands);
+        List<LukkitCommand> cmds = new ArrayList<>(this.commands);
         cmds.forEach(this::unregisterCommand);
     }
 

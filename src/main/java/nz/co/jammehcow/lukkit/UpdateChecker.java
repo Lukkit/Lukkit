@@ -11,11 +11,11 @@ import com.mashape.unirest.http.Unirest;
  */
 class UpdateChecker {
     // If the repo ever gets moved again this should make it easier.
-    private static final String GH_ORG          = "artex-development";
+    private static final String GH_ORG = "artex-development";
     private static final String GH_API_ENDPOINT = "https://api.github.com/repos/" + GH_ORG + "/Lukkit/releases/latest";
 
     // RegExp patterns
-    private static final String VERSION_PATTERN     = "^\\d+\\.\\d+\\.\\d+$";
+    private static final String VERSION_PATTERN = "^\\d+\\.\\d+\\.\\d+$";
     private static final String DEV_VERSION_PATTERN = "^\\d+\\.\\d+\\.\\d+-.+$";
 
     /**
@@ -50,18 +50,20 @@ class UpdateChecker {
             } else {
                 Main.logger.info("You're up to date with the latest version of Lukkit.");
             }
-        } catch (Exception e ) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Checks if the local version is out of date by comparing the current version with the remote.
      *
-     * @param local the local install's version
-     * @param remote  the remote version (GitHub releases)
+     * @param local  the local install's version
+     * @param remote the remote version (GitHub releases)
      * @return whether the local version is lower than the remote version.
      */
     static boolean isOutOfDate(String local, String remote) {
-        int[] localVersion  = getVersionInts(local);
+        int[] localVersion = getVersionInts(local);
         int[] remoteVersion = getVersionInts(remote);
 
         // Loop from MAJOR through to PATCH numbers

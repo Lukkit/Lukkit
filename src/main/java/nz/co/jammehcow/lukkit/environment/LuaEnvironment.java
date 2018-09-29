@@ -24,24 +24,9 @@ public class LuaEnvironment {
     private static boolean isDebug;
 
     private static Stack<Exception> errors = new Stack<>();
+
     static {
         errors.setSize(10);
-    }
-
-    /**
-     * Helps collate all of the types together and allows easy changing of IDs
-     */
-    public enum ObjectType {
-        WRAPPER(100, "Wrapper"),
-        STORAGE_OBJECT(101, "StorageObject"),
-        COMMAND_EVENT(102,"CommandEvent");
-
-        public final int type;
-        public final String name;
-        ObjectType(int type, String name) {
-            this.type = type;
-            this.name = name;
-        }
     }
 
     public static void init(boolean debug) {
@@ -102,5 +87,22 @@ public class LuaEnvironment {
     public static void addError(Exception e) {
         // Push the error onto the stack
         errors.push(e);
+    }
+
+    /**
+     * Helps collate all of the types together and allows easy changing of IDs
+     */
+    public enum ObjectType {
+        WRAPPER(100, "Wrapper"),
+        STORAGE_OBJECT(101, "StorageObject"),
+        COMMAND_EVENT(102, "CommandEvent");
+
+        public final int type;
+        public final String name;
+
+        ObjectType(int type, String name) {
+            this.type = type;
+            this.name = name;
+        }
     }
 }

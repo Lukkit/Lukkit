@@ -7,8 +7,8 @@ import org.bukkit.event.HandlerList;
 
 public class LukkitPluginEnableEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private boolean cancelled = false;
     private final LukkitPlugin plugin;
+    private boolean cancelled = false;
 
     public LukkitPluginEnableEvent(LukkitPlugin plugin) {
         this.plugin = plugin;

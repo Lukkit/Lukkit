@@ -94,7 +94,8 @@ public class Main extends JavaPlugin {
         // Set up the tab completer for the /lukkit command
         this.getCommand("lukkit").setTabCompleter(new TabCompleter());
 
-        // Subtract one to count for Lukkit being loaded. Should replace with check internally because other plugins will be registered
+        // Subtract one to count for Lukkit being loaded.
+        // Should replace with check internally because other plugins will be registered
         int totalPlugins = (this.pluginLoader == null) ? 0 : this.pluginLoader.loadedPlugins.size();
 
         if (totalPlugins > 0) {
@@ -364,14 +365,5 @@ public class Main extends JavaPlugin {
         this.wizards.remove(wizard);
     }
 
-    private enum ZipOperation {
-        /**
-         * Zip operation.
-         */
-        PACKAGE,
-        /**
-         * Unzip operation.
-         */
-        UNPACK
-    }
+    private enum ZipOperation { PACKAGE, UNPACK }
 }
