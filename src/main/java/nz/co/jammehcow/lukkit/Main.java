@@ -4,6 +4,7 @@ import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginLoader;
 import nz.co.jammehcow.lukkit.environment.wrappers.thread.LukkitThreadPool;
+import nz.co.jammehcow.lukkit.pluginwizard.PluginWizard;
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -22,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
@@ -50,6 +52,9 @@ public class Main extends JavaPlugin {
     private PluginManager pluginManager;
     private LukkitPluginLoader pluginLoader = null;
 
+    // Linked list as we only refer to it when we need to shut down all plugins.
+    private LinkedList<PluginWizard> wizards = new LinkedList<>();
+
     private static boolean isLukkitPluginFile(String fileName) {
         for (Pattern pattern : LukkitPluginLoader.fileFilters) {
             if (pattern.matcher(fileName).find()) return true;
@@ -72,6 +77,7 @@ public class Main extends JavaPlugin {
                 ChatColor.YELLOW + "  - \"/lukkit dev\" " + ChatColor.GRAY + "- The root command for developer actions (shows this message)\n" +
                 ChatColor.YELLOW + "  - \"/lukkit dev reload (plugin name)\" " + ChatColor.GRAY + "- Reloads the source file and clears all loaded requires\n" +
                 ChatColor.YELLOW + "  - \"/lukkit dev unload (plugin name)\" " + ChatColor.GRAY + "- Unloads the source file and clears all loaded requires\n" +
+                ChatColor.YELLOW + "  - \"/lukkit dev new-plugin\" " + ChatColor.GRAY + "- Runs an interactive plugin builder to generate stub files\n" +
                 ChatColor.YELLOW + "  - \"/lukkit dev pack (plugin name)\" " + ChatColor.GRAY + "- Packages the plugin (directory) into a .lkt file for publishing\n" +
                 ChatColor.YELLOW + "  - \"/lukkit dev unpack (plugin name)\" " + ChatColor.GRAY + "- Unpacks the plugin (.lkt) to a directory based plugin\n" +
                 ChatColor.YELLOW + "  - \"/lukkit dev last-error\" " + ChatColor.GRAY + "- Gets the last error thrown by a plugin and sends the message to the sender. Also prints the stacktrace to the console.\n" +
@@ -100,6 +106,8 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        this.wizards.forEach(PluginWizard::cleanup);
+        this.wizards.clear();
         // Safety, make sure all threads have stopped
         LukkitThreadPool.shutdownAll();
     }
@@ -236,6 +244,10 @@ public class Main extends JavaPlugin {
                 } else {
                     sender.sendMessage("The specified plugin \"" + args[1] + "\" does not exist.");
                 }
+            } else if (args[0].equalsIgnoreCase("new-plugin")) {
+                PluginWizard wizard = new PluginWizard(this, sender);
+                this.wizards.add(wizard);
+                wizard.start();
             } else if (args[0].equalsIgnoreCase("pack")) {
                 // Zip the plugin
                 this.zipOperation(ZipOperation.PACKAGE, sender, args);
@@ -346,6 +358,10 @@ public class Main extends JavaPlugin {
         } else {
             sender.sendMessage("You didn't specify a plugin to " + ((operation == ZipOperation.PACKAGE) ? "package" : "unpack") + "!");
         }
+    }
+
+    public void removeWizard(PluginWizard wizard) {
+        this.wizards.remove(wizard);
     }
 
     private enum ZipOperation {
