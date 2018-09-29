@@ -28,6 +28,7 @@ import org.luaj.vm2.lib.VarArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -81,11 +82,7 @@ public class LukkitPlugin implements Plugin {
         this.logger = new PluginLogger(this);
         Globals globals = LuaEnvironment.getNewGlobals(this);
 
-        try {
-            this.pluginMain = globals.load(new InputStreamReader(this.pluginFile.getResource(this.descriptor.getMain()), "UTF-8"), this.descriptor.getMain());
-        } catch (UnsupportedEncodingException e) {
-            throw new InvalidPluginException("File could not be loaded using UTF-8.", e.getCause());
-        }
+        this.pluginMain = globals.load(new InputStreamReader(this.pluginFile.getResource(this.descriptor.getMain()), StandardCharsets.UTF_8), this.descriptor.getMain());
         this.dataFolder = new File(Main.instance.getDataFolder().getParentFile().getAbsolutePath() + File.separator + this.name);
         if (!this.dataFolder.exists()) //noinspection ResultOfMethodCallIgnored
             this.dataFolder.mkdir();
@@ -109,13 +106,7 @@ public class LukkitPlugin implements Plugin {
                 // Replace all but last dot
                 path = path.replaceAll("\\.(?=[^.]*\\.)", "/");
 
-                try {
-                    return globals.load(new InputStreamReader(pluginFile.getResource(path), "UTF-8"), luaValue.checkjstring()).call();
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                return NIL;
-
+                return globals.load(new InputStreamReader(pluginFile.getResource(path), StandardCharsets.UTF_8), luaValue.checkjstring()).call();
             }
         });
 
