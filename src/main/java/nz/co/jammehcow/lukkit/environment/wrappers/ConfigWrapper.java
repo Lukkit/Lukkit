@@ -2,7 +2,12 @@ package nz.co.jammehcow.lukkit.environment.wrappers;
 
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment.ObjectType;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
-import org.luaj.vm2.*;
+import org.luaj.vm2.LuaBoolean;
+import org.luaj.vm2.LuaDouble;
+import org.luaj.vm2.LuaInteger;
+import org.luaj.vm2.LuaString;
+import org.luaj.vm2.LuaTable;
+import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
 import org.luaj.vm2.lib.ZeroArgFunction;
