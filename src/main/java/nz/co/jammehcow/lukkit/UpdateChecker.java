@@ -41,7 +41,7 @@ public class UpdateChecker {
      * @return whether the local version is lower than the remote version.
      */
     public static boolean isOutOfDate(String local, String remote) {
-        // Version are formatted as "x.x.x" so we split on every period and convert to ints
+        // Versions are formatted as "x.x.x" so we split on every period and convert to ints
         ArrayList<Integer> localVersion = new ArrayList<>(3);
         ArrayList<Integer> remoteVersion = new ArrayList<>(3);
 
