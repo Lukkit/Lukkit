@@ -37,21 +37,25 @@ public class Utilities {
     }
 
     public static boolean isInteger(String str) {
-        if (str == null)
+        if (str == null) {
             return false;
+        }
         int length = str.length();
-        if (length == 0)
+        if (length == 0) {
             return false;
+        }
         int i = 0;
         if (str.charAt(0) == '-') {
-            if (length == 1)
+            if (length == 1) {
                 return false;
+            }
             i = 1;
         }
         for (; i < length; i++) {
             char c = str.charAt(i);
-            if (c < '0' || c > '9')
+            if (c < '0' || c > '9') {
                 return false;
+            }
         }
         return true;
     }
@@ -62,8 +66,9 @@ public class Utilities {
         LuaValue[] keys = table.keys();
 
         for (LuaValue k : keys) {
-            if (!isInteger(k.tojstring()))
+            if (!isInteger(k.tojstring())) {
                 isArray = false;
+            }
             returnedMap.put(k.tojstring(), getObjectFromLuavalue(table.get(k)));
         }
 

@@ -58,12 +58,19 @@ public class LuaJsonElement {
             } else if (primitiveValue.isNumber()) {
                 Number numberValue = primitiveValue.getAsNumber();
 
-                if (numberValue instanceof Double) return LuaValue.valueOf(numberValue.doubleValue());
-                else if (numberValue instanceof Integer) return LuaValue.valueOf(numberValue.intValue());
-                else if (numberValue instanceof Short) return LuaValue.valueOf(numberValue.shortValue());
-                else if (numberValue instanceof Long) return LuaValue.valueOf(numberValue.longValue());
-                else if (numberValue instanceof Float) return LuaValue.valueOf(numberValue.floatValue());
-                else if (numberValue instanceof Byte) return LuaValue.valueOf(numberValue.byteValue());
+                if (numberValue instanceof Double) {
+                    return LuaValue.valueOf(numberValue.doubleValue());
+                } else if (numberValue instanceof Integer) {
+                    return LuaValue.valueOf(numberValue.intValue());
+                } else if (numberValue instanceof Short) {
+                    return LuaValue.valueOf(numberValue.shortValue());
+                } else if (numberValue instanceof Long) {
+                    return LuaValue.valueOf(numberValue.longValue());
+                } else if (numberValue instanceof Float) {
+                    return LuaValue.valueOf(numberValue.floatValue());
+                } else if (numberValue instanceof Byte) {
+                    return LuaValue.valueOf(numberValue.byteValue());
+                }
             }
         } else {
             LuaError error = new LuaError("A LuaJsonElement object was passed an unsupported value other than that " +

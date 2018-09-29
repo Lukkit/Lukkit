@@ -24,7 +24,7 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
     public List<String> onTabComplete(CommandSender commandSender, Command command, String label, String[] args) {
         List<String> tabComplete = new ArrayList<>();
 
-        if (command.getName().startsWith("lukkit"))
+        if (command.getName().startsWith("lukkit")) {
             if (args.length == 1) {
                 return getFilteredCompletions(args[0], subCommands);
             } else if (args.length == 2) {
@@ -64,6 +64,7 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
                     }
                 }
             }
+        }
         return tabComplete;
     }
 
@@ -72,10 +73,14 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
 
         if (!arg.equals("")) {
             for (String s : subCommands) {
-                if (s.startsWith(arg)) returnCompletions.add(s);
+                if (s.startsWith(arg)) {
+                    returnCompletions.add(s);
+                }
             }
 
             return returnCompletions;
-        } else return Arrays.asList(subCommands);
+        } else {
+            return Arrays.asList(subCommands);
+        }
     }
 }

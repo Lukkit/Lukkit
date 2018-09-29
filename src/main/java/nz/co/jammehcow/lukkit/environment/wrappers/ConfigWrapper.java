@@ -54,7 +54,9 @@ public class ConfigWrapper extends LuaTable {
                 }
                 // Rather than making the developer save the config we'll do it automatically.
                 // Can be disabled by config.setAutosave(false)
-                if (autosave) plugin.saveConfig();
+                if (autosave) {
+                    plugin.saveConfig();
+                }
                 return LuaValue.TRUE;
             }
         });
@@ -73,7 +75,9 @@ public class ConfigWrapper extends LuaTable {
                 } else {
                     plugin.getConfig().set(path.tojstring(), value.touserdata());
                 }
-                if (autosave) plugin.saveConfig();
+                if (autosave) {
+                    plugin.saveConfig();
+                }
                 return LuaValue.NIL;
             }
         });

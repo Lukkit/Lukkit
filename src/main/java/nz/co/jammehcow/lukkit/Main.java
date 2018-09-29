@@ -57,7 +57,9 @@ public class Main extends JavaPlugin {
 
     private static boolean isLukkitPluginFile(String fileName) {
         for (Pattern pattern : LukkitPluginLoader.fileFilters) {
-            if (pattern.matcher(fileName).find()) return true;
+            if (pattern.matcher(fileName).find()) {
+                return true;
+            }
         }
 
         return false;
@@ -88,8 +90,9 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         // Check for updates if it's enabled in the config
-        if (getConfig().get("update-checker").equals(true))
+        if (getConfig().get("update-checker").equals(true)) {
             UpdateChecker.checkForUpdates(getDescription().getVersion());
+        }
 
         // Set up the tab completer for the /lukkit command
         this.getCommand("lukkit").setTabCompleter(new TabCompleter());
@@ -124,8 +127,10 @@ public class Main extends JavaPlugin {
         instance = this;
 
         // Create the data folder directory if it doesn't exist
-        if (!this.getDataFolder().exists()) //noinspection ResultOfMethodCallIgnored
+        if (!this.getDataFolder().exists()) {
+            //noinspection ResultOfMethodCallIgnored
             this.getDataFolder().mkdir();
+        }
 
         // Check the config
         this.checkConfig();
@@ -174,8 +179,10 @@ public class Main extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!command.getName().startsWith("lukkit"))
+        if (!command.getName().startsWith("lukkit")) {
             return false;
+        }
+
         if (args.length == 0) {
             sender.sendMessage(getHelpMessage());
             return true;
@@ -305,7 +312,9 @@ public class Main extends JavaPlugin {
                 } else {
                     sender.sendMessage("There are no errors to display!");
                 }
-            } else sender.sendMessage(getDevHelpMessage());
+            } else {
+                sender.sendMessage(getDevHelpMessage());
+            }
         }
 
         return true;
@@ -315,7 +324,9 @@ public class Main extends JavaPlugin {
         // Get the config by relative path
         File cfg = new File(this.getDataFolder().getAbsolutePath() + File.separator + "config.yml");
         // Save the config if it doesn't exist
-        if (!cfg.exists()) this.saveDefaultConfig();
+        if (!cfg.exists()) {
+            this.saveDefaultConfig();
+        }
 
         // Check the config version against the internal version
         if (this.getConfig().getInt("cfg-version") != CFG_VERSION) {
@@ -379,5 +390,5 @@ public class Main extends JavaPlugin {
         this.wizards.remove(wizard);
     }
 
-    private enum ZipOperation { PACKAGE, UNPACK }
+    private enum ZipOperation {PACKAGE, UNPACK}
 }

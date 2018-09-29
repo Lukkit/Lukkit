@@ -10,6 +10,7 @@ public class LukkitThreadPool {
     private final LukkitPlugin plugin;
     private int currentThreadID = 0;
     private ArrayList<LukkitThread> pool = new ArrayList<>();
+
     public LukkitThreadPool(LukkitPlugin plugin) {
         this.plugin = plugin;
         pluginPools.add(this);

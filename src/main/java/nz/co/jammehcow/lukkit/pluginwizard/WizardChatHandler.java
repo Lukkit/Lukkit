@@ -57,7 +57,8 @@ class WizardChatHandler {
         while (!chatContent.isEmpty()) {
             try {
                 wait(1);
-            } catch (InterruptedException ignored) {}
+            } catch (InterruptedException ignored) {
+            }
         }
 
         String msg = this.chatContent;

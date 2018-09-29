@@ -47,12 +47,18 @@ public class LuaEnvironment {
                 String path = arg.checkjstring();
 
                 // It's fine to append your path with .lua as it follows Lua standards.
-                if (path.startsWith("/")) path.replaceFirst("/", "");
-                if (!path.endsWith(".lua")) path = path + ".lua";
+                if (path.startsWith("/")) {
+                    path.replaceFirst("/", "");
+                }
+                if (!path.endsWith(".lua")) {
+                    path = path + ".lua";
+                }
 
                 // Load the script if it's already in memory for this plugin.
                 LuaValue possiblyLoadedScript = g.get("__lukkitpackages__").checktable().get(path);
-                if (possiblyLoadedScript != null) return possiblyLoadedScript;
+                if (possiblyLoadedScript != null) {
+                    return possiblyLoadedScript;
+                }
 
                 // Get the resource as an InputStream from the plugin's resource getter
                 InputStream is = plugin.getResource(path);

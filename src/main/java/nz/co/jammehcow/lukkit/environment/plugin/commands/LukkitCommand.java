@@ -71,8 +71,9 @@ public class LukkitCommand extends Command {
     }
 
     public void register() throws NoSuchFieldException, IllegalAccessException {
-        if (getName() == null || getDescription() == null || registered)
+        if (getName() == null || getDescription() == null || registered) {
             return;
+        }
         final Field bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
 
         bukkitCommandMap.setAccessible(true);
@@ -163,8 +164,9 @@ public class LukkitCommand extends Command {
             if (val != LuaValue.NIL) {
                 LuaTable tbl = val.checktable();
                 Object o = Utilities.convertTable(tbl);
-                if (o instanceof List)
+                if (o instanceof List) {
                     return (List<String>) o;
+                }
             }
         }
         return def;

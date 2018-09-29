@@ -18,6 +18,7 @@ public class PluginWizard extends Thread {
     private final WizardChatHandler chatHandler;
     private final PluginTemplate template = new PluginTemplate();
     private Step currentStep = Step.ENTRY;
+
     public PluginWizard(Main plugin, CommandSender sender) {
         this.plugin = plugin;
         this.sender = sender;
@@ -184,7 +185,9 @@ public class PluginWizard extends Thread {
 
                 // Get a first time only message and send it if it's the first time
                 String preMessage = finalMethod.getAnnotation(WizardStep.class).firstRunOutput();
-                if (!preMessage.isEmpty()) this.sender.sendMessage(ChatColor.GREEN + preMessage);
+                if (!preMessage.isEmpty()) {
+                    this.sender.sendMessage(ChatColor.GREEN + preMessage);
+                }
 
                 //noinspection ConfusingArgumentToVarargsMethod
                 return (Step) finalMethod.invoke(this);

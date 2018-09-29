@@ -81,9 +81,10 @@ public class PluginWrapper extends LuaTable {
         set("addCommand", new TwoArgFunction() {
             @Override
             public LuaValue call(LuaValue arg1, LuaValue arg2) {
-                if (!arg1.istable() || !arg2.isfunction())
+                if (!arg1.istable() || !arg2.isfunction()) {
                     throw new LukkitPluginException("There was an issue registering a command. " +
                             "Check that the command registration conforms to the layout here: ");
+                }
 
                 LukkitCommand command;
                 LuaTable cmd = arg1.checktable();
@@ -92,30 +93,37 @@ public class PluginWrapper extends LuaTable {
                 String cmdName = cmd.get("name").checkjstring();
 
                 String cmdDescription = "";
-                if (cmd.get("description") != LuaValue.NIL)
+                if (cmd.get("description") != LuaValue.NIL) {
                     cmdDescription = cmd.get("description").checkjstring();
+                }
 
                 String cmdUsage = "";
-                if (cmd.get("usage") != LuaValue.NIL)
+                if (cmd.get("usage") != LuaValue.NIL) {
                     cmdUsage = cmd.get("usage").checkjstring();
+                }
 
 
                 command = new LukkitCommand(plugin, function, cmdName, cmdDescription, cmdUsage);
 
-                if (cmd.get("permission") != LuaValue.NIL)
+                if (cmd.get("permission") != LuaValue.NIL) {
                     command.setPermission(cmd.get("permission").checkjstring());
+                }
 
-                if (cmd.get("permissionMessage") != LuaValue.NIL)
+                if (cmd.get("permissionMessage") != LuaValue.NIL) {
                     command.setPermissionMessage(cmd.get("permissionMessage").checkjstring());
+                }
 
-                if (cmd.get("maxArgs") != LuaValue.NIL)
+                if (cmd.get("maxArgs") != LuaValue.NIL) {
                     command.setMaxArgs(cmd.get("maxArgs").checkint());
+                }
 
-                if (cmd.get("minArgs") != LuaValue.NIL)
+                if (cmd.get("minArgs") != LuaValue.NIL) {
                     command.setMinArgs(cmd.get("minArgs").checkint());
+                }
 
-                if (cmd.get("runAsync") != LuaValue.NIL)
+                if (cmd.get("runAsync") != LuaValue.NIL) {
                     command.setRunAsync(cmd.get("runAsync").checkboolean());
+                }
 
                 plugin.registerCommand(command);
                 return CoerceJavaToLua.coerce(command);
@@ -186,7 +194,9 @@ public class PluginWrapper extends LuaTable {
         set("exportResource", new TwoArgFunction() {
             @Override
             public LuaValue call(LuaValue path, LuaValue replace) {
-                if (!plugin.getPluginFile().resourceExists(path.checkjstring())) return LuaValue.FALSE;
+                if (!plugin.getPluginFile().resourceExists(path.checkjstring())) {
+                    return LuaValue.FALSE;
+                }
 
                 plugin.saveResource(path.checkjstring(), replace.checkboolean());
                 return LuaValue.TRUE;

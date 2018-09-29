@@ -68,7 +68,9 @@ class UpdateChecker {
 
         // Loop from MAJOR through to PATCH numbers
         for (int i = 0; i < localVersion.length; i++) {
-            if (localVersion[i] < remoteVersion[i]) return true;
+            if (localVersion[i] < remoteVersion[i]) {
+                return true;
+            }
         }
 
         return false;

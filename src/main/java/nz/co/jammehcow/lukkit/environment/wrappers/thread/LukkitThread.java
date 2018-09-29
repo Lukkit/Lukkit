@@ -12,9 +12,12 @@ public class LukkitThread {
                 () -> {
                     try {
                         // Negative delays are ignored, treated as no delay
-                        if (delay > 0L) Thread.sleep(delay);
+                        if (delay > 0L) {
+                            Thread.sleep(delay);
+                        }
                         func.call();
-                    } catch (InterruptedException ignored) {}
+                    } catch (InterruptedException ignored) {
+                    }
                 },
                 plugin.getThreadPool().generateThreadName()
         );

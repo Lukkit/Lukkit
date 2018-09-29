@@ -44,8 +44,9 @@ public class LukkitPluginFile {
      */
     public InputStream getPluginYML() throws InvalidDescriptionException {
         InputStream pluginYml = this.getResource("plugin.yml");
-        if (pluginYml == null)
+        if (pluginYml == null) {
             throw new InvalidDescriptionException("The description provided was missing.");
+        }
         return pluginYml;
     }
 
@@ -68,13 +69,15 @@ public class LukkitPluginFile {
         try {
             if (this.isDevPlugin) {
                 File file = new File(this.file.getAbsolutePath() + File.separator + resource);
-                if (!file.exists())
+                if (!file.exists()) {
                     return null;
+                }
                 return new FileInputStream(file);
             }
             ZipEntry entry = this.zipFile.getEntry(resource);
-            if (entry == null)
+            if (entry == null) {
                 return null;
+            }
             return this.zipFile.getInputStream(entry);
         } catch (IOException e) {
             return null;

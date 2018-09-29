@@ -47,7 +47,7 @@ public class LukkitPluginLoader implements PluginLoader {
     private final Server server;
     /**
      * The list of available plugins installed in the Lukkit data folder.
-     *
+     * <p>
      * Plugins aren't loaded by default due to dependency requirements.
      * If we get a list of every plugin installed we can check dependency requests against
      * the plugins available and throw errors when they don't exist (for hard depends).
@@ -114,8 +114,9 @@ public class LukkitPluginLoader implements PluginLoader {
         if (!event.isCancelled()) {
             plugin.onEnable();
         } else {
-            if (plugin.isEnabled())
+            if (plugin.isEnabled()) {
                 Bukkit.getPluginManager().disablePlugin(plugin);
+            }
         }
     }
 
@@ -137,8 +138,9 @@ public class LukkitPluginLoader implements PluginLoader {
      */
     public void reloadPlugin(LukkitPlugin plugin) throws InvalidPluginException, InvalidDescriptionException, LukkitPluginException, IllegalAccessException, NoSuchFieldException {
         // Check if the plugin is a dev plugin.
-        if (!plugin.isDevPlugin())
+        if (!plugin.isDevPlugin()) {
             throw new LukkitPluginException("Cannot reload a standard Lukkit plugin, use /reload instead. This is a developer-only feature.");
+        }
 
         // Disable and unload the whole plugin
         unloadPlugin(plugin);
@@ -156,9 +158,10 @@ public class LukkitPluginLoader implements PluginLoader {
      */
     public void unloadPlugin(LukkitPlugin plugin) throws LukkitPluginException, NoSuchFieldException, IllegalAccessException {
         // Check if the plugin is a dev plugin.
-        if (!plugin.isDevPlugin())
+        if (!plugin.isDevPlugin()) {
             throw new LukkitPluginException("Cannot unload a standard Lukkit plugin, use /stop instead. " +
                     "This is a developer-only feature.");
+        }
 
         String pName = plugin.getName();
         PluginManager pluginManager = this.server.getPluginManager();

@@ -91,8 +91,10 @@ public class LukkitPlugin implements Plugin {
 
         this.dataFolder = new File(Main.instance.getDataFolder().getParentFile().getAbsolutePath()
                 + File.separator + this.name);
-        if (!this.dataFolder.exists()) //noinspection ResultOfMethodCallIgnored
+        if (!this.dataFolder.exists()) {
+            //noinspection ResultOfMethodCallIgnored
             this.dataFolder.mkdir();
+        }
 
         this.pluginConfig = new File(this.dataFolder + File.separator + "config.yml");
         this.config = new YamlConfiguration();
@@ -106,8 +108,9 @@ public class LukkitPlugin implements Plugin {
 
         // Sets callbacks (if any) and loads the commands & events into memory.
         Optional<String> isValid = this.checkPluginValidity();
-        if (isValid.isPresent())
+        if (isValid.isPresent()) {
             throw new InvalidPluginException("An issue occurred when loading the plugin: \n" + isValid.get());
+        }
 
         this.threadPool = new LukkitThreadPool(this);
 
@@ -165,7 +168,9 @@ public class LukkitPlugin implements Plugin {
 
     @Override
     public void saveResource(String resourcePath, boolean replace) {
-        if (resourcePath.startsWith("/")) resourcePath = resourcePath.replaceFirst("/", "");
+        if (resourcePath.startsWith("/")) {
+            resourcePath = resourcePath.replaceFirst("/", "");
+        }
 
         String fileName = resourcePath.split("/")[resourcePath.split("/").length - 1];
         File resourceOutput = new File(this.dataFolder.getAbsolutePath() + File.separator + fileName);
@@ -219,7 +224,9 @@ public class LukkitPlugin implements Plugin {
     public void onEnable() {
         this.enabled = true;
         try {
-            if (this.enableCB != null) this.enableCB.call(CoerceJavaToLua.coerce(this));
+            if (this.enableCB != null) {
+                this.enableCB.call(CoerceJavaToLua.coerce(this));
+            }
         } catch (LukkitPluginException e) {
             e.printStackTrace();
             LuaEnvironment.addError(e);
@@ -239,7 +246,9 @@ public class LukkitPlugin implements Plugin {
         this.threadPool.shutdown();
 
         try {
-            if (this.disableCB != null) this.disableCB.call(CoerceJavaToLua.coerce(this));
+            if (this.disableCB != null) {
+                this.disableCB.call(CoerceJavaToLua.coerce(this));
+            }
         } catch (LukkitPluginException e) {
             e.printStackTrace();
             LuaEnvironment.addError(e);
@@ -250,7 +259,9 @@ public class LukkitPlugin implements Plugin {
     @Override
     public void onLoad() {
         try {
-            if (this.loadCB != null) this.loadCB.call();
+            if (this.loadCB != null) {
+                this.loadCB.call();
+            }
         } catch (LukkitPluginException e) {
             e.printStackTrace();
             LuaEnvironment.addError(e);
@@ -316,7 +327,8 @@ public class LukkitPlugin implements Plugin {
     public Listener registerEvent(Class<? extends Event> event, LuaFunction function) {
         getEventListeners(event).add(function);
         if (this.enabled) {
-            Listener listener = new Listener() {};
+            Listener listener = new Listener() {
+            };
 
             this.getServer().getPluginManager().registerEvent(
                     event, listener, EventPriority.NORMAL,
@@ -348,8 +360,9 @@ public class LukkitPlugin implements Plugin {
             @Override
             public LuaValue call(LuaValue luaValue) {
                 String path = luaValue.checkjstring();
-                if (!path.endsWith(".lua"))
+                if (!path.endsWith(".lua")) {
                     path += ".lua";
+                }
 
                 // Replace all but last dot
                 path = path.replaceAll("\\.(?=[^.]*\\.)", "/");
@@ -367,10 +380,12 @@ public class LukkitPlugin implements Plugin {
             public LuaValue call(LuaValue luaValue) {
                 try {
                     String path = luaValue.checkjstring();
-                    if (path.startsWith("$"))
+                    if (path.startsWith("$")) {
                         path = "org.bukkit" + path.substring(1);
-                    if (path.startsWith("#"))
+                    }
+                    if (path.startsWith("#")) {
                         path = "nz.co.jammehcow.lukkit.environment" + path.substring(1);
+                    }
                     return CoerceJavaToLua.coerce(Class.forName(path));
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
@@ -383,10 +398,12 @@ public class LukkitPlugin implements Plugin {
             public LuaValue call(LuaValue cls, LuaValue args) {
                 String classPath = cls.checkjstring();
                 try {
-                    if (classPath.startsWith("$"))
+                    if (classPath.startsWith("$")) {
                         classPath = "org.bukkit" + classPath.substring(1);
-                    if (classPath.startsWith("#"))
+                    }
+                    if (classPath.startsWith("#")) {
                         classPath = "nz.co.jammehcow.lukkit.environment" + classPath.substring(1);
+                    }
                     if (args.isnil()) {
                         return CoerceJavaToLua.coerce(Class.forName(classPath).newInstance());
                     } else if (args.istable()) {
