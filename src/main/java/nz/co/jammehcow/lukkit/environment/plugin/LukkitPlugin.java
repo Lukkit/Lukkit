@@ -461,8 +461,7 @@ public class LukkitPlugin implements Plugin {
 
     public void unregisterAllCommands() {
         // Create new array to get rid of concurrent modification
-        List<LukkitCommand> cmds = new ArrayList<>();
-        cmds.addAll(commands);
+        List<LukkitCommand> cmds = new ArrayList<>(commands);
         cmds.forEach(this::unregisterCommand);
     }
 
