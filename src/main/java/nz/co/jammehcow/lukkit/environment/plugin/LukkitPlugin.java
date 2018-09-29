@@ -88,7 +88,6 @@ public class LukkitPlugin implements Plugin {
 
         this.name = this.descriptor.getName();
         this.logger = new PluginLogger(this);
-        Globals globals = LuaEnvironment.getNewGlobals(this);
 
         this.dataFolder = new File(Main.instance.getDataFolder().getParentFile().getAbsolutePath()
                 + File.separator + this.name);
@@ -99,68 +98,11 @@ public class LukkitPlugin implements Plugin {
         this.config = new YamlConfiguration();
         this.loadConfigWithChecks();
 
-        globals.set("plugin", new PluginWrapper(this));
-        globals.set("logger", new LoggerWrapper(this));
-        globals.set("util", new UtilitiesWrapper(this));
-        globals.set("config", new ConfigWrapper(this));
-
-        globals.set("require", new OneArgFunction() {
-            @Override
-            public LuaValue call(LuaValue luaValue) {
-                String path = luaValue.checkjstring();
-                if (!path.endsWith(".lua"))
-                    path += ".lua";
-
-                // Replace all but last dot
-                path = path.replaceAll("\\.(?=[^.]*\\.)", "/");
-
-                return globals.load(new InputStreamReader(pluginFile.getResource(path), StandardCharsets.UTF_8), luaValue.checkjstring()).call();
-            }
-        });
-
-        globals.set("import", new OneArgFunction() {
-            @Override
-            public LuaValue call(LuaValue luaValue) {
-                try {
-                    String path = luaValue.checkjstring();
-                    if (path.startsWith("$"))
-                        path = "org.bukkit" + path.substring(1);
-                    if (path.startsWith("#"))
-                        path = "nz.co.jammehcow.lukkit.environment" + path.substring(1);
-                    return CoerceJavaToLua.coerce(Class.forName(path));
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-                return NIL;
-            }
-        });
-        globals.set("newInstance", new VarArgFunction() {
-            @Override
-            public LuaValue call(LuaValue cls, LuaValue args) {
-                String classPath = cls.checkjstring();
-                try {
-                    if (classPath.startsWith("$"))
-                        classPath = "org.bukkit" + classPath.substring(1);
-                    if (classPath.startsWith("#"))
-                        classPath = "nz.co.jammehcow.lukkit.environment" + classPath.substring(1);
-                    if (args.isnil()) {
-                        return CoerceJavaToLua.coerce(Class.forName(classPath).newInstance());
-                    } else if (args.istable()) {
-                        List<Object> argList = (List<Object>) Utilities.convertTable(args.checktable());
-                        List<Class<?>> typesList = new ArrayList<>();
-
-                        argList.forEach(o -> typesList.add(o.getClass()));
-
-                        return CoerceJavaToLua.coerce(Class.forName(classPath).getDeclaredConstructor(
-                                typesList.toArray(new Class<?>[0]))
-                                .newInstance(argList.toArray(new Object[0])));
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return NIL;
-            }
-        });
+        Globals globals = this.initializeGlobals();
+        this.pluginMain = globals.load(
+                new InputStreamReader(this.pluginFile.getResource(this.descriptor.getMain()), StandardCharsets.UTF_8),
+                this.descriptor.getMain()
+        );
 
         // Sets callbacks (if any) and loads the commands & events into memory.
         Optional<String> isValid = this.checkPluginValidity();
@@ -392,6 +334,79 @@ public class LukkitPlugin implements Plugin {
     private ArrayList<LuaFunction> getEventListeners(Class<? extends Event> event) {
         this.eventListeners.computeIfAbsent(event, k -> new ArrayList<>());
         return this.eventListeners.get(event);
+    }
+
+    private Globals initializeGlobals() {
+        Globals globals = LuaEnvironment.getNewGlobals(this);
+
+        globals.set("plugin", new PluginWrapper(this));
+        globals.set("logger", new LoggerWrapper(this));
+        globals.set("util", new UtilitiesWrapper(this));
+        globals.set("config", new ConfigWrapper(this));
+
+        globals.set("require", new OneArgFunction() {
+            @Override
+            public LuaValue call(LuaValue luaValue) {
+                String path = luaValue.checkjstring();
+                if (!path.endsWith(".lua"))
+                    path += ".lua";
+
+                // Replace all but last dot
+                path = path.replaceAll("\\.(?=[^.]*\\.)", "/");
+
+                return globals.load(
+                        new InputStreamReader(pluginFile.getResource(path),
+                                StandardCharsets.UTF_8
+                        ), luaValue.checkjstring()
+                ).call();
+            }
+        });
+
+        globals.set("import", new OneArgFunction() {
+            @Override
+            public LuaValue call(LuaValue luaValue) {
+                try {
+                    String path = luaValue.checkjstring();
+                    if (path.startsWith("$"))
+                        path = "org.bukkit" + path.substring(1);
+                    if (path.startsWith("#"))
+                        path = "nz.co.jammehcow.lukkit.environment" + path.substring(1);
+                    return CoerceJavaToLua.coerce(Class.forName(path));
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                return NIL;
+            }
+        });
+        globals.set("newInstance", new VarArgFunction() {
+            @Override
+            public LuaValue call(LuaValue cls, LuaValue args) {
+                String classPath = cls.checkjstring();
+                try {
+                    if (classPath.startsWith("$"))
+                        classPath = "org.bukkit" + classPath.substring(1);
+                    if (classPath.startsWith("#"))
+                        classPath = "nz.co.jammehcow.lukkit.environment" + classPath.substring(1);
+                    if (args.isnil()) {
+                        return CoerceJavaToLua.coerce(Class.forName(classPath).newInstance());
+                    } else if (args.istable()) {
+                        List<Object> argList = (List<Object>) Utilities.convertTable(args.checktable());
+                        List<Class<?>> typesList = new ArrayList<>();
+
+                        argList.forEach(o -> typesList.add(o.getClass()));
+
+                        return CoerceJavaToLua.coerce(Class.forName(classPath).getDeclaredConstructor(
+                                typesList.toArray(new Class<?>[0]))
+                                .newInstance(argList.toArray(new Object[0])));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return NIL;
+            }
+        });
+
+        return globals;
     }
 
     // TODO: combine both config methods into one.
