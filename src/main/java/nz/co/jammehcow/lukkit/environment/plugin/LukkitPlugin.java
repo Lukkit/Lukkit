@@ -382,8 +382,7 @@ public class LukkitPlugin implements Plugin {
                     String path = luaValue.checkjstring();
                     if (path.startsWith("$")) {
                         path = "org.bukkit" + path.substring(1);
-                    }
-                    if (path.startsWith("#")) {
+                    } else if (path.startsWith("#")) {
                         path = "nz.co.jammehcow.lukkit.environment" + path.substring(1);
                     }
                     return CoerceJavaToLua.coerce(Class.forName(path));
@@ -400,10 +399,10 @@ public class LukkitPlugin implements Plugin {
                 try {
                     if (classPath.startsWith("$")) {
                         classPath = "org.bukkit" + classPath.substring(1);
-                    }
-                    if (classPath.startsWith("#")) {
+                    } else if (classPath.startsWith("#")) {
                         classPath = "nz.co.jammehcow.lukkit.environment" + classPath.substring(1);
                     }
+
                     if (args.isnil()) {
                         return CoerceJavaToLua.coerce(Class.forName(classPath).newInstance());
                     } else if (args.istable()) {
