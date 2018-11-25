@@ -392,6 +392,7 @@ public class LukkitPlugin implements Plugin {
                 return NIL;
             }
         });
+
         globals.set("newInstance", new VarArgFunction() {
             @Override
             public LuaValue call(LuaValue cls, LuaValue args) {
@@ -502,7 +503,7 @@ public class LukkitPlugin implements Plugin {
         }
     }
 
-    public void unregisterCommand(LukkitCommand command) {
+    private void unregisterCommand(LukkitCommand command) {
         this.commands.remove(command);
         try {
             command.unregister();
@@ -511,7 +512,7 @@ public class LukkitPlugin implements Plugin {
         }
     }
 
-    public void unregisterAllCommands() {
+    private void unregisterAllCommands() {
         // Create new array to get rid of concurrent modification
         List<LukkitCommand> cmds = new ArrayList<>(this.commands);
         cmds.forEach(this::unregisterCommand);
