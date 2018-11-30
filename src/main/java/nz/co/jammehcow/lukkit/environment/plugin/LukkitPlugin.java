@@ -4,10 +4,7 @@ import nz.co.jammehcow.lukkit.Main;
 import nz.co.jammehcow.lukkit.Utilities;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
 import nz.co.jammehcow.lukkit.environment.plugin.commands.LukkitCommand;
-import nz.co.jammehcow.lukkit.environment.wrappers.ConfigWrapper;
-import nz.co.jammehcow.lukkit.environment.wrappers.LoggerWrapper;
-import nz.co.jammehcow.lukkit.environment.wrappers.PluginWrapper;
-import nz.co.jammehcow.lukkit.environment.wrappers.UtilitiesWrapper;
+import nz.co.jammehcow.lukkit.environment.wrappers.*;
 import nz.co.jammehcow.lukkit.environment.wrappers.thread.LukkitThreadPool;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -355,6 +352,7 @@ public class LukkitPlugin implements Plugin {
         globals.set("logger", new LoggerWrapper(this));
         globals.set("util", new UtilitiesWrapper(this));
         globals.set("config", new ConfigWrapper(this));
+        globals.set("material", new MaterialWrapper(this));
 
         globals.set("require", new OneArgFunction() {
             @Override
