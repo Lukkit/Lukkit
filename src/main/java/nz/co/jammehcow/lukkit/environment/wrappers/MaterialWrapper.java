@@ -2,6 +2,7 @@ package nz.co.jammehcow.lukkit.environment.wrappers;
 
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment.ObjectType;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
@@ -43,6 +44,7 @@ public class MaterialWrapper extends LuaTable {
         set("getMaterialById", new OneArgFunction() {
             @Override
             public LuaValue call(LuaValue c) {
+                plugin.getLogger().warning("getMaterialByID(number) is deprecated. getMaterial(name) should be used instead");
                 return CoerceJavaToLua.coerce(Material.getMaterial(c.checkint()));
             }
         });
