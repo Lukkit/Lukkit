@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
+import org.luaj.vm2.lib.ZeroArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
 /**
@@ -14,7 +15,6 @@ import org.luaj.vm2.lib.jse.CoerceJavaToLua;
  */
 
 public class MaterialWrapper extends LuaTable {
-
     private LukkitPlugin plugin;
 
     public MaterialWrapper(LukkitPlugin plugin) {
@@ -49,18 +49,17 @@ public class MaterialWrapper extends LuaTable {
             }
         });
 
-        set("values", new OneArgFunction() {
+        set("values", new ZeroArgFunction() {
             @Override
-            public LuaValue call(LuaValue c) {
+            public LuaValue call() {
                 return CoerceJavaToLua.coerce(Material.values());
             }
         });
 
         // Add every mat to the table
-        for (Material mat : Material.values())
+        for (Material mat : Material.values()) {
             set(mat.name(), CoerceJavaToLua.coerce(mat));
-
-
+        }
     }
 
     @Override

@@ -90,7 +90,6 @@ public class ItemStackWrapper extends LuaTable {
             @Override
             public LuaValue call() {
                 return CoerceJavaToLua.coerce(getBukkitItemStack());
-
             }
         });
 

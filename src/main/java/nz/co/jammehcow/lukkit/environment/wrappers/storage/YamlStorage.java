@@ -39,7 +39,7 @@ public class YamlStorage extends StorageObject {
     @Override
     public LuaBoolean setDefaultValue(LuaString path, LuaValue value) throws StorageObjectException {
         if (this.yamlConfiguration.get(path.checkjstring()) == null) {
-            this.yamlConfiguration.set(path.checkjstring(), Utilities.getObjectFromLuavalue(value));
+            this.yamlConfiguration.set(path.checkjstring(), Utilities.getObjectFromLuaValue(value));
             return LuaValue.TRUE;
         }
 
@@ -48,7 +48,7 @@ public class YamlStorage extends StorageObject {
 
     @Override
     public void setValue(LuaString path, LuaValue value) throws StorageObjectException {
-        this.yamlConfiguration.set(path.checkjstring(), Utilities.getObjectFromLuavalue(value));
+        this.yamlConfiguration.set(path.checkjstring(), Utilities.getObjectFromLuaValue(value));
     }
 
     @Override

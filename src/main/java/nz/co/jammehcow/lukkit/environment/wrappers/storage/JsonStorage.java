@@ -55,7 +55,7 @@ public class JsonStorage extends StorageObject {
 
     @Override
     public void setValue(LuaString path, LuaValue value) throws StorageObjectException {
-        object.add(path.checkjstring(), gson.toJsonTree(Utilities.getObjectFromLuavalue(value)));
+        object.add(path.checkjstring(), gson.toJsonTree(Utilities.getObjectFromLuaValue(value)));
     }
 
     @Override
