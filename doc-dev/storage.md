@@ -27,7 +27,7 @@ JSON & YAML
 
 #### Description
 
-Gets the value at ``path`` or returns a default value if supplied.
+Gets the value at ``path`` or returns a default value (if supplied).
 Does not type check.
 
 #### Arguments
@@ -42,6 +42,4 @@ Does not type check.
 |------|------|
 | nil  | The path couldn't be followed in the file |
 | ?    | The value was found and was returned. Can be anything |
-
-
 
