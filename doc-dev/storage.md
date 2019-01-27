@@ -183,6 +183,23 @@ None.
 | string | The relative path |
 
 
+### ``getName()``
+
+#### Description
+
+Gets the file's name ***excluding the extension***.
+
+#### Arguments
+
+None.
+
+#### Returns
+
+| Type | Case/Output |
+|------|-------------|
+| string | The filename |
+
+
 ### ``getExtension()``
 
 #### Description
