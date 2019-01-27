@@ -35,7 +35,7 @@ Does not type check.
 | Name | Type | Description |
 |------|------|-------------|
 | path | string | The path in the file to the desired value, separated by ``.`` |
-| ?defaultValue | string | A string to return if the path couldn't be followed. |
+| ?defaultValue | string | An optional value to return if the path couldn't be followed. |
 
 #### Returns
 
@@ -56,7 +56,7 @@ Gets the number at ``path`` or returns a default value (if supplied).
 | Name | Type | Description |
 |------|------|-------------|
 | path | string | The path in the file to get the number from, separated by ``.`` |
-| ?defaultValue | string | A number to return if the path couldn't be followed. |
+| ?defaultValue | string | An optional number to return if the path couldn't be followed. |
 
 #### Returns
 
@@ -77,7 +77,7 @@ Gets the string at ``path`` or returns a default value (if supplied).
 | Name | Type | Description |
 |------|------|-------------|
 | path | string | The path in the file to get the string from, separated by ``.`` |
-| ?defaultValue | string | A string to return if the path couldn't be followed. |
+| ?defaultValue | string | An optional string to return if the path couldn't be followed. |
 
 #### Returns
 
@@ -98,7 +98,7 @@ Gets the array (indexed dict) at ``path`` or returns a default value (if supplie
 | Name | Type | Description |
 |------|------|-------------|
 | path | string | The path in the file to get the array from, separated by ``.`` |
-| ?defaultValue | array | An array to return if the path couldn't be followed. Can't think of a reason to default an array |
+| ?defaultValue | array | An optional array to return if the path couldn't be followed. Can't think of a reason to default an array |
 
 #### Returns
 
@@ -119,7 +119,7 @@ Gets the dictionary at ``path`` or returns a default value (if supplied).
 | Name | Type | Description |
 |------|------|-------------|
 | path | string | The path in the file to get the dictionary from, separated by ``.`` |
-| ?defaultValue | dict | A dictionary to return if the path couldn't be followed. Can't think of a reason to default a dict |
+| ?defaultValue | dict | An optional dictionary to return if the path couldn't be followed. Can't think of a reason to default a dict |
 
 #### Returns
 
