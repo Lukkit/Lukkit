@@ -149,6 +149,74 @@ Sets the value at ``path`` and returns a boolean if the value was set.
 | boolean  | true if the value was set, false if not |
 
 
+### ``getAbsolutePath()``
+
+#### Description
+
+Gets the absolute path (e.g. ``/home/me/myserver/plugins/myplugin/file.json``).
+
+#### Arguments
+
+None.
+
+#### Returns
+
+| Type | Case/Output |
+|------|-------------|
+| string | The absolute path |
+
+
+### ``getRelativePath()``
+
+#### Description
+
+Gets the path of the file relative to the data folder.
+
+#### Arguments
+
+None.
+
+#### Returns
+
+| Type | Case/Output |
+|------|-------------|
+| string | The relative path |
+
+
+### ``getExtension()``
+
+#### Description
+
+Gets the file's extension.
+
+#### Arguments
+
+None.
+
+#### Returns
+
+| Type | Case/Output |
+|------|-------------|
+| string | The extension of the file. *Usually* "json" or "yml" but isn't enforced |
+
+
+### ``getFileType()``
+
+#### Description
+
+Gets the type of data being stored.
+
+#### Arguments
+
+None.
+
+#### Returns
+
+| Type | Case/Output |
+|------|-------------|
+| string | Either "json" or "yaml" |
+
+
 ### ``save()``
 
 #### Description
