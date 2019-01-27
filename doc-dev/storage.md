@@ -162,3 +162,20 @@ None.
 #### Returns
 
 Nothing.
+
+
+### ``isSaved()``
+
+#### Description
+
+Whether or not the object in memory has been saved to disk.
+
+#### Arguments
+
+None.
+
+#### Returns
+
+| Type | Case |
+|------|------|
+| boolean  | true if memory matches file, false if not |
