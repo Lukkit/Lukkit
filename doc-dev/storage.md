@@ -146,7 +146,7 @@ Sets the value at ``path`` and returns a boolean if the value was set.
 
 | Type | Case |
 |------|------|
-| boolean  | True if the value was set, false if not |
+| boolean  | true if the value was set, false if not |
 
 
 ### ``save()``
