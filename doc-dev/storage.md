@@ -23,11 +23,12 @@ JSON & YAML
 
 ## Instance Methods
 
-### ``get(path)``
+### ``get(path, ?defaultValue)``
 
 #### Description
 
-Gets the value at ``path``. Does not do type checking as the value returned could be anything.
+Gets the value at ``path`` or returns a default value if supplied.
+Does not type check.
 
 #### Arguments
 
@@ -43,24 +44,4 @@ Gets the value at ``path``. Does not do type checking as the value returned coul
 | ?    | The value was found and was returned. Can be anything |
 
 
-### ``getDefault(path, defaultValue)``
-
-#### Description
-
-Gets the value at ``path`` or returns the default argument.
-Does not do type checking as the value returned could be anything.
-
-#### Arguments
-
-| Name | Type | Description |
-|------|------|-------------|
-| path | string | The path in the file to the desired value separated by ``.`` |
-| defaultValue | ? | Any value which you want to return if the path couldn't be followed |
-
-#### Returns
-
-| Type | Case |
-|------|------|
-| defaultValue's type | The path couldn't be followed in the file so the default value was returned |
-| ?    | The value was found and was returned. Could be anything |
 
