@@ -35,7 +35,7 @@ Does not type check.
 | Name | Type | Description |
 |------|------|-------------|
 | path | string | The path in the file to the desired value, separated by ``.`` |
-| ?defaultValue | string | An optional value to return if the path couldn't be followed. |
+| ?defaultValue | ? | An optional value to return if the path couldn't be followed. |
 
 #### Returns
 
@@ -56,7 +56,7 @@ Gets the number at ``path`` or returns a default value (if supplied).
 | Name | Type | Description |
 |------|------|-------------|
 | path | string | The path in the file to get the number from, separated by ``.`` |
-| ?defaultValue | string | An optional number to return if the path couldn't be followed. |
+| ?defaultValue | number | An optional number to return if the path couldn't be followed. |
 
 #### Returns
 
