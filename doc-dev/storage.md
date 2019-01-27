@@ -14,8 +14,8 @@ JSON & YAML
 
 ### Returns
 
-| Type | Case |
-|------|------|
+| Type | Case/Output |
+|------|-------------|
 | nil  | There was an issue getting the file. Errors are logged |
 | Storage | A file was found or a new one *can* be created |
 
@@ -39,8 +39,8 @@ Does not type check.
 
 #### Returns
 
-| Type | Case |
-|------|------|
+| Type | Case/Output |
+|------|-------------|
 | nil  | The path couldn't be followed in the file |
 | ?    | The value was found and was returned. Can be anything |
 
@@ -60,8 +60,8 @@ Gets the number at ``path`` or returns a default value (if supplied).
 
 #### Returns
 
-| Type | Case |
-|------|------|
+| Type | Case/Output |
+|------|-------------|
 | nil  | The path couldn't be followed in the file |
 | number | The number was found or the default value was returned |
 
@@ -81,8 +81,8 @@ Gets the string at ``path`` or returns a default value (if supplied).
 
 #### Returns
 
-| Type | Case |
-|------|------|
+| Type | Case/Output |
+|------|-------------|
 | nil  | The path couldn't be followed in the file |
 | string | The string was found or the default value was returned |
 
@@ -102,8 +102,8 @@ Gets the array (indexed dict) at ``path`` or returns a default value (if supplie
 
 #### Returns
 
-| Type | Case |
-|------|------|
+| Type | Case/Output |
+|------|-------------|
 | nil  | The path couldn't be followed in the file |
 | array | The array was found or the default value was returned |
 
@@ -123,8 +123,8 @@ Gets the dictionary at ``path`` or returns a default value (if supplied).
 
 #### Returns
 
-| Type | Case |
-|------|------|
+| Type | Case/Output |
+|------|-------------|
 | nil  | The path couldn't be followed in the file |
 | dict | The dictionary was found or the default value was returned |
 
@@ -144,8 +144,8 @@ Sets the value at ``path`` and returns a boolean if the value was set.
 
 #### Returns
 
-| Type | Case |
-|------|------|
+| Type | Case/Output |
+|------|-------------|
 | boolean  | true if the value was set, false if not |
 
 
@@ -176,6 +176,6 @@ None.
 
 #### Returns
 
-| Type | Case |
-|------|------|
+| Type | Case/Output |
+|------|-------------|
 | boolean  | true if memory matches file, false if not |
