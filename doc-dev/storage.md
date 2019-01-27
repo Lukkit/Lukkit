@@ -34,7 +34,8 @@ Does not type check.
 
 | Name | Type | Description |
 |------|------|-------------|
-| path | string | The path in the file to the desired value separated by ``.`` |
+| path | string | The path in the file to the desired value, separated by ``.`` |
+| ?defaultValue | string | A string to return if the path couldn't be followed. |
 
 #### Returns
 
