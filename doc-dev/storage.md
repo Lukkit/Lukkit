@@ -127,3 +127,23 @@ Gets the dictionary at ``path`` or returns a default value (if supplied).
 |------|------|
 | nil  | The path couldn't be followed in the file |
 | dict | The dictionary was found or the default value was returned |
+
+
+### ``set(path, doCreate)``
+
+#### Description
+
+Sets the value at ``path`` and returns a boolean if the value was set.
+
+#### Arguments
+
+| Name | Type | Description |
+|------|------|-------------|
+| path | string | The value's path, separated by ``.`` |
+| doCreate | boolean | Whether or not the key's parents and key should be created to set a value. |
+
+#### Returns
+
+| Type | Case |
+|------|------|
+| boolean  | True if the value was set, false if not |
