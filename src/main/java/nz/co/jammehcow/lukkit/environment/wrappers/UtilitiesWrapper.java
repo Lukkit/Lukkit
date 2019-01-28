@@ -174,6 +174,29 @@ public class UtilitiesWrapper extends LuaTable {
                 return CoerceJavaToLua.coerce(new ItemStackWrapper((ItemStack) item.touserdata()));
             }
         });
+
+        // Temporary method, fixed in v3
+        set("cast", new TwoArgFunction() {
+            @Override
+            public LuaValue call(LuaValue userdata, LuaValue clazz) {
+                String className = clazz.checkjstring();
+                Object obj = userdata.checkuserdata();
+
+                try {
+                    Class<?> caster = Class.forName(className);
+                    return userdataOf(caster.cast(obj));
+                } catch (ClassNotFoundException e) {
+                    plugin.getLogger().warning("Could not find class " + className);
+                } catch (ClassCastException e) {
+                    plugin.getLogger().warning("Provided userdata cannot be casted to " + className);
+                } catch (LinkageError e) {
+                    plugin.getLogger().warning("There was an unknown issue casting the object to " + className);
+                    e.printStackTrace();
+                }
+
+                return NIL;
+            }
+        });
     }
 
     @Override
