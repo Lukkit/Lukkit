@@ -98,6 +98,8 @@ public class LukkitPlugin implements Plugin {
         globals.set("util", new UtilitiesWrapper(this));
         globals.set("config", new ConfigWrapper(this));
 
+        OneArgFunction oldRequire = (OneArgFunction) globals.get("require");
+
         globals.set("require", new OneArgFunction() {
             @Override
             public LuaValue call(LuaValue luaValue) {
@@ -108,8 +110,14 @@ public class LukkitPlugin implements Plugin {
                 // Replace all but last dot
                 path = path.replaceAll("\\.(?=[^.]*\\.)", "/");
 
+                InputStream resource = pluginFile.getResource(path);
+
+                if (resource == null) {
+                    return oldRequire.call(luaValue);
+                }
+
                 try {
-                    return globals.load(new InputStreamReader(pluginFile.getResource(path), "UTF-8"), luaValue.checkjstring()).call();
+                    return globals.load(new InputStreamReader(resource, "UTF-8"), luaValue.checkjstring()).call();
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
