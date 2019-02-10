@@ -51,5 +51,8 @@ gradle-app.setting
 # Developer-defined ignores
 
 .idea/
+*.iws
+*.ipr
+*.iml
 
 # End of developer-defined ignored
