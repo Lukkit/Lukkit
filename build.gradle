@@ -29,12 +29,9 @@ def tokens = [
 ]
 
 processResources {
-    from(sourceSets.main.resources.srcDirs) {
-        into 'build/processing'
-        filter ReplaceTokens, tokens: tokens
-    }
-
-    from(sourceSets.main.java.srcDirs) {
-        filter ReplaceTokens, tokens: tokens
+    for (dirs in sourceSets.main.resources.srcDirs) {
+        from(dirs) {
+            filter(ReplaceTokens, tokens: tokens)
+        }
     }
 }
