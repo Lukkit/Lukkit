@@ -10,6 +10,11 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 public class LukkitPluginLoader implements PluginLoader {
+    private static final Pattern[] filters = new Pattern[]{
+            Pattern.compile("\\.lkt/?$"),  // uncompressed, directory-based plugin
+            Pattern.compile("\\.lkt\\.xz$"), // compressed plugin, xz
+    };
+
     @Override
     public Plugin loadPlugin(File file) throws InvalidPluginException, UnknownDependencyException {
         return null;
@@ -22,7 +27,7 @@ public class LukkitPluginLoader implements PluginLoader {
 
     @Override
     public Pattern[] getPluginFileFilters() {
-        return new Pattern[0];
+        return filters;
     }
 
     @Override
