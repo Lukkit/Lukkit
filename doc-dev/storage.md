@@ -129,7 +129,7 @@ Gets the dictionary at ``path`` or returns a default value (if supplied).
 | dict | The dictionary was found or the default value was returned |
 
 
-### ``set(path, doCreate)``
+### ``set(path, createParents)``
 
 #### Description
 
@@ -140,7 +140,7 @@ Sets the value at ``path`` and returns a boolean if the value was set.
 | Name | Type | Description |
 |------|------|-------------|
 | path | string | The value's path, separated by ``.`` |
-| doCreate | boolean | Whether or not the key's parents and key should be created to set a value. |
+| createParents | boolean | Whether or not the key's parents and key should be created to set a value. |
 
 #### Returns
 
