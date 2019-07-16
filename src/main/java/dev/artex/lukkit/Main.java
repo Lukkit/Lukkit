@@ -10,11 +10,11 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.getLogger().info("Lukkit enabled! @shortRepoURL@");
+        this.getLogger().info(Constants.MAIN_ENABLE);
     }
 
     @Override
     public void onDisable() {
-        this.getLogger().info("Lukkit disabled! @shortRepoURL@");
+        this.getLogger().info(Constants.MAIN_DISABLE);
     }
 }
