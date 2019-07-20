@@ -15,6 +15,7 @@ public class RepoCompleter implements TabCompleter {
             "info",
             "versions",
             "upgrade",
+            "list-upgrades",
             "downgrade",
     };
 

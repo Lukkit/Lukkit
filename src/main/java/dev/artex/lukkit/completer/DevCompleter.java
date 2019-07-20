@@ -11,6 +11,8 @@ public class DevCompleter implements TabCompleter {
             "pack",
             "unpack",
             "compress",
+            "disable",
+            "kill",
     };
 
     @Override
