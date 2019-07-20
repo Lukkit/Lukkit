@@ -24,6 +24,7 @@ def tokens = [
         version: version,
         shortRepoURL: shortRepoURL,
         fullRepoURL: fullRepoURL,
+        lukkitPluginRepoURL: lukkitPluginRepoURL,
         lukkitWeb: lukkitWeb,
         mcVersion: mcVersion,
 ]
