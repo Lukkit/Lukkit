@@ -1,4 +1,14 @@
 package dev.artex.lukkit.command;
 
-public class BaseCommand {
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+
+public class BaseCommand implements ICommand {
+    @Override
+    public boolean handle(@NotNull JavaPlugin plugin, @NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        // TODO
+        return false;
+    }
 }
