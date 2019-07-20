@@ -1,6 +1,6 @@
 name: Lukkit
 version: @version@
-main: dev.artex.lukkit.Main
+main: net.lukkit.lukkit.Main
 api-version: @mcVersion@
 load: STARTUP
 authors: [jammehcow, AL_1, matthulk]
