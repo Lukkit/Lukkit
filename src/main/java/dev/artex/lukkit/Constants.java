@@ -6,6 +6,9 @@ public class Constants {
     private static final Properties PROPS = new Properties();
     private static final String REPLACE_TOKEN = "@@";
 
+    // URLs
+    public static final String PLUGIN_REPO_URL = formatTokens("@@lukkitPluginRepoURL@@");
+
     // onABC method messages
     static final String MAIN_ENABLE = formatTokens("Lukkit @@version@@ enabled!");
     static final String MAIN_DISABLE = formatTokens("Lukkit @@version@@ disabled!");
