@@ -28,7 +28,7 @@ public class RepoCommand implements ICommand {
         }
 
         // Call related function of the command
-        String secondArg = (args.length > 1) ? args[1] : null;
+        String secondArg = (args == null || args.length < 2) ? null : args[1];
         switch (cmd.toLowerCase()) {
             case "info":
                 cmdInfo(sender, firstArg);
