@@ -21,12 +21,6 @@ public class RepoCommand implements ICommand {
             return true;
         }
 
-        // Following commands are marked NotNull for firstArg, error out
-        if (firstArg == null) {
-            // TODO: error
-            return false;
-        }
-
         // Call related function of the command
         String secondArg = (args == null || args.length < 2) ? null : args[1];
         switch (cmd.toLowerCase()) {
@@ -76,7 +70,13 @@ public class RepoCommand implements ICommand {
      * @param pluginName the name of the plugin to download
      * @param version (optional) the version of the plugin to download
      */
-    private void cmdGet(@NotNull CommandSender sender, @NotNull String pluginName, @Nullable String version) {
+    private void cmdGet(@NotNull CommandSender sender, @Nullable String pluginName, @Nullable String version) {
+        if (pluginName == null) {
+            // TODO: sendMessage wrapper
+            sender.sendMessage("You need to provide a plugin to get!");
+            return;
+        }
+
         boolean allPermissible = sender.hasPermission(Permissions.REPO_GET_ALL);
 
         // Skip perm checks if sender has the "all" permission
@@ -121,7 +121,13 @@ public class RepoCommand implements ICommand {
      * @param pluginName the name of the plugin to attempt an upgrade on
      * @param version (optional) the version of the plugin to upgrade to
      */
-    private void cmdUpgrade(@NotNull CommandSender sender, @NotNull String pluginName, @Nullable String version) {
+    private void cmdUpgrade(@NotNull CommandSender sender, @Nullable String pluginName, @Nullable String version) {
+        if (pluginName == null) {
+            // TODO: sendMessage wrapper
+            sender.sendMessage("You need to provide a plugin to upgrade!");
+            return;
+        }
+
         boolean allPermissible = sender.hasPermission(Permissions.REPO_UPGRADE_ALL);
 
         // Skip perm checks if sender has the "all" permission
@@ -186,7 +192,13 @@ public class RepoCommand implements ICommand {
      * @param pluginName the name of the plugin to downgrade
      * @param version (optional) the version of the plugin to dowgrade to
      */
-    private void cmdDowngrade(@NotNull CommandSender sender, @NotNull String pluginName, @Nullable String version) {
+    private void cmdDowngrade(@NotNull CommandSender sender, @Nullable String pluginName, @Nullable String version) {
+        if (pluginName == null) {
+            // TODO: sendMessage wrapper
+            sender.sendMessage("You need to provide a plugin to downgrade!");
+            return;
+        }
+
         boolean allPermissible = sender.hasPermission(Permissions.REPO_DOWNGRADE_ALL);
 
         // Skip perm checks if sender has the "all" permission
@@ -221,7 +233,13 @@ public class RepoCommand implements ICommand {
      * @param sender the sender of the command
      * @param pluginName the name of the plugin to search for
      */
-    private void cmdSearch(@NotNull CommandSender sender, @NotNull String pluginName) {
+    private void cmdSearch(@NotNull CommandSender sender, @Nullable String pluginName) {
+        if (pluginName == null) {
+            // TODO: sendMessage wrapper
+            sender.sendMessage("You need to provide a plugin to search for!");
+            return;
+        }
+
         if (!sender.hasPermission(Permissions.REPO_SEARCH)) {
             // TODO: sendMessage wrapper
             sender.sendMessage("You don't have permission to use this command");
@@ -243,7 +261,13 @@ public class RepoCommand implements ICommand {
      * @param sender the sender of the command
      * @param pluginName the name of the plugin to get info on
      */
-    private void cmdInfo(@NotNull CommandSender sender, @NotNull String pluginName) {
+    private void cmdInfo(@NotNull CommandSender sender, @Nullable String pluginName) {
+        if (pluginName == null) {
+            // TODO: sendMessage wrapper
+            sender.sendMessage("You need to provide a plugin to get information on!");
+            return;
+        }
+
         if (!sender.hasPermission(Permissions.REPO_SEARCH)) {
             // TODO: sendMessage wrapper
             sender.sendMessage("You don't have permission to use this command");
@@ -263,7 +287,13 @@ public class RepoCommand implements ICommand {
      * @param sender the sender of the command
      * @param pluginName the name of the plugin to retrieve versions on
      */
-    private void cmdVersions(@NotNull CommandSender sender, @NotNull String pluginName) {
+    private void cmdVersions(@NotNull CommandSender sender, @Nullable String pluginName) {
+        if (pluginName == null) {
+            // TODO: sendMessage wrapper
+            sender.sendMessage("You need to provide a plugin to fetch version information from!");
+            return;
+        }
+
         if (!sender.hasPermission(Permissions.REPO_VERSIONS)) {
             // TODO: sendMessage wrapper
             sender.sendMessage("You don't have permission to use this command");
