@@ -9,10 +9,6 @@ import java.util.List;
 
 public class PluginCompleter implements TabCompleter {
     private static final String[] commands = {
-            "list",
-    };
-
-    private static final String[] verbs = {
             "info",
             "start",
             "stop",
@@ -24,10 +20,15 @@ public class PluginCompleter implements TabCompleter {
             "clean",
     };
 
+    private static final String[] verbs = {
+            "%plugin%"
+    };
+
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         // "/lukkit plugin <command>"
         // "/lukkit plugin <plugin> <verb>"
+        // TODO
         return null;
     }
 }
