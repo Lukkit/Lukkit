@@ -12,12 +12,15 @@ public class PluginCompleter implements TabCompleter {
     };
 
     private static final String[] verbs = {
-            "reload",
-            "reset",
+            "info",
+            "start",
+            "stop",
             "enable",
             "disable",
-            "info",
-            "url",
+            "reload",
+            "restart",
+            "restart-all",
+            "clean",
     };
 
     @Override
