@@ -19,17 +19,17 @@ public class PluginCommand implements ICommand {
             case "info":
                 cmdInfo(sender, firstArg);
                 break;
-            case "enable":
-                cmdEnable(sender, firstArg);
-                break;
-            case "disable":
-                cmdDisable(sender, firstArg);
-                break;
             case "start":
                 cmdStart(sender, firstArg);
                 break;
             case "stop":
                 cmdStop(sender, firstArg);
+                break;
+            case "enable":
+                cmdEnable(sender, firstArg);
+                break;
+            case "disable":
+                cmdDisable(sender, firstArg);
                 break;
             case "reload":
                 cmdReload(sender, firstArg);
@@ -63,36 +63,6 @@ public class PluginCommand implements ICommand {
     }
 
     /**
-     * Enables the plugin to be run when the server is started
-     *
-     * Command: /lukkit plugin enable (plugin)
-     * Associated permissions:
-     *      lukkit.plugin.enable - Allows usage of the command
-     *
-     *
-     * @param sender the sender of the command
-     * @param pluginName the name of the plugin to enable
-     */
-    private void cmdEnable(@NotNull CommandSender sender, @Nullable String pluginName) {
-        // TODO
-    }
-
-    /**
-     * Disables the plugin being run when the server is started
-     *
-     * Command: /lukkit plugin disable (plugin)
-     * Associated permissions:
-     *      lukkit.plugin.disable - Allows usage of the command
-     *
-     *
-     * @param sender the sender of the command
-     * @param pluginName the name of the plugin to disable
-     */
-    private void cmdDisable(@NotNull CommandSender sender, @Nullable String pluginName) {
-        // TODO
-    }
-
-    /**
      * Starts the specified plugin (if not already started)
      *
      * Command: /lukkit plugin start (plugin)
@@ -119,6 +89,36 @@ public class PluginCommand implements ICommand {
      * @param pluginName the name of the plugin to stop
      */
     private void cmdStop(@NotNull CommandSender sender, @Nullable String pluginName) {
+        // TODO
+    }
+
+    /**
+     * Enables the plugin to be run when the server is started
+     *
+     * Command: /lukkit plugin enable (plugin)
+     * Associated permissions:
+     *      lukkit.plugin.enable - Allows usage of the command
+     *
+     *
+     * @param sender the sender of the command
+     * @param pluginName the name of the plugin to enable
+     */
+    private void cmdEnable(@NotNull CommandSender sender, @Nullable String pluginName) {
+        // TODO
+    }
+
+    /**
+     * Disables the plugin being run when the server is started
+     *
+     * Command: /lukkit plugin disable (plugin)
+     * Associated permissions:
+     *      lukkit.plugin.disable - Allows usage of the command
+     *
+     *
+     * @param sender the sender of the command
+     * @param pluginName the name of the plugin to disable
+     */
+    private void cmdDisable(@NotNull CommandSender sender, @Nullable String pluginName) {
         // TODO
     }
 
