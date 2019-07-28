@@ -5,7 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class PluginCommand implements ICommand {
+public class PluginCommand extends ICommand {
     @Override
     public boolean handle(@NotNull JavaPlugin plugin, @NotNull CommandSender sender, @NotNull String cmd, String[] args) {
         // Doesn't need firstArg

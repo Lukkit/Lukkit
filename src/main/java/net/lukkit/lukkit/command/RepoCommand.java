@@ -6,7 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class RepoCommand implements ICommand {
+public class RepoCommand extends ICommand {
     @Override
     public boolean handle(@NotNull JavaPlugin plugin, @NotNull CommandSender sender, @NotNull String cmd, String[] args) {
         String firstArg = (args == null || args.length == 0) ? null : args[0];

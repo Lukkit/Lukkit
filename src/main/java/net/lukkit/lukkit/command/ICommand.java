@@ -4,7 +4,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-public interface ICommand {
+public abstract class ICommand {
     /**
      * Handles the requested command
      *
@@ -15,5 +15,5 @@ public interface ICommand {
      *
      * @return success of the run command
      */
-    boolean handle(@NotNull JavaPlugin plugin, @NotNull CommandSender sender, @NotNull String cmd, String[] args);
+    abstract boolean handle(@NotNull JavaPlugin plugin, @NotNull CommandSender sender, @NotNull String cmd, String[] args);
 }
