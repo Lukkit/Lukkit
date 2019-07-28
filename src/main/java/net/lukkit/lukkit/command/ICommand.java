@@ -16,4 +16,18 @@ public abstract class ICommand {
      * @return success of the run command
      */
     abstract boolean handle(@NotNull JavaPlugin plugin, @NotNull CommandSender sender, @NotNull String cmd, String[] args);
+
+    protected boolean isPermissible(@NotNull CommandSender sender, @NotNull String[] permissions) {
+        for (String perm : permissions) {
+            if (!isPermissible(sender, perm)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    protected boolean isPermissible(@NotNull CommandSender sender, @NotNull String permission) {
+        return sender.hasPermission(permission);
+    }
 }
