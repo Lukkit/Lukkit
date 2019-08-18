@@ -1,5 +1,7 @@
 package net.lukkit.lukkit.command;
 
+import net.lukkit.lukkit.Permissions;
+import net.lukkit.lukkit.util.MessageSender;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -17,28 +19,34 @@ public class PluginCommand extends ICommand {
         String firstArg = (args == null || args.length < 1) ? null : args[0];
         switch (cmd.toLowerCase()) {
             case "info":
-                cmdInfo(sender, firstArg);
+                if (isPermissible(sender, Permissions.PLUGIN_INFO)) cmdInfo(sender, firstArg);
                 break;
             case "start":
-                cmdStart(sender, firstArg);
+                if (isPermissible(sender, Permissions.PLUGIN_START)) cmdStart(sender, firstArg);
                 break;
             case "stop":
-                cmdStop(sender, firstArg);
+                if (isPermissible(sender, Permissions.PLUGIN_STOP)) cmdStop(sender, firstArg);
                 break;
             case "enable":
-                cmdEnable(sender, firstArg);
+                if (isPermissible(sender, Permissions.PLUGIN_ENABLE)) cmdEnable(sender, firstArg);
                 break;
             case "disable":
-                cmdDisable(sender, firstArg);
+                if (isPermissible(sender, Permissions.PLUGIN_DISABLE)) cmdDisable(sender, firstArg);
                 break;
             case "reload":
-                cmdReload(sender, firstArg);
+                if (isPermissible(sender, Permissions.PLUGIN_RELOAD)) cmdReload(sender, firstArg);
                 break;
             case "restart":
-                cmdRestart(sender, firstArg);
+                // If they have RESTART_ALL then they have implicit access to RESTART_SINGLE
+                if (isPartiallyPermissible(sender, Permissions.PLUGIN_RESTART_ALL, Permissions.PLUGIN_RESTART_SINGLE)) {
+                    cmdRestart(sender, firstArg);
+                }
+                break;
+            case "restart-all":
+                if (isPermissible(sender, Permissions.PLUGIN_RESTART_ALL)) cmdRestartAll(sender);
                 break;
             case "clean":
-                cmdClean(sender, firstArg);
+                if (isPermissible(sender, Permissions.PLUGIN_CLEAN)) cmdClean(sender, firstArg);
                 break;
             default:
                 return false;
@@ -123,7 +131,8 @@ public class PluginCommand extends ICommand {
     }
 
     /**
-     * Reloads the plugin's configuration and files
+     * Reloads the plugin's configuration and files (if loaded in the onLoad and onEnable blocks)
+     * Execution and plugin state is not affected by a reload, the onLoad and onEnable blocks are re-called
      *
      * Command: /lukkit plugin reload (plugin)
      * Associated permissions:
@@ -134,6 +143,10 @@ public class PluginCommand extends ICommand {
      * @param pluginName the name of the plugin to reload
      */
     private void cmdReload(@NotNull CommandSender sender, @Nullable String pluginName) {
+        if (pluginName == null) {
+            MessageSender.sendMessage(sender, "&cYou need to provide a plugin to reload!");
+            return;
+        }
         // TODO
     }
 
@@ -149,7 +162,11 @@ public class PluginCommand extends ICommand {
      * @param pluginName the name of the plugin to restart
      */
     private void cmdRestart(@NotNull CommandSender sender, @Nullable String pluginName) {
-        // TODO
+        if (pluginName == null) {
+            MessageSender.sendMessage(sender, "&cYou need to provide a plugin to restart!\n" +
+                    "&eIf you wish to restart all plugin use restart-all");
+            return;
+        }
     }
 
     /**
@@ -180,6 +197,10 @@ public class PluginCommand extends ICommand {
      */
     private void cmdClean(@NotNull CommandSender sender, @Nullable String pluginName) {
         // TODO
-    }
 
+        if (pluginName == null) {
+            MessageSender.sendMessage(sender, "&cYou need to provide a plugin to clean!");
+            return;
+        }
+    }
 }
