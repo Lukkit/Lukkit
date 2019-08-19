@@ -184,7 +184,7 @@ public class PluginCommand extends ICommand {
     }
 
     /**
-     * Cleans out all plugin-created files or files created by the specified plugin
+     * Cleans out files created by the specified plugin
      *
      * Command: /lukkit plugin clean [name]
      * Associated permissions:
@@ -196,8 +196,6 @@ public class PluginCommand extends ICommand {
      * @param pluginName (optional) the name of the plugin to clean
      */
     private void cmdClean(@NotNull CommandSender sender, @Nullable String pluginName) {
-        // TODO
-
         if (pluginName == null) {
             MessageSender.sendMessage(sender, "&cYou need to provide a plugin to clean!");
             return;
