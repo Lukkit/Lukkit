@@ -76,11 +76,9 @@ public class RepoCommand {
             return;
         }
 
-        boolean allPermissible = sender.hasPermission(Permissions.REPO_GET_ALL);
-
         // Skip perm checks if sender has the "all" permission
-        if (!allPermissible) {
-            if (!sender.hasPermission(Permissions.REPO_GET)) {
+        if (!CommandUtils.isPermissible(sender, Permissions.REPO_GET_ALL)) {
+            if (!CommandUtils.isPermissible(sender, Permissions.REPO_GET_ALL)) {
                 MessageSender.sendMessage(sender, "&cYou do not have permission to use this command");
                 return;
             }
