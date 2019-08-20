@@ -6,9 +6,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class RepoCommand extends ICommand {
-    @Override
-    public boolean handle(@NotNull JavaPlugin plugin, @NotNull CommandSender sender, @NotNull String cmd, String[] args) {
+public class RepoCommand {
+    public static boolean handle(@NotNull JavaPlugin plugin, @NotNull CommandSender sender, @NotNull String cmd, String[] args) {
         String firstArg = (args == null || args.length == 0) ? null : args[0];
 
         if (cmd.equalsIgnoreCase("help")) {
@@ -70,7 +69,7 @@ public class RepoCommand extends ICommand {
      * @param pluginName the name of the plugin to download
      * @param version (optional) the version of the plugin to download
      */
-    private void cmdGet(@NotNull CommandSender sender, @Nullable String pluginName, @Nullable String version) {
+    private static void cmdGet(@NotNull CommandSender sender, @Nullable String pluginName, @Nullable String version) {
         if (pluginName == null) {
             // TODO: sendMessage wrapper
             sender.sendMessage("You need to provide a plugin to get!");
@@ -121,7 +120,7 @@ public class RepoCommand extends ICommand {
      * @param pluginName the name of the plugin to attempt an upgrade on
      * @param version (optional) the version of the plugin to upgrade to
      */
-    private void cmdUpgrade(@NotNull CommandSender sender, @Nullable String pluginName, @Nullable String version) {
+    private static void cmdUpgrade(@NotNull CommandSender sender, @Nullable String pluginName, @Nullable String version) {
         if (pluginName == null) {
             // TODO: sendMessage wrapper
             sender.sendMessage("You need to provide a plugin to upgrade!");
@@ -166,7 +165,7 @@ public class RepoCommand extends ICommand {
      *
      * @param sender the sender of the command
      */
-    private void cmdListUpgrades(@NotNull CommandSender sender, @Nullable String pluginName) {
+    private static void cmdListUpgrades(@NotNull CommandSender sender, @Nullable String pluginName) {
         if (!sender.hasPermission(Permissions.REPO_UPGRADE) && !sender.hasPermission(Permissions.REPO_LISTUPGRADES)) {
             // TODO: sendMessage wrapper
             sender.sendMessage("You do not have permission to use this command");
@@ -192,7 +191,7 @@ public class RepoCommand extends ICommand {
      * @param pluginName the name of the plugin to downgrade
      * @param version (optional) the version of the plugin to dowgrade to
      */
-    private void cmdDowngrade(@NotNull CommandSender sender, @Nullable String pluginName, @Nullable String version) {
+    private static void cmdDowngrade(@NotNull CommandSender sender, @Nullable String pluginName, @Nullable String version) {
         if (pluginName == null) {
             // TODO: sendMessage wrapper
             sender.sendMessage("You need to provide a plugin to downgrade!");
@@ -233,7 +232,7 @@ public class RepoCommand extends ICommand {
      * @param sender the sender of the command
      * @param pluginName the name of the plugin to search for
      */
-    private void cmdSearch(@NotNull CommandSender sender, @Nullable String pluginName) {
+    private static void cmdSearch(@NotNull CommandSender sender, @Nullable String pluginName) {
         if (pluginName == null) {
             // TODO: sendMessage wrapper
             sender.sendMessage("You need to provide a plugin to search for!");
@@ -261,7 +260,7 @@ public class RepoCommand extends ICommand {
      * @param sender the sender of the command
      * @param pluginName the name of the plugin to get info on
      */
-    private void cmdInfo(@NotNull CommandSender sender, @Nullable String pluginName) {
+    private static void cmdInfo(@NotNull CommandSender sender, @Nullable String pluginName) {
         if (pluginName == null) {
             // TODO: sendMessage wrapper
             sender.sendMessage("You need to provide a plugin to get information on!");
@@ -287,7 +286,7 @@ public class RepoCommand extends ICommand {
      * @param sender the sender of the command
      * @param pluginName the name of the plugin to retrieve versions on
      */
-    private void cmdVersions(@NotNull CommandSender sender, @Nullable String pluginName) {
+    private static void cmdVersions(@NotNull CommandSender sender, @Nullable String pluginName) {
         if (pluginName == null) {
             // TODO: sendMessage wrapper
             sender.sendMessage("You need to provide a plugin to fetch version information from!");
@@ -312,7 +311,7 @@ public class RepoCommand extends ICommand {
      *
      * @param subcmd (optional) the subcommand to fetch help for
      */
-    private void cmdHelp(@NotNull CommandSender sender, @Nullable String subcmd) {
+    private static void cmdHelp(@NotNull CommandSender sender, @Nullable String subcmd) {
         if (!sender.hasPermission(Permissions.REPO_HELP)) {
             // TODO: sendMessage wrapper
             sender.sendMessage("You don't have permission to use this command");

@@ -7,9 +7,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class PluginCommand extends ICommand {
-    @Override
-    public boolean handle(@NotNull JavaPlugin plugin, @NotNull CommandSender sender, @NotNull String cmd, String[] args) {
+public class PluginCommand {
+    public static boolean handle(@NotNull JavaPlugin plugin, @NotNull CommandSender sender, @NotNull String cmd, String[] args) {
         // Doesn't need firstArg
         if (cmd.equalsIgnoreCase("restart-all")) {
             cmdRestartAll(sender);
@@ -19,34 +18,34 @@ public class PluginCommand extends ICommand {
         String firstArg = (args == null || args.length < 1) ? null : args[0];
         switch (cmd.toLowerCase()) {
             case "info":
-                if (isPermissible(sender, Permissions.PLUGIN_INFO)) cmdInfo(sender, firstArg);
+                if (CommandUtils.isPermissible(sender, Permissions.PLUGIN_INFO)) cmdInfo(sender, firstArg);
                 break;
             case "start":
-                if (isPermissible(sender, Permissions.PLUGIN_START)) cmdStart(sender, firstArg);
+                if (CommandUtils.isPermissible(sender, Permissions.PLUGIN_START)) cmdStart(sender, firstArg);
                 break;
             case "stop":
-                if (isPermissible(sender, Permissions.PLUGIN_STOP)) cmdStop(sender, firstArg);
+                if (CommandUtils.isPermissible(sender, Permissions.PLUGIN_STOP)) cmdStop(sender, firstArg);
                 break;
             case "enable":
-                if (isPermissible(sender, Permissions.PLUGIN_ENABLE)) cmdEnable(sender, firstArg);
+                if (CommandUtils.isPermissible(sender, Permissions.PLUGIN_ENABLE)) cmdEnable(sender, firstArg);
                 break;
             case "disable":
-                if (isPermissible(sender, Permissions.PLUGIN_DISABLE)) cmdDisable(sender, firstArg);
+                if (CommandUtils.isPermissible(sender, Permissions.PLUGIN_DISABLE)) cmdDisable(sender, firstArg);
                 break;
             case "reload":
-                if (isPermissible(sender, Permissions.PLUGIN_RELOAD)) cmdReload(sender, firstArg);
+                if (CommandUtils.isPermissible(sender, Permissions.PLUGIN_RELOAD)) cmdReload(sender, firstArg);
                 break;
             case "restart":
                 // If they have RESTART_ALL then they have implicit access to RESTART_SINGLE
-                if (isPartiallyPermissible(sender, Permissions.PLUGIN_RESTART_ALL, Permissions.PLUGIN_RESTART_SINGLE)) {
+                if (CommandUtils.isPartiallyPermissible(sender, Permissions.PLUGIN_RESTART_ALL, Permissions.PLUGIN_RESTART_SINGLE)) {
                     cmdRestart(sender, firstArg);
                 }
                 break;
             case "restart-all":
-                if (isPermissible(sender, Permissions.PLUGIN_RESTART_ALL)) cmdRestartAll(sender);
+                if (CommandUtils.isPermissible(sender, Permissions.PLUGIN_RESTART_ALL)) cmdRestartAll(sender);
                 break;
             case "clean":
-                if (isPermissible(sender, Permissions.PLUGIN_CLEAN)) cmdClean(sender, firstArg);
+                if (CommandUtils.isPermissible(sender, Permissions.PLUGIN_CLEAN)) cmdClean(sender, firstArg);
                 break;
             default:
                 return false;
@@ -66,7 +65,7 @@ public class PluginCommand extends ICommand {
      * @param sender the sender of the command
      * @param pluginName the name of the plugin to fetch information for
      */
-    private void cmdInfo(@NotNull CommandSender sender, @Nullable String pluginName) {
+    private static void cmdInfo(@NotNull CommandSender sender, @Nullable String pluginName) {
         // TODO
     }
 
@@ -81,7 +80,7 @@ public class PluginCommand extends ICommand {
      * @param sender the sender of the command
      * @param pluginName the name of the plugin to start
      */
-    private void cmdStart(@NotNull CommandSender sender, @Nullable String pluginName) {
+    private static void cmdStart(@NotNull CommandSender sender, @Nullable String pluginName) {
         // TODO
     }
 
@@ -96,7 +95,7 @@ public class PluginCommand extends ICommand {
      * @param sender the sender of the command
      * @param pluginName the name of the plugin to stop
      */
-    private void cmdStop(@NotNull CommandSender sender, @Nullable String pluginName) {
+    private static void cmdStop(@NotNull CommandSender sender, @Nullable String pluginName) {
         // TODO
     }
 
@@ -111,7 +110,7 @@ public class PluginCommand extends ICommand {
      * @param sender the sender of the command
      * @param pluginName the name of the plugin to enable
      */
-    private void cmdEnable(@NotNull CommandSender sender, @Nullable String pluginName) {
+    private static void cmdEnable(@NotNull CommandSender sender, @Nullable String pluginName) {
         // TODO
     }
 
@@ -126,7 +125,7 @@ public class PluginCommand extends ICommand {
      * @param sender the sender of the command
      * @param pluginName the name of the plugin to disable
      */
-    private void cmdDisable(@NotNull CommandSender sender, @Nullable String pluginName) {
+    private static void cmdDisable(@NotNull CommandSender sender, @Nullable String pluginName) {
         // TODO
     }
 
@@ -142,7 +141,7 @@ public class PluginCommand extends ICommand {
      * @param sender the sender of the command
      * @param pluginName the name of the plugin to reload
      */
-    private void cmdReload(@NotNull CommandSender sender, @Nullable String pluginName) {
+    private static void cmdReload(@NotNull CommandSender sender, @Nullable String pluginName) {
         if (pluginName == null) {
             MessageSender.sendMessage(sender, "&cYou need to provide a plugin to reload!");
             return;
@@ -161,7 +160,7 @@ public class PluginCommand extends ICommand {
      * @param sender the sender of the command
      * @param pluginName the name of the plugin to restart
      */
-    private void cmdRestart(@NotNull CommandSender sender, @Nullable String pluginName) {
+    private static void cmdRestart(@NotNull CommandSender sender, @Nullable String pluginName) {
         if (pluginName == null) {
             MessageSender.sendMessage(sender, "&cYou need to provide a plugin to restart!\n" +
                     "&eIf you wish to restart all plugin use restart-all");
@@ -179,7 +178,7 @@ public class PluginCommand extends ICommand {
      *
      * @param sender the sender of the command
      */
-    private void cmdRestartAll(@NotNull CommandSender sender) {
+    private static void cmdRestartAll(@NotNull CommandSender sender) {
         // TODO
     }
 
@@ -195,7 +194,7 @@ public class PluginCommand extends ICommand {
      * @param sender the sender of the command
      * @param pluginName (optional) the name of the plugin to clean
      */
-    private void cmdClean(@NotNull CommandSender sender, @Nullable String pluginName) {
+    private static void cmdClean(@NotNull CommandSender sender, @Nullable String pluginName) {
         if (pluginName == null) {
             MessageSender.sendMessage(sender, "&cYou need to provide a plugin to clean!");
             return;
