@@ -1,6 +1,7 @@
 package net.lukkit.lukkit.command;
 
 import net.lukkit.lukkit.Permissions;
+import net.lukkit.lukkit.util.MessageSender;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -71,8 +72,7 @@ public class RepoCommand {
      */
     private static void cmdGet(@NotNull CommandSender sender, @Nullable String pluginName, @Nullable String version) {
         if (pluginName == null) {
-            // TODO: sendMessage wrapper
-            sender.sendMessage("You need to provide a plugin to get!");
+            MessageSender.sendMessage(sender, "&cYou need to provide a plugin to get!");
             return;
         }
 
@@ -81,16 +81,14 @@ public class RepoCommand {
         // Skip perm checks if sender has the "all" permission
         if (!allPermissible) {
             if (!sender.hasPermission(Permissions.REPO_GET)) {
-                // TODO: sendMessage wrapper
-                sender.sendMessage("You do not have permission to use this command");
+                MessageSender.sendMessage(sender, "&cYou do not have permission to use this command");
                 return;
             }
 
             // Permission to specify a version
             if (version != null && !sender.hasPermission(Permissions.REPO_GET_VERSION)) {
                 // Sender don't have permission to specify a version
-                // TODO: sendMessage wrapper
-                sender.sendMessage("You don't have permission to specify a version");
+                MessageSender.sendMessage(sender, "&cYou don't have permission to specify a version");
                 return;
             }
         }
@@ -122,8 +120,7 @@ public class RepoCommand {
      */
     private static void cmdUpgrade(@NotNull CommandSender sender, @Nullable String pluginName, @Nullable String version) {
         if (pluginName == null) {
-            // TODO: sendMessage wrapper
-            sender.sendMessage("You need to provide a plugin to upgrade!");
+            MessageSender.sendMessage(sender, "&cYou need to provide a plugin to upgrade!");
             return;
         }
 
@@ -132,16 +129,14 @@ public class RepoCommand {
         // Skip perm checks if sender has the "all" permission
         if (!allPermissible) {
             if (!sender.hasPermission(Permissions.REPO_UPGRADE)) {
-                // TODO: sendMessage wrapper
-                sender.sendMessage("You do not have permission to use this command");
+                MessageSender.sendMessage(sender, "&cYou do not have permission to use this command");
                 return;
             }
 
             // Permission to specify a version
             if (version != null && !sender.hasPermission(Permissions.REPO_UPGRADE_VERSION)) {
                 // Sender don't have permission to specify a version
-                // TODO: sendMessage wrapper
-                sender.sendMessage("You don't have permission to specify a version");
+                MessageSender.sendMessage(sender, "&cYou don't have permission to specify a version");
                 return;
             }
         }
@@ -167,8 +162,7 @@ public class RepoCommand {
      */
     private static void cmdListUpgrades(@NotNull CommandSender sender, @Nullable String pluginName) {
         if (!sender.hasPermission(Permissions.REPO_UPGRADE) && !sender.hasPermission(Permissions.REPO_LISTUPGRADES)) {
-            // TODO: sendMessage wrapper
-            sender.sendMessage("You do not have permission to use this command");
+            MessageSender.sendMessage(sender, "&cYou do not have permission to use this command");
             return;
         }
 
@@ -193,8 +187,7 @@ public class RepoCommand {
      */
     private static void cmdDowngrade(@NotNull CommandSender sender, @Nullable String pluginName, @Nullable String version) {
         if (pluginName == null) {
-            // TODO: sendMessage wrapper
-            sender.sendMessage("You need to provide a plugin to downgrade!");
+            MessageSender.sendMessage(sender, "&cYou need to provide a plugin to downgrade!");
             return;
         }
 
@@ -203,8 +196,7 @@ public class RepoCommand {
         // Skip perm checks if sender has the "all" permission
         if (!allPermissible) {
             if (!sender.hasPermission(Permissions.REPO_DOWNGRADE)) {
-                // TODO: sendMessage wrapper
-                sender.sendMessage("You do not have permission to use this command");
+                MessageSender.sendMessage(sender, "&cYou do not have permission to use this command");
                 return;
             }
         }
@@ -234,14 +226,12 @@ public class RepoCommand {
      */
     private static void cmdSearch(@NotNull CommandSender sender, @Nullable String pluginName) {
         if (pluginName == null) {
-            // TODO: sendMessage wrapper
-            sender.sendMessage("You need to provide a plugin to search for!");
+            MessageSender.sendMessage(sender, "&cYou need to provide a plugin to search for!");
             return;
         }
 
         if (!sender.hasPermission(Permissions.REPO_SEARCH)) {
-            // TODO: sendMessage wrapper
-            sender.sendMessage("You don't have permission to use this command");
+            MessageSender.sendMessage(sender, "&cYou don't have permission to use this command");
         }
 
         // TODO
@@ -262,14 +252,12 @@ public class RepoCommand {
      */
     private static void cmdInfo(@NotNull CommandSender sender, @Nullable String pluginName) {
         if (pluginName == null) {
-            // TODO: sendMessage wrapper
-            sender.sendMessage("You need to provide a plugin to get information on!");
+            MessageSender.sendMessage(sender, "&cYou need to provide a plugin to get information on!");
             return;
         }
 
         if (!sender.hasPermission(Permissions.REPO_SEARCH)) {
-            // TODO: sendMessage wrapper
-            sender.sendMessage("You don't have permission to use this command");
+            MessageSender.sendMessage(sender, "&cYou don't have permission to use this command");
         }
 
         // TODO
@@ -288,14 +276,12 @@ public class RepoCommand {
      */
     private static void cmdVersions(@NotNull CommandSender sender, @Nullable String pluginName) {
         if (pluginName == null) {
-            // TODO: sendMessage wrapper
-            sender.sendMessage("You need to provide a plugin to fetch version information from!");
+            MessageSender.sendMessage(sender, "&cYou need to provide a plugin to fetch version information from!");
             return;
         }
 
         if (!sender.hasPermission(Permissions.REPO_VERSIONS)) {
-            // TODO: sendMessage wrapper
-            sender.sendMessage("You don't have permission to use this command");
+            MessageSender.sendMessage(sender, "&cYou don't have permission to use this command");
         }
 
         // TODO
@@ -313,8 +299,7 @@ public class RepoCommand {
      */
     private static void cmdHelp(@NotNull CommandSender sender, @Nullable String subcmd) {
         if (!sender.hasPermission(Permissions.REPO_HELP)) {
-            // TODO: sendMessage wrapper
-            sender.sendMessage("You don't have permission to use this command");
+            MessageSender.sendMessage(sender, "You don't have permission to use this command");
         }
 
         // subcommands
