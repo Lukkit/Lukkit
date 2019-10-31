@@ -84,7 +84,7 @@ public class RepoCommand {
             }
 
             // Permission to specify a version
-            if (version != null && !sender.hasPermission(Permissions.REPO_GET_VERSION)) {
+            if (version != null && !CommandUtils.isPermissible(sender, Permissions.REPO_GET_VERSION)) {
                 // Sender don't have permission to specify a version
                 MessageSender.sendMessage(sender, "&cYou don't have permission to specify a version");
                 return;
@@ -93,7 +93,7 @@ public class RepoCommand {
 
         // TODO
 
-        if (!sender.hasPermission(Permissions.REPO_GET_FORCE)) {
+        if (!CommandUtils.isPermissible(sender, Permissions.REPO_GET_FORCE)) {
             // TODO
         }
     }
@@ -122,17 +122,17 @@ public class RepoCommand {
             return;
         }
 
-        boolean allPermissible = sender.hasPermission(Permissions.REPO_UPGRADE_ALL);
+        boolean allPermissible = CommandUtils.isPermissible(sender, Permissions.REPO_UPGRADE_ALL);
 
         // Skip perm checks if sender has the "all" permission
         if (!allPermissible) {
-            if (!sender.hasPermission(Permissions.REPO_UPGRADE)) {
+            if (!CommandUtils.isPermissible(sender, Permissions.REPO_UPGRADE)) {
                 MessageSender.sendMessage(sender, "&cYou do not have permission to use this command");
                 return;
             }
 
             // Permission to specify a version
-            if (version != null && !sender.hasPermission(Permissions.REPO_UPGRADE_VERSION)) {
+            if (version != null && !CommandUtils.isPermissible(sender, Permissions.REPO_UPGRADE_VERSION)) {
                 // Sender don't have permission to specify a version
                 MessageSender.sendMessage(sender, "&cYou don't have permission to specify a version");
                 return;
@@ -141,7 +141,7 @@ public class RepoCommand {
 
         // TODO
 
-        if (!sender.hasPermission(Permissions.REPO_UPGRADE_FORCE)) {
+        if (!CommandUtils.isPermissible(sender, Permissions.REPO_UPGRADE_FORCE)) {
             // TODO
         }
     }
@@ -159,7 +159,7 @@ public class RepoCommand {
      * @param sender the sender of the command
      */
     private static void cmdListUpgrades(@NotNull CommandSender sender, @Nullable String pluginName) {
-        if (!sender.hasPermission(Permissions.REPO_UPGRADE) && !sender.hasPermission(Permissions.REPO_LISTUPGRADES)) {
+        if (!CommandUtils.isPermissible(sender, Permissions.REPO_UPGRADE) && !CommandUtils.isPermissible(sender, Permissions.REPO_LISTUPGRADES)) {
             MessageSender.sendMessage(sender, "&cYou do not have permission to use this command");
             return;
         }
@@ -189,11 +189,11 @@ public class RepoCommand {
             return;
         }
 
-        boolean allPermissible = sender.hasPermission(Permissions.REPO_DOWNGRADE_ALL);
+        boolean allPermissible = CommandUtils.isPermissible(sender, Permissions.REPO_DOWNGRADE_ALL);
 
         // Skip perm checks if sender has the "all" permission
         if (!allPermissible) {
-            if (!sender.hasPermission(Permissions.REPO_DOWNGRADE)) {
+            if (!CommandUtils.isPermissible(sender, Permissions.REPO_DOWNGRADE)) {
                 MessageSender.sendMessage(sender, "&cYou do not have permission to use this command");
                 return;
             }
@@ -205,7 +205,7 @@ public class RepoCommand {
 
         // TODO
 
-        if (!sender.hasPermission(Permissions.REPO_DOWNGRADE_FORCE)) {
+        if (!CommandUtils.isPermissible(sender, Permissions.REPO_DOWNGRADE_FORCE)) {
             // TODO
         }
     }
@@ -228,7 +228,7 @@ public class RepoCommand {
             return;
         }
 
-        if (!sender.hasPermission(Permissions.REPO_SEARCH)) {
+        if (!CommandUtils.isPermissible(sender, Permissions.REPO_SEARCH)) {
             MessageSender.sendMessage(sender, "&cYou don't have permission to use this command");
         }
 
@@ -254,7 +254,7 @@ public class RepoCommand {
             return;
         }
 
-        if (!sender.hasPermission(Permissions.REPO_SEARCH)) {
+        if (!CommandUtils.isPermissible(sender, Permissions.REPO_SEARCH)) {
             MessageSender.sendMessage(sender, "&cYou don't have permission to use this command");
         }
 
@@ -278,7 +278,7 @@ public class RepoCommand {
             return;
         }
 
-        if (!sender.hasPermission(Permissions.REPO_VERSIONS)) {
+        if (!CommandUtils.isPermissible(sender, Permissions.REPO_VERSIONS)) {
             MessageSender.sendMessage(sender, "&cYou don't have permission to use this command");
         }
 
@@ -296,7 +296,7 @@ public class RepoCommand {
      * @param subcmd (optional) the subcommand to fetch help for
      */
     private static void cmdHelp(@NotNull CommandSender sender, @Nullable String subcmd) {
-        if (!sender.hasPermission(Permissions.REPO_HELP)) {
+        if (!CommandUtils.isPermissible(sender, Permissions.REPO_HELP)) {
             MessageSender.sendMessage(sender, "You don't have permission to use this command");
         }
 
