@@ -56,3 +56,4 @@ gradle-app.setting
 *.iml
 
 # End of developer-defined ignored
+.DS_Store
