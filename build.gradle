@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.bukkit:bukkit:1.13.2-R0.1-SNAPSHOT'
+    compile 'org.bukkit:bukkit:1.14.4-R0.1-SNAPSHOT'
     //compile 'org.tukaani:xz:1.8'
     //runtime 'com.github.cliftonlabs:json-simple:3.1.0'
     compile 'org.jetbrains:annotations:16.0.2'
