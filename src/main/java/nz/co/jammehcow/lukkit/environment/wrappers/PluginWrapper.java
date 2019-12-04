@@ -134,8 +134,8 @@ public class PluginWrapper extends LuaTable {
                     }
                 } catch (ClassNotFoundException e) {
                     // Attempt to find the event Bukkit again
-                    String[] events = {"block", "enchantment", "entity", "hanging", "inventory", "player", "server",
-                            "vehicle", "weather", "world"};
+                    String[] events = {"block", "enchantment", "entity", "hanging", "inventory", "player", "raid",
+			    "server", "vehicle", "weather", "world"};
 
                     for (String pkg : events) {
                         try {
