@@ -1,4 +1,4 @@
-package net.lukkit.lukkit.completer;
+package net.lukkit.lukkit.command.completer;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
