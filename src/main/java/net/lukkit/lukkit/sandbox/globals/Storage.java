@@ -14,9 +14,4 @@ public class Storage {
         // TODO
         return null;
     }
-
-    public static Storage extract(String relativePath, boolean doReplace) {
-        // TODO
-        return null;
-    }
 }
