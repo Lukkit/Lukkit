@@ -1,4 +1,4 @@
-package net.lukkit.lukkit.sandbox.globals.http;
+package net.lukkit.lukkit.sandbox.api.http;
 
 import net.lukkit.lukkit.Constants;
 
