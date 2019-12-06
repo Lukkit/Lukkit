@@ -1,4 +1,4 @@
-package net.lukkit.lukkit.sandbox.globals;
+package net.lukkit.lukkit.sandbox.api;
 
 /**
  * Stores information in an abstract format which can be saved

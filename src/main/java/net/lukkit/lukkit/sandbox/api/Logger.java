@@ -1,4 +1,4 @@
-package net.lukkit.lukkit.sandbox.globals;
+package net.lukkit.lukkit.sandbox.api;
 
 import net.lukkit.lukkit.sandbox.plugin.LukkitPlugin;
 
