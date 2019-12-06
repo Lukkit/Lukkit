@@ -3,7 +3,6 @@ Lukkit is a Bukkit plugin that allows you to write your own Bukkit plugins in Lu
 
 ## Documentation
 Due to lack of planning and so forth, documentation may not be fully up to scratch for versions 2.1.0 and below. v3 will be fully documented as the plugin gets rewritten.
-
 The documentation can be found on [here](https://docs.lukkit.net)
 
 ## Development
