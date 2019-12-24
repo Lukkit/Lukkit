@@ -17,6 +17,7 @@ dependencies {
     //compile 'org.tukaani:xz:1.8'
     //runtime 'com.github.cliftonlabs:json-simple:3.1.0'
     compile 'org.jetbrains:annotations:16.0.2'
+    implementation 'org.mockito:mockito-core:3.2.4'
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.2")
 }
