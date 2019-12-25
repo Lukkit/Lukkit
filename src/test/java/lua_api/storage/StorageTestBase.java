@@ -1,5 +1,9 @@
 package lua_api.storage;
 
+/**
+ * Allows unification of tests across all Storage types by using a standard set of methods to match a standard set of
+ *  requirements
+ */
 interface StorageTestBase {
     /**
      * Verify that a known good file loads fine
