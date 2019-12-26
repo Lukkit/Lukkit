@@ -1,0 +1,15 @@
+{
+  "someStringKey": "someStringValue",
+  "someBooleanKey": true,
+  "someNumberKey": 690,
+  "someDecimalNumberKey": 570.479,
+  "someArrayKey": [
+    false,
+    "insideArray",
+    36,
+    [ "abcd" ],
+    {
+      "someStringKey": "inside array obj"
+    }
+  ]
+}
