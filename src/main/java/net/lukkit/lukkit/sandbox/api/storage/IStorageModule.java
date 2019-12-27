@@ -10,6 +10,8 @@ public abstract class IStorageModule {
     }
 
     // using objects in case we need to return an error enum
+    abstract Object getObject(String path);
+    abstract Object getObject(String path, Object defaultReturn);
     abstract Object getArray(String path);
     abstract Object getArray(String path, Object defaultReturn);
     abstract Object getString(String path);
@@ -19,6 +21,7 @@ public abstract class IStorageModule {
     abstract Object getBoolean(String path);
     abstract Object getBoolean(String path, Object defaultReturn);
 
+    abstract void setObject(String path, Object arrayObject);
     abstract void setArray(String path, Object arrayObject);
     abstract void setString(String path, Object stringObject);
     abstract void setNumber(String path, Object numberObject);
