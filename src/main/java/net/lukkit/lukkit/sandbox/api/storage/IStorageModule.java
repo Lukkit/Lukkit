@@ -1,11 +1,11 @@
 package net.lukkit.lukkit.sandbox.api.storage;
 
-public abstract class IStorageWrapper {
-    IStorageWrapper(String path, Object options) {
+public abstract class IStorageModule {
+    IStorageModule(String path, Object options) {
         // Stub
     }
 
-    IStorageWrapper(String path) {
+    IStorageModule(String path) {
         this(path, null);
     }
 
