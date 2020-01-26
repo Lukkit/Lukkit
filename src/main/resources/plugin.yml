@@ -1,23 +1,8 @@
 name: Lukkit
-main: nz.co.jammehcow.lukkit.Main
-version: 2.0.0
-
-author: ArtexDevelopment
-authors: [jammehcow, AL_1, mathhulk]
-
-commands:
-  lukkit:
-    description: The main command for Lukkit
-    usage: /<command> [help|last-error|plugins|reload|resetenv|run]
-    permission: lukkit.command
-    permission-message: You do not have permission to manage Lukkit.
-
-permissions:
-  lukkit.command:
-    description: Give access to the /lukkit command.
-    default: op
-  lukkit.run:
-    description: Gives access to the /lukkit run command. Is not default for ops.
-    default: false
-    children:
-      lukkit.command: true
+version: @version@
+main: net.lukkit.lukkit.Main
+api-version: @mcVersion@
+load: STARTUP
+authors: [jammehcow, AL_1, matthulk]
+description: A Lua wrapper for writing Bukkit plugins
+website: @lukkitWeb@
