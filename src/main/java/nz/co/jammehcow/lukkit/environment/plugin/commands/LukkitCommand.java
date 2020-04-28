@@ -36,7 +36,7 @@ public class LukkitCommand extends Command {
     private final LukkitPlugin plugin;
     private LuaFunction tabComleteFunction;
     private boolean registered = false;
-    private boolean runAsync = false;
+    private boolean runAsync = true;
     private int minArgs = 0;
     private int maxArgs = -1;
     // TODO: Add options to use min/max args, set permission, set run async, and more helper functions
