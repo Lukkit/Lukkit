@@ -52,6 +52,7 @@ public class LukkitPlugin implements Plugin {
     private final Logger logger;
     private final List<LukkitCommand> commands = new ArrayList<>();
     private final HashMap<Class<? extends Event>, ArrayList<LuaFunction>> eventListeners = new HashMap<>();
+    private final UtilitiesWrapper utilitiesWrapper;
     private LuaFunction loadCB;
     private LuaFunction enableCB;
     private LuaFunction disableCB;
@@ -92,7 +93,9 @@ public class LukkitPlugin implements Plugin {
 
         globals.set("plugin", new PluginWrapper(this));
         globals.set("logger", new LoggerWrapper(this));
-        globals.set("util", new UtilitiesWrapper(this));
+        // use a member as its internal threadpool needs to be shutdown upon disabling the plugin
+        utilitiesWrapper = new UtilitiesWrapper(this);
+        globals.set("util", utilitiesWrapper);
         globals.set("config", new ConfigWrapper(this));
 
         OneArgFunction oldRequire = (OneArgFunction) globals.get("require");
@@ -298,6 +301,7 @@ public class LukkitPlugin implements Plugin {
             LuaEnvironment.addError(e);
         }
         unregisterAllCommands();
+        utilitiesWrapper.close();
     }
 
     @Override
