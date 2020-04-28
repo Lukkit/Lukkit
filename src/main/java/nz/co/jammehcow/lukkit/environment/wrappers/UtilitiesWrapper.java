@@ -195,6 +195,10 @@ public class UtilitiesWrapper extends LuaTable {
         });
     }
 
+    public void close() {
+        runDelayedThreadPool.shutdown();
+    }
+
     @Override
     public String typename() {
         return ObjectType.WRAPPER.name;
