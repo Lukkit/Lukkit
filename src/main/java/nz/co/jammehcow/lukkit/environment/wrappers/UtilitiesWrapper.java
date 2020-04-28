@@ -1,11 +1,11 @@
 package nz.co.jammehcow.lukkit.environment.wrappers;
 
+import nz.co.jammehcow.lukkit.environment.LuaEnvironment;
 import nz.co.jammehcow.lukkit.environment.LuaEnvironment.ObjectType;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
 import org.bukkit.inventory.ItemStack;
 import org.luaj.vm2.LuaTable;
-import org.luaj.vm2.LuaUserdata;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
@@ -22,9 +22,11 @@ import java.util.stream.Stream;
 public class UtilitiesWrapper extends LuaTable {
 
     private LukkitPlugin plugin;
+    private ScheduledExecutorService runDelayedThreadPool;
 
     public UtilitiesWrapper(LukkitPlugin plugin) {
         this.plugin = plugin;
+        this.runDelayedThreadPool = Executors.newScheduledThreadPool(1);
 
         set("getTableFromList", new OneArgFunction() {
             @Override
@@ -107,24 +109,18 @@ public class UtilitiesWrapper extends LuaTable {
         set("runDelayed", new TwoArgFunction() {
             // Delay is in milliseconds.
             @Override
-            public synchronized LuaValue call(LuaValue function, LuaValue time) {
-                System.out.println("before");
+            public LuaValue call(LuaValue function, LuaValue time) {
+                ScheduledFuture<LuaValue> future = runDelayedThreadPool.schedule((Callable<LuaValue>) function::call, time.checklong(), TimeUnit.MILLISECONDS);
 
-                ScheduledExecutorService execService = Executors.newScheduledThreadPool(1);
-                ScheduledFuture future = execService.schedule((Callable<LuaValue>) function::call, time.checklong(), TimeUnit.MILLISECONDS);
-
-                while (!future.isDone()) {
-                    try {
-                        wait();
-                    } catch (InterruptedException e) {
-                        future.cancel(true);
-                        plugin.getLogger().warning("A sync method was killed due to the future being interrupted. Dumping the stack trace for debug purposes");
-                        e.printStackTrace();
-                    }
+                try {
+                    // Blocking call, we don't care about the value
+                    future.get();
+                } catch (Exception e) {
+                    plugin.getLogger().warning("The thread spawned by runDelayed was terminated or threw an exception");
+                    LuaEnvironment.addError(e);
+                    e.printStackTrace();
                 }
 
-                execService.shutdown();
-                notify();
                 return LuaValue.NIL;
             }
         });
