@@ -36,7 +36,7 @@ public class LukkitCommand extends Command {
     private final LukkitPlugin plugin;
     private LuaFunction tabComleteFunction;
     private boolean registered = false;
-    private boolean runAsync = false;
+    private boolean runAsync = true;
     private int minArgs = 0;
     private int maxArgs = -1;
     // TODO: Add options to use min/max args, set permission, set run async, and more helper functions
@@ -85,8 +85,14 @@ public class LukkitCommand extends Command {
     public void unregister() throws NoSuchFieldException, IllegalAccessException {
         Object result = getPrivateField(Bukkit.getServer().getPluginManager(), "commandMap");
         SimpleCommandMap commandMap = (SimpleCommandMap) result;
-        Object map = getPrivateField(commandMap, "knownCommands");
-        HashMap<String, Command> knownCommands = (HashMap<String, Command>) map;
+        Object knownCommandsMap;
+        try {
+            knownCommandsMap = getPrivateField(commandMap, "knownCommands");
+        } catch (Exception ignored) {
+            // Early exit as there's nothing to do
+            return;
+        }
+        HashMap<String, Command> knownCommands = (HashMap<String, Command>) knownCommandsMap;
         knownCommands.remove(getName());
         for (String alias : getAliases()) {
             if (knownCommands.containsKey(alias) && knownCommands.get(alias).toString().contains(this.getName())) {
