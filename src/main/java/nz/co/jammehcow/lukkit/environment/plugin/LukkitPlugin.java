@@ -24,7 +24,6 @@ import org.luaj.vm2.*;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.VarArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
-import org.luaj.vm2.lib.jse.LuajavaLib;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -51,7 +50,7 @@ public class LukkitPlugin implements Plugin {
     private final Logger logger;
     private final List<LukkitCommand> commands = new ArrayList<>();
     private final HashMap<Class<? extends Event>, ArrayList<LuaFunction>> eventListeners = new HashMap<>();
-    private final UtilitiesWrapper utilitiesWrapper;
+    private UtilitiesWrapper utilitiesWrapper;
     private LuaFunction loadCB;
     private LuaFunction enableCB;
     private LuaFunction disableCB;
@@ -90,102 +89,7 @@ public class LukkitPlugin implements Plugin {
         this.config = new YamlConfiguration();
         this.loadConfigWithChecks();
 
-        globals.set("plugin", new PluginWrapper(this));
-        globals.set("logger", new LoggerWrapper(this));
-        // use a member as its internal threadpool needs to be shutdown upon disabling the plugin
-        utilitiesWrapper = new UtilitiesWrapper(this);
-        globals.set("util", utilitiesWrapper);
-        globals.set("config", new ConfigWrapper(this));
-
-        OneArgFunction oldRequire = (OneArgFunction) globals.get("require");
-
-        globals.set("require", new OneArgFunction() {
-            @Override
-            public LuaValue call(LuaValue luaValue) {
-                String path = luaValue.checkjstring();
-                if (!path.endsWith(".lua"))
-                    path += ".lua";
-
-                // Replace all but last dot
-                path = path.replaceAll("\\.(?=[^.]*\\.)", "/");
-
-                InputStream resource = pluginFile.getResource(path);
-
-                if (resource == null) {
-                    return oldRequire.call(luaValue);
-                }
-
-                try {
-                    return globals.load(new InputStreamReader(resource, "UTF-8"), luaValue.checkjstring()).call();
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                return NIL;
-
-            }
-        });
-
-        globals.set("import", new OneArgFunction() {
-            @Override
-            public LuaValue call(LuaValue luaValue) {
-                try {
-                    String path = luaValue.checkjstring();
-                    if (path.startsWith("$"))
-                        path = "org.bukkit" + path.substring(1);
-                    if (path.startsWith("#"))
-                        path = "nz.co.jammehcow.lukkit.environment" + path.substring(1);
-                    return CoerceJavaToLua.coerce(Class.forName(path));
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-                return NIL;
-            }
-        });
-        globals.set("newInstance", new VarArgFunction() {
-            @Override
-            public LuaValue invoke(Varargs vargs) {
-                String classPath = vargs.checkjstring(1);
-                LuaValue args = vargs.optvalue(2, LuaValue.NIL);
-
-                // Parse classpath shorthands
-                if (classPath.startsWith("$"))
-                    classPath = "org.bukkit" + classPath.substring(1);
-                else if (classPath.startsWith("#"))
-                    classPath = "nz.co.jammehcow.lukkit.environment" + classPath.substring(1);
-
-                // Validate the classpath isn't just bullshit
-                if (!Utilities.isClassPathValid(classPath)) {
-                    LukkitPluginException classPathException = new LukkitPluginException("An invalid classpath \"" +
-                            classPath + "\" was provided to the \"newInstance\" method");
-                    LuaEnvironment.addError(classPathException);
-
-                    throw classPathException;
-                }
-
-                LuaString classPathValue = LuaValue.valueOf(classPath);
-                LuaValue newInstanceMethod = globals.get("luajava").get("newInstance");
-
-                switch (args.type()) {
-                    case LuaValue.TNIL:
-                        return newInstanceMethod.invoke(classPathValue).checkvalue(1);
-                    case LuaValue.TTABLE:
-                        LuaTable argTable = args.checktable();
-                        LuaValue[] varargArray = new LuaValue[argTable.length() + 1];
-                        varargArray[0] = classPathValue;
-
-                        for (int iKey = 1; iKey < varargArray.length; iKey++) {
-                            varargArray[iKey] = argTable.get(iKey);
-                        }
-
-                        return newInstanceMethod.invoke(varargArray).checkvalue(1);
-                    default:
-                        LukkitPluginException exception = new LukkitPluginException("Second argument of newInstance " +
-                                "must be of type table, not " + args.typename());
-                        LuaEnvironment.addError(exception);
-                        throw exception;
-                }
-            }
-        });
+        setupPluginGlobals(globals);
 
         // Sets callbacks (if any) and loads the commands & events into memory.
         Optional<String> isValid = this.checkPluginValidity();
@@ -463,6 +367,110 @@ public class LukkitPlugin implements Plugin {
         }
 
         this.logger.warning("The config at " + this.pluginConfig.getAbsolutePath() + " was invalid. It has been moved to config.broken.yml and the default config has been exported to config.yml.");
+    }
+
+    /**
+     * Set up convenience methods on Lua globals
+     *
+     * @param globals globals to set up properties on
+     */
+    private void setupPluginGlobals(Globals globals) {
+        globals.set("plugin", new PluginWrapper(this));
+        globals.set("logger", new LoggerWrapper(this));
+        // use a member as its internal threadpool needs to be shutdown upon disabling the plugin
+        utilitiesWrapper = new UtilitiesWrapper(this);
+        globals.set("util", utilitiesWrapper);
+        globals.set("config", new ConfigWrapper(this));
+
+        OneArgFunction oldRequire = (OneArgFunction) globals.get("require");
+
+        globals.set("require", new OneArgFunction() {
+            @Override
+            public LuaValue call(LuaValue luaValue) {
+                String path = luaValue.checkjstring();
+                if (!path.endsWith(".lua"))
+                    path += ".lua";
+
+                // Replace all but last dot
+                path = path.replaceAll("\\.(?=[^.]*\\.)", "/");
+
+                InputStream resource = pluginFile.getResource(path);
+
+                if (resource == null) {
+                    return oldRequire.call(luaValue);
+                }
+
+                try {
+                    return globals.load(new InputStreamReader(resource, "UTF-8"), luaValue.checkjstring()).call();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                return NIL;
+
+            }
+        });
+
+        globals.set("import", new OneArgFunction() {
+            @Override
+            public LuaValue call(LuaValue luaValue) {
+                try {
+                    String path = luaValue.checkjstring();
+                    if (path.startsWith("$"))
+                        path = "org.bukkit" + path.substring(1);
+                    if (path.startsWith("#"))
+                        path = "nz.co.jammehcow.lukkit.environment" + path.substring(1);
+                    return CoerceJavaToLua.coerce(Class.forName(path));
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                return NIL;
+            }
+        });
+        globals.set("newInstance", new VarArgFunction() {
+            @Override
+            public LuaValue invoke(Varargs vargs) {
+                String classPath = vargs.checkjstring(1);
+                LuaValue args = vargs.optvalue(2, LuaValue.NIL);
+
+                // Parse classpath shorthands
+                if (classPath.startsWith("$"))
+                    classPath = "org.bukkit" + classPath.substring(1);
+                else if (classPath.startsWith("#"))
+                    classPath = "nz.co.jammehcow.lukkit.environment" + classPath.substring(1);
+
+                // Validate the classpath isn't just bullshit
+                if (!Utilities.isClassPathValid(classPath)) {
+                    LukkitPluginException classPathException = new LukkitPluginException("An invalid classpath \"" +
+                            classPath + "\" was provided to the \"newInstance\" method");
+                    LuaEnvironment.addError(classPathException);
+
+                    throw classPathException;
+                }
+
+                LuaString classPathValue = LuaValue.valueOf(classPath);
+                LuaValue newInstanceMethod = globals.get("luajava").get("newInstance");
+
+                switch (args.type()) {
+                    case LuaValue.TNIL:
+                        return newInstanceMethod.invoke(classPathValue).checkvalue(1);
+                    case LuaValue.TTABLE:
+                        LuaTable argTable = args.checktable();
+                        LuaValue[] varargArray = new LuaValue[argTable.length() + 1];
+                        varargArray[0] = classPathValue;
+
+                        for (int iKey = 1; iKey < varargArray.length; iKey++) {
+                            varargArray[iKey] = argTable.get(iKey);
+                        }
+
+                        return newInstanceMethod.invoke(varargArray).checkvalue(1);
+                    default:
+                        LukkitPluginException exception = new LukkitPluginException("Second argument of newInstance " +
+                                "must be of type table, not " + args.typename());
+                        LuaEnvironment.addError(exception);
+                        throw exception;
+                }
+            }
+        });
     }
 
     private Optional<String> checkPluginValidity() {
