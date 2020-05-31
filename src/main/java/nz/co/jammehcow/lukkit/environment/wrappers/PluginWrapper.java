@@ -212,13 +212,6 @@ public class PluginWrapper extends LuaTable {
             }
         });
 
-        set("getServer", new ZeroArgFunction() {
-            @Override
-            public LuaValue call() {
-                return CoerceJavaToLua.coerce(plugin.getServer());
-            }
-        });
-
         set("getPlugin", new ZeroArgFunction() {
             @Override
             public LuaValue call() {
