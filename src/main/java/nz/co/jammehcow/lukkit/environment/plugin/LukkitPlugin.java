@@ -20,12 +20,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.*;
-import org.luaj.vm2.Globals;
-import org.luaj.vm2.LuaFunction;
-import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.*;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.VarArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
+import org.luaj.vm2.lib.jse.LuajavaLib;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -146,27 +145,40 @@ public class LukkitPlugin implements Plugin {
             @Override
             public LuaValue call(LuaValue cls, LuaValue args) {
                 String classPath = cls.checkjstring();
-                try {
-                    if (classPath.startsWith("$"))
-                        classPath = "org.bukkit" + classPath.substring(1);
-                    if (classPath.startsWith("#"))
-                        classPath = "nz.co.jammehcow.lukkit.environment" + classPath.substring(1);
-                    if (args.isnil()) {
-                        return CoerceJavaToLua.coerce(Class.forName(classPath).newInstance());
-                    } else if (args.istable()) {
-                        List<Object> argList = (List<Object>) Utilities.convertTable(args.checktable());
-                        List<Class<?>> typesList = new ArrayList<>();
 
-                        argList.forEach(o -> typesList.add(o.getClass()));
+                // Parse classpath shorthands
+                if (classPath.startsWith("$"))
+                    classPath = "org.bukkit" + classPath.substring(1);
+                else if (classPath.startsWith("#"))
+                    classPath = "nz.co.jammehcow.lukkit.environment" + classPath.substring(1);
 
-                        return CoerceJavaToLua.coerce(Class.forName(classPath).getDeclaredConstructor(
-                                typesList.toArray(new Class<?>[0]))
-                                .newInstance(argList.toArray(new Object[0])));
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                // Validate the classpath isn't just bullshit
+                if (!Utilities.isClassPathValid(classPath)) {
+                    LukkitPluginException classPathException = new LukkitPluginException("An invalid classpath \"" +
+                            classPath + "\" was provided to the \"newInstance\" method");
+                    LuaEnvironment.addError(classPathException);
+
+                    throw classPathException;
                 }
-                return NIL;
+
+                switch (args.type()) {
+                    case LuaValue.TNIL:
+                        return globals.invokemethod("luajava.newInstance", LuaValue.valueOf(classPath))
+                                .checkvalue(1);
+                    case LuaValue.TTABLE:
+                        LuaTable argTable = args.checktable();
+                        LuaValue[] varargArray = new LuaValue[argTable.length()];
+                        varargArray[0] = LuaValue.valueOf(classPath);
+
+                        for (int iKey = 1; iKey < varargArray.length; iKey++) {
+                            varargArray[iKey] = argTable.get(iKey);
+                        }
+
+                        return globals.invokemethod("luajava.newInstance", varargArray).checkvalue(1);
+                    default:
+                        // TODO: throw LukkitPluginError and add to LuaEnv stack
+                        throw new IllegalStateException("Unexpected value: " + args.type());
+                }
             }
         });
 
