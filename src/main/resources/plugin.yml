@@ -5,6 +5,8 @@ version: 2.1.2
 author: ArtexDevelopment
 authors: [jammehcow, AL_1, mathhulk]
 
+api-version: 1.13
+
 commands:
   lukkit:
     description: The main command for Lukkit
