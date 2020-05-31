@@ -179,8 +179,10 @@ public class LukkitPlugin implements Plugin {
 
                         return newInstanceMethod.invoke(varargArray).checkvalue(1);
                     default:
-                        // TODO: throw LukkitPluginError and add to LuaEnv stack
-                        throw new IllegalStateException("Unexpected value: " + args.type());
+                        LukkitPluginException exception = new LukkitPluginException("Second argument of newInstance " +
+                                "must be of type table, not " + args.typename());
+                        LuaEnvironment.addError(exception);
+                        throw exception;
                 }
             }
         });
