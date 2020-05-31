@@ -143,8 +143,9 @@ public class LukkitPlugin implements Plugin {
         });
         globals.set("newInstance", new VarArgFunction() {
             @Override
-            public LuaValue call(LuaValue cls, LuaValue args) {
-                String classPath = cls.checkjstring();
+            public LuaValue invoke(Varargs vargs) {
+                String classPath = vargs.checkjstring(1);
+                LuaValue args = vargs.optvalue(2, LuaValue.NIL);
 
                 // Parse classpath shorthands
                 if (classPath.startsWith("$"))
@@ -161,20 +162,22 @@ public class LukkitPlugin implements Plugin {
                     throw classPathException;
                 }
 
+                LuaString classPathValue = LuaValue.valueOf(classPath);
+                LuaValue newInstanceMethod = globals.get("luajava").get("newInstance");
+
                 switch (args.type()) {
                     case LuaValue.TNIL:
-                        return globals.invokemethod("luajava.newInstance", LuaValue.valueOf(classPath))
-                                .checkvalue(1);
+                        return newInstanceMethod.invoke(classPathValue).checkvalue(1);
                     case LuaValue.TTABLE:
                         LuaTable argTable = args.checktable();
-                        LuaValue[] varargArray = new LuaValue[argTable.length()];
-                        varargArray[0] = LuaValue.valueOf(classPath);
+                        LuaValue[] varargArray = new LuaValue[argTable.length() + 1];
+                        varargArray[0] = classPathValue;
 
                         for (int iKey = 1; iKey < varargArray.length; iKey++) {
                             varargArray[iKey] = argTable.get(iKey);
                         }
 
-                        return globals.invokemethod("luajava.newInstance", varargArray).checkvalue(1);
+                        return newInstanceMethod.invoke(varargArray).checkvalue(1);
                     default:
                         // TODO: throw LukkitPluginError and add to LuaEnv stack
                         throw new IllegalStateException("Unexpected value: " + args.type());
