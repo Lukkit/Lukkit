@@ -62,8 +62,6 @@
     </build>
 
     <dependencies>
-
-
         <!--Avaje compiler-->
         <dependency>
             <groupId>org.avaje</groupId>
@@ -92,13 +90,6 @@
             <artifactId>bukkit</artifactId>
             <version>1.12.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-
-        <!--LuaJ JME-->
-        <dependency>
-            <groupId>org.luaj</groupId>
-            <artifactId>luaj-jme</artifactId>
-            <version>3.0.1</version>
         </dependency>
 
         <!--LuaJ JSE-->
