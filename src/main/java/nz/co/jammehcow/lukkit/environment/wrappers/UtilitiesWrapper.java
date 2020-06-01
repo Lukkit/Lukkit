@@ -5,8 +5,10 @@ import nz.co.jammehcow.lukkit.environment.LuaEnvironment.ObjectType;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPlugin;
 import nz.co.jammehcow.lukkit.environment.plugin.LukkitPluginException;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
@@ -123,6 +125,20 @@ public class UtilitiesWrapper extends LuaTable {
 
                 return LuaValue.NIL;
             }
+        });
+
+        set("getBukkitRunnable", new OneArgFunction() {
+            @Override
+            public LuaValue call( LuaValue function ) {
+                LuaFunction func = function.checkfunction();
+                BukkitRunnable task = new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        func.call();
+                    };
+                };
+                return CoerceJavaToLua.coerce(task);
+            };
         });
 
         set("getClass", new OneArgFunction() {

@@ -78,4 +78,19 @@ public class Utilities {
     public static boolean classIsEvent(Class<?> c) {
         return Event.class.isAssignableFrom(c);
     }
+
+    /**
+     * Check that a given classpath is valid
+     *
+     * @param classPath the full classpath to validate
+     * @return whether the classpath is valid
+     */
+    public static boolean isClassPathValid(String classPath) {
+        try {
+            Class.forName(classPath);
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+        return true;
+    }
 }

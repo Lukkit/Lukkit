@@ -1,9 +1,11 @@
 name: Lukkit
 main: nz.co.jammehcow.lukkit.Main
-version: 2.1.1
+version: 2.1.2
 
 author: ArtexDevelopment
 authors: [jammehcow, AL_1, mathhulk]
+
+api-version: 1.13
 
 commands:
   lukkit:
