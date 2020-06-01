@@ -1,9 +1,9 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>unwrittenfun.minecraft</groupId>
+    <groupId>nz.co.jammehcow.lukkit</groupId>
     <artifactId>Lukkit</artifactId>
-    <version>2.1.1</version>
+    <version>2.1.2</version>
 
     <packaging>jar</packaging>
 
@@ -23,7 +23,6 @@
                 <includes>
                     <include>plugin.yml</include>
                     <include>config.yml</include>
-                    <include>unwrittenfun/minecraft/lukkit/libs/</include>
                 </includes>
             </resource>
         </resources>
@@ -63,8 +62,6 @@
     </build>
 
     <dependencies>
-
-
         <!--Avaje compiler-->
         <dependency>
             <groupId>org.avaje</groupId>
@@ -93,13 +90,6 @@
             <artifactId>bukkit</artifactId>
             <version>1.12.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-
-        <!--LuaJ JME-->
-        <dependency>
-            <groupId>org.luaj</groupId>
-            <artifactId>luaj-jme</artifactId>
-            <version>3.0.1</version>
         </dependency>
 
         <!--LuaJ JSE-->
