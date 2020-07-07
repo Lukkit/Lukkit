@@ -209,6 +209,14 @@ public class UtilitiesWrapper extends LuaTable {
                 return NIL;
             }
         });
+
+        set("instanceof", new TwoArgFunction() {
+            @Override
+            public LuaValue call(LuaValue obj, LuaValue classToCheck) {
+                Class<?> clazz = (Class) classToCheck.checkuserdata();
+                return CoerceJavaToLua.coerce(clazz.isInstance(obj.checkuserdata()));
+            };
+        });    
     }
 
     public void close() {
