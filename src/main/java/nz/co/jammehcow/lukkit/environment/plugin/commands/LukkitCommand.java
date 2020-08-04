@@ -172,7 +172,7 @@ public class LukkitCommand extends Command {
     }
 
 
-    public void onTabComlete(LuaValue f) {
+    public void onTabComplete(LuaValue f) {
         tabComleteFunction = f.checkfunction();
     }
 }
