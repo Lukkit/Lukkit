@@ -137,7 +137,7 @@ public class Main extends JavaPlugin {
                     // Load the plugin using LukkitPluginLoader
                     try {
                         this.pluginManager.loadPlugin(file);
-                    } catch (InvalidPluginException | InvalidDescriptionException e) {
+                    } catch (InvalidPluginException | InvalidDescriptionException | LuaError e) {
                         LuaEnvironment.addError(e);
                         e.printStackTrace();
                     }
