@@ -85,14 +85,19 @@ public class LukkitCommand extends Command {
     public void unregister() throws NoSuchFieldException, IllegalAccessException {
         Object result = getPrivateField(Bukkit.getServer().getPluginManager(), "commandMap");
         SimpleCommandMap commandMap = (SimpleCommandMap) result;
-        Object knownCommandsMap;
+        HashMap<String, Command> knownCommands;
+        // Try to get known commands the old way, below 1.13
         try {
-            knownCommandsMap = getPrivateField(commandMap, "knownCommands");
-        } catch (Exception ignored) {
-            // Early exit as there's nothing to do
-            return;
+            Object knownCommandsMap = getPrivateField(commandMap, "knownCommands");
+            knownCommands = (HashMap<String, Command>) knownCommandsMap;
+        } catch (NoSuchFieldException ignored) {
+            // Use 1.13+ CraftCommandMap.getKnownCommands method
+            try {
+                knownCommands = (HashMap<String, Command>) commandMap.getClass().getMethod("getKnownCommands").invoke(commandMap);
+            } catch (Exception ignored2) {
+                return;
+            }
         }
-        HashMap<String, Command> knownCommands = (HashMap<String, Command>) knownCommandsMap;
         knownCommands.remove(getName());
         for (String alias : getAliases()) {
             if (knownCommands.containsKey(alias) && knownCommands.get(alias).toString().contains(this.getName())) {
